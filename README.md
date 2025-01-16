@@ -1,4 +1,4 @@
-# Project Name
+# Image Feature Correspondences for Camera Calibration
 
 Developer Names: Kiran Singh
 
