@@ -4,9 +4,7 @@
 \usepackage{booktabs}
 
 \title{Problem Statement and Goals\\\progname}
-
 \author{\authname}
-
 \date{January 17, 2025}
 
 \input{../Comments}
@@ -28,15 +26,36 @@
 \end{table}
 
 \section{Problem Statement}
+\subsection{Overview}
+Camera calibration procedures are essential to ensure that cameras can collect 
+useful data for robotic systems. Current calibration methods face trade-offs 
+such as reliance on local solvers, synchronized imagery, and predefined targets 
+within the environment. Current research in the Autonomous Robotics and Convex 
+Optimization (ARCO) Lab work to design new calibration algorithms to perform 
+multi-camera calibration that overcomes the specified limitations. This work 
+will be achieved in two parts.
 
-\wss{You should check your problem statement with the
-\href{https://github.com/smiths/capTemplate/blob/main/docs/Checklists/ProbState-Checklist.pdf}
-{problem statement checklist}.} 
+\begin{enumerate}
+    \item A front-end system to interface with camera data such that:
 
-\wss{You can change the section headings, as long as you include the required
-information.}
+    \begin{itemize}
+        \item identifies correspondences between any given image frame between 
+        camera data.
+
+        \item computes the corresponding spatial transforms 
+        between coordinate frames for cameras and correspondences.
+    \end{itemize}
+
+    \item A back-end system that performs 3D point-cloud registration and 
+    outlier removal.
+\end{enumerate}  
+
 
 \subsection{Problem}
+To satisfy administrative and schedule constraints of CAS 741, the scope of the 
+course project will 
+address the development of the front-end software that identifies 
+correspondences amongst camera imagery across selected poses.
 
 \subsection{Inputs and Outputs}
 \subsubsection{Inputs}
@@ -49,56 +68,67 @@ information.}
 \subsubsection{Outputs}
 \begin{enumerate}
     \item A flag of whether correspondences have been identified.
-    \item A list that outlines the graph nodes produced for any given camera with another camera.
-    \item An outline of all identified correspondences.
-    \item An flag to indicate whether transforms need to be calculated as part of downstream operations.
+    \item A list that outlines the graph nodes produced for any given camera 
+    with another camera.
+
+    \item An list of all identified correspondences.
+    \item An flag for each transform that needs to be calculated as part 
+    of downstream operations.
 \end{enumerate}  
 
 \subsection{Stakeholders}
-Stakeholders will primarily be composed of roboticists that need to perform some form of extrinsic camera calibration. 
-Though the majority of stakeholders are expected to be academic roboticists, industrial roboticists may wish to used this software
-as a commercial-off-the-shelf option to perform camera calibration for mobile robots, robotic manipulators, and aerial platforms.
+Stakeholders will primarily be composed of roboticists that need to perform some 
+form of extrinsic camera calibration. 
+Though the majority of stakeholders are expected to be academic roboticists, 
+industrial roboticists may wish to used this software as a 
+commercial-off-the-shelf option to perform camera calibration for mobile 
+robots, robotic manipulators, and aerial platforms.
 
 \subsection{Environment}
-The intent of this software is to be versatile in its deployment. Therefore, it should be compatible with standard operations 
+The intent of this software is to be versatile in its deployment. Therefore, 
+it should be compatible with standard operations 
 such as Windows 10 or higher, MacOS, and Linux OS.
-
-The software algorithm is expected to be developed in non-real time prior to upload to an embedded system. 
-Therefore, as the algorithm itself will not be computed in real-time, development of the algorithm itself should not 
-be constrained by additional memory limitations that are common for embedded systems.
+\newline
+\newline
+The software algorithm is expected to be developed in non-real time prior to 
+upload to an embedded system. Therefore, as the algorithm itself will not be 
+computed in real-time, development of the algorithm itself should not be 
+constrained by additional memory limitations that are common for embedded 
+systems.
 
 \section{Goals}
-This project will produce scientific computing software that facilitates robust extrinsic camera calibration for robotic systems without overlapping fields of view between its cameras. The primary goals are outlined below.
+This project will produce scientific computing software that facilitates 
+robust extrinsic camera calibration for robotic systems without overlapping 
+fields of view between its cameras. The primary goals are outlined below.
+
 \begin{enumerate}
-    \item Accept non-synchronous imagery from multiple imagery streams.
-    \item Compare images from each imagery stream to identify correspondences between each image.
-    \item Formulate a graph between each image with identified correspondences.
-    \item Identify what camera transforms need to be calculated as part of downstream operations using the defined graph network.
+    \item Given a stream of imagery data from a set of cameras, C, taken at a 
+    singular frame, F, with a corresponding robot pose, P, compare each image 
+    between cameras to identify overlap in features as correspondences.
+
+    \item Formulate a graph that, for each image from a given camera, defines 
+    the identified correspondences with other imagery from other cameras as 
+    edges, or links.
+
+    \item Using the generated graph, define the transforms to be calculated 
+    using the identified image correspondences. 
 \end{enumerate}
 
 \section{Stretch Goals}
-Outline a quality metric, such as confidence, that may be used to estimate what correspondences and points between images may be outliers. 
-This metric can be compared with the performance of outlier detection and removal as part downstream operations.
+\begin{enumerate}
+    \item The software should define  a quality metric that estimates the 
+    portion of outliers amongst the identified points and correspondences. 
+    This metric can be compared with the performance of outlier detection 
+    and removal as part downstream operations.
+\end{enumerate}
 
 \section{Challenge Level and Extras}
-This project is designed as a graduate research project with a corresponding degree of difficulty. The method of how correspondences are defined has been left to be ambiguous at this stage and may constitute that this software be defined as a family of products.
-\\A user manual will be provided as an 'extra' submission for this project.
-
-\newpage{}
-
-\section*{Appendix --- Reflection}
-
-\wss{Not required for CAS 741}
-
-\input{../Reflection.tex}
-
-\begin{enumerate}
-    \item What went well while writing this deliverable? 
-    \item What pain points did you experience during this deliverable, and how
-    did you resolve them?
-    \item How did you and your team adjust the scope of your goals to ensure
-    they are suitable for a Capstone project (not overly ambitious but also of
-    appropriate complexity for a senior design project)?
-\end{enumerate}  
+This project is designed as a graduate research project with a corresponding 
+degree of difficulty. The method of how correspondences are defined has been 
+left to be ambiguous at this stage and may constitute that this software be 
+defined as a family of products.
+\newline
+\newline
+A user manual will be provided as an supplemental submission for this project.
 
 \end{document}
