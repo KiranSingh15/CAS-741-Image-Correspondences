@@ -7,7 +7,7 @@
 
 \author{\authname}
 
-\date{}
+\date{January 17, 2025}
 
 \input{../Comments}
 \input{../Common}
@@ -22,9 +22,7 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
-Date1 & Name(s) & Description of changes\\
-Date2 & Name(s) & Description of changes\\
-... & ... & ...\\
+17.01.2025 & Kiran Singh & Initial Release\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -41,37 +39,50 @@ information.}
 \subsection{Problem}
 
 \subsection{Inputs and Outputs}
+\subsubsection{Inputs}
+\begin{enumerate}
+    \item The quantity of active cameras.
+    \item The intrinsic calibration parameters for each camera.
+    \item The stream of imagery for each camera, taken at any given pose.
+\end{enumerate}  
 
-\wss{Characterize the problem in terms of ``high level'' inputs and outputs.  
-Use abstraction so that you can avoid details.}
+\subsubsection{Outputs}
+\begin{enumerate}
+    \item A flag of whether correspondences have been identified.
+    \item A list that outlines the graph nodes produced for any given camera with another camera.
+    \item An outline of all identified correspondences.
+    \item An flag to indicate whether transforms need to be calculated as part of downstream operations.
+\end{enumerate}  
 
 \subsection{Stakeholders}
+Stakeholders will primarily be composed of roboticists that need to perform some form of extrinsic camera calibration. 
+Though the majority of stakeholders are expected to be academic roboticists, industrial roboticists may wish to used this software
+as a commercial-off-the-shelf option to perform camera calibration for mobile robots, robotic manipulators, and aerial platforms.
 
 \subsection{Environment}
+The intent of this software is to be versatile in its deployment. Therefore, it should be compatible with standard operations 
+such as Windows 10 or higher, MacOS, and Linux OS.
 
-\wss{Hardware and software environment}
+The software algorithm is expected to be developed in non-real time prior to upload to an embedded system. 
+Therefore, as the algorithm itself will not be computed in real-time, development of the algorithm itself should not 
+be constrained by additional memory limitations that are common for embedded systems.
 
 \section{Goals}
+This project will produce scientific computing software that facilitates robust extrinsic camera calibration for robotic systems without overlapping fields of view between its cameras. The primary goals are outlined below.
+\begin{enumerate}
+    \item Accept non-synchronous imagery from multiple imagery streams.
+    \item Compare images from each imagery stream to identify correspondences between each image.
+    \item Formulate a graph between each image with identified correspondences.
+    \item Identify what camera transforms need to be calculated as part of downstream operations using the defined graph network.
+\end{enumerate}
 
 \section{Stretch Goals}
+Outline a quality metric, such as confidence, that may be used to estimate what correspondences and points between images may be outliers. 
+This metric can be compared with the performance of outlier detection and removal as part downstream operations.
 
 \section{Challenge Level and Extras}
-
-\wss{State your expected challenge level (advanced, general or basic).  The
-challenge can come through the required domain knowledge, the implementation or
-something else.  Usually the greater the novelty of a project the greater its
-challenge level.  You should include your rationale for the selected level.
-Approval of the level will be part of the discussion with the instructor for
-approving the project.  The challenge level, with the approval (or request) of
-the instructor, can be modified over the course of the term.}
-
-\wss{Teams may wish to include extras as either potential bonus grades, or to
-make up for a less advanced challenge level.  Potential extras include usability
-testing, code walkthroughs, user documentation, formal proof, GenderMag
-personas, Design Thinking, etc.  Normally the maximum number of extras will be
-two.  Approval of the extras will be part of the discussion with the instructor
-for approving the project.  The extras, with the approval (or request) of the
-instructor, can be modified over the course of the term.}
+This project is designed as a graduate research project with a corresponding degree of difficulty. The method of how correspondences are defined has been left to be ambiguous at this stage and may constitute that this software be defined as a family of products.
+\\A user manual will be provided as an 'extra' submission for this project.
 
 \newpage{}
 
