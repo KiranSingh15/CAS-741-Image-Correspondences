@@ -18,6 +18,7 @@
 \usepackage{caption}
 \usepackage{pdflscape}
 \usepackage{afterpage}
+\usepackage{datetime2}
 
 \usepackage[round]{natbib}
 
@@ -147,18 +148,9 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+2022-02-05 & 1.0 & Initial Release\\
 \bottomrule
 \end{tabularx}
-
-~\\
-\plt{This template is intended for use by CAS 741.  For CAS 741 the template
-should be used exactly as given, except the Reflection Appendix can be deleted.
-For the capstone course it is a source of ideas, but shouldn't be followed
-exactly.  The exception is the reflection appendix.  All capstone SRS documents
-should have a reflection appendix.}
-
 ~\newpage
 
 \section{Reference Material}
@@ -180,11 +172,7 @@ description of the unit and the SI name.
     \textbf{symbol} & \textbf{unit} & \textbf{SI}\\
     \midrule 
     \si{\metre} & length & metre\\
-    \si{\kilogram} & mass	& kilogram\\
     \si{\second} & time & second\\
-    \si{\celsius} & temperature & centigrade\\
-    \si{\joule} & energy & joule\\
-    \si{\watt} & power & watt (W = \si{\joule\per\second})\\
     \bottomrule
   \end{tabular}
   %	\caption{Provide a caption}
@@ -220,10 +208,23 @@ systems.  The symbols are listed in alphabetical order.
 \noindent \begin{longtable*}{l l p{12cm}} \toprule
 \textbf{symbol} & \textbf{unit} & \textbf{description}\\
 \midrule 
-$A_C$ & \si[per-mode=symbol] {\square\metre} & coil surface area
+$i$ & Unitless & Robot pose instance
 \\
-$A_\text{in}$ & \si[per-mode=symbol] {\square\metre} & surface area over 
-which heat is transferred in
+$j$ &	Unitless & Camera Instance
+\\
+$k$ &	Unitless & Target Feature Instance
+\\
+$\textbf{A}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of a camera  with respect to the target feature frame
+\\
+$\textbf{B}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the end-effector in the robot-base frame
+\\
+$\textbf{R}$ & 3$\times$3 Matrix & Rotation matrix in SO(3)
+\\
+$\textit{t}$ & 3$\times$3 Matrix & Translation matrix in SE(3)
+\\
+$\textbf{X}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the target feature in the robot-base frame
+\\
+$\textbf{Y}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the camera in the end-effector frame
 \\ 
 \bottomrule
 \end{longtable*}
@@ -238,15 +239,20 @@ which heat is transferred in
   \textbf{symbol} & \textbf{description}\\
   \midrule 
   A & Assumption\\
+  BRIEF & Binary Robust Independent Elementary Features\\ 
   DD & Data Definition\\
+  IFC & \progname{}\\
+  FAST & Features from Accelerated Segment Test\\
+  FOV & Field-of-View\\
   GD & General Definition\\
   GS & Goal Statement\\
   IM & Instance Model\\
   LC & Likely Change\\
+  ORB & Oriented FAST and Rotated BRIEF\\
   PS & Physical System Description\\
   R & Requirement\\
   SRS & Software Requirements Specification\\
-  \progname{} & \plt{put an expanded version of your program name here (as appropriate)}\\
+  SURF & Speeded-Up Robust Features\\
   TM & Theoretical Model\\
   \bottomrule
 \end{tabular}\\
@@ -580,9 +586,20 @@ includes the following elements:
 
 \begin{itemize}
 
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_meaningfulLabel}:] \plt{One
-    sentence description of the goal.  There may be more than one.  Each Goal
-    should have a meaningful label.}
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{keypoint_criteria}:]
+  Define the criteria used to identify features between separate image frames.
+
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{identify_features}:]
+  Define a collection of features from each image frame. 
+
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{compare_features}:]
+  Compare the identified features from GS02 between each image frame.
+
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{identify_matches}:] 
+  Compute the number of matches in each image frame per the criteria in GS03
+
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{report_matches}:]
+  Generate a report of the matched features between each image.
 
 \end{itemize}
 
@@ -645,8 +662,12 @@ models can be verified.
 understand.}
 
 \subsubsection{Scope Decisions}
-
 \plt{This section is optional.}
+Control of the ambient illumination conditions falls outside the scope of this software.
+It is the responsibility of the user to verify that the ambient lighting conditions do 
+not change to a significant degree during the image capture process.
+
+
 \subsubsection{Modelling Decisions}
 
 \plt{This section is optional.}
@@ -680,6 +701,18 @@ change [LC], in which the respective assumption is used.
     etc.  Each assumption should be atomic - that is, there should not be an
     explicit (or implicit) ``and'' in the text of an assumption.}
 
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{min_num_cameras}:]
+Imagery shall be provided by at least one camera.
+
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{camera_model}:]
+All supplied imagery is produced by a pinhole model, affine camera. [TM01]
+
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{camera_intrinsics}:]
+Intrinsic calibration parameters are unique for each camera. [TM01]
+
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{fwd_kinematics}:]
+The transform between the robot coordinate measurement and the robot base 
+frame is assumed to be known. 
 \end{itemize}
 
 \subsubsection{Theoretical Models}\label{sec_theoretical}
@@ -1366,16 +1399,5 @@ Their values are defined in this section for easy maintenance.}
 \end{itemize}
 }
 
-\newpage{}
-\section*{Appendix --- Reflection}
-
-\wss{Not required for CAS 741}
-
-The information in this section will be used to evaluate the team members on the
-graduate attribute of Lifelong Learning.  
-
-\input{../Reflection.tex}
-
-\input{../SRS_Reflection.tex}
-
+\textbf{\\ \\ End of Document.}
 \end{document}
