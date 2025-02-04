@@ -6,6 +6,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{cite}
 \usepackage{colortbl}
 \usepackage{xr}
 \usepackage{hyperref}
@@ -214,17 +215,21 @@ $j$ &	Unitless & Camera Instance
 \\
 $k$ &	Unitless & Target Feature Instance
 \\
-$\textbf{A}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of a camera  with respect to the target feature frame
+$\textbf{A}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of a camera 
+with respect to the target feature frame
 \\
-$\textbf{B}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the end-effector in the robot-base frame
+$\textbf{B}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the 
+end-effector in the robot-base frame
 \\
 $\textbf{R}$ & 3$\times$3 Matrix & Rotation matrix in SO(3)
 \\
 $\textit{t}$ & 3$\times$3 Matrix & Translation matrix in SE(3)
 \\
-$\textbf{X}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the target feature in the robot-base frame
+$\textbf{X}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the target 
+feature in the robot-base frame
 \\
-$\textbf{Y}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the camera in the end-effector frame
+$\textbf{Y}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the camera 
+in the end-effector frame
 \\ 
 \bottomrule
 \end{longtable*}
@@ -246,6 +251,7 @@ $\textbf{Y}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the camera
   FOV & Field-of-View\\
   GD & General Definition\\
   GS & Goal Statement\\
+  HERW  & Hand-Eye Robot-World Formulation \\
   IM & Instance Model\\
   LC & Likely Change\\
   ORB & Oriented FAST and Rotated BRIEF\\
@@ -254,12 +260,19 @@ $\textbf{Y}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the camera
   SRS & Software Requirements Specification\\
   SURF & Speeded-Up Robust Features\\
   TM & Theoretical Model\\
+  V\&V & Verification and Validation\\
   \bottomrule
 \end{tabular}\\
 
 \plt{Add any other abbreviations or acronyms that you add}
 
 \subsection{Mathematical Notation}
+
+\begin{itemize}
+  \item Matrixes are capitalized and are bolded, i.e. $\mathbf{X, Y}$
+  \item Column vectors are lowercase and are bolded, i.e. $\mathbf{s, t}$
+  \item Scalars are lowercase and are not bolded, i.e.\ a, b
+\end{itemize}
 
 \plt{This section is optional, but should be included for projects that make use
   of notation to convey mathematical information.  For instance, if typographic
@@ -277,39 +290,6 @@ $\textbf{Y}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the camera
 
 \pagenumbering{arabic}
 
-\plt{This SRS template is based on \citet{SmithAndLai2005, SmithEtAl2007,
-  SmithAndKoothoor2016}.  It will get you started.  You should not modify the
-  section headings, without first discussing the change with the course
-  instructor.  Modification means you are not following the template, which
-  loses some of the advantage of a template, especially standardization.
-  Although the bits shown below do not include type information, you may need to
-  add this information for your problem.  If you are unsure, please can ask the
-  instructor.}
-
-\plt{Feel free to change the appearance of the report by modifying the LaTeX
-  commands.}
-
-\plt{This template document assumes that a single program is being documented.
-  If you are documenting a family of models, you should start with a commonality
-  analysis.  A separate template is provided for this.  For program
-  families you should look at \cite{Smith2006, SmithMcCutchanAndCarette2017}.
-  Single family member programs are often programs based on a single physical
-  model.  General purpose tools are usually documented as a family.  Families of
-  physical models also come up.}
-
-\plt{The SRS is not generally written, or read, sequentially.  The SRS is a
-  reference document.  It is generally read in an ad hoc order, as the need
-  arises.  For writing an SRS, and for reading one for the first time, the
-  suggested order of sections is:
-\begin{itemize}
-\item Goal Statement
-\item Instance Models
-\item Requirements
-\item Introduction
-\item Specific System Description
-\end{itemize}
-}
-
 \plt{Guiding principles for the SRS document:
 \begin{itemize}
 \item Do not repeat the same information at the same abstraction level.  If
@@ -319,13 +299,6 @@ $\textbf{Y}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the camera
   assumptions section.
 \end{itemize}
 }
-
-\plt{The template description comments should be disabled before submitting this
-  document for grading.}
-
-\plt{You can borrow any wording from the text given in the template.  It is part
-  of the template, and not considered an instance of academic integrity.  Of
-  course, you need to cite the source of the template.}
 
 \plt{When the documentation is done, it should be possible to trace back to the
   source of every piece of information.  Some information will come from
@@ -342,26 +315,66 @@ $\textbf{Y}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the camera
   independently verify/derive every statement made.}
 
 \section{Introduction}
+Camera sensors are a common choice of sensor for many applications in robotics due 
+in part to their low cost and ease of integration. Prior to their use, each camera 
+must be calibrated such that collected data in collected imagery can be aligned with 
+the 3D world. This process is essential to prepare the system so that 
+imagery data can be correctly captured and processed for downstream operations.
 
-\plt{The introduction section is written to introduce the problem.  It starts
-  general and focuses on the problem domain. The general advice is to start with
-a paragraph or two that describes the problem, followed by a ``roadmap''
-paragraph.  A roadmap orients the reader by telling them what sub-sections to
-expect in the Introduction section.}
+Camera calibration consists of two aspects; intrinsic calibration and extrinsic 
+calibration. Intrinsic calibration focuses on mapping the 2D camera image 
+to the 3D camera frame, Extrinsic calibration converts the 3D camera frame
+to a global world frame. Extrinsic calibration is of significant interest as  
+operators may need to reposition cameras on a robotic platforms for any number of 
+operational needs.
+
+The following section outlines the Software Requirements Specification (SRS) for 
+a calibration algorithm that calculates the extrinsic parameters for a multi-camera 
+robotic platform. The program may be refered to as Image Feature Correspondences, 
+or IFC.
+
+
 
 \subsection{Purpose of Document}
 
-\plt{This section summarizes the purpose of the SRS document.  It does not focus
-  on the problem itself.  The problem is described in the ``Problem
-  Description'' section (Section~\ref{Sec_pd}).  The purpose is for the document
-  in the context of the project itself, not in the context of this course.
-  Although the ``purpose'' of the document is to get a grade, you should not
-  mention this.  Instead, ``fake it'' as if this is a real project.  The purpose
-  section will be similar between projects.  The purpose of the document is the
-  purpose of the SRS, including communication, planning for the design stage,
-  etc.}
+This document is the primary resource for the user to outline the desired 
+characteristics of the user, the required system interfaces, and desired 
+integrated behaviour of the IFC algorithm. The goals and key assumptions of the
+desired software are outlined, in addition to the required definitions, 
+theoretical models and instance models required to support its development. 
+Specifically, theoretical models are outlined to provide a framework to promote 
+development such that a specific design solution is not imposed at an early stage 
+of development. The SRS is abstract - it bounds what problems need to be solved by 
+the system, rather than how it needs to be achieved.
+
+Following a standard waterfall development model, this document will be used as a 
+stepping to support the development of several additional documents, each of which 
+demonstrates successive growth in the understanding and maturation of the software 
+product. These documents include:
+\begin{enumerate}
+  \item The Design Specification: An outline of the architectural decisions that 
+  details   how the requirements will be realized in the system. This is inclusive 
+  of the choice of operating environment, system interfaces with the user and its 
+  environment, and the   numerical methods that shall be implemented.
+
+  \item The Verification and Validation (V\&V) Plan: An outline of the specific processess 
+  to be used to assess the implementation of the code as developed from the Design 
+  Specification. Verification assessments will be used to assess whether the system has been 
+  built to the specified requirements from the SRS. Validation tests may also be outlined to 
+  ensure that the software correctly addresses the problem as defined in  build confidence 
+  that the   design has satisfied the outlined requirements per \ref{Sec_pd}.
+\end{enumerate}
+
 
 \subsection{Scope of Requirements} 
+The outlined requirements includes conventional imagery processing algorithms. When supplied 
+with the permissible inputs, the IFC software shall is intended to scan imagery data to and 
+identify match candidates amongst each image for various cameras and robot pose.The entire 
+document is written under the assumption that that the within the imagery scene 
+is free of significant changes in ambient illumination during imagery capture. Camera 
+intrinsics are expected to be prior to compile time.
+
+
 
 \plt{Modelling the real world requires simplification.  The full complexity of
   the actual physics, chemistry, biology is too much for existing models, and
@@ -371,16 +384,26 @@ expect in the Introduction section.}
   actual scope.  For instance, the problem can be restricted to 2 dimensions, or
   it can ignore the effect of temperature (or pressure) on the material
   properties, etc.}  
-
+ 
 \plt{The scope section is related to the assumptions section
   (Section~\ref{sec_assumpt}).  However, the scope and the assumptions are not
   at the same level of abstraction.  The scope is at a high level.  The focus is
   on the ``big picture'' assumptions.  The assumptions section lists, and
   describes, all of the assumptions.}
 
-\plt{The scope section is relevant for later determining typical values of inputs. The scope should make it clear what inputs are reasonable to expect. This is a distinction between scope and context (context is a later section).  Scope affects the inputs while context affects how the software will be used.}
+\plt{The scope section is relevant for later determining typical values of inputs. 
+The scope should make it clear what inputs are reasonable to expect. This is a 
+distinction between scope and context (context is a later section).  Scope affects 
+the inputs while context affects how the software will be used.}
 
 \subsection{Characteristics of Intended Reader} \label{sec_IntendedReader}
+Reviewers of this document should have a , 
+and a strong understanding of image processing algorithms. A 4th year undergraduate or 
+Master's level course in Computer Vision algorithm is strongly recommended. The 
+reviewer should have an understanding of robot mechanics per a 3rd or 4th year 
+undergraduate course. The developer should also have a general background in statistics 
+and functional programming.
+
 
 \plt{This section summarizes the skills and knowledge of the readers of the
   SRS.  It does NOT have the same purpose as the ``User Characteristics''
@@ -398,6 +421,17 @@ expect in the Introduction section.}
   graduate course on advanced quantum mechanics?}
 
 \subsection{Organization of Document}
+The remainder of the document uses a top-down structure that outlines, in order, 
+the goals, assumptions, theories, definitions, and instance models. These 
+components are then used to derive the functional and non-functional requirements. 
+Goal statements and assumptions are sequentially distilled into theoretical models, 
+definitions, instance models, and finally to requirements.
+
+The reader can glean value through review of the instance models prior to 
+the theoretical models, as the instance models outlne an operational specification of 
+system behaviour, rather than a descriptive specification. This enables flexibility 
+in what theoretical models are applied as they may be selected as inputs to the 
+systems as a functional program. 
 
 \plt{This section provides a roadmap of the SRS document.  It will help the
   reader orient themselves.  It will provide direction that will help them
@@ -408,8 +442,7 @@ expect in the Introduction section.}
 
 This section provides general information about the system.  It identifies the
 interfaces between the system and its environment, describes the user
-characteristics and lists the system constraints.  \plt{This text can likely be
-  borrowed verbatim.}
+characteristics and lists the system constraints.
 
 \plt{The purpose of this section is to provide general information about the
   system so the specific requirements in the next section will be easier to
@@ -420,6 +453,7 @@ characteristics and lists the system constraints.  \plt{This text can likely be
   same, while specific details are changed between family members.}
 
 \subsection{System Context}
+
 
 \plt{Your system context will include a figure that shows the abstract view of
   the software.  Often in a scientific context, the program can be viewed
@@ -458,13 +492,18 @@ characteristics and lists the system constraints.  \plt{This text can likely be
 \begin{itemize}
 \item User Responsibilities:
 \begin{itemize}
-\item 
+\item Provide input data to the system
+\item Verify that the input data uses the correct units
+\item Verify that the input data is contained in the correct data structures
+\item Configure the type of feature-handler algorithms to be used with corresponding 
+threshold criteria
 \end{itemize}
 \item \progname{} Responsibilities:
 \begin{itemize}
 \item Detect data type mismatch, such as a string of characters instead of a
   floating point number
-\item 
+\item Assess whether inputs constitute a fully define physical setup
+\item Calculate required inputs
 \end{itemize}
 \end{itemize}
 
@@ -478,6 +517,8 @@ the Automotive Safety Integrity Levels (ASILs) that McSCert uses in their
 automotive hazard analyses.}
 
 \subsection{User Characteristics} \label{SecUserCharacteristics}
+The end user of the IFC software should have an undergraduate understanding of beginer 
+robot mechanics, statistics, and computer vision algorithms.
 
 \plt{This section summarizes the knowledge/skills expected of the user.
   Measuring usability, which is often a required non-function requirement,
@@ -498,17 +539,16 @@ automotive hazard analyses.}
   included if they are truly required.}
 
 \section{Specific System Description}
-
 This section first presents the problem description, which gives a high-level
 view of the problem to be solved.  This is followed by the solution characteristics
 specification, which presents the assumptions, theories, definitions and finally
-the instance models.  \plt{Add any project specific details that are relevant
-  for the section overview.}
+the instance models. 
 
 \subsection{Problem Description} \label{Sec_pd}
 
-\progname{} is intended to solve ... \plt{What problem does your program solve?
-The description here should be in the problem space, not the solution space.}
+\progname{} is intended to evaluate how imagery data from robot-based cameras can 
+can be manipulated to define and align features between separate images in support 
+of downstream operations for extrinsic camera calibration.
 
 \subsubsection{Terminology and  Definitions}
 
@@ -529,7 +569,7 @@ easier to correctly understand the requirements:
 \end{itemize}
 
 \subsubsection{Physical System Description} \label{sec_phySystDescrip}
-
+The physical system of IFC, as shown in FIGURE X, includes the following elements
 \plt{The purpose of this section is to clearly and unambiguously state the
   physical system that is to be modelled. Effective problem solving requires a
   logical and organized approach. The statements on the physical system to be
@@ -547,18 +587,28 @@ easier to correctly understand the requirements:
 physical entity.  They can be conceptual.  This is particularly important when
 the documentation is for a numerical method. }
 
-The physical system of \progname{}, as shown in Figure~?,
-includes the following elements:
+The physical system of \progname{}, as shown in Fig.\ref{OASIS}, 
+outlines the single-camera configuration.
 
 \begin{itemize}
+  \item[PS1: Frames for the robot base, hand, camera, and target] 
 
-\item[PS1:] 
-
-\item[PS2:] ...
-
+  \item[PS2: Known base-to-hand transform]
 \end{itemize}
 
-\plt{A figure here makes sense for most SRS documents}
+\begin{figure}[h]
+  \centering\includegraphics[]{Images/OASIS_CFG.png}
+  \caption{Multi-camera mobile robotic platform. 
+  Modified from \cite{OASIS_2024}.}.
+\label{OASIS}
+\end{figure}
+
+\begin{figure}[h]
+  \centering\includegraphics[]{Images/Wang_EOH.png}
+  \caption{Single-camera robotic manipulator robot-world hand eye 
+  configuration. Modified from \cite{Wang_2022}.}.
+\label{Wang_EOH}
+\end{figure}
 
 % \begin{figure}[h!]
 % \begin{center}
