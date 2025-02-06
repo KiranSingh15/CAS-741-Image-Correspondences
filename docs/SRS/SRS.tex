@@ -789,6 +789,7 @@ on.  \plt{Modify the examples below for your problem, and add additional models
 
 
 
+
 \noindent
 \begin{minipage}{\textwidth}
 \renewcommand*{\arraystretch}{1.5}
@@ -812,12 +813,48 @@ Gaussian distribution. $\sigma$ is the standard deviation of the Gaussian distri
 
 \\
 \hline
-  Source & \ref{Gauss_Kernel} \\
-  \hline
-  Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
-  \hline
+Source & \ref{Gauss_Kernel} \\
+\hline
+Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
+\hline
+Pre-conditions for TM1: &None \\
+\hline
+Derivation for TM1: &None \\
+\hline
 \end{tabular}
 \end{minipage}\\
+
+
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& TM\refstepcounter{theorynum}\thetheorynum \label{FD_FAST}\\
+\hline
+Label &\bf Features from Accelerated Segment Test (FAST)  \\
+\hline
+% Units&$MLt^{-3}T^0$\\
+% \hline
+SI Units& INSERT UNITS HERE\\
+\hline
+Equation& $Insert Equation Here$  \\
+\hline
+Ref. By: &ADD REF HERE \\
+\hline
+Source & \ref{Gauss_Kernel} \\
+\hline
+Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
+
+\hline
+Pre-conditions for TM1: &None \\
+\hline
+Derivation for TM1: &None \\
+\hline
+\end{tabular}
+\end{minipage}\\
+
 
 
 \plt{``Ref.\ By'' is used repeatedly with the different types of information.
@@ -1108,7 +1145,13 @@ Table~\ref{TblSpecParams}.
   \textbf{Var} & \textbf{Physical Constraints} & \textbf{Software Constraints} &
                              \textbf{Typical Value} & \textbf{Uncertainty}\\
   \midrule 
-  $L$ & $L > 0$ & $L_{\text{min}} \leq L \leq L_{\text{max}}$ & 1.5 \si[per-mode=symbol] {\metre} & 10\%
+  $m$ & $m > 0$ & $m > 0 $ & N/A & N/A  % at least one robot pose
+  \\
+  $n$ & $n > 0$ & $n> 0 $ & N/A & N/A  % at least one camera
+  \\
+  $\sigma$ & $\sigma > 0$ & $\sigma > 0 $ & N/A & N/A % std dev > 0
+  \\
+  $p(u,v)$ & N/A & $0 \leq p(u,v) \geq 255$ & N/A & N/A % pixel intensity from 0 to 255
   \\
   \bottomrule
 \end{longtable*}
