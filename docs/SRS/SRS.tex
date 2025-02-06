@@ -81,7 +81,7 @@
 \newcommand{\lcref}[1]{LC\ref{#1}}
 
 \usepackage{fullpage}
-
+\newcounter{theornum} %Theory Number
 \newcommand{\deftheory}[9][Not Applicable]
 {
 \newpage
@@ -453,23 +453,10 @@ characteristics and lists the system constraints.
   same, while specific details are changed between family members.}
 
 \subsection{System Context}
-
-
-\plt{Your system context will include a figure that shows the abstract view of
-  the software.  Often in a scientific context, the program can be viewed
-  abstractly following the design pattern of Inputs $\rightarrow$ Calculations
-  $\rightarrow$ Outputs.  The system context will therefore often follow this
-  pattern.  The user provides inputs, the system does the calculations, and then
-  provides the outputs to the user.  The figure should not show all of the
-  inputs, just an abstract view of the main categories of inputs (like material
-  properties, geometry, etc.).  Likewise, the outputs should be presented from
-  an abstract point of view.  In some cases the diagram will show other external
-  entities, besides the user.  For instance, when the software product is a
-  library, the user will be another software program, not an actual end user.
-  If there are system constraints that the software must work with external
-  libraries, these libraries can also be shown on the System Context diagram.
-  They should only be named with a specific library name if this is required by
-  the system constraint.}
+Figure \ref{Fig_SystemContext} depicts the system context. A rectangle represents 
+the IFC software itself, whereas circles depict interactions with stakeholders, 
+namely the user. Arrowheads are used to demonstrate the sequential flow of data 
+between the software system and the environment.
 
 \begin{figure}[h!]
 \begin{center}
@@ -503,7 +490,7 @@ threshold criteria
 \item Detect data type mismatch, such as a string of characters instead of a
   floating point number
 \item Assess whether inputs constitute a fully define physical setup
-\item Calculate required inputs
+\item Calculate required outputs
 \end{itemize}
 \end{itemize}
 
@@ -517,8 +504,8 @@ the Automotive Safety Integrity Levels (ASILs) that McSCert uses in their
 automotive hazard analyses.}
 
 \subsection{User Characteristics} \label{SecUserCharacteristics}
-The end user of the IFC software should have an undergraduate understanding of beginer 
-robot mechanics, statistics, and computer vision algorithms.
+The end user of the IFC software should have an undergraduate understanding of introductory 
+mechanicas of robots, statistics, and computer vision algorithms.
 
 \plt{This section summarizes the knowledge/skills expected of the user.
   Measuring usability, which is often a required non-function requirement,
@@ -552,24 +539,49 @@ of downstream operations for extrinsic camera calibration.
 
 \subsubsection{Terminology and  Definitions}
 
-\plt{This section is expressed in words, not with equations.  It provide the
-  meaning of the different words and phrases used in the domain of the problem.
-The terminology is used to introduce concepts from the world outside of the
-mathematical model  The terminology provides a real world connection to give the
-mathematical model meaning.}
-
 This subsection provides a list of terms that are used in the subsequent
 sections and their meaning, with the purpose of reducing ambiguity and making it
 easier to correctly understand the requirements:
 
 \begin{itemize}
 
-\item 
+\item Features: Distinctive patterns or structures in an image that are 
+identifiable and useful for matching between images
 
+\item Keypoints: Specific pixel locations in an image that represent 
+significant and repeatable features.
+
+\item Correspondences: Pairs of keypoints between two images that represent 
+represent the same real-world point.
+
+\item Extrinsic Parameters: The transform of the between the 3D camera frame to the 
+3D world frame.
+
+\item Intrinsic Parameters: camera parameters that pertain to the transform of the 
+2D image plane frame to the 3D camera frame.
+
+\item Hand-eye: the relation between the robot end-effector to the camera frame
+
+\item Robot-world: the relation between the robot base frame to the world frame
+
+\item Pose: refers to the position and orientation of an object, sensor, or robot 
+within a given reference frame. 
 \end{itemize}
 
 \subsubsection{Physical System Description} \label{sec_phySystDescrip}
-The physical system of IFC, as shown in FIGURE X, includes the following elements
+The physical system of \progname{}, as shown in Figure \ref{Wang_EOH}, outlines 
+case of a single-camera, single target configuration. This outlines the frames of 
+interest for \ref{PS_1}. This configuration can be extrapolated to the multi-camera, 
+multi-target case, as shown in \ref{PS_2}. A representation of equivalent keypoints 
+between images is shown in \ref{PS_3}.
+\\
+\\
+\noindent \label{PS_1}PS1: Frames for the robot base, hand, camera, and target landmark
+
+\noindent \label{PS_2}PS2: Known base-to-hand transform.
+
+\noindent \label{PS_3}PS3: Projected camera images from distinct camera poses.
+
 \plt{The purpose of this section is to clearly and unambiguously state the
   physical system that is to be modelled. Effective problem solving requires a
   logical and organized approach. The statements on the physical system to be
@@ -585,40 +597,40 @@ The physical system of IFC, as shown in FIGURE X, includes the following element
 
 \plt{The elements of the physical system do not have to correspond to an actual
 physical entity.  They can be conceptual.  This is particularly important when
-the documentation is for a numerical method. }
+the documentation is for a numerical method.}
 
-The physical system of \progname{}, as shown in Fig.\ref{OASIS}, 
-outlines the single-camera configuration.
 
-\begin{itemize}
-  \item[PS1: Frames for the robot base, hand, camera, and target] 
-
-  \item[PS2: Known base-to-hand transform]
-\end{itemize}
-
-\begin{figure}[h]
-  \centering\includegraphics[]{Images/OASIS_CFG.png}
-  \caption{Multi-camera mobile robotic platform. 
-  Modified from \cite{OASIS_2024}.}.
-\label{OASIS}
-\end{figure}
-
-\begin{figure}[h]
-  \centering\includegraphics[]{Images/Wang_EOH.png}
+\begin{figure}[h!]
+  \begin{center}
+  \centering\includegraphics[width=0.5\textwidth]{Images/Wang_EOH.png}
   \caption{Single-camera robotic manipulator robot-world hand eye 
   configuration. Modified from \cite{Wang_2022}.}.
-\label{Wang_EOH}
+  \label{Wang_EOH}
+  \end{center}
 \end{figure}
 
-% \begin{figure}[h!]
-% \begin{center}
-% %\rotatebox{-90}
-% {
-%  \includegraphics[width=0.5\textwidth]{<FigureName>}
-% }
-% \caption{\label{<Label>} <Caption>}
-% \end{center}
-% \end{figure}
+\begin{figure}[ht!]
+  \begin{center}
+  \centering\includegraphics[width=0.5\textwidth]{Images/OASIS_CFG.png}
+  \caption{Multi-camera mobile robotic platform. 
+  Modified from \cite{OASIS_2024}.}.
+  \label{OASIS}
+  \end{center}
+\end{figure}
+
+\begin{figure}[ht!]
+  \begin{center}
+  \centering\includegraphics[width=0.5\textwidth]{Images/MULTIVIEW.png}
+  \caption{Multi-camera mobile robotic platform. 
+  Modified from \cite{Hartley_Zisserman}.}.
+  \label{MV_HZ}
+  \end{center}
+\end{figure}
+
+
+
+
+
 
 \subsubsection{Goal Statements}
 
@@ -637,19 +649,19 @@ outlines the single-camera configuration.
 \begin{itemize}
 
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{keypoint_criteria}:]
-  Define the criteria used to identify features between separate image frames.
+  Define the method(s) used to identify features between separate image frames.
+
+  \item[GS\refstepcounter{goalnum}\thegoalnum \label{compare_features}:]
+  Define the method(s) used to search for feature correspondences between each image frame.
 
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{identify_features}:]
-  Define a collection of features from each image frame. 
-
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{compare_features}:]
-  Compare the identified features from GS02 between each image frame.
+  Identify a collection of features from each image frame. 
 
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{identify_matches}:] 
-  Compute the number of matches in each image frame per the criteria in GS03
+  Identify feature correspondences between images.
 
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{report_matches}:]
-  Generate a report of the matched features between each image.
+  Generate a report of the identified feature correspondences.
 
 \end{itemize}
 
@@ -712,7 +724,6 @@ models can be verified.
 understand.}
 
 \subsubsection{Scope Decisions}
-\plt{This section is optional.}
 Control of the ambient illumination conditions falls outside the scope of this software.
 It is the responsibility of the user to verify that the ambient lighting conditions do 
 not change to a significant degree during the image capture process.
@@ -723,14 +734,6 @@ not change to a significant degree during the image capture process.
 \plt{This section is optional.}
 
 \subsubsection{Assumptions} \label{sec_assumpt}
-
-\plt{The assumptions are a refinement of the scope.  The scope is general, where
-  the assumptions are specific.  All assumptions should be listed, even those
-  that domain experts know so well that they are rarely (if ever) written down.}
-\plt{The document should not take for granted that the reader knows which
-  assumptions have been made. In the case of unusual assumptions, it is
-  recommended that the documentation either include, or point to, an explanation
-  and justification for the assumption.} 
 \plt{If it helps with the organization and understandability, the assumptions
 can be presented as sub sections.  The following sub-sections are options:
 background theory assumptions, helper theory assumptions, generic theory
@@ -784,46 +787,38 @@ on.  \plt{Modify the examples below for your problem, and add additional models
 
 ~\newline
 
+
+
 \noindent
-\deftheory
-% #2 refname of theory
-{TM:COE}
-% #3 label
-{Conservation of thermal energy}
-% #4 equation
-{
-  $-{\bf \nabla \cdot q} + g$ = $\rho C \frac{\partial T}{\partial t}$
-}
-% #5 description
-{
-  The above equation gives the conservation of energy for transient heat transfer in a material
-  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
-  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
-  $g$ is the volumetric heat generation
-  (\si{\watt\per\cubic\metre}), $T$ is the temperature
-  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
-  the gradient operator.  For this equation to apply, other forms
-  of energy, such as mechanical energy, are assumed to be negligible in the
-  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
-}
-% #6 Notes
-{
-None.
-}
-% #7 Source
-{
-  \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}
-}
-% #8 Referenced by
-{
-  \dref{ROCT}
-}
-% #9 Preconditions
-{
-None
-}
-% #1 derivation - not applicable by default
-{}
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& TM\refstepcounter{theorynum}\thetheorynum \label{ND_Gauss}\\
+\hline
+Label &\bf N-Dimensional Gaussian Kernel \\
+\hline
+% Units&$MLt^{-3}T^0$\\
+% \hline
+SI Units&Unitless\\
+\hline
+Equation&$G_{N-Dim}(\overrightarrow{x},\sigma) = \frac{1}{2\pi\sigma^2}e^{-\frac{\overrightarrow{x}}
+{2\sigma^2}}$  \\
+\hline
+Description & The above equation represents the distribution of data when defined as a n-dimensional  
+Gaussian Distribution. $\overrightarrow{x}$ is the collection of n-dimensions in the 
+Gaussian distribution. $\sigma$ is the standard deviation of the Gaussian distribution. 
+
+\\
+\hline
+  Source & \ref{Gauss_Kernel} \\
+  \hline
+  Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
 
 \plt{``Ref.\ By'' is used repeatedly with the different types of information.
   This stands for Referenced By.  It means that the models, definitions and
@@ -859,31 +854,69 @@ instance models.
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{NL}\\
+Number& GD\refstepcounter{defnum}\thedefnum \label{2D_Gauss}\\
 \hline
-Label &\bf Newton's law of cooling \\
+Label &\bf 2-Dimensional Gaussian Kernel \\
 \hline
 % Units&$MLt^{-3}T^0$\\
 % \hline
-SI Units&\si{\watt\per\square\metre}\\
+SI Units&Unitless\\
 \hline
-Equation&$ q(t) = h \Delta T(t)$  \\
+Equation&$G_{2D}(\overrightarrow{x},\sigma) = \frac{1}{2\pi\sigma^2}e^{-\frac{\overrightarrow{x}}
+{2\sigma^2}}$  \\
 \hline
-Description &
-Newton's law of cooling describes convective cooling from a surface.  The law is
-stated as: the rate of heat loss from a body is proportional to the difference
-in temperatures between the body and its surroundings.
+Description & $G_{2D}$ represents the gaussian kernel transform that is ultimately applied 
+    to 2D image given by horizonal pixel $x$ and vertical pixel $y$, both of which are 
+    unitless. $\sigma$ represents the allowable standard deviation of the two dimensional 
+    distribution for a given image. The Gaussian kernel is used to smooth an image to reduce 
+    noise amongst the individual pixels. 
 \\
-& $q(t)$ is the thermal flux (\si{\watt\per\square\metre}).\\
-& $h$ is the heat transfer coefficient, assumed independent of $T$ (\aref{A_hcoeff})
-	(\si{\watt\per\square\metre\per\celsius}).\\
-&$\Delta T(t)$= $T(t) - T_{\text{env}}(t)$ is the time-dependent thermal gradient
-between the environment and the object (\si{\celsius}).
+ & $\overrightarrow{x}$ is the collection of n-dimensions in the Gaussian distribution. 
+\\
+ & $\sigma$ is the standard deviation of the Gaussian distribution.
 \\
 \hline
-  Source & Citation here \\
+  Source & \ref{Gauss_Kernel} \\
   \hline
-  Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+  Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+
+
+
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& GD\refstepcounter{defnum}\thedefnum \label{2D_Gauss}\\
+\hline
+Label &\bf 2-Dimensional Gaussian Kernel \\
+\hline
+% Units&$MLt^{-3}T^0$\\
+% \hline
+SI Units&Unitless\\
+\hline
+Equation&$G_{2D}(\overrightarrow{x},\sigma) = \frac{1}{2\pi\sigma^2}e^{-\frac{\overrightarrow{x}}
+{2\sigma^2}}$  \\
+\hline
+Description & $G_{2D}$ represents the gaussian kernel transform that is ultimately applied 
+    to 2D image given by horizonal pixel $x$ and vertical pixel $y$, both of which are 
+    unitless. $\sigma$ represents the allowable standard deviation of the two dimensional 
+    distribution for a given image. The Gaussian kernel is used to smooth an image to reduce 
+    noise amongst the individual pixels. 
+\\
+ & $\overrightarrow{x}$ is the collection of n-dimensions in the Gaussian distribution. 
+\\
+ & $\sigma$ is the standard deviation of the Gaussian distribution.
+\\
+\hline
+  Source & \ref{Gauss_Kernel} \\
+  \hline
+  Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -910,6 +943,8 @@ This section collects and defines all the data needed to build the instance
 models. The dimension of each quantity is also given.  \plt{Modify the examples
   below for your problem, and add additional definitions as appropriate.}
 
+
+
 ~\newline
 
 \noindent
@@ -918,31 +953,26 @@ models. The dimension of each quantity is also given.  \plt{Modify the examples
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{FluxCoil}\\
+Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{Gauss2D}\\
 \hline
-Label& \bf Heat flux out of coil\\
+Label& \bf 2D Gaussian Kernel\\
 \hline
-Symbol &$q_C$\\
+Symbol &$G_{2D}$\\
 \hline
 % Units& $Mt^{-3}$\\
 % \hline
-  SI Units & \si{\watt\per\square\metre}\\
+  SI Units & Unitless\\
   \hline
-  Equation&$q_C(t) = h_C (T_C - T_W(t))$, over area $A_C$\\
+  Equation&$G_{2D}(x,y,\sigma) = \frac{1}{2\pi\sigma^2}e^{-\frac{x^2 + y^2}{2\sigma^2}}$\\
   \hline
-  Description & 
-                $T_C$ is the temperature of the coil (\si{\celsius}).  $T_W$ is the temperature of the water (\si{\celsius}).  
-                The heat flux out of the coil, $q_C$ (\si{\watt\per\square\metre}), is found by
-                assuming that Newton's Law 
-                of Cooling applies (\aref{A_Newt_coil}).  This law (\dref{NL}) is used on the surface of
-                the coil, which has area $A_C$ (\si{\square\metre}) and heat 
-                transfer coefficient $h_C$
-                (\si{\watt\per\square\metre\per\celsius}).  This equation
-                assumes that the temperature of the coil is constant over time (\aref{A_tcoil}) and that it does not vary along the length
-                of the coil (\aref{A_tlcoil}).
+  Description & $G_{2D}$ represents the gaussian kernel transform that is ultimately applied 
+    to 2D image given by horizonal pixel $x$ and vertical pixel $y$, both of which are 
+    unitless. $\sigma$ represents the allowable standard deviation of the two dimensional 
+    distribution for a given image. The Gaussian kernel is used to smooth an image to reduce 
+    noise amongst the individual pixels. 
   \\
   \hline
-  Sources& Citation here \\
+  Sources& \ref{Gauss_Kernel} \\
   \hline
   Ref.\ By & \iref{ewat}\\
   \hline
@@ -1311,7 +1341,7 @@ the assumptions.
 \tref{T_LHE}     & & & & & & & & & & & & & \\ \hline
 \dref{NL}        & & & & & & & & & & & & & \\ \hline
 \dref{ROCT}      & X& & & & & & & & & & & & \\ \hline
-\ddref{FluxCoil} & & & & X& & & & & & & & & \\ \hline
+\ddref{Gauss2D} & & & & X& & & & & & & & & \\ \hline
 \ddref{FluxPCM}  & & & & X& & & & & & & & & \\ \hline
 \ddref{D_HOF}    & & & & & & & & & & & & & \\ \hline
 \ddref{D_MF}     & & & & & & & & X& & & & & \\ \hline
