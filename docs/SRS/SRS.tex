@@ -796,13 +796,9 @@ on.  \plt{Modify the examples below for your problem, and add additional models
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum \label{ND_Gauss}\\
+Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM:ND_Gauss}\\
 \hline
 Label &\bf N-Dimensional Gaussian Kernel \\
-\hline
-% Units&$MLt^{-3}T^0$\\
-% \hline
-SI Units&Unitless\\
 \hline
 Equation&$G_{N-Dim}(\overrightarrow{x},\sigma) = \frac{1}{2\pi\sigma^2}e^{-\frac{\overrightarrow{x}}
 {2\sigma^2}}$  \\
@@ -810,8 +806,42 @@ Equation&$G_{N-Dim}(\overrightarrow{x},\sigma) = \frac{1}{2\pi\sigma^2}e^{-\frac
 Description & The above equation represents the distribution of data when defined as a n-dimensional  
 Gaussian Distribution. $\overrightarrow{x}$ is the collection of n-dimensions in the 
 Gaussian distribution. $\sigma$ is the standard deviation of the Gaussian distribution. 
-
 \\
+\hline
+Notes & All variables are unitless. \\
+\hline
+Source & \ref{Gauss_Kernel} \\
+\hline
+Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
+\hline
+Pre-conditions for TM1: &None \\
+\hline
+Derivation for TM1: &None \\
+\hline
+\end{tabular}
+\end{minipage}\\
+
+
+
+
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM:Pyramid}\\
+\hline
+Label &\bf Image Feature Pyramid \\
+\hline
+Equation& $I_{\mathit{l+1}}(u,v) = (G_{2D} \ast I_{\mathit{l}}(2u,2v))$  \\
+\hline
+Description & $I_{\mathit{l}}(2u,2v)$ represents the current layer of the image period.
+$I_{\mathit{l+1}}(u,v)$ represents the next layer of the image pyramid. $G$ represents the 
+smoothing kernel, and $\ast$ represent a convolution operation.
+\\
+\hline
+Notes & All variables are unitless. \\
 \hline
 Source & \ref{Gauss_Kernel} \\
 \hline
@@ -831,22 +861,62 @@ Derivation for TM1: &None \\
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum \label{FD_FAST}\\
+Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM:FAST}\\
 \hline
 Label &\bf Features from Accelerated Segment Test (FAST)  \\
 \hline
-% Units&$MLt^{-3}T^0$\\
-% \hline
-SI Units& INSERT UNITS HERE\\
+Equation& $S_{p \rightarrow x} = \begin{cases} 
+  \mathit{d, , I_{p \rightarrow x} \leq I_{p} - t} \quad\textnormal{(darker)} \\
+  \mathit{s, , I_{p \rightarrow x} \leq I_{p} + t} \quad\textnormal{(similar)} \\
+  \mathit{b, , I_{p} + t \leq I_{p \rightarrow x} \quad\textnormal{(brighter)}} \\
+  \end{cases}
+$  \\
 \hline
-Equation& $Insert Equation Here$  \\
+Description & $\mathit{x}$ represents the 16 contiguous pixels that surround pixel $\mathit{p}$, or 
+$\mathit{x} \in \{1,...,16\}$. 
+$S_{p \rightarrow x}$ represents the comparison of pixel intensity for $\mathit{p}$ to $\mathit{x}$, 
+with an assignment of $\mathit{d, s}$, or $\mathit{b}$ to represent that pixel $\mathit{p}$ is brighter, 
+darker, or similar to its neighbours. If the pixel is classified as either a $\mathit{b}$ or a 
+$\mathit{d}$, then the pixel is defined as a keypoint for edge detection.
+\\
 \hline
-Ref. By: &ADD REF HERE \\
+Notes & All variables are unitless. \\
 \hline
-Source & \ref{Gauss_Kernel} \\
+Source & \ref{FAST} \\
 \hline
 Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
+\hline
+Pre-conditions for TM1: &None \\
+\hline
+Derivation for TM1: &None \\
+\hline
+\end{tabular}
+\end{minipage}\\
 
+
+
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM:BRIEF}\\
+\hline
+Label &\bf Biinary Robust Independent Elementary Features (BRIEF)  \\
+\hline
+Equation& $\mathit{d_{k}}= \mathbf{1}({\mathit{I(p_{k})< I(q_{k})}})$
+\\
+\hline
+Description & For a selected patch within an image, and $\mathit{d_{k}}$ represents the kth bit in a 
+descriptor, pixels $\mathit{p_{k}}$ and $\mathit{q_{k}}$ are randomly sampled. 
+\\
+\hline
+Notes & All variables are unitless. \\
+\hline
+Source & \ref{FAST} \\
+\hline
+Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
 \hline
 Pre-conditions for TM1: &None \\
 \hline
@@ -957,6 +1027,14 @@ Description & $G_{2D}$ represents the gaussian kernel transform that is ultimate
   \hline
 \end{tabular}
 \end{minipage}\\
+
+
+
+
+
+
+
+
 
 \subsubsection*{Detailed derivation of simplified rate of change of temperature}
 
