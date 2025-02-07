@@ -747,19 +747,18 @@ change [LC], in which the respective assumption is used.
 
 \begin{itemize}
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{A:min_num_cameras}:]
-Imagery shall be provided by at least one camera \dref{GD:rBRIEF}.
+Imagery shall be provided by at least one camera \dref{TM_Dist_Ham}.
 
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{A:camera_model}:]
 All supplied imagery is produced by a pinhole model, affine camera 
-\dref{GD:2D_Gauss}, \dref{GD:FAST}, \dref{GD:rBRIEF}.
+\dref{GD_2D_Gauss}, \dref{GD_FAST}, \dref{GD_rBRIEF}.
 
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{A:greyscale}:]
-All imagery will be input as greyscale data.
-
+All imagery will be input as greyscale data \dref{GD_2D_Gauss}.
 
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{A:RT_Memory}:]
 The solution is not limited to memory constraints observed in hardware used for real-time 
-applications.
+applications (\tref{TM_BRIEF}).
 
 \end{itemize}
 
@@ -791,7 +790,7 @@ on.  \plt{Modify the examples below for your problem, and add additional models
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM:ND_Gauss}\\
+Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_ND_Gauss}\\
 \hline
 Label &\bf N-Dimensional Gaussian Kernel \\
 \hline
@@ -807,7 +806,7 @@ Notes & All variables are unitless. \\
 \hline
 Source & \cite{Gauss_Kernel} \\
 \hline
-Ref.\ By & \dref{GD:2D_Gauss}\\
+Ref.\ By & \dref{GD_2D_Gauss}\\
 \hline
 Pre-conditions for TM\thetheorynum: &None \\
 \hline
@@ -825,7 +824,7 @@ Derivation for TM\thetheorynum: &None \\
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM:FAST}\\
+Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_FAST}\\
 \hline
 Label &\bf Features from Accelerated Segment Test (FAST)  \\
 \hline
@@ -848,7 +847,7 @@ Notes & All variables are unitless. \\
 \hline
 Source & \cite{FAST} \\
 \hline
-Ref.\ By & \dref{GD:FAST}, \lcref{keypoint_method}\\
+Ref.\ By & \dref{GD_FAST}, \lcref{keypoint_method}\\
 \hline
 Pre-conditions for TM\thetheorynum: &None \\
 \hline
@@ -866,7 +865,7 @@ Derivation for TM\thetheorynum: &None \\
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM:BRIEF}\\
+Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_BRIEF}\\
 \hline
 Label &\bf Binary Robust Independent Elementary Features (BRIEF)  \\
 \hline
@@ -877,11 +876,12 @@ Description & For a selected patch within an image, and $\mathit{d_{k}}$ represe
 descriptor, pixels $\mathit{p_{k}}$ and $\mathit{q_{k}}$ are randomly sampled. 
 \\
 \hline
-Notes & All variables are unitless. \\
+Notes & This theory is computationally expensive and may not be suited to real-time applications 
+(\aref{A:RT_Memory}). \\
 \hline
 Source & \cite{opencv_orb_tutorial} \\
 \hline
-Ref.\ By & \dref{GD:rBRIEF}, \lcref{descriptor_method}\\
+Ref.\ By & \dref{GD_rBRIEF}, \lcref{descriptor_method}\\
 \hline
 Pre-conditions for TM\thetheorynum: &None \\
 \hline
@@ -899,7 +899,7 @@ Derivation for TM\thetheorynum: &None \\
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM:Dist_Ham}\\
+Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_Dist_Ham}\\
 \hline
 Label &\bf Hamming Distance  \\
 \hline
@@ -907,14 +907,15 @@ Equation& $\mathit{d_{Hamming}(a,b) =\sum_{i=0}^{n-1}(a_{i} \bigoplus b_{i})} $ 
 \hline
 Description & The Hamming distance is used to compare two binary numbers by each succesive bit, 
 and return the sum, $\mathit{d_{Hamming}}$, for the binary descriptors $\mathit{a}$ and $\mathit{b}$. 
-$\mathit{i}$ represents the index within the total of $\mathit{n}$ descriptors.
+$\mathit{i}$ represents the index within the total of $\mathit{n}$ descriptors. Both descriptors are 
+assumed to originate from separate images (\aref{A:min_num_cameras}).
 \\
 \hline
 Notes & All variables are unitless. \\
 \hline
 Source & \cite{opencv_flann_matcher} \\
 \hline
-Ref.\ By & \iref{IM:Dist_Hamm}, \lcref{LC:comparison_method}\\
+Ref.\ By & \iref{IM_Dist_Hamm}, \lcref{LC:comparison_method}\\
 \hline
 Pre-conditions for TM\thetheorynum: &None \\
 \hline
@@ -960,7 +961,7 @@ instance models.
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{GD:2D_Gauss}\\
+Number& GD\refstepcounter{defnum}\thedefnum \label{GD_2D_Gauss}\\
 \hline
 Label &\bf 2-Dimensional Gaussian Kernel \\
 \hline
@@ -971,8 +972,8 @@ SI Units&Unitless\\
 Equation&$G_{2D}(u,v,\sigma) = \frac{1}{2\pi\sigma^2}e^{-\frac{u^{2} + v^{2}}
 {2\sigma^2}}$  \\
 \hline
-Description & $G_{2D}$ represents the gaussian kernel transform that is ultimately applied 
-    to 2D image given by horizonal pixel $u$ and vertical pixel $v$, both of which are 
+Description & $G_{2D}$ represents the gaussian kernel transform that is  applied 
+    to the 2D greyscale image (\aref{A:camera_model}, \aref{A:greyscale}) given by horizonal pixel $u$ and vertical pixel $v$, both of which are 
     unitless. $\sigma$ represents the allowable standard deviation of the two dimensional 
     distribution for a given image. The Gaussian kernel is used to smooth an image to reduce 
     noise amongst the individual pixels. 
@@ -982,9 +983,9 @@ Description & $G_{2D}$ represents the gaussian kernel transform that is ultimate
  & $\sigma$ is the standard deviation of the Gaussian distribution.
 \\
 \hline
-  Source & TM\ref{TM:ND_Gauss} \\
+  Source & TM\ref{TM_ND_Gauss} \\
   \hline
-  Ref.\ By & \iref{IM:GK}\\
+  Ref.\ By & \iref{IM_GK}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -998,7 +999,7 @@ Description & $G_{2D}$ represents the gaussian kernel transform that is ultimate
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{GD:FAST}\\
+Number& GD\refstepcounter{defnum}\thedefnum \label{GD_FAST}\\
 \hline
 Label &\bf FAST Implementation \\
 \hline
@@ -1008,13 +1009,14 @@ Equation&$\mathit{\sum\limits_{k \in x} (|I_{k} - I(u,v)|>t) \geq N}$  \\
 \hline
 Description &  The threshold count of $\mathit{x \in \{1 \dots 16 \}}$ is concretely defined as $\mathit{N}$. 
 $\mathit{I(u,v)}$ represents the pixel intensity of pixel $\mathit{p}$. $\mathit{I_{k}}$ represents 
-the grayscale image intensity of the $k^{th}$ pixel in the circle around pixel $\mathit{p}$. 
+the grayscale image intensity of the $k^{th}$ pixel in the circle around pixel $\mathit{p}$ for the planar 
+image(\aref{A:camera_model}). 
 $\mathit{t}$ represents the user-defined threshold to define an allowable range of pixel intensity.
 \\
 \hline
-  Source & TM\ref{TM:FAST} \\
+  Source & TM\ref{TM_FAST} \\
   \hline
-  Ref.\ By & \iref{IM:GK}\\
+  Ref.\ By & \iref{IM_GK}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -1028,7 +1030,7 @@ $\mathit{t}$ represents the user-defined threshold to define an allowable range 
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{GD:rBRIEF}\\
+Number& GD\refstepcounter{defnum}\thedefnum \label{GD_rBRIEF}\\
 \hline
 Label &\bf Rotated Brief \\
 \hline
@@ -1045,7 +1047,7 @@ BRIEF can be implemented in a manner that is rotation invariant to an image with
 \hline
   Source & \cite{opencv_orb_tutorial} \\
   \hline
-  Ref.\ By & \iref{IM:BRIEF_Desc}\\
+  Ref.\ By & \iref{IM_BRIEF_Desc}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -1142,13 +1144,13 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
   \hline
   \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{IM:GK}\\
+  Number& IM\refstepcounter{instnum}\theinstnum \label{IM_GK}\\
   \hline
   Label& \bf Gaussian-Smoothed Image, $\mathit{\mathcal{I'}_{i, j}(u,v, \sigma)}$\\
   \hline
-  Input&$\mathit{\mathcal{I}_{i, j}(u,v)}$, $\sigma$ from \dref{GD:2D_Gauss}\\
+  Input&$\mathit{\mathcal{I}_{i, j}(u,v)}$, $\sigma$ from \dref{GD_2D_Gauss}\\
   \hline
-  Output&$\mathit{\mathcal{I'}_{i, j}(u,v, \sigma)}$ from \tref{TM:ND_Gauss} \\
+  Output&$\mathit{\mathcal{I'}_{i, j}(u,v, \sigma)}$ from \tref{TM_ND_Gauss} \\
   \hline
   Description&$\mathit{\mathcal{I'}_{i, j}(u,v, \sigma)}$ is the smoothed output image.\\
   &$\mathit{\mathcal{I}_{i, j}(u,v, \sigma)}$ is the unfiltered input image.\\
@@ -1156,7 +1158,7 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
   \hline
   Sources& \cite{Gauss_Kernel} \\
   \hline
-  Ref.\ By & \gsref{identify_features}, \gsref{identify_matches},\iref{IM:FAST_Detect}\\
+  Ref.\ By & \gsref{identify_features}, \gsref{identify_matches},\iref{IM_FAST_Detect}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -1170,24 +1172,24 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
   \hline
   \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{IM:FAST_Detect}\\
+  Number& IM\refstepcounter{instnum}\theinstnum \label{IM_FAST_Detect}\\
   \hline
   Label& \bf Image Keypoint Detection, $\mathit{\mathcal{D}_{i, j}(u,v)}$\\
   \hline
-  Input&$\mathit{\mathcal{I}_{i, j}(u,v, \sigma)}$ from \iref{IM:GK}, $t$ \\
+  Input&$\mathit{\mathcal{I}_{i, j}(u,v, \sigma)}$ from \iref{IM_GK}, $t$ \\
   & The input is constrained so that $T_\text{init} \leq T_C$ (\aref{A_charge})\\
   \hline
   Output&$\mathit{\mathcal{D}_{i, j}(u,v)}$, such that D is an n-dimensional 2D matrix of the horizontal 
   and vertical pixel coordinates in the form of (u,v).\\
   \hline
   Description& $\mathit{\mathcal{D}_{i, j}(u,v)}$ defined by the mapping transform, $S_{p \rightarrow x}$, 
-  as outlined in \tref{TM:FAST}.\\
-  & $\mathit{\mathcal{I}_{i, j}(u,v, \sigma)}$ is the smoothed image (m x n) from \iref{IM:GK}.\\
+  as outlined in \tref{TM_FAST}.\\
+  & $\mathit{\mathcal{I}_{i, j}(u,v, \sigma)}$ is the smoothed image (m x n) from \iref{IM_GK}.\\
   & $t$ is the pixel intensity threshold.\\
   \hline
   Sources& \cite{FAST} \\
   \hline
-  Ref.\ By & \gsref{define_features}, \gsref{identify_features}, \iref{IM:BRIEF_Desc}\\
+  Ref.\ By & \gsref{define_features}, \gsref{identify_features}, \iref{IM_BRIEF_Desc}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -1201,22 +1203,22 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
   \hline
   \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{IM:BRIEF_Desc}\\
+  Number& IM\refstepcounter{instnum}\theinstnum \label{IM_BRIEF_Desc}\\
   \hline
   Label& \bf Produce Feature Descriptors, $\mathit{D_{bin}}$\\
   \hline
-  Input&$\mathit{\mathcal{D}_{i, j}(u,v)}$ from \iref{IM:FAST_Detect}, $p_{s}$, $l_{bin}$ \\
+  Input&$\mathit{\mathcal{D}_{i, j}(u,v)}$ from \iref{IM_FAST_Detect}, $p_{s}$, $l_{bin}$ \\
   \hline
   Output&$\mathit{D_{bin}}$ as as variable size vector\\
   \hline
-  Description&$\mathit{\mathcal{D}_{i, j}}$ is the vector of pixels (u,v) of identified keypoints, per \iref{IM:FAST_Detect}.\\
+  Description&$\mathit{\mathcal{D}_{i, j}}$ is the vector of pixels (u,v) of identified keypoints, per \iref{IM_FAST_Detect}.\\
   &$p_{s}$ is the size of pixel patch to draw samples, as an integer.\\
-  &$l_{bin}$ is the size of the binary descriptor, in bits, per \tref{TM:BRIEF}.\\
-  &$\mathit{D_{bin}}$ is the output vector of identified descriptors, per \tref{TM:BRIEF}.\\
+  &$l_{bin}$ is the size of the binary descriptor, in bits, per \tref{TM_BRIEF}.\\
+  &$\mathit{D_{bin}}$ is the output vector of identified descriptors, per \tref{TM_BRIEF}.\\
   \hline
   Sources& \cite{opencv_orb_tutorial} \\
   \hline
-  Ref.\ By & \gsref{compare_features}, \gsref{identify_matches}, \iref{IM:Dist_Hamm}\\
+  Ref.\ By & \gsref{compare_features}, \gsref{identify_matches}, \iref{IM_Dist_Hamm}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -1229,16 +1231,16 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
   \hline
   \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{IM:Dist_Hamm}\\
+  Number& IM\refstepcounter{instnum}\theinstnum \label{IM_Dist_Hamm}\\
   \hline
   Label& \bf Inter-Image Descriptor Comparison, $\mathit{dist_{Hamming}}$\\
   \hline
-  Input&$\mathit{d_{a}}$, $\mathit{d_{b}}$ from \iref{IM:BRIEF_Desc}\\
+  Input&$\mathit{d_{a}}$, $\mathit{d_{b}}$ from \iref{IM_BRIEF_Desc}\\
   \hline
   Output&$\mathit{dist_{Hamming}}$\\
   \hline
-  Description&$\mathit{dist_{Hamming}}$ is the sum of bitwise $\mathbf{XOR}$ binary descriptors as outlined in \tref{GD:rBRIEF}.\\
-  &$\mathit{d_{a}}$, $\mathit{d_{b}}$ are binary descriptors as defined by \iref{IM:BRIEF_Desc}.\\
+  Description&$\mathit{dist_{Hamming}}$ is the sum of bitwise $\mathbf{XOR}$ binary descriptors as outlined in \tref{GD_rBRIEF}.\\
+  &$\mathit{d_{a}}$, $\mathit{d_{b}}$ are binary descriptors as defined by \iref{IM_BRIEF_Desc}.\\
   \hline
   Sources& \cite{opencv_flann_matcher} \\
   \hline
@@ -1334,63 +1336,59 @@ qualities that the software is expected to exhibit.
 
 \noindent \begin{itemize}
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs}:] \plt{Requirements
-    for the inputs that are supplied by the user.  This information has to be
-    explicit.}
-
 % Inputs
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:Update_SD}:] The IFC software shall accept 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Update_SD}:] The IFC software shall accept 
 updates to the variance in image noise,  $\mathit{\sigma}$, upon user input.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:Update_Intensity}:] The IFC software shall accept 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Update_Intensity}:] The IFC software shall accept 
 updates to the image intensity threshold, $\mathit{t}$, upon user input.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:Update_Patch}:] The IFC software shall accept 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Update_Patch}:] The IFC software shall accept 
 updates to the patch size, $\mathit{p_{s}}$, upon user input.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:Update_BinSize}:] The IFC software shall accept 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Update_BinSize}:] The IFC software shall accept 
 updates to the bin size, $\mathit{l_{bin}}$, upon user input.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:Default_Noise}:] The IFC software shall use the 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Default_Noise}:] The IFC software shall use the 
 default noise suppresion parameters if no option is specified by the user.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:Default_FD}:] The IFC software shall use the 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Default_FD}:] The IFC software shall use the 
 default feature detection method if no option is specified by the user.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:Default_KD}:] The IFC software shall use the 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Default_KD}:] The IFC software shall use the 
 default keypoint descriptor method if no option is specified by the user.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:Default_FM}:] The IFC software shall use the 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Default_FM}:] The IFC software shall use the 
 default descriptor matching method if no option is specified by the user.
 
 % Calculations 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:NoiseReduction}:] The IFC software shall 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_NoiseReduction}:] The IFC software shall 
 implement noise reduction on an input greyscale image per a prescribed standard deviation (from 
-\iref{IM:GK}).
+\iref{IM_GK}).
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:DetectKeypoints}:] The IFC software shall, given a 2D 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_DetectKeypoints}:] The IFC software shall, given a 2D 
 greyscale image, define a set of keypoints per the alloted threshold criteria (from 
-\iref{IM:FAST_Detect}).
+\iref{IM_FAST_Detect}).
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:DefineDescriptors}:] The IFC software shall 
-define feature descriptors from identified keypoints (from \iref{IM:BRIEF_Desc})..
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_DefineDescriptors}:] The IFC software shall 
+define feature descriptors from identified keypoints (from \iref{IM_BRIEF_Desc})..
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:CompareDescriptors}:] The IFC software shall 
-identify matches between descriptors that originate from separate images (from \iref{IM:Dist_Hamm}).
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_CompareDescriptors}:] The IFC software shall 
+identify matches between descriptors that originate from separate images (from \iref{IM_Dist_Hamm}).
 
 % Outputs 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:OutputCorrespondences}:] The IFC software shall 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_OutputCorrespondences}:] The IFC software shall 
 provide a .csv file that outlines the respective feature matches.
 
 % Verify Outputs
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:Distinct Images}:] The IFC software shall verify 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_DistinctImages}:] The IFC software shall verify 
 that all features are matched to features that originate from separate images.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:Unique Keypoint_IDs}:] The IFC software shall verify 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_UniqueKeypoint_IDs}:] The IFC software shall verify 
 that all feature correspondences are uniquely defined by the camera of origin, image frame of origin, 
 and their unique pixels.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:Unique Match_IDs}:] The IFC software shall verify 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_UniqueMatch_IDs}:] The IFC software shall verify 
 that all feature correspondences are uniquely defined by the two respective sets of cameras, image frame, 
 and associated pixels.
 
@@ -1488,20 +1486,20 @@ the assumptions.
 \hline
 	& \aref{A:min_num_cameras}& \aref{A:camera_model}& \aref{A:greyscale}& \aref{A:RT_Memory}\\
 \hline
-\tref{TM:ND_Gauss}        & X& & & & & & & & & & & & & & & & & & \\ \hline
-\tref{TM:FAST}        & & & & & & & & & & & & & & & & & & & \\ \hline
-\tref{TM:BRIEF}        & & & & & & & & & & & & & & & & & & & \\ \hline
-\tref{TM:Dist_Ham}           & & X& & & & & & & & & & & & & & & & & \\ \hline
-\dref{GD:2D_Gauss}         & & & X& X& X& X& & & & & & & & & & & & & \\ \hline
-\dref{GD:FAST}    & & & & & & & X& X& X& & & & & & & & & & \\ \hline
-\dref{GD:rBRIEF}     & & & X& X& & & & & & X& & & & & & & & & \\ \hline
-\iref{IM:GK}         & & & & & & & & & & & X& X& & X& X& X& & & X \\ \hline
-\iref{IM:FAST_Detect}         & & & & & & & & & & & & X& X& & & X& X& X& \\ \hline
-\iref{IM:BRIEF_Desc}       & & & & & & & & & & & & & & X& & & & & X \\ \hline
-\iref{IM:Dist_Hamm}       & & & & & & & & & & & & & X& & & & & X & \\ \hline
-\lcref{LC:keypoint_method}     & & & & X& & & & & & & & & & & & & & & \\ \hline
-\lcref{LC:descriptor_method}    & & & & & & & & X& & & & & & & & & & & \\ \hline
-\lcref{LC:comparison_method}   & & & & & & & & & X& & & & & & & & & & \\ \hline
+\tref{TM_ND_Gauss}              & &X&X& \\ \hline
+\tref{TM_FAST}                  & &X& & \\ \hline
+\tref{TM_BRIEF}                 & &X& &X\\ \hline
+\tref{TM_Dist_Ham}              &X& & & \\ \hline 
+\dref{GD_2D_Gauss}              & & & & \\ \hline
+\dref{GD_FAST}                  & & & & \\ \hline
+\dref{GD_rBRIEF}                & & & & \\ \hline
+\iref{IM_GK}                    & & & & \\ \hline
+\iref{IM_FAST_Detect}           & & & & \\ \hline
+\iref{IM_BRIEF_Desc}            & & & & \\ \hline
+\iref{IM_Dist_Hamm}             & & & & \\ \hline
+\lcref{LC:keypoint_method}      & & & & \\ \hline
+\lcref{LC:descriptor_method}    & & & & \\ \hline
+\lcref{LC:comparison_method}    & & & & \\ \hline
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Assumptions and Other Items}
@@ -1514,21 +1512,25 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline        
-	& \tref{T_COE}& \tref{T_SHE}& \tref{T_LHE}& \dref{NL}& \dref{ROCT} & \ddref{FluxCoil}& \ddref{FluxPCM} & \ddref{D_HOF}& \ddref{D_MF}& \iref{ewat}& \iref{epcm}& \iref{I_HWAT} \\
+& \tref{TM_ND_Gauss}& \tref{TM_FAST}& \tref{TM_BRIEF}& \tref{TM_Dist_Ham}& 
+\dref{GD_2D_Gauss} & \dref{GD_FAST}  & \dref{GD_rBRIEF} &
+\iref{IM_GK} & \iref{IM_FAST_Detect}& \iref{IM_BRIEF_Desc}& \iref{IM_Dist_Hamm}&
+\lcref{LC:keypoint_method} & \lcref{LC:descriptor_method} & \lcref{LC:comparison_method}\\
 \hline
-\tref{T_COE}     & & & & & & & & & & & & \\ \hline
-\tref{T_SHE}     & & & X& & & & & & & & & \\ \hline
-\tref{T_LHE}     & & & & & & & & & & & & \\ \hline
-\dref{NL}        & & & & & & & & & & & & \\ \hline
-\dref{ROCT}      & X& & & & & & & & & & & \\ \hline
-\ddref{Gauss2D} & & & & X& & & & & & & & \\ \hline
-\ddref{FluxPCM}  & & & & X& & & & & & & & \\ \hline
-\ddref{D_HOF}    & & & & & & & & & & & & \\ \hline
-\ddref{D_MF}     & & & & & & & & X& & & & \\ \hline
-\iref{ewat}      & & & & & X& X& X& & & X& & \\ \hline
-\iref{epcm}      & & & & & X& & X& & X& X& & & X \\ \hline
-\iref{I_HWAT}    & & X& & & & & & & & & & \\ \hline
-\iref{I_HPCM}    & & X& X& & & & X& X& X& X& & \\
+\tref{TM_ND_Gauss}              & & & & &X& & &X& & & & & & \\ \hline
+\tref{TM_FAST}                  & & & & & &X& & &X& & &X& & \\ \hline
+\tref{TM_BRIEF}                 & & & & & & &X& & &X& & &X& \\ \hline
+\tref{TM_Dist_Ham}              & & & & & & & & & & &X& & &X\\ \hline
+\dref{GD_2D_Gauss}              & & & & & & & &X& & & & & & \\ \hline
+\dref{GD_FAST}                  & & & & & & & & &X& & & & & \\ \hline
+\dref{GD_rBRIEF}                & & & & & & & & & &X& & & & \\ \hline
+\iref{IM_GK}                    & & & & & & & & &X& & & & & \\ \hline
+\iref{IM_FAST_Detect}           & & & & & & & & & &X& & & & \\ \hline
+\iref{IM_BRIEF_Desc}            & & & & & & & & & & &X& & & \\ \hline
+\iref{IM_Dist_Hamm}             & & & & & & & & & & & & & & \\ \hline
+\lcref{LC:keypoint_method}      & & & & & &X& & &X& & & & & \\ \hline
+\lcref{LC:descriptor_method}    & & & & & & &X& & &X& & & & \\ \hline
+\lcref{LC:comparison_method}    & & & & & & & & & & &X& & & \\ \hline
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Items of Different Sections}
@@ -1537,25 +1539,36 @@ the assumptions.
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
-	& \iref{ewat}& \iref{epcm}& \iref{I_HWAT}& \iref{I_HPCM}& \ref{sec_DataConstraints}& \rref{R_RawInputs}& \rref{R_MassInputs} \\
+	& \iref{IM_GK} & \iref{IM_FAST_Detect}& \iref{IM_BRIEF_Desc}& \iref{IM_Dist_Hamm}& \ref{sec_DataConstraints}
+  & \rref{R_Update_SD} &\rref{R_Update_Intensity} &\rref{R_Update_Patch} &\rref{R_Update_BinSize}
+  & \rref{R_Default_Noise} &\rref{R_Default_Noise} &\rref{R_Default_FD} &\rref{R_Default_FD} 
+  & \rref{R_Default_KD} &\rref{R_Default_FM} &\rref{R_NoiseReduction}  &\rref{R_DetectKeypoints} 
+  & \rref{R_DefineDescriptors} &\rref{R_CompareDescriptors} &\rref{R_OutputCorrespondences}
+\\
 \hline
-\iref{ewat}            & & X& & & & X& X \\ \hline
-\iref{epcm}            & X& & & X& & X& X \\ \hline
-\iref{I_HWAT}          & & & & & & X& X \\ \hline
-\iref{I_HPCM}          & & X& & & & X& X \\ \hline
-\rref{R_RawInputs}     & & & & & & & \\ \hline
-\rref{R_MassInputs}    & & & & & & X& \\ \hline
-\rref{R_CheckInputs}   & & & & & X& & \\ \hline
-\rref{R_OutputInputs}  & X& X& & & & X& X \\ \hline
-\rref{R_TempWater}     & X& & & & & & \\ \hline 
-\rref{R_TempPCM}       & & X& & & & & \\ \hline
-\rref{R_EnergyWater}   & & & X& & & & \\ \hline
-\rref{R_EnergyPCM}     & & & & X& & & \\ \hline
-\rref{R_VerifyOutput}  & & & X& X& & & \\ \hline
-\rref{R_timeMeltBegin} & & X& & & & & \\ \hline
-\rref{R_timeMeltEnd}   & & X& & & & & \\ 
+\iref{IM_GK}                    & & & & & & & & & & & & & & & & & & & & \\ \hline
+\iref{IM_FAST_Detect}           & & & & & & & & & & & & & & & & & & & & \\ \hline
+\iref{IM_BRIEF_Desc}            & & & & & & & & & & & & & & & & & & & & \\ \hline
+\iref{IM_Dist_Hamm}             & & & & & & & & & & & & & & & & & & & & \\ \hline
+\ref{sec_DataConstraints}       & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_Update_SD}              & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_Update_Intensity}       & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_Update_Patch}           & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_Update_BinSize}         & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_Default_Noise}          & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_Default_FD}             & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_Default_KD}             & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_Default_FM}             & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_NoiseReduction}         & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_DetectKeypoints}        & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_DefineDescriptors}      & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_CompareDescriptors}     & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_OutputCorrespondences}  & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_DistinctImages}         & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_UniqueKeypoint_IDs}     & & & & & & & & & & & & & & & & & & & & \\ \hline
+\rref{R_UniqueMatch_IDs}        & & & & & & & & & & & & & & & & & & & & \\ \hline
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
