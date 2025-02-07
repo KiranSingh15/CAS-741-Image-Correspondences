@@ -566,6 +566,8 @@ represent the same real-world point.
 
 \item Pose: refers to the position and orientation of an object, sensor, or robot 
 within a given reference frame. 
+
+\item Patch: A square region of an image of an assigned size.
 \end{itemize}
 
 \subsubsection{Physical System Description} \label{sec_phySystDescrip}
@@ -744,20 +746,20 @@ general definition [GD], data definition [DD], instance model [IM], or likely
 change [LC], in which the respective assumption is used.
 
 \begin{itemize}
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{A:min_num_cameras}:]
+Imagery shall be provided by at least one camera \dref{GD:rBRIEF}.
 
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_meaningfulLabel}:]
-  \plt{Short description of each assumption.  Each assumption
-    should have a meaningful label.  Use cross-references to identify the
-    appropriate traceability to TM, GD, DD etc., using commands like dref, ddref
-    etc.  Each assumption should be atomic - that is, there should not be an
-    explicit (or implicit) ``and'' in the text of an assumption.}
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{A:camera_model}:]
+All supplied imagery is produced by a pinhole model, affine camera 
+\dref{GD:2D_Gauss}, \dref{GD:FAST}, \dref{GD:rBRIEF}.
 
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{min_num_cameras}:]
-Imagery shall be provided by at least one camera.
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{A:greyscale}:]
+All imagery will be input as greyscale data.
 
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{camera_model}:]
-All supplied imagery is produced by a pinhole model, affine camera. [TM01]
 
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{A:RT_Memory}:]
+The solution is not limited to memory constraints observed in hardware used for real-time 
+applications.
 
 \end{itemize}
 
@@ -782,7 +784,7 @@ on.  \plt{Modify the examples below for your problem, and add additional models
 
 
 
-
+% Theoretical Model 1
 \noindent
 \begin{minipage}{\textwidth}
 \renewcommand*{\arraystretch}{1.5}
@@ -805,7 +807,7 @@ Notes & All variables are unitless. \\
 \hline
 Source & \cite{Gauss_Kernel} \\
 \hline
-Ref.\ By & \ddref{2D_Gauss}\\
+Ref.\ By & \dref{GD:2D_Gauss}\\
 \hline
 Pre-conditions for TM\thetheorynum: &None \\
 \hline
@@ -816,7 +818,7 @@ Derivation for TM\thetheorynum: &None \\
 
 
 
-
+% Theoretical Model 2
 \noindent
 \begin{minipage}{\textwidth}
 \renewcommand*{\arraystretch}{1.5}
@@ -846,7 +848,7 @@ Notes & All variables are unitless. \\
 \hline
 Source & \cite{FAST} \\
 \hline
-Ref.\ By & \ddref{FAST_GD}\\
+Ref.\ By & \dref{GD:FAST}, \lcref{keypoint_method}\\
 \hline
 Pre-conditions for TM\thetheorynum: &None \\
 \hline
@@ -857,7 +859,7 @@ Derivation for TM\thetheorynum: &None \\
 
 
 
-
+% Theoretical Model 3
 \noindent
 \begin{minipage}{\textwidth}
 \renewcommand*{\arraystretch}{1.5}
@@ -879,7 +881,7 @@ Notes & All variables are unitless. \\
 \hline
 Source & \cite{opencv_orb_tutorial} \\
 \hline
-Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
+Ref.\ By & \dref{GD:rBRIEF}, \lcref{descriptor_method}\\
 \hline
 Pre-conditions for TM\thetheorynum: &None \\
 \hline
@@ -890,7 +892,7 @@ Derivation for TM\thetheorynum: &None \\
 
 
 
-
+% Theoretical Model 4
 \noindent
 \begin{minipage}{\textwidth}
 \renewcommand*{\arraystretch}{1.5}
@@ -912,40 +914,7 @@ Notes & All variables are unitless. \\
 \hline
 Source & \cite{opencv_flann_matcher} \\
 \hline
-Ref.\ By & \ddref{Gau}\\
-\hline
-Pre-conditions for TM\thetheorynum: &None \\
-\hline
-Derivation for TM\thetheorynum: &None \\
-\hline
-\end{tabular}
-\end{minipage}\\
-
-
-
-
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-\hline
-\rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM:Pyramid}\\
-\hline
-Label &\bf Image Feature Pyramid \\
-\hline
-Equation& $I_{\mathit{l+1}}(u,v) = (G_{2D} \ast I_{\mathit{l}}(2u,2v))$  \\
-\hline
-Description & $I_{\mathit{l}}(2u,2v)$ represents the current layer of the image period.
-$I_{\mathit{l+1}}(u,v)$ represents the next layer of the image pyramid. $G$ represents the 
-smoothing kernel, and $\ast$ represent a convolution operation.
-\\
-\hline
-Notes & All variables are unitless. \\
-\hline
-Source & \cite{ } \\
-\hline
-Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
+Ref.\ By & \iref{IM:Dist_Hamm}, \lcref{LC:comparison_method}\\
 \hline
 Pre-conditions for TM\thetheorynum: &None \\
 \hline
@@ -984,13 +953,14 @@ instance models.
 
 ~\newline
 
+% General Defintion 1
 \noindent
 \begin{minipage}{\textwidth}
 \renewcommand*{\arraystretch}{1.5}
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{2D_Gauss}\\
+Number& GD\refstepcounter{defnum}\thedefnum \label{GD:2D_Gauss}\\
 \hline
 Label &\bf 2-Dimensional Gaussian Kernel \\
 \hline
@@ -1014,29 +984,27 @@ Description & $G_{2D}$ represents the gaussian kernel transform that is ultimate
 \hline
   Source & TM\ref{TM:ND_Gauss} \\
   \hline
-  Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
+  Ref.\ By & \iref{IM:GK}\\
   \hline
 \end{tabular}
 \end{minipage}\\
 
 
 
-
+% General Defintion 2
 \noindent
 \begin{minipage}{\textwidth}
 \renewcommand*{\arraystretch}{1.5}
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{FAST_GD}\\
+Number& GD\refstepcounter{defnum}\thedefnum \label{GD:FAST}\\
 \hline
 Label &\bf FAST Implementation \\
 \hline
-% Units&$MLt^{-3}T^0$\\
-% \hline
 Units&Unitless\\
 \hline
-Equation&$\mathit{\sum\limits_{a \in x} (|I_{k} - I(u,v)|>t) \geq N}$  \\
+Equation&$\mathit{\sum\limits_{k \in x} (|I_{k} - I(u,v)|>t) \geq N}$  \\
 \hline
 Description &  The threshold count of $\mathit{x \in \{1 \dots 16 \}}$ is concretely defined as $\mathit{N}$. 
 $\mathit{I(u,v)}$ represents the pixel intensity of pixel $\mathit{p}$. $\mathit{I_{k}}$ represents 
@@ -1046,21 +1014,21 @@ $\mathit{t}$ represents the user-defined threshold to define an allowable range 
 \hline
   Source & TM\ref{TM:FAST} \\
   \hline
-  Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
+  Ref.\ By & \iref{IM:GK}\\
   \hline
 \end{tabular}
 \end{minipage}\\
 
 
 
-
+% General Defintion 3
 \noindent
 \begin{minipage}{\textwidth}
 \renewcommand*{\arraystretch}{1.5}
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{rBRIEF}\\
+Number& GD\refstepcounter{defnum}\thedefnum \label{GD:rBRIEF}\\
 \hline
 Label &\bf Rotated Brief \\
 \hline
@@ -1070,13 +1038,14 @@ Units&Unitless\\
 \hline
 Equation&$d_{k} = I(p_{k}^{'}) < I(q_{k}^{'})$  \\
 \hline
-Description & For a selected patch within an image, and $\mathit{d_{k}}$ represents the kth bit in a 
-descriptor, pixels $\mathit{p_{k}^{'}}$ and $\mathit{q_{k}^{'}}$ are randomly sampled. This ensures that BRIEF can be 
-implemented in a manner that is rotation invariant to an image within a plane.\\
+Description & For a defined patch size around a selected keypoint, pixels $\mathit{p}$ and 
+$\mathit{q}$ are randomly selected. $\mathit{d_{k}}$ represents the kth bit in a descriptor, 
+pixels $\mathit{p_{k}^{'}}$ and $\mathit{q_{k}^{'}}$ are randomly sampled. This ensures that 
+BRIEF can be implemented in a manner that is rotation invariant to an image within a plane.\\
 \hline
   Source & \cite{opencv_orb_tutorial} \\
   \hline
-  Ref.\ By & \ddref{Gau}, \ddref{FluxPCM}\\
+  Ref.\ By & \iref{IM:BRIEF_Desc}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -1146,45 +1115,6 @@ Symbol &$G_{2D}$\\
 \end{tabular}
 \end{minipage}\\
 
-\subsubsection{Data Types}\label{sec_datatypes}
-
-\plt{This section is optional.  In many scientific computing programs it isn't
-  necessary, since the inputs and outpus are straightforward types, like reals,
-  integers, and sequences of reals and integers.  However, for some problems it
-  is very helpful to capture the type information.}
-
-\plt{The data types are not derived; they are simply stated and used by other
-  models.}
-
-\plt{All data types must be used by at least one of the models.}
-
-\plt{For the mathematical notation for expressing types, the recommendation is
-  to use the notation of~\citet{HoffmanAndStrooper1995}.}
-
-This section collects and defines all the data types needed to document the
-models. \plt{Modify the examples below for your problem, and add additional
-  definitions as appropriate.}
-
-~\newline
-
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-  \hline
-  \rowcolor[gray]{0.9}
-  Type Name & Name for Type\\
-  \hline
-  Type Def & mathematical definition of the type\\
-  \hline
-  Description & description here
-  \\
-  \hline
-  Sources & Citation here, if the type is borrowed from another source\\
-  \hline
-\end{tabular}
-\end{minipage}\\
-
 \subsubsection{Instance Models} \label{sec_instance}    
 
 \plt{The motivation for this section is to reduce the problem defined in
@@ -1206,49 +1136,118 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
 ~\newline
 
 %Instance Model 1
-
 \noindent
 \begin{minipage}{\textwidth}
 \renewcommand*{\arraystretch}{1.5}
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
   \hline
   \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{ewat}\\
+  Number& IM\refstepcounter{instnum}\theinstnum \label{IM:GK}\\
   \hline
-  Label& \bf Energy balance on water to find $T_W$\\
+  Label& \bf Gaussian-Smoothed Image, $\mathit{\mathcal{I'}_{i, j}(u,v, \sigma)}$\\
   \hline
-  Input&$m_W$, $C_W$, $h_C$, $A_C$, $h_P$, $A_P$, $t_\text{final}$, $T_C$, 
-  $T_\text{init}$, $T_P(t)$ from \iref{epcm}\\
-  & The input is constrained so that $T_\text{init} \leq T_C$ (\aref{A_charge})\\
+  Input&$\mathit{\mathcal{I}_{i, j}(u,v)}$, $\sigma$ from \dref{GD:2D_Gauss}\\
   \hline
-  Output&$T_W(t)$, $0\leq t \leq t_\text{final}$, such that\\
-  &$\frac{dT_W}{dt} = \frac{1}{\tau_W}[(T_C - T_W(t)) + {\eta}(T_P(t) - T_W(t))]$,\\
-  &$T_W(0) = T_P(0) = T_\text{init}$ (\aref{A_InitTemp}) and $T_P(t)$ from \iref{epcm} \\
+  Output&$\mathit{\mathcal{I'}_{i, j}(u,v, \sigma)}$ from \tref{TM:ND_Gauss} \\
   \hline
-  Description&$T_W$ is the water temperature (\si{\celsius}).\\
-  &$T_P$ is the PCM temperature (\si{\celsius}).\\
-  &$T_C$ is the coil temperature (\si{\celsius}).\\
-  &$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}).\\
-  &$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
-  & The above equation applies as long as the water is in liquid form,
-  $0<T_W<100^o\text{C}$, where $0^o\text{C}$ and $100^o\text{C}$ are the melting
-  and boiling points of water, respectively (\aref{A_OpRange}, \aref{A_Pressure}).
-  \\
+  Description&$\mathit{\mathcal{I'}_{i, j}(u,v, \sigma)}$ is the smoothed output image.\\
+  &$\mathit{\mathcal{I}_{i, j}(u,v, \sigma)}$ is the unfiltered input image.\\
+  &$\sigma$ is the standard deviation of the 2D Gaussian Distribution.\\
   \hline
-  Sources& Citation here \\
+  Sources& \cite{Gauss_Kernel} \\
   \hline
-  Ref.\ By & \iref{epcm}\\
+  Ref.\ By & \gsref{identify_features}, \gsref{identify_matches},\iref{IM:FAST_Detect}\\
   \hline
 \end{tabular}
 \end{minipage}\\
 
-%~\newline
 
-\subsubsection*{Derivation of ...}
 
-\plt{The derivation shows how the IM is derived from the TMs/GDs.  In cases
-  where the derivation cannot be described under the Description field, it will
-  be necessary to include this subsection.}
+% Instance Model 2
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Number& IM\refstepcounter{instnum}\theinstnum \label{IM:FAST_Detect}\\
+  \hline
+  Label& \bf Image Keypoint Detection, $\mathit{\mathcal{D}_{i, j}(u,v)}$\\
+  \hline
+  Input&$\mathit{\mathcal{I}_{i, j}(u,v, \sigma)}$ from \iref{IM:GK}, $t$ \\
+  & The input is constrained so that $T_\text{init} \leq T_C$ (\aref{A_charge})\\
+  \hline
+  Output&$\mathit{\mathcal{D}_{i, j}(u,v)}$, such that D is an n-dimensional 2D matrix of the horizontal 
+  and vertical pixel coordinates in the form of (u,v).\\
+  \hline
+  Description& $\mathit{\mathcal{D}_{i, j}(u,v)}$ defined by the mapping transform, $S_{p \rightarrow x}$, 
+  as outlined in \tref{TM:FAST}.\\
+  & $\mathit{\mathcal{I}_{i, j}(u,v, \sigma)}$ is the smoothed image (m x n) from \iref{IM:GK}.\\
+  & $t$ is the pixel intensity threshold.\\
+  \hline
+  Sources& \cite{FAST} \\
+  \hline
+  Ref.\ By & \gsref{define_features}, \gsref{identify_features}, \iref{IM:BRIEF_Desc}\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+
+
+% Instance Model 3
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Number& IM\refstepcounter{instnum}\theinstnum \label{IM:BRIEF_Desc}\\
+  \hline
+  Label& \bf Produce Feature Descriptors, $\mathit{D_{bin}}$\\
+  \hline
+  Input&$\mathit{\mathcal{D}_{i, j}(u,v)}$ from \iref{IM:FAST_Detect}, $p_{s}$, $l_{bin}$ \\
+  \hline
+  Output&$\mathit{D_{bin}}$ as as variable size vector\\
+  \hline
+  Description&$\mathit{\mathcal{D}_{i, j}}$ is the vector of pixels (u,v) of identified keypoints, per \iref{IM:FAST_Detect}.\\
+  &$p_{s}$ is the size of pixel patch to draw samples, as an integer.\\
+  &$l_{bin}$ is the size of the binary descriptor, in bits, per \tref{TM:BRIEF}.\\
+  &$\mathit{D_{bin}}$ is the output vector of identified descriptors, per \tref{TM:BRIEF}.\\
+  \hline
+  Sources& \cite{opencv_orb_tutorial} \\
+  \hline
+  Ref.\ By & \gsref{compare_features}, \gsref{identify_matches}, \iref{IM:Dist_Hamm}\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+
+% Instance Model 4
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Number& IM\refstepcounter{instnum}\theinstnum \label{IM:Dist_Hamm}\\
+  \hline
+  Label& \bf Inter-Image Descriptor Comparison, $\mathit{dist_{Hamming}}$\\
+  \hline
+  Input&$\mathit{d_{a}}$, $\mathit{d_{b}}$ from \iref{IM:BRIEF_Desc}\\
+  \hline
+  Output&$\mathit{dist_{Hamming}}$\\
+  \hline
+  Description&$\mathit{dist_{Hamming}}$ is the sum of bitwise $\mathbf{XOR}$ binary descriptors as outlined in \tref{GD:rBRIEF}.\\
+  &$\mathit{d_{a}}$, $\mathit{d_{b}}$ are binary descriptors as defined by \iref{IM:BRIEF_Desc}.\\
+  \hline
+  Sources& \cite{opencv_flann_matcher} \\
+  \hline
+  Ref.\ By & \gsref{identify_matches}, \gsref{report_matches} \\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+
 
 \subsubsection{Input Data Constraints} \label{sec_DataConstraints}    
 
@@ -1292,28 +1291,22 @@ Table~\ref{TblSpecParams}.
 \item[(*)] \plt{you might need to add some notes or clarifications}
 \end{description}
 
-\begin{table}[!h]
-\caption{Specification Parameter Values} \label{TblSpecParams}
-\renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable*}{l l} 
-  \toprule
-  \textbf{Var} & \textbf{Value} \\
-  \midrule 
-  $L_\text{min}$ & 0.1 \si{\metre}\\
-  \bottomrule
-\end{longtable*}
-\end{table}
-
 \subsubsection{Properties of a Correct Solution} \label{sec_CorrectSolution}
 
 \noindent
-A correct solution must exhibit \plt{fill in the details}.  \plt{These
-  properties are in addition to the stated requirements.  There is no need to
-  repeat the requirements here.  These additional properties may not exist for
-  every problem.  Examples include conservation laws (like conservation of
-  energy or mass) and known constraints on outputs, which are usually summarized
-  in tabular form.  A sample table is shown in Table~\ref{TblOutputVar}}
+A correct solution must exhibit high recall. Recall can be described by the comparison of true positive (TP) over the 
+total predicted results, which is the sum of all true positive and false negative (FN) outcomes. A specific performance metric 
+may be assigned [LC5000].
 
+$$Recall = \frac{TP}{TP + FN}$$
+
+
+
+\noindent
+\\
+\\
+\textcolor{red}{\textbf{This table should be addressed for a subsequent revision. As it standard, there are currently no 
+identified physical constraints on the system.}}
 \begin{table}[!h]
 \caption{Output Variables} \label{TblOutputVar}
 \renewcommand{\arraystretch}{1.2}
@@ -1321,15 +1314,11 @@ A correct solution must exhibit \plt{fill in the details}.  \plt{These
   \toprule
   \textbf{Var} & \textbf{Physical Constraints} \\
   \midrule 
-  $T_W$ & $T_\text{init} \leq T_W \leq T_C$ (by~\aref{A_charge})
+
   \\
   \bottomrule
 \end{longtable*}
 \end{table}
-
-\plt{This section is not for test cases or techniques for verification and
-  validation.  Those topics will be addressed in the Verification and Validation
-  plan.}
 
 \section{Requirements}
 
@@ -1340,6 +1329,7 @@ This section provides the functional requirements, the business tasks that the
 software is expected to complete, and the nonfunctional requirements, the
 qualities that the software is expected to exhibit.
 
+\newpage
 \subsection{Functional Requirements}
 
 \noindent \begin{itemize}
@@ -1348,18 +1338,61 @@ qualities that the software is expected to exhibit.
     for the inputs that are supplied by the user.  This information has to be
     explicit.}
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_OutputInputs}:] \plt{It isn't
-    always required, but often echoing the inputs as part of the output is a
-    good idea.}
+% Inputs
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:Update_SD}:] The IFC software shall accept 
+updates to the variance in image noise,  $\mathit{\sigma}$, upon user input.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate}:] \plt{Calculation
-    related requirements.}
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:Update_Intensity}:] The IFC software shall accept 
+updates to the image intensity threshold, $\mathit{t}$, upon user input.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_VerifyOutput}:]
-  \plt{Verification related requirements.}
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:Update_Patch}:] The IFC software shall accept 
+updates to the patch size, $\mathit{p_{s}}$, upon user input.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] \plt{Output related
-    requirements.}
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:Update_BinSize}:] The IFC software shall accept 
+updates to the bin size, $\mathit{l_{bin}}$, upon user input.
+
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:Default_Noise}:] The IFC software shall use the 
+default noise suppresion parameters if no option is specified by the user.
+
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:Default_FD}:] The IFC software shall use the 
+default feature detection method if no option is specified by the user.
+
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:Default_KD}:] The IFC software shall use the 
+default keypoint descriptor method if no option is specified by the user.
+
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:Default_FM}:] The IFC software shall use the 
+default descriptor matching method if no option is specified by the user.
+
+% Calculations 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:NoiseReduction}:] The IFC software shall 
+implement noise reduction on an input greyscale image per a prescribed standard deviation (from 
+\iref{IM:GK}).
+
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:DetectKeypoints}:] The IFC software shall, given a 2D 
+greyscale image, define a set of keypoints per the alloted threshold criteria (from 
+\iref{IM:FAST_Detect}).
+
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:DefineDescriptors}:] The IFC software shall 
+define feature descriptors from identified keypoints (from \iref{IM:BRIEF_Desc})..
+
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:CompareDescriptors}:] The IFC software shall 
+identify matches between descriptors that originate from separate images (from \iref{IM:Dist_Hamm}).
+
+% Outputs 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:OutputCorrespondences}:] The IFC software shall 
+provide a .csv file that outlines the respective feature matches.
+
+% Verify Outputs
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:Distinct Images}:] The IFC software shall verify 
+that all features are matched to features that originate from separate images.
+
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:Unique Keypoint_IDs}:] The IFC software shall verify 
+that all feature correspondences are uniquely defined by the camera of origin, image frame of origin, 
+and their unique pixels.
+
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:Unique Match_IDs}:] The IFC software shall verify 
+that all feature correspondences are uniquely defined by the two respective sets of cameras, image frame, 
+and associated pixels.
 
 \end{itemize}
 
@@ -1387,37 +1420,8 @@ be covered in the Verification and Validation document.}
 
 \noindent \begin{itemize}
 
-\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Accuracy}:]
-  \textbf{Accuracy} \plt{Characterize the accuracy by giving the context/use for
-    the software.  Maybe something like, ``The accuracy of the computed
-    solutions should meet the level needed for $<$engineering or scientific
-    application$>$.  The level of accuracy achieved by \progname{} shall be
-    described following the procedure given in Section~X of the Verification and
-    Validation Plan.''  A link to the VnV plan would be a nice extra.}
-
 \item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Usability}:] \textbf{Usability}
-  \plt{Characterize the usability by giving the context/use for the software.
-    You should likely reference the user characteristics section.  The level of
-    usability achieved by the software shall be described following the
-    procedure given in Section~X of the Verification and Validation Plan.  A
-    link to the VnV plan would be a nice extra.}
-
-\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Maintainability}:]
-  \textbf{Maintainability} \plt{The effort required to make any of the likely
-    changes listed for \progname{} should be less than FRACTION of the original
-    development time.  FRACTION is then a symbolic constant that can be defined
-    at the end of the report.}
-
-\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Portability}:]
-  \textbf{Portability} \plt{This NFR is easier to write than the others.  The
-    systems that \progname{} should run on should be listed here.  When possible
-    the specific versions of the potential operating environments should be
-    given.  To make the NFR verifiable a statement could be made that the tests
-    from a given section of the VnV plan can be successfully run on all of the
-    possible operating environments.}
-
-\item Other NFRs that might be discussed include verifiability,
-  understandability and reusability.
+  The IFC software shall be compatible with Python 3.1 libraries, such as OpenCV.
 
 \end{itemize}
 
@@ -1431,8 +1435,17 @@ typical values.}
 
 \noindent \begin{itemize}
 
-\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_meaningfulLabel}:] \plt{Give
-    the likely changes, with a reference to the related assumption (aref), as appropriate.}
+\item[LC\refstepcounter{lcnum}\thelcnum\label{LC:keypoint_method}:] 
+The theoretical model of keypoint detection will be abstracted to expand the types of 
+implementation models that can be used.
+
+\item[LC\refstepcounter{lcnum}\thelcnum\label{LC:descriptor_method}:] 
+The theoretical model of assigning feature descriptors will be abstracted to expand the types of 
+implementation models that can be used.
+
+\item[LC\refstepcounter{lcnum}\thelcnum\label{LC:comparison_method}:] 
+The theoretical model of descriptor matching will be abstracted to expand the types of 
+implementation models that can be used.
 
 \end{itemize}
 
@@ -1440,9 +1453,8 @@ typical values.}
 
 \noindent \begin{itemize}
 
-\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_meaningfulLabel}:] \plt{Give
-    the unlikely changes.  The design can assume that the changes listed will
-    not occur.}
+\item[LC\refstepcounter{lcnum}\thelcnum\label{RGB_Data}:] It is unlikely that the design 
+will need to be adjusted to perform computation on RGB data instead of grayscale data.
 
 \end{itemize}
 
@@ -1474,27 +1486,22 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
-	& \aref{A_OnlyThermalEnergy}& \aref{A_hcoeff}& \aref{A_mixed}& \aref{A_tpcm}& \aref{A_const_density}& \aref{A_const_C}& \aref{A_Newt_coil}& \aref{A_tcoil}& \aref{A_tlcoil}& \aref{A_Newt_pcm}& \aref{A_charge}& \aref{A_InitTemp}& \aref{A_OpRangePCM}& \aref{A_OpRange}& \aref{A_htank}& \aref{A_int_heat}& \aref{A_vpcm}& \aref{A_PCM_state}& \aref{A_Pressure} \\
+	& \aref{A:min_num_cameras}& \aref{A:camera_model}& \aref{A:greyscale}& \aref{A:RT_Memory}\\
 \hline
-\tref{T_COE}        & X& & & & & & & & & & & & & & & & & & \\ \hline
-\tref{T_SHE}        & & & & & & & & & & & & & & & & & & & \\ \hline
-\tref{T_LHE}        & & & & & & & & & & & & & & & & & & & \\ \hline
-\dref{NL}           & & X& & & & & & & & & & & & & & & & & \\ \hline
-\dref{ROCT}         & & & X& X& X& X& & & & & & & & & & & & & \\ \hline
-\ddref{FluxCoil}    & & & & & & & X& X& X& & & & & & & & & & \\ \hline
-\ddref{FluxPCM}     & & & X& X& & & & & & X& & & & & & & & & \\ \hline
-\ddref{D_HOF}       & & & & & & & & & & & & & & & & & & & \\ \hline
-\ddref{D_MF}        & & & & & & & & & & & & & & & & & & & \\ \hline
-\iref{ewat}         & & & & & & & & & & & X& X& & X& X& X& & & X \\ \hline
-\iref{epcm}         & & & & & & & & & & & & X& X& & & X& X& X& \\ \hline
-\iref{I_HWAT}       & & & & & & & & & & & & & & X& & & & & X \\ \hline
-\iref{I_HPCM}       & & & & & & & & & & & & & X& & & & & X & \\ \hline
-\lcref{LC_tpcm}     & & & & X& & & & & & & & & & & & & & & \\ \hline
-\lcref{LC_tcoil}    & & & & & & & & X& & & & & & & & & & & \\ \hline
-\lcref{LC_tlcoil}   & & & & & & & & & X& & & & & & & & & & \\ \hline
-\lcref{LC_charge}   & & & & & & & & & & & X& & & & & & & & \\ \hline
-\lcref{LC_InitTemp} & & & & & & & & & & & & X& & & & & & & \\ \hline
-\lcref{LC_htank}    & & & & & & & & & & & & & & & X& & & & \\
+\tref{TM:ND_Gauss}        & X& & & & & & & & & & & & & & & & & & \\ \hline
+\tref{TM:FAST}        & & & & & & & & & & & & & & & & & & & \\ \hline
+\tref{TM:BRIEF}        & & & & & & & & & & & & & & & & & & & \\ \hline
+\tref{TM:Dist_Ham}           & & X& & & & & & & & & & & & & & & & & \\ \hline
+\dref{GD:2D_Gauss}         & & & X& X& X& X& & & & & & & & & & & & & \\ \hline
+\dref{GD:FAST}    & & & & & & & X& X& X& & & & & & & & & & \\ \hline
+\dref{GD:rBRIEF}     & & & X& X& & & & & & X& & & & & & & & & \\ \hline
+\iref{IM:GK}         & & & & & & & & & & & X& X& & X& X& X& & & X \\ \hline
+\iref{IM:FAST_Detect}         & & & & & & & & & & & & X& X& & & X& X& X& \\ \hline
+\iref{IM:BRIEF_Desc}       & & & & & & & & & & & & & & X& & & & & X \\ \hline
+\iref{IM:Dist_Hamm}       & & & & & & & & & & & & & X& & & & & X & \\ \hline
+\lcref{LC:keypoint_method}     & & & & X& & & & & & & & & & & & & & & \\ \hline
+\lcref{LC:descriptor_method}    & & & & & & & & X& & & & & & & & & & & \\ \hline
+\lcref{LC:comparison_method}   & & & & & & & & & X& & & & & & & & & & \\ \hline
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Assumptions and Other Items}
@@ -1505,23 +1512,23 @@ the assumptions.
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline        
-	& \tref{T_COE}& \tref{T_SHE}& \tref{T_LHE}& \dref{NL}& \dref{ROCT} & \ddref{FluxCoil}& \ddref{FluxPCM} & \ddref{D_HOF}& \ddref{D_MF}& \iref{ewat}& \iref{epcm}& \iref{I_HWAT}& \iref{I_HPCM} \\
+	& \tref{T_COE}& \tref{T_SHE}& \tref{T_LHE}& \dref{NL}& \dref{ROCT} & \ddref{FluxCoil}& \ddref{FluxPCM} & \ddref{D_HOF}& \ddref{D_MF}& \iref{ewat}& \iref{epcm}& \iref{I_HWAT} \\
 \hline
-\tref{T_COE}     & & & & & & & & & & & & & \\ \hline
-\tref{T_SHE}     & & & X& & & & & & & & & & \\ \hline
-\tref{T_LHE}     & & & & & & & & & & & & & \\ \hline
-\dref{NL}        & & & & & & & & & & & & & \\ \hline
-\dref{ROCT}      & X& & & & & & & & & & & & \\ \hline
-\ddref{Gauss2D} & & & & X& & & & & & & & & \\ \hline
-\ddref{FluxPCM}  & & & & X& & & & & & & & & \\ \hline
-\ddref{D_HOF}    & & & & & & & & & & & & & \\ \hline
-\ddref{D_MF}     & & & & & & & & X& & & & & \\ \hline
-\iref{ewat}      & & & & & X& X& X& & & & X& & \\ \hline
+\tref{T_COE}     & & & & & & & & & & & & \\ \hline
+\tref{T_SHE}     & & & X& & & & & & & & & \\ \hline
+\tref{T_LHE}     & & & & & & & & & & & & \\ \hline
+\dref{NL}        & & & & & & & & & & & & \\ \hline
+\dref{ROCT}      & X& & & & & & & & & & & \\ \hline
+\ddref{Gauss2D} & & & & X& & & & & & & & \\ \hline
+\ddref{FluxPCM}  & & & & X& & & & & & & & \\ \hline
+\ddref{D_HOF}    & & & & & & & & & & & & \\ \hline
+\ddref{D_MF}     & & & & & & & & X& & & & \\ \hline
+\iref{ewat}      & & & & & X& X& X& & & X& & \\ \hline
 \iref{epcm}      & & & & & X& & X& & X& X& & & X \\ \hline
-\iref{I_HWAT}    & & X& & & & & & & & & & & \\ \hline
-\iref{I_HPCM}    & & X& X& & & & X& X& X& & X& & \\
+\iref{I_HWAT}    & & X& & & & & & & & & & \\ \hline
+\iref{I_HPCM}    & & X& X& & & & X& X& X& X& & \\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Items of Different Sections}
