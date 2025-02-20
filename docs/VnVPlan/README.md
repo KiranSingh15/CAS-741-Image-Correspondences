@@ -1,5 +1,9 @@
 # Verification and Validation Plan
 
-The folders and files for this folder are as follows:
+This folder contains the Verification and Validation (VnV) Plan for the IFC Software. 
 
-Describe ...
+The VnV Plan describes the process used to test the IFC software. It should be used as the source of truth to drive all testing and increase confidence of the software design.
+
+Scripts used to carry out the software testing will be found in the Testing folder.
+
+

@@ -30,8 +30,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+2025-02-24 & 1.0 & Initial Release\\
 \bottomrule
 \end{tabularx}
 
@@ -68,8 +67,10 @@ in.}
 \begin{tabular}{l l} 
   \toprule		
   \textbf{symbol} & \textbf{description}\\
-  \midrule 
-  T & Test\\
+  \midrule
+  FOV & Field-of-view\\
+  SRS & Software Requirements Specification\\
+  VnV & Verification and Validation\\
   \bottomrule
 \end{tabular}\\
 
@@ -82,17 +83,43 @@ in.}
 
 \pagenumbering{arabic}
 
-This document ... \wss{provide an introductory blurb and roadmap of the
-  Verification and Validation plan}
+The intent of this document is to define the verification and validation process 
+that will be used to assess the feature correspondence software from camera 
+imagery. Specifically, this document will be used to characterize the behaviour and 
+performance of this software. The remaining section of this document outline a high 
+level summary of the general system system and specific objects of the VnV process. 
+It also defines specific strategies for the individual verification plans, an overview of 
+anticipated system tests, and an outline of specific unit test cases.
 
 \section{General Information}
 
 \subsection{Summary}
-
-\wss{Say what software is being tested.  Give its name and a brief overview of
-  its general functions.}
+Image Feature Correspondences (IFC) is a feature comparison algorithm that is intended 
+to be used as part of a pipeline to perform extrinsic camera calibration for 
+applications in mobile robotics. It accepts camera intrinsics and imagery data at different 
+poses to identify common features across collected images. 
 
 \subsection{Objectives}
+The VnV process is intended to characterize how well the for the IFC software performs in its 
+intended capacity to identify features amongst collected imagery. This can vary significantly 
+as it is influenced by factors such as overlap in camera fields-of-view (FOV), contrast 
+between objects in an image, and variance in either scale or rotation. Furthermore, as there is 
+no common baseline to compare this software to as an oracle model,  the intent of the VnV for 
+the IFC software is to characterize the performance of the integrated image processing functions 
+against a set of selected datasets. Key objectives of this process are defined below.
+\begin{itemize}
+  \item correctness of feature extraction
+  \item correctness of feature comparison
+  \item assessment of scale variance between features
+  \item assessment of rotation variance between features
+  \item benchmarking of processing time and memory usage for large image strategies
+  \item cross-validation of system performance with accepted benchmarked datasets
+\end{itemize}
+
+Characterization of the individual functions within the OpenCV library themselves remains outside of the scope of 
+this project, as we can assume that the library has been verified by uts own 
+implementation team. 
+\\ \\
 
 \wss{State what is intended to be accomplished.  The objective will be around
   the qualities that are most important for your project.  You might have
@@ -146,13 +173,59 @@ how they relate to your VnV efforts.}
   come.}
 
 \subsection{Verification and Validation Team}
-
-\wss{Your teammates.  Maybe your supervisor.
-  You should do more than list names.  You should say what each person's role is
-  for the project's verification.  A table is a good way to summarize this information.}
+The VnV team consists of four members, each of whom play a distinct role in the 
+verification process.\\
+\begin{tabular}{|p{0.2\linewidth}|p{0.25\linewidth}|p{0.5\linewidth}|} 
+  \hline
+  \textbf{Name} & \textbf{Role} & \textbf{Description}\\
+  \hline
+  Kiran Singh & Lead Developer and Test Designer & {Responsibilities include 
+  identification of key business cases for integrated tests,  design and 
+  implementation of module tests, unit tests, and documentation of test 
+  results.}\\
+  \hline
+  Matthew Giamou & Project Supervisor & Lead consultant on integrated 
+  performance needs and decomposition for software modules. Responsibilities 
+  include review of proposed VnV scope, approval of test cases as proposed by 
+  Kiran S., and provision of feedback as to whether the test cases need to be 
+  redefined within the scope of the full implementation of the IFC.\\
+  \hline
+  Aliyah Jimoh & Peer Reviewer & Responsibilities include provision of 
+  feedback on proposed test cases for the 
+  scope of test cases for both the functional and non-functional requirements 
+  as an reviewer that is less familiar with the overall implementation of the 
+  system that its primary developer\\
+  \hline
+  Spencer Smith & Software Development Instructor & Responsibilities include 
+  provision of  feedback on proposed test cases for the scope of test cases 
+  for both the functional and non-functional requirements as an reviewer that 
+  is less familiar with the application domain of the system than all other 
+  reviewers\\
+  \bottomrule
+\end{tabular}\\
 
 \subsection{SRS Verification Plan}
+The SRS shall be reviewed by each member of the reviewer team to form consensus 
+that \\
+\begin{itemize}
+\item the models are deemed to be comprehensible
+\item the models are deemed to be correct
+\item the associated requirements are traced correctly with respect to the models 
+and project scope 
+\item the requirements are decomposed in a manner that facilitates verification
+\end{itemize}
 
+Feedback on the SRS from the Peer Reviewer and Instructor will be captured through 
+the use of Github Issues. Specifically, both reviewers will use the \textbf{SRS Checklist}. 
+The lead developer will respond in turn to each issue and if 
+reserves the right to reject a proposed change as needed.
+
+The Lead Developer will schedule a meeting with the Project Supervisor to walk through 
+the first revision of the SRS document. In this meeting, the Project Supervisor will offer 
+feedback and recommendations for candidate revisions to the outlined models and requirements. 
+The Lead Developer will then prepare issues in Github to address each proposed revision.
+
+\ref{SRS}
 \wss{List any approaches you intend to use for SRS verification.  This may
   include ad hoc feedback from reviewers, like your classmates (like your
   primary reviewer), or you may plan for something more rigorous/systematic.}
@@ -502,28 +575,6 @@ Their values are defined in this section for easy maintenance.
 \wss{This is a section that would be appropriate for some projects.}
 
 \newpage{}
-\section*{Appendix --- Reflection}
-
-\wss{This section is not required for CAS 741}
-
-The information in this section will be used to evaluate the team members on the
-graduate attribute of Lifelong Learning.
-
-\input{../Reflection.tex}
-
-\begin{enumerate}
-  \item What went well while writing this deliverable? 
-  \item What pain points did you experience during this deliverable, and how
-    did you resolve them?
-  \item What knowledge and skills will the team collectively need to acquire to
-  successfully complete the verification and validation of your project?
-  Examples of possible knowledge and skills include dynamic testing knowledge,
-  static testing knowledge, specific tool usage, Valgrind etc.  You should look to
-  identify at least one item for each team member.
-  \item For each of the knowledge areas and skills identified in the previous
-  question, what are at least two approaches to acquiring the knowledge or
-  mastering the skill?  Of the identified approaches, which will each team
-  member pursue, and why did they make this choice?
-\end{enumerate}
-
+\centering
+End of document.
 \end{document}
