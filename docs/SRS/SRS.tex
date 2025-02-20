@@ -189,26 +189,41 @@ The symbols are listed in alphabetical order.
 \noindent \begin{longtable*}{l l p{12cm}} \toprule
 \textbf{symbol} & \textbf{unit} & \textbf{description}\\
 \midrule 
-$\textbf{A}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of a camera 
+$\textbf{A}$ & 3$\times$4 Matrix & SE(3) equivalent transformation of a camera 
 with respect to the target feature frame
 \\
-$\textbf{B}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the 
+$\textbf{B}$ & 3$\times$4 Matrix & SE(3) equivalent transformation of the 
 end-effector in the robot-base frame
+\\
+$c$ &	Unitless & Camera instance
+\\
+$d_{k}$ & Unitless & Indexed pixel or binary descriptor 
+\\
+$d_{Hamming}$ & Unitless & Hamming Distance
+\\
+$\mathit{\mathcal{D}_{i, j}}$ & $n \times 2$ matrix & Detected keypoint for pose $i$
+and camera $k$
 \\
 $i$ & Unitless & Robot pose instance
 \\
-$j$ &	Unitless & Camera Instance
+$\mathit{\mathcal{I}_{i, j}}$ & $u \times v$ matrix & Image matrix
 \\
-$k$ &	Unitless & Target Feature Instance
+$I_{k}$ & Unitless & Pixel intensity
 \\
-$\textbf{R}$ & 3$\times$3 Matrix & Rotation matrix in SO(3)
+$k$ &	Unitless & Target feature instance
 \\
-$\textit{t}$ & 3$\times$3 Matrix & Translation matrix in SE(3)
+$t$ & Initless & Pixel intensity threshold
 \\
-$\textbf{X}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the target 
+$u$ & Unitless & horizontal pixel position
+\\
+$v$ & Unitless & horizontal pixel position
+\\
+$\mathit{X}$ & $u \times v$ matrix & 2-dimensional representation of image coordinates 
+\\
+$\textbf{X}$ & 3$\times$4 Matrix & SE(3) equivalent transformation of the target 
 feature in the robot-base frame
 \\
-$\textbf{Y}$ & 3$\times$4 Matrix & SE(3) Equivalent transformation of the camera 
+$\textbf{Y}$ & 3$\times$4 Matrix & SE(3) equivalent transformation of the camera 
 in the end-effector frame
 \\ 
 \bottomrule
@@ -243,7 +258,8 @@ in the end-effector frame
 \end{tabular}\\
 
 \subsection{Mathematical Notation}
-
+Unless specified otherwise, the following notation should be assumed to be the standard 
+convention for the SRS document.
 \begin{itemize}
   \item Matrixes are capitalized and are bolded, i.e. $\mathbf{X, Y}$
   \item Column vectors are lowercase and are bolded, i.e. $\mathbf{s, t}$
@@ -404,29 +420,29 @@ easier to correctly understand the requirements:
 
 \begin{itemize}
 
-\item Features: Distinctive patterns or structures in an image that are 
+\item \textbf{Features:} Distinctive patterns or structures in an image that are 
 identifiable and useful for matching between images
 
-\item Keypoints: Specific pixel locations in an image that represent 
+\item \textbf{Keypoints:} Specific pixel locations in an image that represent 
 significant and repeatable features.
 
-\item Correspondences: Pairs of keypoints between two images that represent 
+\item \textbf{Correspondences:} Pairs of keypoints between two images that represent 
 represent the same real-world point.
 
-\item Extrinsic Parameters: The transform of the between the 3D camera frame to the 
+\item \textbf{Extrinsic Parameters:} The transform of the between the 3D camera frame to the 
 3D world frame.
 
-\item Intrinsic Parameters: camera parameters that pertain to the transform of the 
+\item \textbf{Intrinsic Parameters:} camera parameters that pertain to the transform of the 
 2D image plane frame to the 3D camera frame.
 
-\item Hand-eye: the relation between the robot end-effector to the camera frame
+\item \textbf{Hand-eye:} the relation between the robot end-effector to the camera frame
 
-\item Robot-world: the relation between the robot base frame to the world frame
+\item \textbf{Robot-world:} the relation between the robot base frame to the world frame
 
-\item Pose: refers to the position and orientation of an object, sensor, or robot 
+\item \textbf{Pose:} refers to the position and orientation of an object, sensor, or robot 
 within a given reference frame. 
 
-\item Patch: A square region of an image of an assigned size.
+\item \textbf{Patch:} A square region of an image of an assigned size.
 \end{itemize}
 
 \subsubsection{Physical System Description} \label{sec_phySystDescrip}
@@ -437,9 +453,9 @@ multi-target case, as shown in \ref{PS_2}. A representation of equivalent keypoi
 between images is shown in \ref{PS_3}.
 \\
 \\
-\noindent \label{PS_1}PS1: Frames for the robot base, hand, camera, and target landmark
-\noindent \label{PS_2}PS2: Known base-to-hand transform.
-\noindent \label{PS_3}PS3: Projected camera images from distinct camera poses.
+\noindent\label{PS_1}PS1: Frames for the robot base, hand, camera, and target landmark\\
+\noindent\label{PS_2}PS2: Known base-to-hand transform.\\
+\noindent\label{PS_3}PS3: Projected camera images from distinct camera poses.
 
 \begin{figure}[h!]
   \begin{center}
@@ -452,9 +468,9 @@ between images is shown in \ref{PS_3}.
 
 \begin{figure}[ht!]
   \begin{center}
-  \centering\includegraphics[width=0.5\textwidth]{Images/OASIS_CFG.png}
+  \centering\includegraphics[width=0.5\textwidth]{Images/OASIS_RevVar.png}
   \caption{Multi-camera mobile robotic platform. 
-  Modified from \cite{OASIS_2024}.}.
+  Modified from \cite{OASIS_2024}.}
   \label{OASIS}
   \end{center}
 \end{figure}
@@ -596,7 +612,7 @@ Equation& $S_{p \rightarrow x} = \begin{cases}
   \end{cases}
 $  \\
 \hline
-Description & For the 2D image from an pinhole, affine camera model (\aref{A:camera_model}), $\mathit{x}$ 
+Description & For the 2D image from an pinhole, affine camera model (\aref{A_camera_model}), $\mathit{x}$ 
 represents the 16 contiguous pixels that surround pixel $\mathit{p}$ within the image plane, or 
 $\mathit{x} \in \{1,...,16\}$. 
 $S_{p \rightarrow x}$ represents the comparison of pixel intensity for $\mathit{p}$ to $\mathit{x}$, 
@@ -634,7 +650,7 @@ Label &\bf Binary Robust Independent Elementary Features (BRIEF)  \\
 Equation& $\mathit{d_{k}}= \mathbf{1}({\mathit{I(p_{k})< I(q_{k})}})$
 \\
 \hline
-Description & For a selected patch within an 2D image from a pinhole camera (\aref{A:camera_model}), \
+Description & For a selected patch within an 2D image from a pinhole camera (\aref{A_camera_model}), \
 and $\mathit{d_{k}}$ represents the kth bit in a descriptor, pixels $\mathit{p_{k}}$ 
 and $\mathit{q_{k}}$ are randomly sampled. 
 \\
@@ -666,12 +682,13 @@ Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_Dist_Ham}\\
 \hline
 Label &\bf Hamming Distance  \\
 \hline
-Equation& $\mathit{d_{Hamming}(a,b) =\sum_{i=0}^{n-1}(a_{i} \bigoplus b_{i})} $ \\
+Equation& $\mathit{d_{Hamming}(d_{k,\alpha}, d_{k,\beta}) =\sum_{i=0}^{n-1}(d_{k,\alpha} 
+\bigoplus d_{k,\beta})} $ \\
 \hline
 Description & The Hamming distance is used to compare two binary numbers by each succesive bit, 
-and return the sum, $\mathit{d_{Hamming}}$, for the binary descriptors $\mathit{a}$ and $\mathit{b}$. 
-$\mathit{i}$ represents the index within the total of $\mathit{n}$ descriptors. Both descriptors are 
-assumed to originate from separate images (\aref{A_min_num_cameras}).
+and return the sum, $\mathit{d_{Hamming}}$, for the binary descriptors $\mathit{\alpha}$ and 
+$\mathit{\beta}$. $\mathit{i}$ represents the index within the total of $\mathit{n}$ descriptors. 
+Both descriptors are assumed to originate from separate images (\aref{A_min_num_cameras}).
 \\
 \hline
 Notes & All variables are unitless. \\
@@ -857,7 +874,6 @@ identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
   Label& \bf Image Keypoint Detection, $\mathit{\mathcal{D}_{i, j}(u,v)}$\\
   \hline
   Input&$\mathit{\mathcal{I}_{i, j}(u,v, \sigma)}$ from \iref{IM_GK}, $t$ \\
-  & The input is constrained so that $T_\text{init} \leq T_C$ (\aref{A_charge})\\
   \hline
   Output&$\mathit{\mathcal{D}_{i, j}(u,v)}$, such that D is an n-dimensional 2D matrix of the horizontal 
   and vertical pixel coordinates in the form of (u,v).\\
