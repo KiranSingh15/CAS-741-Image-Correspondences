@@ -162,7 +162,7 @@ Repos.csv) if your plan changes as a result of the VnV planning exercise.}
   is done, they will be written.  You can create BibTeX entries for your
   documents and within those entries include a hyperlink to the documents.}
 
-\citet{SRS}
+\cite{SRS}
 
 \wss{Don't just list the other documents.  You should explain why they are relevant and 
 how they relate to your VnV efforts.}
@@ -175,7 +175,7 @@ how they relate to your VnV efforts.}
 \subsection{Verification and Validation Team}
 The VnV team consists of four members, each of whom play a distinct role in the 
 verification process.\\
-\begin{tabular}{|p{0.2\linewidth}|p{0.25\linewidth}|p{0.5\linewidth}|} 
+\begin{tabular}{|p{0.15\linewidth}|p{0.25\linewidth}|p{0.6\linewidth}|} 
   \hline
   \textbf{Name} & \textbf{Role} & \textbf{Description}\\
   \hline
@@ -205,8 +205,9 @@ verification process.\\
 \end{tabular}\\
 
 \subsection{SRS Verification Plan}
-The SRS shall be reviewed by each member of the reviewer team to form consensus 
-that \\
+The \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
+{SRS}} shall be reviewed by each member of the reviewer team to form consensus that the SRS has been correctly 
+decomposed into sufficient requirements.\\
 \begin{itemize}
 \item the models are deemed to be comprehensible
 \item the models are deemed to be correct
@@ -214,62 +215,79 @@ that \\
 and project scope 
 \item the requirements are decomposed in a manner that facilitates verification
 \end{itemize}
-
 Feedback on the SRS from the Peer Reviewer and Instructor will be captured through 
-the use of Github Issues. Specifically, both reviewers will use the \textbf{SRS Checklist}. 
+the use of Github Issues. Specifically, both reviewers will use the 
+\textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/
+main/docs/Checklists/SRS-Checklist.pdf}
+{SRS Checklist}}. 
 The lead developer will respond in turn to each issue and if 
-reserves the right to reject a proposed change as needed.
-
+reserves the right to reject a proposed change as needed. \\ \\
 The Lead Developer will schedule a meeting with the Project Supervisor to walk through 
 the first revision of the SRS document. In this meeting, the Project Supervisor will offer 
 feedback and recommendations for candidate revisions to the outlined models and requirements. 
-The Lead Developer will then prepare issues in Github to address each proposed revision.
-
-\ref{SRS}
-\wss{List any approaches you intend to use for SRS verification.  This may
-  include ad hoc feedback from reviewers, like your classmates (like your
-  primary reviewer), or you may plan for something more rigorous/systematic.}
-
-\wss{If you have a supervisor for the project, you shouldn't just say they will
-read over the SRS.  You should explain your structured approach to the review.
-Will you have a meeting?  What will you present?  What questions will you ask?
-Will you give them instructions for a task-based inspection?  Will you use your
-issue tracker?}
-
-\wss{Maybe create an SRS checklist?}
+The Lead Developer will then prepare issues in Github to address each proposed revision. \\ \\
 
 \subsection{Design Verification Plan}
-
 \wss{Plans for design verification}
-
 \wss{The review will include reviews by your classmates}
-
 \wss{Create a checklists?}
+
+The Peer Reviewer and Course Instructor will review the Module Guide 
+\textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftArchitecture/MG.pdf}
+{(MG)}} and the Module Interface Specification 
+\textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}
+{(MIS)}} against the 
+\textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/MG-Checklist.pdf}
+{MG}} and
+\textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/MIS-Checklist.pdf}
+{MIS}} checlists. The intent of this process is to ensure that the design of of the system is:
+\begin{enumerate}
+\item umabiguous
+\item adheres to best-practices of module design
+\item aligns with the requirements as identified in the 
+\textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
+{SRS}}
+\end{enumerate}
+
+
+
 
 \subsection{Verification and Validation Plan Verification Plan}
 
 \wss{The verification and validation plan is an artifact that should also be
 verified.  Techniques for this include review and mutation testing.}
 
-\wss{The review will include reviews by your classmates}
+The VnV Plan will be verified via inspection by the Peer Reviewer and the 
+Software Development Instructor. The 
+\textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/SRS-Checklist.pdf}
+{VnV Plan Checklist}} 
+will be used as the assessment criteria for the inspection. 
+Feedback will provided as Github issues and will be handled in the same manner as feedback 
+for the SRS.\\ \\
+Mutation testing will be performed against the test outlined in Section \ref{UTD}.
 
+\wss{The review will include reviews by your classmates}
 \wss{Create a checklists?}
 
 \subsection{Implementation Verification Plan}
 
 \wss{You should at least point to the tests listed in this document and the unit
   testing plan.}
-
 \wss{In this section you would also give any details of any plans for static
   verification of the implementation.  Potential techniques include code
   walkthroughs, code inspection, static analyzers, etc.}
-
 \wss{The final class presentation in CAS 741 could be used as a code
 walkthrough.  There is also a possibility of using the final presentation (in
 CAS741) for a partial usability survey.}
 
+The IFC software shall be verified against the test procedures outlined in Sections \ref{FR_Tests} and 
+\ref{NFR_Tests}. Static verification of the IFC software will consist of a code walkthrough. This will take 
+place during the CAS 741 final presentation, where the Peer Reviewer and Course Instructor in the 
+will have the opportunity to observed the code and raise issues following the presentation via GitHub. \\ \\
+Dynamic  verification of the IFC software will consist of system and unit tests via PyTest. System tests 
+are outlined in Section \ref{Sys_Tests}. Unit tests will be outlined in Rev 2 of the VnV Plan in 
+Section \ref{UTD}.
 \subsection{Automated Testing and Verification Tools}
-
 \wss{What tools are you using for automated testing.  Likely a unit testing
   framework and maybe a profiling tool, like ValGrind.  Other possible tools
   include a static analyzer, make, continuous integration tools, test coverage
@@ -278,39 +296,31 @@ CAS741) for a partial usability survey.}
   you select, you should look at the available linters.  There may also be tools
   that verify that coding standards have been respected, like flake9 for
   Python.}
-
-\wss{If you have already done this in the development plan, you can point to
-that document.}
-
-\wss{The details of this section will likely evolve as you get closer to the
-  implementation.}
-
+Several tools will be used to support automated testing and verification. They include:
+\begin{itemize}
+\item Continuous Integration (CI) will be facilitated via GitHub Actions. A pull request will be used 
+to run automated tests.
+\item Pytest will be used to perform system tests, unit tests, and to assess code coverage. 
+\item flake8 will be used as a linter to ensure adherence to PEP8 standards. 
+\item PyLint, as an alternative linter to flake8.
+\end{itemize}
 \subsection{Software Validation Plan}
-
 \wss{If there is any external data that can be used for validation, you should
   point to it here.  If there are no plans for validation, you should state that
   here.}
-
 \wss{You might want to use review sessions with the stakeholder to check that
 the requirements document captures the right requirements.  Maybe task based
 inspection?}
+The IFC software will be compared against benchmark data from \textbf{[INSERT DATASET HERE]} 
+to characterize its performance.
 
-\wss{For those capstone teams with an external supervisor, the Rev 0 demo should 
-be used as an opportunity to validate the requirements.  You should plan on 
-demonstrating your project to your supervisor shortly after the scheduled Rev 0 demo.  
-The feedback from your supervisor will be very useful for improving your project.}
 
-\wss{For teams without an external supervisor, user testing can serve the same purpose 
-as a Rev 0 demo for the supervisor.}
-
-\wss{This section might reference back to the SRS verification section.}
-
-\section{System Tests}
+\section{System Tests}\label{Sys_Tests}
 
 \wss{There should be text between all headings, even if it is just a roadmap of
 the contents of the subsections.}
 
-\subsection{Tests for Functional Requirements}
+\subsection{Tests for Functional Requirements} \label{FR_Tests}
 
 \wss{Subsets of the tests may be in related, so this section is divided into
   different areas.  If there are no identifiable subsets for the tests, this
@@ -366,7 +376,7 @@ How test will be performed:
 
 ...
 
-\subsection{Tests for Nonfunctional Requirements}
+\subsection{Tests for Nonfunctional Requirements}\label{NFR_Tests}
 
 \wss{The nonfunctional requirements for accuracy will likely just reference the
   appropriate functional tests from above.  The test cases should mention
@@ -430,7 +440,7 @@ How test will be performed:
 \wss{Provide a table that shows which test cases are supporting which
   requirements.}
 
-\section{Unit Test Description}
+\section{Unit Test Description}\label{UTD}
 
 \wss{This section should not be filled in until after the MIS (detailed design
   document) has been completed.}
