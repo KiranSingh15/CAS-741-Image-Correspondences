@@ -206,6 +206,8 @@ and camera $k$
 \\
 $i$ & Unitless & Robot pose instance
 \\
+$j$ & Unitless & camera instance
+\\
 $\mathit{\mathcal{I}_{i, j}}$ & $u \times v$ matrix & Image matrix
 \\
 $I_{k}$ & Unitless & Pixel intensity
@@ -976,7 +978,11 @@ Table~\ref{TblSpecParams}.
   $\mathit{\mathcal{I}_{i, j}(u,v)}$ & N/A & $0 \leq \mathit{\mathcal{I}_{i, j}(u,v)} \leq 255$ 
   & N/A & N/A  % at least one camera
   \\
-  $\sigma$ & $\sigma > 0$ & $\sigma > 0 $ & N/A & N/A % std dev > 0
+  $\sigma$ & $\sigma > 0$ & $\sigma > 0 $ & 0.05 & N/A % std dev > 0
+  \\
+  $i$ & $ 1 \i > 1$ & $\leq i \leq 250$ & 40 & N/A
+  \\
+  $j_{max}$ & $1 \leq j_{max} \leq 10$ & $1 \leq j \leq 10$ & 3 & N/A
   \\
   \bottomrule
 \end{longtable*}
@@ -985,6 +991,10 @@ Table~\ref{TblSpecParams}.
 \begin{description}
 \item[(*)] $\mathit{\mathcal{I}_{i, j}(u,v)}$ is limited to being an 8-bit unsigned integer
 \item[(*)] standard deviation, $\sigma$, is constrained to be positive and real
+\item[(*)] the robot pose, $i$, must be greater than 1, but should be no greater than 250 
+to avoid excessive runtimes
+\item[(*)] the total number of cameras, $j_{max}$, should not exceed 10 as this exceeds the 
+expected operational needs of the system
 \end{description}
 
 \subsubsection{Properties of a Correct Solution} \label{sec_CorrectSolution}
