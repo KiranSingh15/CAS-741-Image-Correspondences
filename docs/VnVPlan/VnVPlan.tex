@@ -4,6 +4,7 @@
 \usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{pdflscape}
+\usepackage{graphicx}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -145,8 +146,9 @@ Repos.csv) if your plan changes as a result of the VnV planning exercise.}\\
 
 \subsection{Relevant Documentation}
 
-Relevant documentatio has been hyperlinked throughout the length of the document, which offers 
-context as to why the 
+Relevant documentation has been hyperlinked throughout the length of the document. This enables 
+the reader to access each resource within the context of the section that the reference is 
+invoked.
 
 \section{Plan}
 This section outlines how each aspect of the VnV effort will be performed. It outlines the 
@@ -171,7 +173,7 @@ verification process.\\
   Kiran S., and provision of feedback as to whether the test cases need to be 
   redefined within the scope of the full implementation of the IFC\\
   \hline
-  Aliyah Jimoh & Peer Reviewer & Responsibilities include provision of 
+  Aliyah Jimoh & Domain Expert & Responsibilities include provision of 
   feedback on proposed test cases for the 
   scope of test cases for both the functional and non-functional requirements 
   as an reviewer that is less familiar with the overall implementation of the 
@@ -196,7 +198,7 @@ decomposed into sufficient requirements.\\
 and project scope 
 \item the requirements are decomposed in a manner that facilitates verification
 \end{itemize}
-Feedback on the SRS from the Peer Reviewer and Instructor will be captured through 
+Feedback on the SRS from the Domain Expert and Instructor will be captured through 
 the use of Github Issues. Specifically, both reviewers will use the 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/
 main/docs/Checklists/SRS-Checklist.pdf}
@@ -209,7 +211,7 @@ feedback and recommendations for candidate revisions to the outlined models and 
 The Lead Developer will then prepare issues in Github to address each proposed revision. \\ \\
 
 \subsection{Design Verification Plan}
-The Peer Reviewer and Course Instructor will review the Module Guide 
+The Domain Expert and Course Instructor will review the Module Guide 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftArchitecture/MG.pdf}
 {(MG)}} and the Module Interface Specification 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}
@@ -217,9 +219,9 @@ The Peer Reviewer and Course Instructor will review the Module Guide
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/MG-Checklist.pdf}
 {MG}} and
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/MIS-Checklist.pdf}
-{MIS}} checlists. The intent of this process is to ensure that the design of of the system is:
+{MIS}} checklists. The intent of this process is to ensure that the design of of the system is:
 \begin{enumerate}
-\item umabiguous
+\item unambiguous
 \item adheres to best-practices of module design
 \item aligns with the requirements as identified in the 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
@@ -227,10 +229,8 @@ The Peer Reviewer and Course Instructor will review the Module Guide
 \end{enumerate}
 
 
-
-
 \subsection{Verification and Validation Plan Verification Plan}
-The VnV Plan will be verified via inspection by the Peer Reviewer and the 
+The VnV Plan will be verified via inspection by the Domain Expert and the 
 Software Development Instructor. The 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/SRS-Checklist.pdf}
 {VnV Plan Checklist}} 
@@ -242,11 +242,12 @@ Mutation testing will be performed against the test outlined in Section \ref{UTD
 \subsection{Implementation Verification Plan}
 The IFC software shall be verified against the test procedures outlined in Sections \ref{FR_Tests} and 
 \ref{NFR_Tests}. Static verification of the IFC software will consist of a code walkthrough. This will take 
-place during the CAS 741 final presentation, where the Peer Reviewer and Course Instructor in the 
+place during the CAS 741 final presentation, where the Domain Expert and Course Instructor in the 
 will have the opportunity to observed the code and raise issues following the presentation via GitHub. \\ \\
 Dynamic  verification of the IFC software will consist of system and unit tests via PyTest. System tests 
 are outlined in Section \ref{Sys_Tests}. Unit tests will be outlined in Rev 2 of the VnV Plan in 
 Section \ref{UTD}.
+
 \subsection{Automated Testing and Verification Tools}
 Several tools will be used to support automated testing and verification. They include:
 \begin{itemize}
@@ -256,6 +257,7 @@ to run automated tests.
 \item flake8 will be used as a linter to ensure adherence to PEP8 standards. 
 \item PyLint, as an alternative linter to flake8.
 \end{itemize}
+
 \subsection{Software Validation Plan}
 \wss{If there is any external data that can be used for validation, you should
   point to it here.  If there are no plans for validation, you should state that
@@ -276,8 +278,24 @@ Section 5 of the
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
 {SRS}}. 
 
-\subsubsection{Feature Detection}
+\begin{figure}[h!]
+  \begin{center}
+   \includegraphics[width=0.6\textwidth]{images/ArUco_Field_Gen.jpg}
+  \caption{An example of a generated ArUco pattern. Image taken from \cite{ARUCO_Markers_openCV}}
+  \label{gen_aruco} 
+  \end{center}
+\end{figure}
 
+\begin{figure}[h!]
+  \begin{center}
+   \includegraphics[width=0.6\textwidth]{images/GS_ArUco_Field_Image.jpg}
+  \caption{An example of ArUco patterns within the scene of a captured greyscale image. 
+  Image taken from \cite{ARUCO_Markers_openCV}}
+  \label{gs_aruco_field} 
+  \end{center}
+\end{figure}
+
+\subsubsection{Feature Detection}
 This test section is intended to assess that the system can accept new parameters from users and covers 
 requirements R1 through R7 and R9 through R11, in Section 5.1 of the 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
@@ -285,52 +303,60 @@ requirements R1 through R7 and R9 through R11, in Section 5.1 of the
 		
 \paragraph{Image Smoother}
 \begin{enumerate}
-\item{FT-IS-01\\}
+\item \hypertarget{FT-IS-01}{FT-IS-01}
 Control: Automated		
 
 Initial State: Uninitialized
 
-Input: Image $I(x,y)$, a 2D array of size $ m \times n$, image intensity standard deviation $\sigma$
+Input: A collection of 20 images $I$, each defined as 2D array of specified resolution, that contain 
+binary patterned fiducial markers, named 
+\href{https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html}
+{ArUco} markers (Figure \ref{gen_aruco}), within the image scene as demonstrated 
+in Figure \ref{gs_aruco_field}. The user will also assign the image intensity standard deviation $\sigma$ to define the 
+size of the Gaussian Kernel.
 
-Output: Image $I'(x,y)$, a 2D array of equivalent size to $I(x,y)$
-
-Test Case Derivation: Source: \href{https://pages.stat.wisc.edu/~mchung/teaching/MIA/reading/diffusion.gaussian.kernel.pdf}
-{Gaussian Kernel}
+Output: 20 output images as a 2D array, each of which have a descriptive name that clearly identifies the 
+input image from which it originates. The $I'$ array should be of equal size and the same data type as its 
+corresponding image $I$. All images should be saved under its own uniquely named folder to prevent mixing 
+of input and output imagery.
 
 How test will be performed: Automated Tools (i.e. Pytest)
 
 \end{enumerate}
 
+
 \paragraph{Keypoint Detector}
 \begin{enumerate}
-\item{FT-KP-01\\}
+\item \hypertarget{FT-KP-01}{FT-KP-01\\}
 Control: Automatic	
 
 Initial State: Uninitialized			
 
-Input: Image $I(x,y)$, a 2D array of size $ m \times n$, image intensity threshold, $t$
+Input: A collection of 20 smoothed images $I'$, each defined as 2D array of specified resolution, that contain 
+binary patterned fiducial markers as outlined in System Test \hyperlink{FT-IS-01}{FT-IS-01}. 
+Permissible image intensity threshold, $t$.
 
 Output: $K$: A 2D array of size $n \times 2$, where $n$ is the quantity of identified keypoints, 
-with horizontal and vertical coordinates for each keypoint
-
-Test Case Derivation: \href{https://www.edwardrosten.com/work/rosten_2006_machine.pdf}
-{Machine Learning for High-Speed Corner Detection}. This publication outlines the methods for 
-building and verifying a common keypoint detector. 
+where the first and second columns are populated with the horizontal and vertical coordinates for each 
+keypoint. Each entry in the array should be an integer value. Each array should have a unique identifier that 
+clearly defines the original image from which its keypoints were identified. All output arrays should be saved 
+to a unique folder to separate them from the input images.
 
 How test will be performed: Automated Tools (i.e. Pytest)
 \end{enumerate}
 
 \paragraph{Feature Definition}
 \begin{enumerate}
-\item{FT-FD-01\\}
+\item \hypertarget{FT-FD-01}{FT-FD-01\\}
 Control: Automatic
 
 Initial State: Uninitialized
 
-Input: Image $I(x,y)$, a 2D array of size $ m \times n$, $K$, a 2D array of size $n \times 2$, 
-with identified key points
+Input: A collection of 20 images, each defined as a 2D array of integers, and a collection of 20 $n\times 2$ 2D arrays, where n is the number of 
+keypoints and is specific to each image. A patch size, $s$, will also be input as a scalar integer to define the the region for which to search for 
+descriptors. A target number of descriptors, titled $d_{total}$, will also be input as a non-negative integer between 1 and 1023.
 
-Output: $D_{bin}$, a 1D dynamically-sized array of feature descriptors 
+Output: $D_{bin}$, a 1D array of length $d_total$ where all entries of the array are 32 byte binary strings. 
 
 Test Case Derivation: Source: \href{https://sites.cc.gatech.edu/classes/AY2024/cs4475_summer/images/ORB_an_efficient_alternative_to_SIFT_or_SURF.pdf}
 {ORB: An efficient alternative to SIFT or SURF}. The preceding publication outlines methods 
@@ -339,33 +365,31 @@ to develop and the corresponding assessment of binary feature descriptors.
 How test will be performed: Automated Tools (i.e. Pytest)
 \end{enumerate}
 
-
-
 \subsubsection{Feature Comparison}
 
 This test section is intended to assess that the system can accept new parameters from users and covers 
-requirements R8 and R12 through R15 in Section 5.1 of the 
+requirements \textcolor{red}{R8 and R12 through R15} in Section 5.1 of the 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
 {SRS}}. 
 		
 \paragraph{Descriptor Comparison}
 \begin{enumerate}
-\item{FT-FC-01\\}
+\item \hypertarget{FT-DC-01}{FT-DC-01\\}
 Control: Automated		
 
 Initial State: Uninitialized
 
-Input: For each image, a 1D dynamically-sized array of feature descriptors ($D_{bin}$), 
+Input: A total of 20 1D arrays, each of which may have a unique length, where each element of the 
+array is a 32 byte binary strings known as a binary descriptor. Each array should be labeled with a descriptive 
+name that outlines the instance of both the camera and pose at the time of image capture.
 
-Output: A dynamically-sized array of the following details for each pair of matched features:
+Output: A dynamically-sized array where the length, of the array is the number of matched features. The columns 
+of the array will include the parameters as follows.
 \begin{itemize}
-\item Binary descriptors of both features
+\item Binary descriptors of both features as 32 byte binary strings
 \item Corresponding image IDs for each feature
-\item Corresponding image coordinates (u,v)
 \item Matching scores between both features
 \end{itemize}
-
-Test Case Derivation: Source: N/A
 
 How test will be performed: Automated Tools (i.e. Pytest)
 \end{enumerate}
