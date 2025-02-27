@@ -150,7 +150,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-2022-02-007 & 1.0 & Initial Release\\
+2025-02-07 & 1.0 & Initial Release\\
+2025-02-27 & 1.1 & Revision to 1.0 to address improper requirements decompisition for VnV Plan Rev. 1.0\\
 \bottomrule
 \end{tabularx}
 ~\newpage
@@ -201,6 +202,9 @@ $I_{k}$ & Unitless & Pixel intensity
 \\
 $k$ &	Unitless & Target feature instance
 \\
+SE(3) & $4\times 4$ matrix & Special Euclidean Group in three-dimensional space. It describes the set of 
+all possible rigid body motions in 3D, which includes both rotation and translation.
+\\
 $t$ & Initless & Pixel intensity threshold
 \\
 $u$ & Unitless & horizontal pixel position
@@ -239,6 +243,7 @@ in the end-effector frame
   ORB & Oriented FAST and Rotated BRIEF\\
   PS & Physical System Description\\
   R & Requirement\\
+  SE(3) & Special Euclidean Group 3\\
   SRS & Software Requirements Specification\\
   SURF & Speeded-Up Robust Features\\
   TM & Theoretical Model\\
@@ -1075,17 +1080,17 @@ define feature descriptors from identified keypoints (from \iref{IM_BRIEF_Desc})
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_CompareDescriptors}:] The IFC software shall 
 identify matches between descriptors that originate from separate images (from \iref{IM_Dist_Hamm}).
 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_DistinctImages}:] The IFC software shall review 
+all identified feature matches to confirm that they originate from separate images.
+
 % Outputs 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_OutputCorrespondences}:] The IFC software shall 
-provide a .csv file that outlines the respective feature matches.
-
 % Verify Outputs
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_DistinctImages}:] The IFC software shall verify 
-that all features are matched to features that originate from separate images.
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_UniqueMatch_IDs}:] The IFC software shall report 
+that all feature correspondences are uniquely defined by two respective sets of cameras and pose 
+frames as an output.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_UniqueMatch_IDs}:] The IFC software shall verify 
-that all feature correspondences are uniquely defined by the two respective sets of cameras, image frame, 
-and associated pixels.
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_OutputCorrespondences}:] The IFC software shall report 
+the identified matches between features, with corresponding camera and pose identifiers, as an output.
 
 \end{itemize}
 
@@ -1093,9 +1098,23 @@ and associated pixels.
 
 \noindent \begin{itemize}
 
-\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Usability}:] \textbf{Usability}
-  The IFC software shall be compatible with Python 3.1 libraries, such as OpenCV.
+\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Rel_1}:] \textbf{Reliability}
+The IFC software shall be invariant to the order that imagery data is provided to the feature 
+matching process.
 
+\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Use_1}:] \textbf{Usability}
+The IFC system shall provide an interface that at least 80\% of its users would describe 
+as 'simple to use' based on direct feedback.
+
+\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Mtn_1}:] \textbf{Maintainability}
+The IFC software should support implementation of new feature detection methods within 30\% 
+of the total time effort required to develop the default method of feature detection.
+
+\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Perf_1}:] \textbf{Performance}
+The IFC software should report timing metrics for each image processing operation.
+
+\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Perf_2}:] \textbf{Performance}
+The system should report the average and maximum memory used during each operation.
 
 
 \end{itemize}
