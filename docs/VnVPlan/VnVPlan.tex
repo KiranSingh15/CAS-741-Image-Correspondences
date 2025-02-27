@@ -32,7 +32,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-2025-02-26 & 1.0 & Initial Release\\
+2025-02-27 & 1.0 & Initial Release\\
 \bottomrule
 \end{tabularx}
 
@@ -40,12 +40,10 @@
 
 \tableofcontents
 \listoftables
-\wss{Remove this section if it isn't needed}
+
 \listoffigures
-\wss{Remove this section if it isn't needed}
 
 \newpage
-
 \section{Symbols, Abbreviations, and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
@@ -54,12 +52,10 @@
   \textbf{symbol} & \textbf{description}\\
   \midrule
   FOV & Field-of-view\\
-  $\mathcal{I}(x,y)$ & 2D array of pixel values for a greyscale image \\
-  $i$ & total number of robot poses\\
-  $j$ & total number of cameras\\
+  $I_{m\times n}$ & 2D array of pixel values for a greyscale image \\
   $k$ & number of total keypoints\\
-  $m$ & horizontal image size\\
-  $n$ & vertical image size\\
+  $m$ & horizontal image dimension\\
+  $n$ & vertical image dimension\\
   ORB & Oriented FAST and Rotated BRIEF\\
   RGB & Red-Green-Blue coloured imagery\\
   SLAM & Simultaneous Localization and Mapping\\
@@ -72,20 +68,19 @@
 \newpage
 
 \pagenumbering{arabic}
-
-The intent of this document is to define the verification and validation (VnV) processes
+\noindent The intent of this document is to define the verification and validation (VnV) processes
 that will be used to assess \progname, (IFC) software. Specifically, this document will be used to 
-characterize the behaviour and performance of this software. The remaining section of this document 
-outline a detailed summary of the specific objectives of the VnV process. This includes considerations 
-for the scope of the VnV campaign, such as what may be feasible within the context of the CAS 741 
-development schedule, as well as expected activities beyond the scope of CAS 741.
-It also defines specific strategies to perform verification for selected deliverables and milestone, 
-an overview of anticipated system tests, and an outline of specific unit test cases.
+characterize the behaviour and performance of this software. The remaining sections of this document 
+outline a detailed summary of the specific objectives of the VnV campaign. This includes considerations 
+for the scope of the VnV efforts with respect to contraints that stem from the CAS 741 
+development schedule, as well as anticipated activities beyond the scope of CAS 741.
+Verification procedures are present for select deliverables and milestone, and include 
+an overview of anticipated cases for both system tests unit tests.
 
 \section{General Information}
 
 \subsection{Summary}
-Image Feature Correspondences (IFC) is a feature comparison algorithm that is intended 
+The Image Feature Correspondences (IFC) software is a feature comparison algorithm that is intended 
 to be used as part of a pipeline to perform extrinsic camera calibration for 
 applications in mobile robotics. It accepts camera configuration parameters and greyscale imagery data at 
 different poses to identify common features amongst collected images. 
@@ -129,64 +124,51 @@ report, and documentation for the CAS 741 deliverables, a User Manual shall also
 submitted to support future development of the IFC software and its integration into 
 the full camera calibration pipeline.
 
-\wss{State the challenge level (advanced, general, basic) for your project.
-Your challenge level should exactly match what is included in your problem
-statement.  This should be the challenge level agreed on between you and the
-course instructor.  You can use a pull request to update your challenge level
-(in TeamComposition.csv or Repos.csv) if your plan changes as a result of the
-VnV planning exercise.}
-
-\wss{Summarize the extras (if any) that were tackled by this project.  Extras
-can include usability testing, code walkthroughs, \textcolor{red}{\textbf{user documentation}}, formal
-proof, GenderMag personas, Design Thinking, etc.  Extras should have already
-been approved by the course instructor as included in your problem statement.
-You can use a pull request to update your extras (in TeamComposition.csv or
-Repos.csv) if your plan changes as a result of the VnV planning exercise.}\\
-\textcolor{red}{\textbf{Discuss with Project Instructor.}}
-
 \subsection{Relevant Documentation}
-
 Relevant documentation has been hyperlinked throughout the length of the document. This enables 
 the reader to access each resource within the context of the section that the reference is 
 invoked.
 
 \section{Plan}
-This section outlines how each aspect of the VnV effort will be performed. Table \ref{Table_Ver_Roles} 
-outlines the members of the Verification and Validation Team, an overview of their titles, and a 
-general discription of their responsibilities in the administration of the VnV Plan. 
+This section outlines how each aspect of the VnV effort will be performed. This may be handled by 
+milestone or by general practices, such as continuous integration and linters. 
 
 \subsection{Verification and Validation Team}
 The VnV team consists of four members, each of whom play a distinct role in the 
-verification process.\\
+verification process. These roles and responsibilities are outlined in Table \ref{Table_Ver_Roles}.
 
-\begin{table}[h!]
+\begin{table}[h]
   \centering
   \begin{tabular}{|p{0.11\linewidth}|p{0.24\linewidth}|p{0.6\linewidth}|} 
     \hline
     \textbf{Name} & \textbf{Role} & \textbf{Description}\\
     \hline
-    Kiran Singh & Lead Developer and Test Designer & Responsibilities include 
-    identification of key business cases for integrated tests,  design and 
-    implementation of unit tests, system tests, and documentation of test 
-    results\\
+    Kiran Singh & Lead Developer and Test Designer & Responsibilities include the
+    identification of critical business cases for integrated tests, assessment of 
+    schedule and scope considerations,  design and implementation of unit tests, 
+    system tests, and documentation of test results.\\
     \hline
     Matthew Giamou & Project Supervisor & Lead consultant on integrated 
     performance needs and decomposition for software modules. Responsibilities 
-    include review of proposed VnV scope, approval of test cases as proposed by 
-    Kiran S., and provision of feedback as to whether the test cases need to be 
-    redefined within the scope of the full implementation of the IFC\\
+    include review of proposed VnV scope, as proposed by 
+    Kiran S., and provision of feedback to the general scope of the VnV campaign, and approval 
+    of the individual test cases that are proposed by the lead developer. \\
     \hline
     Aliyah Jimoh & Domain Expert & Responsibilities include provision of 
     feedback on proposed test cases for the 
-    scope of test cases for both the functional and non-functional requirements 
-    as an reviewer that is less familiar with the overall implementation of the 
-    system that its primary developer\\
+    scope of test cases for both the functional and non-functional requirements. They 
+    will also provide feedback on the code walkthrough per the final CAS 741 presentation. 
+    This statisfies the need for a reviewer that is removed from the design effort yet
+    still holds sufficient domain knowledge to provide feedback on the overall design 
+    and associated VnV efforts.\\ 
     \hline
     Spencer Smith & Software Development Instructor & Responsibilities include 
     provision of feedback on proposed test cases for the scope of test cases 
-    for both the functional and non-functional requirements as an reviewer that 
-    is less familiar with the application domain of the system than all other 
-    reviewers\\
+    for both the functional and non-functional requirements. They will also 
+    provide feedback on the code walkthrough per the final CAS 741 presentation. 
+    This reviewer provides an essential stream of feedback as they are fully removed 
+    from the application domain and may willing to question assumptions and address biases 
+    that may be implicit amongst other members of the VnV team.\\
     \bottomrule
   \end{tabular}\\
   \caption{Roles and Responsibilities of the Verification and Validation Team}
@@ -197,7 +179,7 @@ verification process.\\
 \subsection{SRS Verification Plan}
 The \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
 {SRS}} shall be reviewed by each member of the reviewer team to form consensus that the SRS has been correctly 
-decomposed into sufficient requirements.\\
+decomposed into sufficient requirements.
 \begin{itemize}
 \item the models are deemed to be comprehensible
 \item the models are deemed to be correct
@@ -205,17 +187,21 @@ decomposed into sufficient requirements.\\
 and project scope 
 \item the requirements are decomposed in a manner that facilitates verification
 \end{itemize}
-Feedback on the SRS from the Domain Expert and Software Development Instructor will be captured through 
+Feedback on the \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
+{SRS}}
+ from the Domain Expert and Software Development Instructor will be captured through 
 the use of Github Issues. Specifically, both reviewers will use the 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/
 main/docs/Checklists/SRS-Checklist.pdf}
 {SRS Checklist}}. 
 The lead developer will respond in turn to each issue and if 
-reserves the right to reject a proposed change as needed. \\ \\
+reserves the right to reject a proposed change as needed. \\
 The Lead Developer will schedule a meeting with the Project Supervisor to walk through 
-the first revision of the SRS document. In this meeting, the Project Supervisor will offer 
+the first revision of the \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
+{SRS}}
+ document. In this meeting, the Project Supervisor will offer 
 feedback and recommendations for candidate revisions to the outlined models and requirements. 
-The Lead Developer will then prepare issues in Github to address each proposed revision. \\
+The Lead Developer will then create issues in Github to address each proposed revision.
 
 \subsection{Design Verification Plan}
 The Domain Expert and Course Instructor will review the Module Guide 
@@ -226,9 +212,9 @@ The Domain Expert and Course Instructor will review the Module Guide
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/MG-Checklist.pdf}
 {MG}} and
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/MIS-Checklist.pdf}
-{MIS}} checklists. The intent of this process is to ensure that the design of the system is:
+{MIS}} checklists. The objective of this review cycle is to ensure that the design of the system:
 \begin{enumerate}
-\item unambiguous
+\item is unambiguous
 \item adheres to best-practices of module design
 \item aligns with the requirements as identified in the 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
@@ -255,8 +241,8 @@ completed as part of a Rev 2.0 release of the VnV Plan, as part of the initial r
 The IFC software shall be verified against the test procedures outlined in Sections \ref{FR_Tests} and 
 \ref{NFR_Tests}. Static verification of the IFC software will consist of a code walkthrough. This will take 
 place during the CAS 741 final presentation, where the Domain Expert and Course Instructor in the 
-will have the opportunity to observed the code and raise issues following the presentation via GitHub. \\ \\
-Dynamic  verification of the IFC software will consist of system and unit tests via PyTest. System tests 
+will have the opportunity to observe the code and raise issues following the presentation via GitHub. \\ \\
+Dynamic verification of the IFC software will consist of system and unit tests via PyTest. System tests 
 are outlined in Section \ref{Sys_Tests}. Unit tests will be outlined in Rev 2 of the VnV Plan in 
 Section \ref{UTD}.
 
@@ -265,19 +251,12 @@ Several tools will be used to support automated testing and verification. They i
 \begin{itemize}
 \item Continuous Integration (CI) will be facilitated via GitHub Actions. A pull request will be used 
 to run automated tests.
-\item Pytest will be used to perform system tests, unit tests, and to assess code coverage. 
+\item Pytest will be used to execute system tests, unit tests, and to assess code coverage. 
 \item flake8 will be used as a linter to ensure adherence to PEP8 standards. 
 \item PyLint, as an alternative linter to flake8.
 \end{itemize}
 
 \subsection{Software Validation Plan}
-\wss{If there is any external data that can be used for validation, you should
-  point to it here.  If there are no plans for validation, you should state that
-  here.}
-\wss{You might want to use review sessions with the stakeholder to check that
-the requirements document captures the right requirements.  Maybe task based
-inspection?}\\
-
 The IFC software will be compared against benchmark data from one or more of the following 
 \href{https://github.com/youngguncho/awesome-slam-datasets}{SLAM datasets} that feature camera imagery data. 
 These datasets provide a much more challenging scene to identify and match features than the gernerated 
@@ -286,7 +265,6 @@ from RGB data to greyscale data, and will undergo a testing procedure similar to
 outlined in Section \ref{FR_Tests}. These tests would be inclusive of the general form of timing and memory 
 usage  metrics outlined in Section \ref{Performance}. These tests may exceed the constraints of the  CAS 
 741 schedule and will be continued as part of future work.
-
 
 \section{System Tests}\label{Sys_Tests}
 This section outlines the general roadmap for the required integrated system tests. 
@@ -331,12 +309,13 @@ requirements R1 through R7 and R9 through R11, in Section 5.1 of the
 
 \textbf{Initial State:} Uninitialized
 
-\textbf{Input:} A collection of 20 images $I$, each defined as 2D array of specified resolution, that contain 
-binary patterned fiducial markers, named 
+\textbf{Input:} Generated binary patterned fiducial markers, named 
 \href{https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html}
-{ArUco} markers (Figure \ref{gen_aruco}), within the image scene as demonstrated 
-in Figure \ref{gs_aruco_field}. The user will also assign the image intensity standard deviation $\sigma$ 
-to define the size of the Gaussian Kernel.
+{ArUco} markers, will be used as simplified targets for corner detection. A depiction of these markers is shown 
+in Figure \ref{gen_aruco}. A collection of 20 images that contain ArUco markers within the image scene will be 
+provided as test inputs, as shown in Figure \ref{gs_aruco_field}. Each image $I$ will be defined as 2D array of 
+a user-specified resolution. The user will also assign the image intensity standard deviation $\sigma$ to define 
+the size of the Gaussian Kernel.
 
 \textbf{Output:} 20 output images as a 2D array, each of which have a descriptive name that clearly identifies the 
 input image from which it originates. The $I'$ array should be of equal size and the same data type as its 
@@ -362,9 +341,9 @@ contain a binary patterned fiducial markers as outlined in System Test \hyperlin
 A permissible image intensity threshold, $t$, shall also be introduced, where $t$ is defined as a non-zero 
 positive integer between 1 and 255.
 
-\textbf{Output:} A 2D array of size $k \times 2$, where $k$ is the quantity of identified keypoints, 
+\textbf{Output:} A 2D array of size ${k \times 2}$, where $k$ is the quantity of identified keypoints, 
 where the first and second columns are populated with the horizontal and vertical coordinates for each 
-keypoint. Each entry in the array should be an integer value. Each array should have a unique identifier that 
+keypoint. Each entry in the array should be an positive integer value. Each array should have a unique identifier that 
 clearly defines the original image from which its keypoints were identified. All output arrays should be saved 
 to a unique folder to separate them from the input images.
 
@@ -396,8 +375,8 @@ to develop and the corresponding assessment of binary feature descriptors.
 
 \subsubsection{Feature Comparison}
 
-This test section is intended to assess that the system can accept new parameters from users and covers 
-requirements \textcolor{red}{R8 and R12 through R15} in Section 5.1 of the 
+This test section is intended to assess that the system can accept new parameters from users. It addresses 
+requirements R8 and R12 through R15 in Section 5.1 of the 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
 {SRS}}. 
 		
@@ -410,7 +389,7 @@ requirements \textcolor{red}{R8 and R12 through R15} in Section 5.1 of the
 
 \textbf{Initial State:} Uninitialized
 
-\textbf{Input:} A total of 20 1D arrays, each which have a unique length, $D_{bin}$, where each element of the 
+\textbf{Input:} 20 1D arrays, each which have a unique length, $D_{bin}$, where each element of the 
 array is a 32 byte binary string known as a binary descriptor. Each array should be labeled with a 
 descriptive name that clearly references the instance of both the camera and pose at the time of image 
 capture.
@@ -459,12 +438,12 @@ data in each element of the array can be matched to a corresponding element of t
 \end{enumerate}
 
 \subsubsection{Usability}
-The IFC software needs to be simple to implement and run as part of a larger pipeline to 
-perform camera calibration. This may be reflected in the perception of how simple it is for the user to 
-implement its on their own system and to run the program as its own module. The broader usability criterion is 
+As part of a larger pipeline, the IFC software needs to be simple for its users to integrate into the calibration system. 
+This may be reflected in the perception of how simple it is for the user to 
+implement its on their own system and to run the program as its own module. This usability criterion is 
 reflected in \textbf{NFR2} of the 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
-{SRS}}. \\
+{SRS}}.
 
 \paragraph{User Experience: End-to-End Feature Matching}
 \begin{enumerate}
@@ -522,21 +501,21 @@ Verification of \textbf{NFR3}, outlined in
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
 {SRS}}, 
 has been delegated as future work in favour of other verification procedures outlined within this 
-plan in order to satisfy the schedule constraints of CAS 741. It would however, be simple to evaluate if a 
-new detection was to be implement. Once the default feature detection method has 
-successfully been completed, the total number of hours spent to design the feature detection module should 
-be added together. A factor of 0.3 should be applied to the summed effort to define the maximum target 
-effort to develop a new method of feature detection. Any time that is dedicated to implement a new method 
-should be added to the running total. A scenario where the total effort exceeds the allowable target 
-indicates that the current IFC software may be difficult to maintain.
+document. This tradeoff was made to satisfy the schedule constraints of CAS 741. 
+It would however, be simple to evaluate if a new detection was to be implement. Once the default feature 
+detection method has successfully been completed, the total number of hours spent to design the feature 
+detection module should be summed together. A factor of 0.3 should be applied to the summed effort to define 
+the maximum target effort to develop a new method of feature detection. Any time that is dedicated to 
+implement a new method should be added to the running total. A scenario where the total effort exceeds the 
+allowable target may suggest that the current IFC software is difficult to maintain.
 
 \subsubsection{Performance}\label{Performance}
-One of the primary objectives of the VnV campaign is to characterize what resources are required to execute 
-the IFC software, as outline in \textbf{NFR4} and \textbf{NFR5}. In the case of a simple configuration with 
-only two cameras at two different poses, the process is trivial. However, for configurations that consist of 
-as many as ten cameras across dozens of robot poses, the problem may scale significantly. Therefore, as a 
-general practice, timing and memory usage metrics should be recorded across the duration of any operation 
-in the IFC software. This is inclusive of the following system tests in Section \ref{FR_Tests}. 
+One of the primary objectives of the VnV campaign is to characterize what system resources are required to 
+execute the IFC software, as outline in \textbf{NFR4} and \textbf{NFR5}. In the case of a simple configuration 
+with only two cameras at two different poses, the process is trivial. However, for configurations that consist 
+of as many as ten cameras across dozens of robot poses, the problem may scale significantly. Therefore, as a 
+general practice, timing and memory usage metrics should be recorded throughout the duration of any of the 
+primary operations of the IFC software. This includes the following system tests in Section \ref{FR_Tests}. 
 \begin{enumerate}
 \item \hyperlink{STFR-IS-01}{STFR-IS-01}
 \item \hyperlink{STFR-KP-01}{STFR-KP-01}
@@ -606,6 +585,8 @@ The traceability between each scoped test case and its respective requirements i
 
 
 \section{Unit Test Description}\label{UTD}
+\textbf{This section has been tabled as future work. It will be revised in support of the 
+initial release of the Module Guide and Module Interface Specification.}\\ \\
 
 \wss{This section should not be filled in until after the MIS (detailed design
   document) has been completed.}
@@ -740,6 +721,8 @@ How test will be performed:
 Not Applicable.
 
 \subsection{Symbolic Parameters}
-The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.
+% The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
+%Their values are defined in this section for easy maintenance.
+
+No symbolic constants have been identified in this document.
 \end{document}
