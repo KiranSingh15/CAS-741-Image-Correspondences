@@ -274,8 +274,8 @@ to run automated tests.
 \subsection{Software Validation Plan}
 The IFC software will be compared against benchmark data from one or more of the following 
 \href{https://github.com/youngguncho/awesome-slam-datasets}{SLAM datasets} that feature camera imagery data. 
-These datasets provide a much more challenging scene to identify and match features than the gernerated 
-ArUco markers, as shown in Figure \ref{gs_aruco_field}. Imagery from the selected datasets will be preprocessed 
+These datasets provide a much more challenging scene to identify and match features than generated binary markers. 
+Imagery from the selected datasets will be preprocessed 
 from RGB data to greyscale data, and will undergo a testing procedure similar to that of the systems tests 
 outlined in Section \ref{FR_Tests}. These tests would be inclusive of the general form of timing and memory 
 usage  metrics outlined in Section \ref{Performance}. These tests may exceed the constraints of the  CAS 
@@ -356,7 +356,8 @@ contain a binary patterned fiducial markers as outlined in System Test \hyperlin
 A permissible image intensity threshold, $t$, shall also be introduced, where $t$ is defined as a non-zero 
 positive integer between 1 and 255.
 
-\textbf{Output:} A 2D array of size ${k \times 2}$, where $k$ is the quantity of identified keypoints, 
+\textbf{Output:} A flag which indicates that corner detection is active. 
+A 2D array of size ${k \times 2}$, where $k$ is the quantity of identified keypoints, 
 where the first and second columns are populated with the horizontal and vertical coordinates for each 
 keypoint. Each entry in the array should be an positive integer value. Each array should have a unique identifier that 
 clearly defines the original image from which its keypoints were identified. All output arrays should be saved 
@@ -409,7 +410,8 @@ array is a 32 byte binary string known as a binary descriptor. Each array should
 descriptive name that clearly references the instance of both the camera and pose at the time of image 
 capture.
 
-\textbf{Output:} A dynamically-sized array, stored as a Pandas dataframe, where the length of the array is the 
+\textbf{Output:} A flag that indicates that Hamming Distances were compared. 
+A dynamically-sized array, stored as a Pandas dataframe, where the length of the array is the 
 number of matched features. The columns of the array will include the properties as follows.
 \begin{itemize}
 \item Binary descriptors of both features as 32 byte binary strings
