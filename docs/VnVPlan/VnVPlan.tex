@@ -55,7 +55,7 @@
   CAS & Computing and Software\\
   CI & Continuous Integration\\
   DE & Domain Expert \\
-  $d_{total}$ & number of binary descriptions \\
+  $d_{total}$ & bin size, or number of binary descriptions \\
   $D_{bin}$ & 1D array of 32 byte binary strings \\
   FOV & field-of-view\\
   $I$ & 2D array of pixel values for a greyscale image \\
@@ -378,7 +378,8 @@ to a unique folder to separate them from the input images.
 \textbf{Input:} A collection of 20 images, each defined as a 2D array of integers, and a collection of 20 
 $k\times 2$ 2D arrays, where $k$ is the number of keypoints within each image. A patch size, $s$, 
 will also be input as a scalar integer to define the the region for which to search for descriptors. A target 
-number of descriptors, titled $d_{total}$, will also be input as a non-negative integer between 1 and 1023.
+number of descriptors titled $d_{total}$, also known as the bin size, will also be provided as a non-negative integer 
+between 1 and 1023.
 
 \textbf{Output:} $D_{bin}$, a 1D array of length $d_{total}$ where all entries of the array are 32 byte binary strings. 
 
