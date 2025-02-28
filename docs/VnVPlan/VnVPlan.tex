@@ -5,6 +5,7 @@
 \usepackage{hyperref}
 \usepackage{pdflscape}
 \usepackage{graphicx}
+\usepackage{float}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -53,19 +54,27 @@
   \midrule
   CAS & Computing and Software\\
   CI & Continuous Integration\\
+  DE & Domain Expert \\
   $d_{total}$ & number of binary descriptions \\
   $D_{bin}$ & 1D array of 32 byte binary strings \\
-  FOV & Field-of-view\\
+  FOV & field-of-view\\
   $I$ & 2D array of pixel values for a greyscale image \\
+  $I'$ & transformed 2D array of pixel values\\
   $k$ & number of total keypoints\\
+  LD & Lead Developer \\
   $m$ & horizontal image dimension\\
   MG & Module Guide \\
   MIS & Module Interface Specification\\
   $n$ & vertical image dimension\\
   ORB & Oriented FAST and Rotated BRIEF\\
+  PEP8 & Python Enhancement Proposal-8\\
+  PS & Project Supervisor\\
   RGB & Red-Green-Blue coloured imagery\\
+  $s$ & patch size\\
+  SDI & Software Design Instructor\\
   SLAM & Simultaneous Localization and Mapping\\
   SRS & Software Requirements Specification\\
+  $t$ & intensity threshold \\
   VnV & Verification and Validation\\
   $\sigma$ & standard deviation\\
   \bottomrule
@@ -143,24 +152,24 @@ milestone or by general practices, such as continuous integration and linters.
 The VnV team consists of four members, each of whom play a distinct role in the 
 verification process. These roles and responsibilities are outlined in Table \ref{Table_Ver_Roles}.
 
-\begin{table}[h]
+\begin{table}[tbp!]
   \centering
   \begin{tabular}{|p{0.11\linewidth}|p{0.24\linewidth}|p{0.6\linewidth}|} 
     \hline
     \textbf{Name} & \textbf{Role} & \textbf{Description}\\
     \hline
-    Kiran Singh & Lead Developer and Test Designer & Responsibilities include the
+    Kiran Singh & Lead Developer and Test Designer (LD) & Responsibilities include the
     identification of critical business cases for integrated tests, assessment of 
     schedule and scope considerations,  design and implementation of unit tests, 
     system tests, and documentation of test results.\\
     \hline
-    Matthew Giamou & Project Supervisor & Lead consultant on integrated 
+    Matthew Giamou & Project Supervisor (PS) & Lead consultant on integrated 
     performance needs and decomposition for software modules. Responsibilities 
     include review of proposed VnV scope, as proposed by 
     Kiran S., and provision of feedback to the general scope of the VnV campaign, and approval 
-    of the individual test cases that are proposed by the lead developer. \\
+    of the individual test cases that are proposed by the LD. \\
     \hline
-    Aliyah Jimoh & Domain Expert & Responsibilities include provision of 
+    Aliyah Jimoh & Domain Expert (DE) & Responsibilities include provision of 
     feedback on proposed test cases for the 
     scope of test cases for both the functional and non-functional requirements. They 
     will also provide feedback on the code walkthrough per the final CAS 741 presentation. 
@@ -168,7 +177,7 @@ verification process. These roles and responsibilities are outlined in Table \re
     still holds sufficient domain knowledge to provide feedback on the overall design 
     and associated VnV efforts.\\ 
     \hline
-    Spencer Smith & Software Development Instructor & Responsibilities include 
+    Spencer Smith & Software Development Instructor (SDI) & Responsibilities include 
     provision of feedback on proposed test cases for the scope of test cases 
     for both the functional and non-functional requirements. They will also 
     provide feedback on the code walkthrough per the final CAS 741 presentation. 
@@ -195,22 +204,22 @@ and project scope
 \end{itemize}
 Feedback on the \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
 {SRS}}
- from the Domain Expert and Software Development Instructor will be captured through 
+ from the DE and SDI will be captured through 
 the use of Github Issues. Specifically, both reviewers will use the 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/
 main/docs/Checklists/SRS-Checklist.pdf}
 {SRS Checklist}}. 
 The lead developer will respond in turn to each issue and if 
 reserves the right to reject a proposed change as needed. \\
-The Lead Developer will schedule a meeting with the Project Supervisor to walk through 
+The Lead Developer will schedule a meeting with the PS to walk through 
 the first revision of the \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
 {SRS}}
- document. In this meeting, the Project Supervisor will offer 
+ document. In this meeting, the PS will offer 
 feedback and recommendations for candidate revisions to the outlined models and requirements. 
 The Lead Developer will then create issues in Github to address each proposed revision.
 
 \subsection{Design Verification Plan}
-The Domain Expert and Course Instructor will review the Module Guide 
+The DE and SDI will review the Module Guide 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftArchitecture/MG.pdf}
 {(MG)}} and the Module Interface Specification 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}
@@ -229,7 +238,7 @@ The Domain Expert and Course Instructor will review the Module Guide
 
 
 \subsection{Verification and Validation Plan Verification Plan}
-The VnV Plan will be verified via inspection by the Domain Expert and the 
+The VnV Plan will be verified via inspection by the DE and the 
 Software Development Instructor. The 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/SRS-Checklist.pdf}
 {VnV Plan Checklist}} 
@@ -246,8 +255,8 @@ completed as part of a Rev 2.0 release of the VnV Plan, as part of the initial r
 \subsection{Implementation Verification Plan}
 The IFC software shall be verified against the test procedures outlined in Sections \ref{FR_Tests} and 
 \ref{NFR_Tests}. Static verification of the IFC software will consist of a code walkthrough. This will take 
-place during the CAS 741 final presentation, where the Domain Expert and Course Instructor in the 
-will have the opportunity to observe the code and raise issues following the presentation via GitHub. \\ \\
+place during the CAS 741 final presentation, where the DE and SDI will have the opportunity to observe 
+the code and raise issues following the presentation via GitHub. \\ \\
 Dynamic verification of the IFC software will consist of system and unit tests via PyTest. System tests 
 are outlined in Section \ref{Sys_Tests}. Unit tests will be outlined in Rev 2 of the VnV Plan in 
 Section \ref{UTD}.
@@ -468,13 +477,14 @@ system, and to remark on the following topics.
 \end{itemize} 
 
 \textbf{How test will be performed:} Dynamic Test by User
+\end{enumerate}
 
 The user will be provided a collection of images from different cameras. Each image will be labelled with 
 a descriptive title that clearly defines what camera the image originates from. The user shall be responsible 
 to insert all images into a common folder.
 
 The user shall execute the following procedure in the following order.
-
+\begin{enumerate}
   \item The user shall open the directory to the IFC configuration file.
   \item In the IFC program configuration file, the user shall:
   \begin{enumerate}
