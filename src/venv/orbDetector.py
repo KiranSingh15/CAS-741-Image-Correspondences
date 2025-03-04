@@ -17,3 +17,5 @@ def detect_features_rbrief(orb, img, kp):
     features = orb.compute(img, kp, None)
     return features
 
+
+

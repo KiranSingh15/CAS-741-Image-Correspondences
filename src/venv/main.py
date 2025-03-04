@@ -7,11 +7,11 @@ from smoothImage import smooth_image
 ############################
 # System Inputs - to be updated
 kern_sz = 5
-sd = 1
+sd = 0.25
 
-bin_sz = 250
+bin_sz = 2000
 patch_sz = 31
-fast_thresh = 20
+fast_thresh = 10
 
 
 
@@ -45,6 +45,11 @@ print("keypoints identified")
 # # Identify descriptors
 # fd = ORB.detect_features_rbrief(orb, img_gk, kp)
 print("features identified")
+
+# Drawing the keypoints
+kp_image = cv.drawKeypoints(img_gk, kp, None, color=(0, 255, 0), flags=0)
+cv.imshow('ORB', kp_image)
+
 
 # Match descriptors should be in another file
 
