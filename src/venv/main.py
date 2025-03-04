@@ -1,31 +1,50 @@
 # declarations
 import cv2 as cv
 import numpy as np
+import orbDetector as ORB
+from smoothImage import smooth_image
+
+############################
+# System Inputs - to be updated
+kern_sz = 5
+sd = 1
+
+bin_sz = 250
+patch_sz = 31
+fast_thresh = 20
 
 
-# image inputs
+
+# import colour image
 img = cv.imread("cybertruck.jpg", cv.IMREAD_COLOR)
-cv.imshow("Unaltered", img)
+cv.imshow("Original", img)
+print( img.shape )
 
-
-# Convert to greyscale
+# import greyscale image
 img_gs = cv.imread("cybertruck.jpg", cv.IMREAD_GRAYSCALE)
 cv.imshow("Greyscale", img_gs)
+print( img.shape )
 
 # Apply Gaussian Kernel
 # https://docs.opencv.org/4.x/d4/d13/tutorial_py_filtering.html
-kern_sz = 5
+
 kernel = np.ones((kern_sz,kern_sz),np.float32) / (kern_sz ^ 2)
 # img_gk = cv.filter2D(img_gs,-1,kernel) # filter 2D
-img_gk = cv.GaussianBlur(img_gs, (kern_sz,kern_sz),2)#GaussianBlur
+# img_gk = cv.GaussianBlur(img_gs, (kern_sz,kern_sz),2)#GaussianBlur
+img_gk = smooth_image(img_gs, kern_sz, sd)
 
 cv.imshow("Gaussian Smoothed",img_gk)
 
+# initialize ORB Object
+orb = ORB.create_orb_object(bin_sz, patch_sz, fast_thresh)
+
 # Identify Key Points
+kp = ORB.detect_keypoints_ofast(orb, img_gk)
+print("keypoints identified")
 
-
-# Identify descriptors
-
+# # Identify descriptors
+# fd = ORB.detect_features_rbrief(orb, img_gk, kp)
+print("features identified")
 
 # Match descriptors should be in another file
 
