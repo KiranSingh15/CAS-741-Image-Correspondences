@@ -46,6 +46,9 @@ print("keypoints identified")
 # fd = ORB.detect_features_rbrief(orb, img_gk, kp)
 print("features identified")
 
+
+
+
 # Drawing the keypoints
 kp_image = cv.drawKeypoints(img_gk, kp, None, color=(0, 255, 0), flags=0)
 cv.imshow('ORB', kp_image)
