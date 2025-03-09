@@ -2,9 +2,9 @@
 
 def set_default_parameters():
     def_params = {
-    "kernel_size": 25,  # where kernel size must be positive, odd, and greater or equal to 3
-    "standard deviation": 15,  # where the standard deviation must be a positive, real number
-    "fast threshold": 542,
+    "kernel_size": 3,  # where kernel size must be positive, odd, and greater or equal to 3
+    "standard deviation": 1,  # where the standard deviation must be a positive, real number
+    "fast threshold": 15,
     "bin size": 2000,
     "patch size": 31,
     }
@@ -13,10 +13,10 @@ def set_default_parameters():
 
 
 def set_default_methods():
-    mthd_img_smoothing = ["gaussian_kernel"]
+    mthd_img_smoothing = ["Gaussian Kernel"]
     mthd_kp_detection = ["FAST","Harris"]
-    mthd_kp_description = ["binary"]
-    mthd_ft_match = ["Hamming"]
+    mthd_kp_description = ["Binary Descriptors"]
+    mthd_ft_match = ["Hamming Distance"]
 
     ifc_def_mthds = {
         "Image Smoothing": mthd_img_smoothing[0],
@@ -78,7 +78,7 @@ def checklimits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_zs, u_patch_sz):
 
     print(err_count)
     if err_count == 0:
-        print("No errors detected!")
+        print("No errors detected in user-specified parameters.")
     else:
         print("Total errors detected: ", err_count)
         print(type(err_list))

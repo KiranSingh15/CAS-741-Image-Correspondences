@@ -7,13 +7,14 @@ def setHeadDirPath():
     return head_dir
 
 def setInputImgPath(head_dir):
-    img_dir = head_dir / "Raw_Images"  # Use '/' for safe path joining
+    local_folder = "Raw_Images"
+    img_dir = head_dir / local_folder  # Use '/' for safe path joining
     print(img_dir)
-    return img_dir
+    return img_dir, local_folder
 
 def getInputImgNames(img_dir):
     img_dir = Path(img_dir)  # Ensure it's a Path object
-    input_img = [(file.name, file.suffix) for file in img_dir.iterdir() if file.is_file()]
+    input_img = [(file.stem, file.suffix, file.name) for file in img_dir.iterdir() if file.is_file()]
     return input_img
 
 # create output paths
@@ -32,12 +33,12 @@ def createOutputDir(head_dir, dir_type):
     subpath = head_dir / subfolder  # Create the subpath
     subpath.mkdir(parents=True, exist_ok=True)  # Create directory if it doesn't exist
     print(f"Subpath created: {subpath}")
-    return subpath
+    return subfolder
 
 
 
 hd = setHeadDirPath()
-id = setInputImgPath(hd)
+id,local_folder = setInputImgPath(hd)
 list_im = getInputImgNames(id)
 print(list_im)
 

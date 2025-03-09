@@ -4,7 +4,8 @@ from pathlib import Path
 import os
 
 # file paths
-def_file_path = head_dir = Path(os.getcwd())  # Convert to Path object
+def get_head_directory():
+    return Path(os.getcwd())  # Convert to Path object
 
 # Activate functions, where inactive = 0, and all other permutations are defined by [1,n], where n is the last method
 def get_active_functions():
@@ -15,8 +16,10 @@ def get_active_functions():
         "descriptor_assignment": 1,
         "feature_matching": 1
     }
-    for i, (k, v) in enumerate(active_fxns.items()):  # k=key, v=value
-        print(i, k, v)
+
+    # uncomment for visualization purposes only.
+    # for i, (k, v) in enumerate(active_fxns.items()):  # k=key, v=value
+    #     print(i, k, v)
 
     return active_fxns
 
