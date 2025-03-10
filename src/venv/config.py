@@ -27,11 +27,11 @@ def get_chosen_parameters():
 
     # Input Parameters
     in_params = {
-    "kernel size": int(3), # where kernel size must be positive, odd, and greater or equal to 3
-    "standard deviation": 1,# where the standard deviation must be a positive, real number
-    "fast threshold": int(10),
-    "bin size": int(2000),
-    "patch size": int(50),
+    "kernel size": int(7), # where kernel size must be positive, odd, and greater or equal to 3
+    "standard deviation": 2,# where the standard deviation must be a positive, real number
+    "fast threshold": int(25),
+    "bin size": int(200),
+    "patch size": int(30),
     }
 
     return in_params

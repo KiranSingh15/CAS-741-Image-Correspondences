@@ -4,7 +4,7 @@ import os
 import numpy as np
 
 def create_orb_object(bin_sz, patch_sz, fast_thresh):
-    orb = cv.ORB.create(nfeatures=bin_sz, patchSize=patch_sz,
+    orb = cv.ORB.create(nfeatures=bin_sz, scoreType=cv.ORB_FAST_SCORE, patchSize=patch_sz,
                         fastThreshold = fast_thresh)
     return orb
 
@@ -19,6 +19,7 @@ def detect_features_rbrief(orb, img, kp):
     # Feature Descriptor
     features = orb.compute(img, kp, None)
     return features
+
 
 def save_keypoints(keypoints, image_identifier, target_folder):
     # Convert keypoints to a list of tuples

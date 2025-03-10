@@ -1,8 +1,9 @@
 import cv2 as cv
-import pandas as pd
-import os
+import csv
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+import pandas as pd
 
 # create BFMatcher object
 def create_brute_force_matcher():
@@ -65,6 +66,11 @@ def sort_matches(matches):
 def display_output(pic1, kpt1, pic2, kpt2, best_match):
     # drawing the feature matches using drawMatches() function
     output_image = cv.drawMatches(pic1, kpt1, pic2, kpt2, best_match, None, flags=2)
+    # Naming a window
+    cv.namedWindow('Output image', cv.WINDOW_NORMAL)
+
+    # Using resizeWindow()
+    cv.resizeWindow('Output image', 800, 800)
     cv.imshow('Output image', output_image)
 
 
@@ -72,3 +78,46 @@ def display_output(pic1, kpt1, pic2, kpt2, best_match):
 def draw_matches(img1, kp1, img2, kp2, matches, max_disp_matches):
     img3 = cv.drawMatches(img1, kp1, img2, kp2, matches[:max_disp_matches], None, flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
     plt.imshow(img3), plt.show()
+
+def save_matches_to_csv(matches, kp1, kp2, image_identifier, target_folder):
+    """
+    Saves brute-force matching results to a CSV file using pandas.
+
+    :param matches: List of cv2.DMatch objects containing feature matches.
+    :param kp1: List of cv2.KeyPoint objects from the first image.
+    :param kp2: List of cv2.KeyPoint objects from the second image.
+    :param image_identifier: Identifier for the image pair (used in the CSV file name).
+    :param target_folder: Directory where the CSV file will be saved.
+    """
+    # Extract match data
+    match_data = []
+    for match in matches:
+        q_idx = match.queryIdx
+        t_idx = match.trainIdx
+        q_kp = kp1[q_idx].pt  # (x, y)
+        t_kp = kp2[t_idx].pt  # (x, y)
+
+        ## unrounded match coordinates
+        # match_data.append([q_idx, t_idx, match.distance,
+        #                    q_kp[0], q_kp[1], t_kp[0], t_kp[1]])
+
+        # round match coordinates
+        match_data.append([q_idx, t_idx, match.distance,
+                           round(q_kp[0]), round(q_kp[1]),
+                           round(t_kp[0]), round(t_kp[1])])
+
+    # Create a DataFrame
+    df = pd.DataFrame(match_data, columns=["Query Index", "Train Index", "Distance",
+                                           "Query X", "Query Y", "Train X", "Train Y"])
+
+    # Ensure target directory exists
+    os.makedirs(target_folder, exist_ok=True)
+
+    # Generate a unique file name
+    file_name = f"{image_identifier}_matches.csv"
+    file_path = os.path.join(target_folder, file_name)
+
+    # Save DataFrame to CSV
+    df.to_csv(file_path, index=False)
+
+    # print(f"Matches saved to {file_path}")

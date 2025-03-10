@@ -1,3 +1,4 @@
+## Library and Function Declarations
 # Standard Libraries
 import os
 import numpy as np
@@ -10,9 +11,6 @@ from smoothImage import smooth_image
 import orbDetector as orb
 import featureMatch as feat_match
 
-
-
-
 # User Methods
 user_methods, user_params = user_inputs.run_input_format_module()
 
@@ -24,7 +22,7 @@ patch_sz = user_params[4]
 
 # directory management
 head_dir = ifc_dir.setHeadDirPath()
-print("Head directory: ", head_dir)
+# print("Head directory: ", head_dir)
 
 input_img_dir, local_input_folder = ifc_dir.setInputImgPath(head_dir)   # set the location of input images
 input_img_names, num_images = ifc_dir.getInputImgNames(input_img_dir)   # get the names of the images to be processed
@@ -41,18 +39,17 @@ feature_match_path = ifc_dir.createOutputDir(head_dir, 5)    # feature matches
 # initialize opencv objects
 kernel = np.ones((kern_sz,kern_sz),np.float32) / (kern_sz ^ 2)
 orb_obj = orb.create_orb_object(bin_sz, patch_sz, fast_thresh)
-
-
+img_ID = []
 
 # img_path = input_img_names[0][2]
 # print(input_img_dir)
 img_path = os.path.join(input_img_dir, input_img_names[0][2])
 print(img_path)
 
-
-
 for i, img_id in enumerate(input_img_names):
     # print("iteration: ", i)
+    print(type(i))
+    img_ID.append([i])
     # # # read the image
     # print(img_id[2])
     img_path = os.path.join(input_img_dir, img_id[2])
@@ -81,44 +78,24 @@ for i, img_id in enumerate(input_img_names):
     kp_path = os.path.join(head_dir, detected_keypoints_path)
     orb.save_keypoints(kp, img_id[0], kp_path)
 
-
     # assign feature descriptors
     fd = orb.detect_features_rbrief(orb_obj, img_gk, kp)
     fd_path = os.path.join(head_dir, feature_descriptor_path)
     orb.save_descriptors(kp, fd, img_id[0], fd_path)
+
+
     ## Save the results for each image
+    # moved into each individual function
 
-    # Greyscale Imagery
-    # full_gs_path = os.path.join(head_dir, gs_imagery_path, img_id[2])
-    # cv.imwrite(full_gs_path, img_gs)
-
-    # Smoothing
-    # full_gk_path = os.path.join(head_dir, gk_imagery_path, img_id[2])
-    # cv.imwrite(full_gk_path, img_gk)
-
-    # Detected Keypoints
-    # kp_path = os.path.join(head_dir, detected_keypoints_path)
-    # orb.save_keypoints(kp, img_id[0], kp_path)
-
-    # Feature Descriptors
-    # print("Feature Descriptors are of type: ", type(fd))
-    # fd_path = os.path.join(head_dir, feature_descriptor_path)
-    # orb.save_descriptors(kp, fd, img_id[0], fd_path)
 # end loop
 
-
-
-
-# search for matches across all images
-
-
+## search for matches across all images
 # create brute force matching object
 bf = feat_match.create_brute_force_matcher()
 
-
 # this indexing method ensures that no images are redundantly cross-checked
 for i in range(num_images):
-    # retrieve descriptors for image i
+    # retrieve descriptors for image i, also known as the query image
     img_inst_1 = input_img_names[i][0]
     img_path_1 = os.path.join(input_img_dir, input_img_names[i][2])
     img_1 = cv.imread(img_path_1,cv.IMREAD_GRAYSCALE)
@@ -126,7 +103,7 @@ for i in range(num_images):
     kp1, fd1 = feat_match.load_orb_descriptors(img_inst_1, feature_descriptor_path)
 
     for j in range(i + 1, num_images):
-        # retrieve descriptors for image j
+        # retrieve descriptors for image j, also known as the training image
         # print(f"i: {i}, j: {j}")
         img_inst_2 = input_img_names[j][0]
         img_path_2 = os.path.join(input_img_dir, input_img_names[j][2])
@@ -134,9 +111,23 @@ for i in range(num_images):
 
         kp2, fd2 = feat_match.load_orb_descriptors(img_inst_2, feature_descriptor_path)
 
+        # execute feature matching
         best_matches = feat_match.sort_matches(feat_match.match_descriptors(bf, fd1, fd2))
+
+
+        # save feature matches to csv
+        images_under_comparison = img_inst_1 + "_" + img_inst_2
+        feat_match.save_matches_to_csv(best_matches, kp1, kp2, images_under_comparison, feature_match_path)
+        # NOTE: feature matches should be rounded to the nearest coordinate
+
+
+        # visualize matches between images
         feat_match.display_output(img_1, kp1, img_2, kp2, best_matches)
 
+
+
+        cv.waitKey(0)
+        cv.destroyAllWindows()
 
 # save results
 
