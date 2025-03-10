@@ -81,5 +81,5 @@ def save_descriptors(keypoints, descriptors, image_identifier, target_folder):
     # Save the DataFrame to CSV
     df.to_csv(file_path, index=False)
 
-    print(f"Keypoints and descriptors saved to {file_path}")
+    # print(f"Keypoints and descriptors saved to {file_path}")
 

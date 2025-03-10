@@ -76,12 +76,13 @@ def checklimits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_zs, u_patch_sz):
         err_list.append(
             "User-defined patch size is invalid. Update the patch size to fall within the allowable bounds before rerunning the program.")
 
-    print(err_count)
+    # print(err_count) # uncomment only to support debugging
     if err_count == 0:
-        print("No errors detected in user-specified parameters.")
+        # print("No errors detected in user-specified parameters.") # uncomment only to support debugging
+        a = 0 # dummy line to avoid throwing an error
     else:
-        print("Total errors detected: ", err_count)
-        print(type(err_list))
+        print("Total errors detected: ", err_count) # uncomment only to support debugging
+        print(type(err_list)) # uncomment only to support debugging
         for i in err_list:
             print(i)
 

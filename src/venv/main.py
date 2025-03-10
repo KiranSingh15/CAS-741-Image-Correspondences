@@ -44,12 +44,14 @@ img_ID = []
 # img_path = input_img_names[0][2]
 # print(input_img_dir)
 img_path = os.path.join(input_img_dir, input_img_names[0][2])
-print(img_path)
+# print(img_path)   # uncomment only to support debugging
 
 for i, img_id in enumerate(input_img_names):
     # print("iteration: ", i)
-    print(type(i))
-    img_ID.append([i])
+    # print(type(i))  # uncomment only to support debugging
+
+    img_ID.append([i]) # assigns unique image IDs
+
     # # # read the image
     # print(img_id[2])
     img_path = os.path.join(input_img_dir, img_id[2])
@@ -102,7 +104,7 @@ for i in range(num_images):
 
     kp1, fd1 = feat_match.load_orb_descriptors(img_inst_1, feature_descriptor_path)
 
-    for j in range(i + 1, num_images):
+    for j in range(i + 1, num_images):  # ensures that no image is compared with itself
         # retrieve descriptors for image j, also known as the training image
         # print(f"i: {i}, j: {j}")
         img_inst_2 = input_img_names[j][0]
@@ -121,10 +123,15 @@ for i in range(num_images):
         # NOTE: feature matches should be rounded to the nearest coordinate
 
 
+        ## Need to use the image identifiers (img_inst_1, img_inst_2) and add it to the list of matches
+
+        # if the dataframe has been created, append the new feature matches, otherwise
+
+        # define the combined dataframe
+
+
         # visualize matches between images
         feat_match.display_output(img_1, kp1, img_2, kp2, best_matches)
-
-
 
         cv.waitKey(0)
         cv.destroyAllWindows()
@@ -157,23 +164,22 @@ orb_obj = orb.create_orb_object(bin_sz, patch_sz, fast_thresh)
 
 # Identify Key Points
 kp = orb.detect_keypoints_ofast(orb_obj, img_gk)
-print("keypoints identified")
+print("Cybertruck keypoints identified")
 
 # Drawing the keypoints
 kp_image = cv.drawKeypoints(img_gk, kp, None, color=(0, 255, 0), flags=0)
-cv.imshow('ORB', kp_image)
+cv.imshow('Unadjusted ORB', kp_image)
 
 
 
 # # Identify descriptors
 fd = orb.detect_features_rbrief(orb_obj, img_gk, kp)
-print("features identified")
+print("Cybertruck features identified")
 img_with_keypoints = cv.drawKeypoints(img, kp, None, color=(0, 255, 0),
                                       flags=cv.DrawMatchesFlags_DRAW_RICH_KEYPOINTS)
-cv.imshow("ORB Keypoints", img_with_keypoints)
+cv.imshow("ORB with Keypoints", img_with_keypoints)
 
 
-# Match descriptors should be in another file
 
 cv.waitKey(0)
 cv.destroyAllWindows()

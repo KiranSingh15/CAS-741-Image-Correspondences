@@ -34,12 +34,10 @@ def check_selected_method(user_sel_methods, method_limits):
         print("No errors detected in selected methods.")
 
 # check that the selected method configuration is valid
+
+
 ### FUTURE WORK ###
-
-
 # compare each parameter in the range
-
-
 
 
 ## Main program

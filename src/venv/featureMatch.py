@@ -47,7 +47,7 @@ def load_orb_descriptors(filename, directory):
         # Stack descriptors into a single NumPy array if any descriptors exist
         descriptors = np.vstack(descriptor_list).astype(np.uint8) if descriptor_list else None
 
-    print(f"Data loaded and converted to ORB descriptors and keypoints from {file_path}")
+    # print(f"Data loaded and converted to ORB descriptors and keypoints from {file_path}")
     return keypoints, descriptors
 
 
