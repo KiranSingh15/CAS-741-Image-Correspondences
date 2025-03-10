@@ -31,7 +31,7 @@ def get_chosen_parameters():
     "standard deviation": 1,# where the standard deviation must be a positive, real number
     "fast threshold": int(10),
     "bin size": int(2000),
-    "patch size": int(31),
+    "patch size": int(50),
     }
 
     return in_params

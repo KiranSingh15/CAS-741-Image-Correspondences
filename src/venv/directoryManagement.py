@@ -15,7 +15,9 @@ def setInputImgPath(head_dir):
 def getInputImgNames(img_dir):
     img_dir = Path(img_dir)  # Ensure it's a Path object
     input_img = [(file.stem, file.suffix, file.name) for file in img_dir.iterdir() if file.is_file()]
-    return input_img
+    num_images = len(input_img)
+    print (num_images)
+    return input_img, num_images
 
 # create output paths
 def createOutputDir(head_dir, dir_type):
