@@ -19,6 +19,7 @@ sd = user_params[1]
 fast_thresh = user_params[2]
 bin_sz = user_params[3]
 patch_sz = user_params[4]
+match_dist_thresh = user_params[5]
 
 # directory management
 head_dir = ifc_dir.setHeadDirPath()
@@ -131,7 +132,7 @@ for i in range(num_images):
 
 
         # visualize matches between images
-        feat_match.display_output(img_1, kp1, img_2, kp2, best_matches)
+        feat_match.display_screened_matches(img_1, kp1, img_2, kp2, best_matches, match_dist_thresh)
 
         cv.waitKey(0)
         cv.destroyAllWindows()

@@ -73,6 +73,19 @@ def display_output(pic1, kpt1, pic2, kpt2, best_match):
     cv.resizeWindow('Output image', 800, 800)
     cv.imshow('Output image', output_image)
 
+# alternative display function, where matches must be equal less than the allowable hamming distance
+def display_screened_matches(pic1, kpt1, pic2, kpt2, matches, dist_thresh):
+    # Filter matches based on the minimum distance
+    good_matches = [m for m in matches if m.distance < dist_thresh]
+
+    # drawing the feature matches using drawMatches() function
+    output_image = cv.drawMatches(pic1, kpt1, pic2, kpt2, matches, None, flags=2)
+    # Naming a window
+    cv.namedWindow('Output image', cv.WINDOW_NORMAL)
+
+    # Using resizeWindow()
+    cv.resizeWindow('Output image', 800, 800)
+    cv.imshow('Output image', output_image)
 
 # Draw first 10 matches.
 def draw_matches(img1, kp1, img2, kp2, matches, max_disp_matches):
