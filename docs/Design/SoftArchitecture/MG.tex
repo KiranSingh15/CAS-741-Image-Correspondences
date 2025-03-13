@@ -46,8 +46,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+2025-03-19 & 1.0 & Initial Release\\
 \bottomrule
 \end{tabularx}
 
@@ -65,16 +64,21 @@ This section records information for easy reference.
   \textbf{symbol} & \textbf{description}\\
   \midrule 
   AC & Anticipated Change\\
+  BRIEF & Binary Robust Independent Elementary Features\\
   DAG & Directed Acyclic Graph \\
+  FAST & Features from Accelerated Segment Test\\
+  IFCS & Image Feature Correspondence Software \\
   M & Module \\
   MG & Module Guide \\
+  ORB & Oriented Fast and Rotated Brief\\
   OS & Operating System \\
   R & Requirement\\
   SC & Scientific Computing \\
   SRS & Software Requirements Specification\\
-  \progname & Explanation of program name\\
+  \progname & Program to identify and retrive regions of \\ 
+            & interest within the scene of camera imagery\\
+
   UC & Unlikely Change \\
-  \wss{etc.} & \wss{...}\\
   \bottomrule
 \end{tabular}\\
 
@@ -161,7 +165,33 @@ change.
   hardware on which the software is running.
 \item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
   initial input data.
-\item ...
+\item[\refstepcounter{acnum} \actheacnum \label{acInConstrain}:] The constraints 
+on the input parameters.
+\item[\refstepcounter{acnum} \actheacnum \label{acOutput}:] The format of the 
+output data.
+\item[\refstepcounter{acnum} \actheacnum \label{acOutConstrain}:] The constraints 
+on the output results.
+\item[\refstepcounter{acnum} \actheacnum \label{acNoise}:] The algorithm used to 
+reduce noise within the imagery.
+\item[\refstepcounter{acnum} \actheacnum \label{acKP}:] The algorithm used to 
+identify keypoints in an image.
+\item[\refstepcounter{acnum} \actheacnum \label{acFD}:] The algorithm used to 
+define features within an image.
+\item[\refstepcounter{acnum} \actheacnum \label{acFM}:] The algorithm used to 
+compare features between images.
+\item[\refstepcounter{acnum} \actheacnum \label{acMatches}:] The implementation 
+of the data structure used to hold identified feature matches.
+\item[\refstepcounter{acnum} \actheacnum \label{acRelation}:] The relationships 
+between what methods of feature identification, description, and comparison are 
+compatible with each other.
+\item[\refstepcounter{acnum} \actheacnum \label{acMetrics}:] The user wants to 
+modify the metrics to be stored alongside a candidate matches of features.
+\item[\refstepcounter{acnum} \actheacnum \label{acVisualize}:] The user wants 
+to visualize the outputs of a given processing operation.
+\item[\refstepcounter{acnum} \actheacnum \label{acSaveImage}:] The user wants 
+to save a snapshot of the output from any given processing operation.
+
+
 \end{description}
 
 \wss{Anticipated changes relate to changes that would be made in requirements,
@@ -180,7 +210,17 @@ decisions will be changed.
 \begin{description}
 \item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
   (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item ...
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucGoal}:]  The goal of the system 
+is to identify and compare features identified within different images.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucDetectMethod}:]  The methods of 
+feature detection can be executed using parameters defined in the input parameters 
+module.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucMatchMethod}:]  The methods used 
+to compare features can be executed using parameters defined in the input parameters 
+module.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucConfig}:]  The user interface is 
+changed from a .config file and command line arguments to a novel user GUI.
+  
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
@@ -188,11 +228,23 @@ decisions will be changed.
 This section provides an overview of the module design. Modules are summarized
 in a hierarchy decomposed by secrets in Table \ref{TblMH}. The modules listed
 below, which are leaves in the hierarchy tree, are the modules that will
-actually be implemented.
-
+actually be implemented. Modules are numbered by \textbf{M} followed by a number.
 \begin{description}
-\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item ...
+\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware Hiding Module
+\item [\refstepcounter{mnum} \mthemnum \label{mIF}:] Input Format Module
+\item [\refstepcounter{mnum} \mthemnum \label{mSP}:] Specification Parameters Module
+\item [\refstepcounter{mnum} \mthemnum \label{mOF}:] Output Format Module
+\item [\refstepcounter{mnum} \mthemnum \label{mOV}:] Output Verification Module
+\item [\refstepcounter{mnum} \mthemnum \label{mC}:] Control Module
+\item [\refstepcounter{mnum} \mthemnum \label{mIS}:] Image Smoothing Module
+\item [\refstepcounter{mnum} \mthemnum \label{mKD}:] Keypoint Detection Module
+\item [\refstepcounter{mnum} \mthemnum \label{mFD}:] Feature Descriptor Module
+\item [\refstepcounter{mnum} \mthemnum \label{mFM}:] Feature Matching Module
+\item [\refstepcounter{mnum} \mthemnum \label{mIDS}:] Image Data Structure Module
+\item [\refstepcounter{mnum} \mthemnum \label{mIP}:] Image Plot Module
+\item [\refstepcounter{mnum} \mthemnum \label{mFMD}:] Feature Match Data Module
+\item [\refstepcounter{mnum} \mthemnum \label{mDF}:] Dataframe Structure Module
+\item [\refstepcounter{mnum} \mthemnum \label{mORB}:] ORB Data Structure Module
 \end{description}
 
 
@@ -206,19 +258,22 @@ actually be implemented.
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\ 
-& ?\\
+\multirow{9}{0.3\textwidth}{Behaviour-Hiding Module} & \mref{mIF}\\
+& \mref{mSP}\\
+& \mref{mOF}\\
+& \mref{mOV}\\
+& \mref{mC}\\
+& \mref{mIS}\\
+& \mref{mKD}\\ 
+& \mref{mFD}\\
+& \mref{mFM}\\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-& ?\\
-& ?\\
+\multirow{5}{0.3\textwidth}{Software Decision Module} & \mref{mIDS}\\
+& \mref{mIP}\\
+& \mref{mORB}\\
+& \mref{mFMD}\\
+& \mref{mDF}\\
 \bottomrule
 
 \end{tabular}
@@ -232,13 +287,6 @@ The design of the system is intended to satisfy the requirements developed in
 the SRS. In this stage, the system is decomposed into modules. The connection
 between requirements and modules is listed in Table~\ref{TblRT}.
 
-\wss{The intention of this section is to document decisions that are made
-  ``between'' the requirements and the design.  To satisfy some requirements,
-  design decisions need to be made.  Rather than make these decisions implicit,
-  they are explicitly recorded here.  For instance, if a program has security
-  requirements, a specific design decision may be made to satisfy those
-  requirements with a password.}
-
 \section{Module Decomposition} \label{SecMD}
 
 Modules are decomposed according to the principle of ``information hiding''
@@ -248,7 +296,7 @@ module. The \emph{Services} field specifies \emph{what} the module will do
 without documenting \emph{how} to do it. For each module, a suggestion for the
 implementing software is given under the \emph{Implemented By} title. If the
 entry is \emph{OS}, this means that the module is provided by the operating
-system or by standard programming language libraries.  \emph{\progname{}} means the
+system or by standard programming language libraries.  \emph{IFCS} means the
 module will be implemented by the \progname{} software.
 
 Only the leaf modules in the hierarchy have to be implemented. If a dash
@@ -278,22 +326,110 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Input Format Module (\mref{mInput})}
+\subsubsection{Input Format Module (\mref{mIF})}
 
 \begin{description}
 \item[Secrets:]The format and structure of the input data.
 \item[Services:]Converts the input data into the data structure used by the
   input parameters module.
-\item[Implemented By:] [Your Program Name Here]
+\item[Implemented By:] IFCS
 \item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
   [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Specification Parameters Module (\mref{mSP})}
+
+\begin{description}
+\item[Secrets:] The default values and software limits for constraints on input 
+variables.
+\item[Services:]Read access for the input checks against the parameters in 
+\mref{mIF}.
+\item[Implemented By:] IFCS
+\item[Type of Module:] \emph{Record} [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Output Format Module (\mref{mOF})}
+
+\begin{description}
+\item[Secrets:]The format of the output data and the structure in which it is contained.
+\item[Services:]Outputs the results of the matched features, including the source image and 
+feature identifiers.
+\item[Implemented By:] IFCS
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Output Verification Module (\mref{mOV})}
+
+\begin{description}
+\item[Secrets:]Contains the algorithms used to check uniqueness of feature matches and their 
+identifiers.
+\item[Services:]Reviews the set of matches image features and flags any that are repeated 
+or share the same point of origin.
+\item[Implemented By:] IFCS
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Control Module (\mref{mC})}
+
+\begin{description}
+\item[Secrets:]The procedure to run the program.
+\item[Services:]Oversees execution of the overall program.
+\item[Implemented By:] IFCS
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Image Smoothing Module (\mref{mIS})}
+
+\begin{description}
+\item[Secrets:]The Kernel parameters used to smooth the image.
+\item[Services:]Defines the smoothing kernel using the parameters in the Input 
+Format module.
+\item[Implemented By:] IFCS
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Keypoint Detection Module (\mref{mKD})}
+
+\begin{description}
+\item[Secrets:]The methods used to define features within images.
+\item[Services:]Defines the available methods used to detect features using the 
+parameters in the Input Format module.
+\item[Implemented By:] IFCS
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Feature Descriptor Module (\mref{mFD})}
+
+\begin{description}
+\item[Secrets:]The methods of defining features within images.
+\item[Services:]Defines the available methods used to describe features using the parameters 
+in the Input Format module.
+\item[Implemented By:] IFCS
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Feature Matching Module (\mref{mFM})}
+
+\begin{description}
+\item[Secrets:]The methods used to compare features within images.
+\item[Services:]Defines the available methods used to compare image features using the 
+parameters in the Input Format module.
+\item[Implemented By:] IFCS
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
 
 
 \subsection{Software Decision Module}
 
+\subsubsection{Image Data Structure Module (\mref{mIDS})}
 \begin{description}
 \item[Secrets:] The design decision based on mathematical theorems, physical
   facts, or programming considerations. The secrets of this module are
@@ -302,7 +438,45 @@ to be implemented.
   do not provide direct interaction with the user. 
   % Changes in these modules are more likely to be motivated by a desire to
   % improve performance than by externally imposed changes.
-\item[Implemented By:] --
+\item[Implemented By:] OpenCV library
+\end{description}
+
+\subsubsection{Image Plot Module (\mref{mFD})}
+\begin{description}
+\item[Secrets:] The data structure of the image to be displayed.
+\item[Services:] Defines the methods used to generate and display an image as a figure.
+  % Changes in these modules are more likely to be motivated by a desire to
+  % improve performance than by externally imposed changes.
+\item[Implemented By:] OpenCV library
+\end{description}
+
+\subsubsection{Feature Match Data Module (\mref{mFD})}
+\begin{description}
+\item[Secrets:] The algorithms used to identify matched features.
+\item[Services:] Provides data structure and algorithms to compare features between 
+images to identify candidate matches. 
+  % Changes in these modules are more likely to be motivated by a desire to
+  % improve performance than by externally imposed changes.
+\item[Implemented By:] OpenCV library
+\end{description}
+
+\subsubsection{Dataframe Structure Module (\mref{mFD})}
+\begin{description}
+\item[Secrets:] The algorithms used to identify matched features.
+\item[Services:] Provides data structure and algorithm to compare features 
+between images to identify candidate matches. 
+  % Changes in these modules are more likely to be motivated by a desire to
+  % improve performance than by externally imposed changes.
+\item[Implemented By:] OpenCV library
+\end{description}
+
+\subsubsection{ORB Data Structure Module (\mref{mFD})}
+\begin{description}
+\item[Secrets:] The algorithms that implement specialized keypoint detection and feature assignments as oriented-FAST and rotated BRIEF.
+\item[Services:] Provides data structure and algorithms to perform combined FAST and BRIEF.
+  % Changes in these modules are more likely to be motivated by a desire to
+  % improve performance than by externally imposed changes.
+\item[Implemented By:] Pandas library
 \end{description}
 
 \subsubsection{Etc.}
@@ -320,17 +494,21 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
-R4 & \mref{mOutput}, \mref{mControl}\\
-R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R9 & \mref{mVerifyOut}\\
-R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
-R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
+R1 & \mref{mHH}, \mref{mIF}\\
+R2 & \mref{mHH}, \mref{mIF}\\
+R3 & \mref{mHH}, \mref{mIF}\\
+R4 & \mref{mHH}, \mref{mIF}\\
+R5 & \mref{mIS}\\
+R6 & \mref{mKD}, \mref{mORB}\\
+R7 & \mref{mFD}, \mref{mORB}\\
+R8 & \mref{mFM}\\
+R9 & \mref{mIS}\\
+R10 & \mref{mC}, \mref{mKD}, \mref{mIP}\\
+R11 & \mref{mC}, \mref{mFD}, \mref{mIP}\\
+R12 & \mref{mC}, \mref{mFM}, \mref{mFMD}, \mref{mIP}\\
+R13 & \mref{mOV}\\
+R14 & \mref{mOF}, \mref{mFMD}\\
+R15 & \mref{mOF}, \mref{mOV}, \mref{mDF}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
@@ -344,17 +522,17 @@ R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
 \textbf{AC} & \textbf{Modules}\\
 \midrule
 \acref{acHardware} & \mref{mHH}\\
-\acref{acInput} & \mref{mInput}\\
-\acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
-\acref{acOutput} & \mref{mOutput}\\
-\acref{acVerifyOut} & \mref{mVerifyOut}\\
-\acref{acODEs} & \mref{mODEs}\\
-\acref{acEnergy} & \mref{mEnergy}\\
-\acref{acControl} & \mref{mControl}\\
-\acref{acSeqDS} & \mref{mSeqDS}\\
-\acref{acSolver} & \mref{mSolver}\\
-\acref{acPlot} & \mref{mPlot}\\
+\acref{acInput} & \mref{mIF}\\
+\acref{acInConstrain} & \mref{mSP}\\
+\acref{acOutput} & \mref{mOF}\\
+\acref{acOutConstrain} & \mref{mOV}\\
+\acref{acNoise} & \mref{mIS}\\
+\acref{acKP} & \mref{mKD}\\
+\acref{acFD} & \mref{mFD}\\
+\acref{acFM} & \mref{mFM}\\
+\acref{acMatches} & \mref{mDF}\\
+\acref{acRelation} & \mref{mC}, \mref{mORB}\\
+\acref{acMetrics} & \mref{mFMD}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
@@ -385,7 +563,7 @@ arrows in the diagram typically correspond to the presence of import statement.}
 
 \begin{figure}[H]
 \centering
-%\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
+\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
 \caption{Use hierarchy among modules}
 \label{FigUH}
 \end{figure}

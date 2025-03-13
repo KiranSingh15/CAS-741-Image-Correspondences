@@ -1,5 +1,5 @@
 import config as cfg
-import specificationParameters as sp
+import specParams as sp
 
 # get user inputs
 def get_user_inputs():
