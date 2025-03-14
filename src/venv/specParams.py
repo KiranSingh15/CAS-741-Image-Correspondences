@@ -21,7 +21,7 @@ def set_default_methods():
     ifc_def_mthds = {
         "Image Smoothing": mthd_img_smoothing[0],
         "Keypoint Detection": mthd_kp_detection[0],
-        "Keypoint Description ": mthd_kp_description[0],
+        "Keypoint Description": mthd_kp_description[0],
         "Feature Matching": mthd_ft_match[0]
     }
 
@@ -31,7 +31,7 @@ def set_default_methods():
 
 
 # Check user inputs
-def checklimits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_zs, u_patch_sz):
+def check_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_zs, u_patch_sz):
     err_count = 0
     err_list = []
 

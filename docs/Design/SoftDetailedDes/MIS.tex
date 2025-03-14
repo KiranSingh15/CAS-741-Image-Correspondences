@@ -173,10 +173,7 @@ config
 
 \subsection{Uses}
 \begin{itemize}
-\item smoothImage (Section~\ref{mIS})
-\item detectKeypoints (Section~\ref{mKD})
-\item assignDescriptors (Section~\ref{mFD})
-\item matchFeatures (Section~\ref{mFM})
+\item specParams (Section~\ref{mSP})
 \end{itemize}
 
 \subsection{Syntax}
@@ -184,16 +181,20 @@ config
 \subsubsection{Exported Constants}
 
 \subsubsection{Exported Access Programs}
-
-\begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.5cm}   >{\raggedright\arraybackslash}p{2cm} 
+  >{\raggedright\arraybackslash}p{2cm} >{\raggedright\arraybackslash}p{6cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+get\_head\_directory & - & string & noHeadFound \\
+get\_active\_functions & - & dictionary of string & badFxnSelections \\
+get\_chosen\_parameters & - & dictionary of string, integer, and floats 
+& badKernelSize, badStdDeviation,
+badFASTThrehold, badBinSize, badPatchSize, badDistThreshold \\
+ \\
 \hline
 \end{tabular}
-\end{center}
+
 
 \subsection{Semantics}
 
@@ -246,11 +247,7 @@ config
 specParams (Section~\ref{mIF})
 
 \subsection{Uses}
-  \begin{itemize}
-  \item config (Section~\ref{mIF})
-  \end{itemize}
-
-
+None.
 
 \subsection{Syntax}
 
@@ -259,11 +256,33 @@ specParams (Section~\ref{mIF})
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3.5cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+set\_default\_parameters & - & 
+$kernel\_sz: \mathbb{Z}$ \newline 
+$std\_deviation: \mathbb{R}$ \newline 
+$FAST\_threshold: \mathbb{Z}$ \newline 
+$bin\_sz: \mathbb{Z}$ \newline 
+$patch\_sz: \mathbb{Z}$ 
+& - \\ \\
+set\_default\_methods & - & 
+$mthd\_img\_smoothing: \mathbb{Z}$ \newline 
+$mthd\_kp\_detection: \mathbb{Z}$ \newline 
+$mthd\_kp\_description: \mathbb{Z}$ \newline 
+$mthd\_ft\_match: \mathbb{Z}$ \newline 
+& - \\
+check\_limits & 
+$kernel\_sz: \mathbb{Z}$ \newline 
+$std\_deviation: \mathbb{R}$ \newline 
+$FAST\_threshold: \mathbb{Z}$ \newline 
+$bin\_sz: \mathbb{Z}$ \newline 
+$patch\_sz: \mathbb{Z}$ 
+ & - & 
+badKernelSize, \newline badStdDeviation, \newline
+badFASTThrehold, \newline badBinSize, \newline
+badPatchSize, \newline badDistThreshold  \\
 \hline
 \end{tabular}
 \end{center}
@@ -272,8 +291,15 @@ specParams (Section~\ref{mIF})
 
 \subsubsection{State Variables}
 
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+$kernel\_sz: \mathbb{Z}$ \\
+$std\_deviation: \mathbb{R}$ \\
+$FAST\_threshold: \mathbb{R}$ \\
+$bin\_sz: \mathbb{Z}$ \\
+$patch\_sz: \mathbb{Z}$ \\
+$mthd\_img\_smoothing: \mathbb{Z}$ \\
+$mthd\_kp\_detection: \mathbb{Z}$ \\
+$mthd\_kp\_description: \mathbb{Z}$ \\
+$mthd\_ft\_match: \mathbb{Z}$ \\
 
 \subsubsection{Environment Variables}
 
@@ -293,6 +319,50 @@ specParams (Section~\ref{mIF})
 \item transition: \wss{if appropriate} 
 \item output: \wss{if appropriate} 
 \item exception: \wss{if appropriate} 
+\end{itemize}
+
+
+\noindent set\_default\_parameters():
+\begin{itemize}
+\item output: \wss{if appropriate}
+  \begin{itemize}
+  \item $kernel\_sz: \mathbb{Z}$
+  \item $std\_deviation: \mathbb{R}$ 
+  \item $FAST\_threshold: \mathbb{Z}$ 
+  \item $bin\_sz: \mathbb{Z}$ 
+  \item $patch\_sz: \mathbb{Z}$ 
+  \end{itemize}
+  % \item exception: \wss{if appropriate} 
+\end{itemize}
+
+\noindent set\_default\_methods():
+\begin{itemize}
+\item output: \wss{if appropriate}
+  \begin{itemize}
+    \item $mthd\_img\_smoothing: \mathbb{Z}$
+    \item $mthd\_kp\_detection: \mathbb{Z}$ 
+    \item $mthd\_kp\_description: \mathbb{Z}$
+    \item $mthd\_ft\_match: \mathbb{Z}$
+  \end{itemize}
+  \item exception: none 
+\end{itemize}
+
+\noindent check\_limits():
+\begin{itemize}
+  \item output: none
+    
+  \item exception: exc:=
+  \noindent \begin{longtable*}[l]{l l} 
+    $\neg (kernel\_sz < 1)$ & $\Rightarrow$ badKernelSize\\
+    $\neg (kernel\_sz > 15)$ & $\Rightarrow$ badKernelSize\\
+    $\neg (kernel\_sz \% 2 == 1)$ & $\Rightarrow$ badKernelSize\\
+    $\neg (0 < std\_deviation < 10)$ & $\Rightarrow$ badStdDeviation\\
+    $\neg (2 \leq FAST\_threshold \leq 255)$ & $\Rightarrow$ badFASTThreshold\\
+    $\neg (1 \leq FAST\_threshold \leq 2048)$ & $\Rightarrow$ badBinSize\\
+    $\neg (5 \leq FAST\_threshold \leq 100)$ & $\Rightarrow$ badPatchSize\\
+    \end{longtable*}
+
+
 \end{itemize}
 
 \wss{A module without environment variables or state variables is unlikely to
@@ -321,13 +391,14 @@ formatOutput
 
 \subsection{Uses}
 \begin{itemize}
-\item main (Section~\ref{mC})
+\item matchStruct (Section~\ref{mC})
+\item dataframeStruct (Section~\ref{mDF})
 \end{itemize}
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
-
+Not applicable.
 \subsubsection{Exported Access Programs}
 
 \begin{center}
@@ -335,7 +406,7 @@ formatOutput
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+main & - & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -353,6 +424,7 @@ formatOutput
   when the module has external interaction with the environment, such as for a
   device driver, screen interface, keyboard, file, etc.}
 
+
 \subsubsection{Assumptions}
 
 \wss{Try to minimize assumptions and anticipate programmer errors via
@@ -362,7 +434,10 @@ formatOutput
 
 \noindent \wss{accessProg}():
 \begin{itemize}
-\item transition: \wss{if appropriate} 
+\item transition: Modify the state of the Specification Parameters Module and the 
+environment variables for the Image Plot Module and Dataframe Structure modules through 
+the following steps.
+
 \item output: \wss{if appropriate} 
 \item exception: \wss{if appropriate} 
 \end{itemize}
@@ -392,9 +467,7 @@ formatOutput
 verifyOutput
 
 \subsection{Uses}
-\begin{itemize}
-  \item  main (Section~\ref{mC})
-\end{itemize}
+None.
 
 \subsection{Syntax}
 
@@ -464,7 +537,12 @@ verifyOutput
 main
 
 \subsection{Uses}
-Not applicable. 
+\begin{itemize}
+  \item matchFeatures (Section~\ref{mFM})
+  \item plotImage (Section~\ref{mIP})
+  \item formatOutput (Section~\ref{mOF})
+  \item verifyOutput (Section~\ref{mOV})
+\end{itemize}
 
 \subsection{Syntax}
 
@@ -477,7 +555,7 @@ Not applicable.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+main & - & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -490,6 +568,8 @@ Not applicable.
   a memory.}
 
 \subsubsection{Environment Variables}
+
+
 
 \wss{This section is not necessary for all modules.  Its purpose is to capture
   when the module has external interaction with the environment, such as for a
@@ -535,7 +615,8 @@ smoothImage
 
 \subsection{Uses}
 \begin{itemize}
-  \item detectKeypoints (Section~\ref{mKD})
+  \item config (Section~\ref{mC})
+  \item imageStruct (Section~\ref{mIDS})
 \end{itemize}
 
 \subsection{Syntax}
@@ -607,7 +688,10 @@ detectKeypoints
 
 \subsection{Uses}
 \begin{itemize}
-  \item assignDescriptors (Section~\ref{mFD})
+  \item config (Section~\ref{mIF})
+  \item smoothImage (Section~\ref{mIS})
+  \item imageStruct (Section~\ref{mIDS})
+  \item orbStruct (Section~\ref{mORB})
 \end{itemize}
 
 \subsection{Syntax}
@@ -679,7 +763,7 @@ assignDescriptors
 
 \subsection{Uses}
 \begin{itemize}
-  \item matchFeatures (Section~\ref{mFM})
+  \item detectKeypoints (Section~\ref{mKD})
 \end{itemize}
 
 \subsection{Syntax}
@@ -751,7 +835,7 @@ matchFeatures
 
 \subsection{Uses}
 \begin{itemize}
-  \item main (Section~\ref{mC})
+  \item assignDescriptors (Section~\ref{mFD})
 \end{itemize}
 
 \subsection{Syntax}
@@ -822,12 +906,7 @@ matchFeatures
 imageStruct
 
 \subsection{Uses}
-\begin{itemize}
-  \item smoothImage (Section~\ref{mIS})
-  \item detectKeypoints (Section~\ref{mKD})
-  \item assignDescriptors (Section~\ref{mFD})
-  \item matchFeatures (Section~\ref{mFM})
-\end{itemize}
+None.
 
 \subsection{Syntax}
 
@@ -898,7 +977,7 @@ plotImage
 
 \subsection{Uses}
 \begin{itemize}
-  \item main (Section~\ref{mC})
+  \item imageStruct (Section~\ref{mIP})
 \end{itemize}
 
 \subsection{Syntax}
@@ -968,10 +1047,7 @@ plotImage
 matchStruct
 
 \subsection{Uses}
-\begin{itemize}
-  \item formatOutput (Section~\ref{mOF})
-  \item matchFeatures (Section~\ref{mFM})
-\end{itemize}
+None.
 
 \subsection{Syntax}
 
@@ -1042,9 +1118,7 @@ matchStruct
 dataframeStruct
 
 \subsection{Uses}
-\begin{itemize}
-  \item formatOutput (Section~\ref{mOF})
-\end{itemize}
+None.
 
 \subsection{Syntax}
 
@@ -1114,11 +1188,7 @@ dataframeStruct
 orbStruct
 
 \subsection{Uses}
-\begin{itemize}
-  \item detectKeypoints (Section~\ref{mKD})
-  \item assignDescriptors (Section~\ref{mFD})
-  \item matchFeatures (Section~\ref{mFM})
-\end{itemize}
+None.
 
 \subsection{Syntax}
 

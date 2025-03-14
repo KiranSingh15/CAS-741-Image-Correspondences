@@ -5,7 +5,8 @@ import os
 
 # file paths
 def get_head_directory():
-    return Path(os.getcwd())  # Convert to Path object
+    head_directory = Path(os.getcwd())
+    return head_directory  # Convert to Path object
 
 # Activate functions, where inactive = 0, and all other permutations are defined by [1,n], where n is the last method
 def get_active_functions():
