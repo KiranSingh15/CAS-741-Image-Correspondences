@@ -50,7 +50,6 @@ def load_orb_descriptors(filename, directory):
     # print(f"Data loaded and converted to ORB descriptors and keypoints from {file_path}")
     return keypoints, descriptors
 
-
 # Match descriptors.
 def match_descriptors(brute_force_matcher, des1, des2):
     matches = brute_force_matcher.match(des1, des2)

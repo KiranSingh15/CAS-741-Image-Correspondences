@@ -153,7 +153,7 @@ The following table is taken directly from the Module Guide document for this pr
 & Dataframe Structure Module \\
 & ORB Data Structure Module \\
 \bottomrule
-
+ 
 \end{tabular}
 \caption{Module Hierarchy}
 \label{TblMH}
@@ -192,7 +192,7 @@ get\_chosen\_parameters & - & tuple (user-params) & - \\
 check\_limits & tuple (user-params) & - & 
 badKernelSize, \newline badStdDeviation, \newline
 badFASTThrehold, \newline badBinSize, \newline
-badPatchSize, \newline badDistThreshold  \\
+badPatchSize\\
 \\
 \hline
 \end{tabular}
@@ -201,6 +201,9 @@ badPatchSize, \newline badDistThreshold  \\
 \subsection{Semantics}
 
 \subsubsection{State Variables}
+tuple of methods and parameters goes here.\\
+set the state as the defaults, \\
+then set the state as the user defined methods, if available
 
 \wss{Not all modules will have state variables.  State variables give the module
   a memory.}
@@ -248,13 +251,6 @@ badPatchSize, \newline badDistThreshold  \\
 \wss{Modules rarely have both a transition and an output.  In most cases you
   will have one or the other.}
 
-\subsubsection{Local Functions}
-
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
-
   \section{MIS of Specification Parameters Module} \label{mSP}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
@@ -301,16 +297,6 @@ $mthd\_kp\_detection: \mathbb{Z}$ \newline
 $mthd\_kp\_description: \mathbb{Z}$ \newline 
 $mthd\_ft\_match: \mathbb{Z}$ \newline 
 & - \\
-check\_limits & 
-$kernel\_sz: \mathbb{Z}$ \newline 
-$std\_deviation: \mathbb{R}$ \newline 
-$FAST\_threshold: \mathbb{Z}$ \newline 
-$bin\_sz: \mathbb{Z}$ \newline 
-$patch\_sz: \mathbb{Z}$ 
- & - & 
-badKernelSize, \newline badStdDeviation, \newline
-badFASTThrehold, \newline badBinSize, \newline
-badPatchSize, \newline badDistThreshold  \\
 \hline
 \end{tabular}
 \end{center}
@@ -365,23 +351,6 @@ $mthd\_ft\_match: \mathbb{Z}$ \\
   \end{itemize}
   \item exception: none 
 \end{itemize}
-
-\noindent check\_limits():
-\begin{itemize}
-  \item output: none
-    
-  \item exception: exc:=
-  \noindent \begin{longtable*}[l]{l l} 
-    $\neg (kernel\_sz < 1)$ & $\Rightarrow$ badKernelSize\\
-    $\neg (kernel\_sz > 15)$ & $\Rightarrow$ badKernelSize\\
-    $\neg (kernel\_sz \; \% \; 2 \neq 0)$ & $\Rightarrow$ badKernelSize\\
-    $\neg (0 < std\_deviation < 10)$ & $\Rightarrow$ badStdDeviation\\
-    $\neg (2 \leq FAST\_threshold \leq 255)$ & $\Rightarrow$ badFASTThreshold\\
-    $\neg (1 \leq FAST\_threshold \leq 2048)$ & $\Rightarrow$ badBinSize\\
-    $\neg (5 \leq FAST\_threshold \leq 100)$ & $\Rightarrow$ badPatchSize\\
-    \end{longtable*}
-\end{itemize}
-
 
 \subsubsection{Local Functions}
 
@@ -611,12 +580,10 @@ main & - & - & - \\
   explicitly.  Even if they are implemented, they are not exported; they only
   have local scope.}
 
-  \section{MIS of Image Smoothing Module} \label{mIS}
+\section{MIS of Image Smoothing Module} \label{mIS}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
 \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
-
 \subsection{Module}
 
 smoothImage
@@ -670,7 +637,8 @@ std\_deviation: $\mathbb{R}$
 \noindent \wss{accessProg}():
 \begin{itemize}
 \item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
+\item output: \wss{if appropriate}
+\item how do we handle the if-else structure? 
 \item exception: \wss{if appropriate} 
 \end{itemize}
 
@@ -688,10 +656,9 @@ std\_deviation: $\mathbb{R}$
   explicitly.  Even if they are implemented, they are not exported; they only
   have local scope.}
 
-  \section{MIS of Keypoint Detection Module} \label{mKD}
+\section{MIS of Keypoint Detection Module} \label{mKD}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
 \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
 
 \subsection{Module}
@@ -717,7 +684,7 @@ detectKeypoints
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+computeKeypoints & - & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -725,7 +692,7 @@ detectKeypoints
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
+jey
 \wss{Not all modules will have state variables.  State variables give the module
   a memory.}
 
