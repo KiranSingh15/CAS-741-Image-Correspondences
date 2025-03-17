@@ -701,12 +701,16 @@ std\_deviation: $\mathbb{R}$
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+\noindent smooth\_image(c $\in \mathbb{Z}^{H \times W}$, 
+kernel\_sz $\in \mathbb{Z}$, std\_deviation $\in \mathbb{R}$):\\
+\# \textit{if method == 1, perform Gaussian Blur with OpenCV }\\
+img\_blur = GaussianBlur(noisy\_img, kernel\_sz, std\_deviation)\\
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate}
-\item how do we handle the if-else structure? 
-\item exception: \wss{if appropriate} 
+\item output: img\_blur $\in \mathbb{Z}^{m \times n}$
+\end{itemize}
+
+\begin{itemize}
+\item exception: None
 \end{itemize}
 
 \wss{A module without environment variables or state variables is unlikely to
@@ -818,7 +822,7 @@ HOW DO WE HANDLE IF-ELSE CASES?
   explicitly.  Even if they are implemented, they are not exported; they only
   have local scope.}
 
-  \section{MIS of Feature Descriptor Module} \label{mFD}
+\section{MIS of Feature Descriptor Module} \label{mFD}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
 
@@ -844,7 +848,7 @@ assignDescriptors
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+compute\_descriptors & - & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -1104,6 +1108,99 @@ plotImage
   explicitly.  Even if they are implemented, they are not exported; they only
   have local scope.}
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of ORB Data Structure Module} \label{mORB}
+
+\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+
+\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+\subsection{Module}
+
+orbStruct
+
+\subsection{Uses}
+None.
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None.
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{3.5cm} p{6cm} p{4.5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{Input} & \textbf{Output} & \textbf{Exceptions} \\
+\hline
+ORB.create & $\text{bin\_sz}\in \mathbb{Z}, \newline 
+\text{patch\_sz}\in \mathbb{Z}, \newline 
+\text{FAST\_threshold} \in \mathbb{Z}$ & orb\_object & None \\
+\hline
+orb\_object.detect & $\text{image} \in \mathbb{Z}^{h \times w}$ & $K$ (set of keypoints) & invalidImg \\
+\hline
+orb\_object.compute & $\text{image} \in \mathbb{Z}^{h \times w}$, \newline 
+$K$ where $K$ is a set of keypoints & $D$ (set of descriptors) & invalidImg, invalidKeypoints \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+orb\_object $\in$ \textbf{TBD}
+
+\subsubsection{Environment Variables}
+None.
+
+\subsubsection{Assumptions}
+\begin{itemize}
+    \item The input image is a valid grayscale or color image.
+    \item Keypoints are detected before computing descriptors.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent GaussianBlur$(\text{img} \in \mathbb{Z}^{m \times n}, (\text{kernel\_sz} 
+\in \mathbb{Z}, \text{kernel\_sz} \in \mathbb{Z}), \text{std\_deviation} \in \mathbb{R})$:
+\begin{itemize}
+    \item Output: $\text{img\_blur} \in \mathbb{Z}^{m \times n}$
+    \item Exception: None. Exceptions are handled in Input Format Module.
+\end{itemize}
+
+\noindent ORB.create$(\text{bin\_sz} \in \mathbb{Z}, \text{patch\_sz} \in \mathbb{Z}, \text{FAST\_threshold} \in \mathbb{Z})$:
+\begin{itemize}
+    \item Output: Initializes orb\_object as \textbf{TBD}
+    \item Exception: None. Exceptions are handled in Input Format Module.
+\end{itemize}
+
+\noindent orb\_object.detect$(\text{image} \in \mathbb{Z}^{m \times n})$:
+\begin{itemize}
+    \item Output: Returns the set of keypoints \( K = \{ (x_i, y_i, s_i, \theta_i, r_i) \mid i \in \mathbb{N} \} \), where:
+    \begin{itemize}
+        \item \( (x_i, y_i) \in \mathbb{R}^2 \) (spatial coordinates)
+        \item \( s_i \in \mathbb{R}^+ \) (scale)
+        \item \( \theta_i \in [0, 2\pi] \) (orientation)
+        \item \( r_i \in \mathbb{R} \) (response strength)
+    \end{itemize}
+    \item Exception: invalidImage
+\end{itemize}
+
+\noindent orb\_object.compute$(\text{image}, K)$:
+\begin{itemize}
+    \item Output: Returns a set of binary descriptors \( D = \{ d_i \mid d_i \in \mathbb{F}_2^{256}, i \in \mathbb{N} \} \).
+    \item Exception:
+    \begin{itemize}
+      \item image not found $\Rightarrow$ invalidImg
+      \item keypoints not found $\Rightarrow$ invalidKeypoints
+    \end{itemize}
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Feature Match Data Module} \label{mFMD}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
@@ -1123,13 +1220,18 @@ None.
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-\wss{accessProg} & - & - & - \\
-\hline
-\end{tabular}
+  \begin{tabular}{p{3cm} p{4cm} p{5cm} p{3cm}}
+  \hline
+  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+  \hline
+  BFMatcher & - & Initializes brute\_force\_object \newline 
+  as \textbf{TBD} & None.\\
+  \hline
+  matchDescriptors & $D_1$ as descriptor type, $D_2$ as descriptor type & Returns a set of matches $M = \{ m_i \mid m_i = (k_{1i}, k_{2i}, d_i), k_{1i} \in D_1, k_{2i} \in D_2, d_i \in \mathbb{R}^+ \}$, where $d_i$ is the match distance. & Raises an error if descriptors are invalid or empty. \\
+  \hline
+  sortMatches & $M$ (set of matches) & Returns a sorted set of matches $M'$, where matches are sorted in ascending order of distance $d_i$. & Raises an error if the match set is empty. \\
+  \hline
+  \end{tabular}
 \end{center}
 
 \subsection{Semantics}
@@ -1161,15 +1263,17 @@ None.
 
 \noindent matchDescriptors($D_1$ as descriptor type, $D_2$ as descriptor type):
 \begin{itemize}
-\item Output: Returns a set of matches $M = { m_i \mid m_i = (k_{1i}, k_{2i}, d_i), 
-k_{1i} \in D_1, k_{2i} \in D_2, d_i \in \mathbb{R}^+ }$, where $d_i$ is the match distance.
-\item Exception: Raises an error if descriptors are invalid or empty.
+\item output: Returns a set of matches \( M = \{ m_i \mid i \in \mathbb{N} \} \), where each match \( m_i \) is defined as 
+$m_i = (k_{1i}, k_{2i}, d_i)$
+with \( k_{1i} \in D_1 \), \( k_{2i} \in D_2 \), and \( d_i \in \mathbb{N} \), where \( d_i \) represents the match distance.
+
+\item exception: Raises an error if the descriptors are invalid or empty.
 \end{itemize}
 
 \noindent sortMatches$(M)$: 
 \begin{itemize} 
-  \item Output: Returns a sorted set of matches $M'$, where matches are sorted in ascending order of distance $d_i$. 
-  \item Exception: Raises an error if the match set is empty. 
+  \item output: Returns a sorted set of matches $M'$, where matches are sorted in ascending order of distance $d_i$. 
+  \item exception: Raises an error if the match set is empty. 
 \end{itemize}
 
 
@@ -1246,85 +1350,7 @@ None.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of ORB Data Structure Module} \label{mORB}
 
-\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
-\subsection{Module}
-
-orbStruct
-
-\subsection{Uses}
-None.
-
-\subsection{Syntax}
-
-\subsubsection{Exported Constants}
-None.
-
-\subsubsection{Exported Access Programs}
-
-\begin{center}
-\begin{tabular}{p{3.5cm} p{6cm} p{4.5cm} p{2cm}}
-\hline
-\textbf{Name} & \textbf{Input} & \textbf{Output} & \textbf{Exceptions} \\
-\hline
-ORB.create & $\text{bin\_sz}\in \mathbb{Z}, \newline 
-\text{patch\_sz}\in \mathbb{Z}, \newline 
-\text{FAST\_threshold} \in \mathbb{Z}$ & orb\_object & None \\
-\hline
-orb\_object.detect & $\text{image} \in \mathbb{Z}^{h \times w}$ & $K$ (set of keypoints) & invalidImg \\
-\hline
-orb\_object.compute & $\text{image} \in \mathbb{Z}^{h \times w}$, \newline 
-$K$ where $K$ is a set of keypoints & $D$ (set of descriptors) & invalidImg, invalidKeypoints \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-orb\_object $\in$ \textbf{TBD}
-
-\subsubsection{Environment Variables}
-None.
-
-\subsubsection{Assumptions}
-\begin{itemize}
-    \item The input image is a valid grayscale or color image.
-    \item Keypoints are detected before computing descriptors.
-\end{itemize}
-
-\subsubsection{Access Routine Semantics}
-
-\noindent ORB.create$(\text{bin\_sz} \in \mathbb{Z}, \text{patch\_sz} \in \mathbb{Z}, \text{FAST\_threshold} \in \mathbb{Z})$:
-\begin{itemize}
-    \item Output: Initializes orb\_object as \textbf{TBD}
-    \item Exception: None. Exceptions are handled in Input Format Module.
-\end{itemize}
-
-\noindent orb\_object.detect$(\text{image} \in \mathbb{Z}^{m \times n})$:
-\begin{itemize}
-    \item Output: Returns the set of keypoints \( K = \{ (x_i, y_i, s_i, \theta_i, r_i) \mid i \in \mathbb{N} \} \), where:
-    \begin{itemize}
-        \item \( (x_i, y_i) \in \mathbb{R}^2 \) (spatial coordinates)
-        \item \( s_i \in \mathbb{R}^+ \) (scale)
-        \item \( \theta_i \in [0, 2\pi] \) (orientation)
-        \item \( r_i \in \mathbb{R} \) (response strength)
-    \end{itemize}
-    \item Exception: invalidImage
-\end{itemize}
-
-\noindent orb\_object.compute$(\text{image}, K)$:
-\begin{itemize}
-    \item Output: Returns a set of binary descriptors \( D = \{ d_i \mid d_i \in \mathbb{F}_2^{256}, i \in \mathbb{N} \} \).
-    \item Exception:
-    \begin{itemize}
-      \item image not found $\Rightarrow$ invalidImg
-      \item keypoints not found $\Rightarrow$ invalidKeypoints
-    \end{itemize}
-\end{itemize}
 
 
 
