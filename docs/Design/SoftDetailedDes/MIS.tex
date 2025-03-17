@@ -720,13 +720,9 @@ img\_blur = GaussianBlur(noisy\_img, kernel\_sz, std\_deviation)\\
 \wss{Modules rarely have both a transition and an output.  In most cases you
   will have one or the other.}
 
-\subsubsection{Local Functions}
 
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Keypoint Detection Module} \label{mKD}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
@@ -739,9 +735,9 @@ detectKeypoints
 \subsection{Uses}
 \begin{itemize}
   \item config (Section~\ref{mIF})
-  \item smoothImage (Section~\ref{mIS})
-  \item imageStruct (Section~\ref{mIDS})
-  \item orbStruct (Section~\ref{mORB})
+  \item smoothImage (Section~\ref{mIS}) % may be removed since image smoothing is optional
+  \item imageStruct (Section~\ref{mIDS}) % to be merged as OpenCV library
+  \item orbStruct (Section~\ref{mORB}) % to be merged as OpenCV library
 \end{itemize}
 
 \subsection{Syntax}
@@ -806,8 +802,6 @@ orb\_object.detect(img $\in \mathbb{Z}^{m \times n}$)
 \end{itemize}
 
 
-HOW DO WE HANDLE IF-ELSE CASES?
-
 \wss{A module without environment variables or state variables is unlikely to
   have a state transition.  In this case a state transition can only occur if
   the module is changing the state of another module.}
@@ -815,13 +809,8 @@ HOW DO WE HANDLE IF-ELSE CASES?
 \wss{Modules rarely have both a transition and an output.  In most cases you
   will have one or the other.}
 
-\subsubsection{Local Functions}
 
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Feature Descriptor Module} \label{mFD}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
@@ -856,9 +845,9 @@ compute\_descriptors & - & - & - \\
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+\begin{itemize}
+  \item orb\_object as \textbf{TBD}
+\end{itemize}
 
 \subsubsection{Environment Variables}
 
@@ -873,19 +862,21 @@ compute\_descriptors & - & - & - \\
 
 \subsubsection{Access Routine Semantics}
 
+\noindent compute\_descriptors(orb\_obj as \textbf{TBD}, img $\in 
+\mathbb{Z}^{m \times n}$, keypoints as keypoint ADT):\\
+desc = orb\_object.compute(img, keypoints)
+
+\begin{itemize}
+\item output: desc $\in \mathbb{F}_{2}^{256}$
+\item exception: \wss{if appropriate} 
+\end{itemize}
+
 \noindent \wss{accessProg}():
 \begin{itemize}
 \item transition: \wss{if appropriate} 
 \item output: \wss{if appropriate} 
 \item exception: \wss{if appropriate} 
 \end{itemize}
-
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
-
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
 
 \subsubsection{Local Functions}
 
