@@ -163,6 +163,8 @@ The following table is taken directly from the Module Guide document for this pr
 \newpage
 ~\newpage
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Input Format Module} \label{mIF}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
@@ -188,13 +190,17 @@ config
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
 get\_head\_directory & - & head\_path as string & noHeadFound \\
+\hline
 get\_active\_functions & - & tuple (user-methods) & - \\
+\hline
 get\_chosen\_parameters & - & tuple (user-params) & - \\
+\hline
+get\_img\_names & head\_path as str & img\_names as $str^{n}$ & - \\
+\hline
 check\_limits & tuple (user-params) & - & 
 badKernelSize, \newline badStdDeviation, \newline
 badFASTThrehold, \newline badBinSize, \newline
 badPatchSize\\
-\\
 \hline
 \end{tabular}
 
@@ -219,15 +225,9 @@ set the state as the defaults, \\
 then set the state as the user defined methods, if available
 
 
-
-
-
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
-
 \subsubsection{Environment Variables}
 \begin{itemize}
-  \item head\_path as string
+  \item head\_path as str
 \end{itemize}
 
 \subsubsection{Assumptions}
@@ -236,14 +236,6 @@ then set the state as the user defined methods, if available
   exceptions, but for practical purposes assumptions are sometimes appropriate.}
 
 \subsubsection{Access Routine Semantics}
-
-\noindent \wss{accessProg}():
-\begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: none 
-\end{itemize}
-
 \noindent get\_head\_directory():
 \begin{itemize}
   \item output: head\_path = Path(os.getcwd()) where head\_path is a string
@@ -253,22 +245,32 @@ then set the state as the user defined methods, if available
 \noindent get\_active\_functions():
 \begin{itemize}
   \item output: [mthd\_img\_smoothing, mthd\_kp\_detection, 
-  mthd\_kp\_description, mthd\_ft\_match] = 
+  mthd\_kp\_description, mthd\_ft\_match $\in \mathbb{Z}$] 
 \end{itemize}
 
 
 \noindent get\_chosen\_parameters():
 \begin{itemize}
-  \item output: 
+  \item output: [kernel\_sz, bin\_sz, patch\_sz, FAST\_threshold $\in \mathbb{Z}$,  
+  std\_deviation $ \in \mathbb{R}$]
 \end{itemize}
 
 
+\noindent get\_img\_names(head\_path as str): \newline \newline
+img\_path = Path(head\_path + "Raw\_Images") \newline
+img\_dir = Path(img\_path) \newline
+input\_img = [(file.stem, file.suffix, file.name) 
+for file in img\_dir.iterdir() if file.is\_file()] \newline
+num\_images = len(input\_img)
+\begin{itemize}
+\item output: input\_img $\in str^{n}$, num\_images $\in \mathbb{N}$
+\item exception: none 
+\end{itemize}
 
 
 \noindent check\_limits():
 \begin{itemize}
   \item output: none
-    
   \item exception: exc:=
   \noindent \begin{longtable*}[l]{l l} 
     $\neg (kernel\_sz < 1)$ & $\Rightarrow$ badKernelSize\\
@@ -276,19 +278,14 @@ then set the state as the user defined methods, if available
     $\neg (kernel\_sz \; \% \; 2 \neq 0)$ & $\Rightarrow$ badKernelSize\\
     $\neg (0 < std\_deviation < 10)$ & $\Rightarrow$ badStdDeviation\\
     $\neg (2 \leq FAST\_threshold \leq 255)$ & $\Rightarrow$ badFASTThreshold\\
-    $\neg (1 \leq FAST\_threshold \leq 2048)$ & $\Rightarrow$ badBinSize\\
-    $\neg (5 \leq FAST\_threshold \leq 100)$ & $\Rightarrow$ badPatchSize\\
+    $\neg (1 \leq bin\_sz \leq 2048)$ & $\Rightarrow$ badBinSize\\
+    $\neg (5 \leq patch\_sz \leq 100)$ & $\Rightarrow$ badPatchSize\\
     \end{longtable*}
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
 
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
-
-  \section{MIS of Specification Parameters Module} \label{mSP}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Specification Parameters Module} \label{mSP}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
 
@@ -327,13 +324,13 @@ $std\_deviation: \mathbb{R}$ \newline
 $FAST\_threshold: \mathbb{Z}$ \newline 
 $bin\_sz: \mathbb{Z}$ \newline 
 $patch\_sz: \mathbb{Z}$ 
-& - \\ \\
+& - \\
+\hline
 get\_default\_methods & - & 
 $mthd\_img\_smoothing:\mathbb{Z}$ \newline 
 $mthd\_kp\_detection:\mathbb{Z}$ \newline 
 $mthd\_kp\_description:\mathbb{Z}$ \newline 
-$mthd\_ft\_match:\mathbb{Z}$ \newline 
-& - \\
+$mthd\_ft\_match:\mathbb{Z}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -389,11 +386,10 @@ $mthd\_ft\_match: \mathbb{Z}$ \\
   \item exception: none 
 \end{itemize}
 
-\subsubsection{Local Functions}
 
-None.
 
-  \section{MIS of Output Format Module} \label{mOF}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Output Format Module} \label{mOF}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
 
@@ -420,7 +416,7 @@ Not applicable.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-main & - & - & - \\
+- & - & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -429,28 +425,12 @@ main & - & - & - \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-  \item kernel\_sz $ \in \mathbb{Z}$
-  \item std\_deviation $ \in \mathbb{R}$
-  \item FAST\_threshold $ \in \mathbb{Z}$
-  \item bin\_sz $ \in \mathbb{Z}$
-  \item patch\_sz $ \in \mathbb{Z}$
-  \item mthd\_img\_smoothing $ \in \mathbb{Z}$
-  \item mthd\_kp\_detection $ \in \mathbb{Z}$
-  \item mthd\_kp\_description $ \in \mathbb{Z}$
-  \item mthd\_ft\_match $ \in \mathbb{Z}$
-  \item img\_obj\_1, img\_obj\_2 $\in \mathbb{Z}^{m \times n}$ 
+  \item 
 \end{itemize}
 
 \subsubsection{Environment Variables}
 
-% do we need to make these directories here? I dont think so
-\begin{itemize}
-  \item head\_dir as str 
-  \item path\_input\_img as str 
-  \item path\_keypoints as str
-  \item path\_descriptors as str
-  \item path\_feature\_matches as str
-\end{itemize}
+
 
 \wss{This section is not necessary for all modules.  Its purpose is to capture
   when the module has external interaction with the environment, such as for a
@@ -464,34 +444,13 @@ main & - & - & - \\
 
 \subsubsection{Access Routine Semantics}
 
-\noindent main():
+\noindent \wss{accessProg}():
 \begin{itemize}
-\item transition: Modify the state of the Specification Parameters Module and the 
-environment variables for the Image Plot Module and Output Format Module.
+\item transition: \wss{if appropriate} 
+\item output: \wss{if appropriate} 
+\item exception: \wss{if appropriate} 
 \end{itemize}
-[head\_dir as str] = get\_head\_directory() \newline \newline
-[mthd\_img\_smoothing $\in \mathbb{Z}$, mthd\_kp\_detection $\in \mathbb{Z}$, 
-mthd\_kp\_descriptors $\in \mathbb{Z}$, mthd\_ft\_matching $\in \mathbb{Z}$] 
-= get\_chosen\_methods() \newline \newline
-[kern\_sz $\in \mathbb{Z}$, std\_deviation $\in \mathbb{R}$, 
-FAST\_threshold $\in \mathbb{Z}$, bin\_sz $\in \mathbb{Z}$, 
-patch\_sz $\in \mathbb{Z}$] = get\_chosen\_parameters() \newline \newline
-\# \textit{Smooth the image as a preprocessing step to keypoint detection} \newline
-img\_obj\_1 = smooth\_image(img\_obj\_1$ \in \mathbb{Z}^{m \times n}$, kernel\_sz$ \in \mathbb{Z}$, 
-std\_deviation$ \in \mathbb{R}$) \newline \newline
-\# \textit{Identify the keypoints. Note that if the methods for keypoint detection and 
-descriptors are both == 1, then ORB is the selected method, and the keypoint and descriptor 
-modules should use the same ORB object, which likely will come from the OpenCV library}\newline
-\newline \newline
-\# \textit{Assign descriptors to keypoints} \newline
 
-
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
-
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
 
 \subsubsection{Local Functions}
 
@@ -500,7 +459,8 @@ modules should use the same ORB object, which likely will come from the OpenCV l
   explicitly.  Even if they are implemented, they are not exported; they only
   have local scope.}
 
-  \section{MIS of Output Verification Module} \label{mOV}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Output Verification Module} \label{mOV}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
 
@@ -537,7 +497,7 @@ None.
   a memory.}
 
 \subsubsection{Environment Variables}
-
+%%%%%%%%%% 
 \wss{This section is not necessary for all modules.  Its purpose is to capture
   when the module has external interaction with the environment, such as for a
   device driver, screen interface, keyboard, file, etc.}
@@ -570,7 +530,9 @@ None.
   explicitly.  Even if they are implemented, they are not exported; they only
   have local scope.}
 
-  \section{MIS of Control Module} \label{mC}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Control Module} \label{mC}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
 
@@ -607,17 +569,31 @@ main & - & - & - \\
 \subsection{Semantics}
 
 \subsubsection{State Variables}
+\begin{itemize}
+  \item kernel\_sz $ \in \mathbb{Z}$
+  \item std\_deviation $ \in \mathbb{R}$
+  \item FAST\_threshold $ \in \mathbb{Z}$
+  \item bin\_sz $ \in \mathbb{Z}$
+  \item patch\_sz $ \in \mathbb{Z}$
+  \item mthd\_img\_smoothing $ \in \mathbb{Z}$
+  \item mthd\_kp\_detection $ \in \mathbb{Z}$
+  \item mthd\_kp\_description $ \in \mathbb{Z}$
+  \item mthd\_ft\_match $ \in \mathbb{Z}$
+  \item img\_obj\_1, img\_obj\_2 $\in \mathbb{Z}^{h \times w}$ 
+\end{itemize}
 
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+% do we need to make these directories here? I dont think so
+
 
 \subsubsection{Environment Variables}
+\begin{itemize}
+  \item head\_dir as \textbf{str}
+  \item path\_input\_img as \textbf{str} 
+  \item path\_keypoints as \textbf{str}
+  \item path\_descriptors as \textbf{str}
+  \item path\_feature\_matches as \textbf{str}
+\end{itemize}
 
-
-
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
 
 \subsubsection{Assumptions}
 
@@ -625,28 +601,41 @@ main & - & - & - \\
   exceptions, but for practical purposes assumptions are sometimes appropriate.}
 
 \subsubsection{Access Routine Semantics}
-
-\noindent \wss{accessProg}():
+\noindent main():
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+\item transition: Modify the state of the Specification Parameters Module and the 
+environment variables for the Image Plot Module and Output Format Module.
 \end{itemize}
+[head\_dir as str] = get\_head\_directory() \newline \newline
+[mthd\_img\_smoothing $\in \mathbb{Z}$, mthd\_kp\_detection $\in \mathbb{Z}$, 
+mthd\_kp\_descriptors $\in \mathbb{Z}$, mthd\_ft\_matching $\in \mathbb{Z}$] 
+= get\_chosen\_methods() \newline \newline
+[kern\_sz $\in \mathbb{Z}$, std\_deviation $\in \mathbb{R}$, 
+FAST\_threshold $\in \mathbb{Z}$, bin\_sz $\in \mathbb{Z}$, 
+patch\_sz $\in \mathbb{Z}$] = get\_chosen\_parameters() \newline \newline
+\#\# \textit{For each image, i}\newline
+\# \textit{Smooth the image as a preprocessing step to keypoint detection} \newline
+img\_obj\_1 = smooth\_image(img\_obj\_1$ \in \mathbb{Z}^{h \times w}$, kernel\_sz$ \in \mathbb{Z}$, 
+std\_deviation$ \in \mathbb{R}$) \newline \newline
+\# \textit{Identify the keypoints. Note that if the methods for keypoint detection and 
+descriptors are both == 1, then ORB is the selected method, and the keypoint and descriptor 
+modules should use the same ORB object, which likely will come from the OpenCV library}\newline
+\newline 
+\# \textit{Assign descriptors to keypoints} \newline \newline
+\# \textit{export keypoints to csv} \newline 
+\# \textit{export descriptors to csv} \newline\newline
+\# \textit{generate and save image with keypoints} \newline 
+\# \textit{generate and save image with scaled keypoints} \newline
+\#\# \newline \newline
+\# \textit{Compare features between differing images} \newline \newline
+\# \textit{verify that the match structure conforms to the conditions in the
+Output Verification Module} \newline \newline 
+\# \textit{export matche tuples to csv} \newline 
+\# \textit{generate and save images with corresponding matches} \newline
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
 
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
 
-\subsubsection{Local Functions}
-
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Image Smoothing Module} \label{mIS}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
@@ -702,23 +691,17 @@ std\_deviation: $\mathbb{R}$
 \subsubsection{Access Routine Semantics}
 
 \noindent smooth\_image(c $\in \mathbb{Z}^{H \times W}$, 
-kernel\_sz $\in \mathbb{Z}$, std\_deviation $\in \mathbb{R}$):\\
-\# \textit{if method == 1, perform Gaussian Blur with OpenCV }\\
-img\_blur = GaussianBlur(noisy\_img, kernel\_sz, std\_deviation)\\
+kernel\_sz $\in \mathbb{Z}$, std\_deviation $\in \mathbb{R}$):\newline \newline
+\# \textit{if method == 1, perform Gaussian Blur with OpenCV }\newline
+img\_blur = GaussianBlur(noisy\_img, kernel\_sz, std\_deviation)\newline
 \begin{itemize}
-\item output: img\_blur $\in \mathbb{Z}^{m \times n}$
+\item output: img\_blur $\in \mathbb{Z}^{h \times w}$
 \end{itemize}
 
 \begin{itemize}
 \item exception: None
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
-
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
 
 
 
@@ -751,8 +734,15 @@ detectKeypoints
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-detectKeypoints & methd\_kp\_detection $\in \mathbb{Z}$,\newline
-img $\in \mathbb{Z}^{m \times n}$ & keypoints as \textbf{TBD} & - \\
+load\_img & sel\_read\_path as \textbf{str} & img $\in \mathbb{Z}^{h \times w}$ & - \\
+\hline
+detectKeypoints & mthd\_kp\_detection $\in \mathbb{Z}$,\newline
+img $\in \mathbb{Z}^{h \times w}$, \newline 
+\text{bin\_sz}$\in \mathbb{Z}$, \newline 
+\text{patch\_sz} $\in \mathbb{Z}$, \newline 
+\text{FAST\_threshold} $\in \mathbb{Z}$ 
+& orb\_object as \textbf{TBD}, \newline 
+keypoints as \textbf{keypoint tuple} & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -765,10 +755,9 @@ img $\in \mathbb{Z}^{m \times n}$ & keypoints as \textbf{TBD} & - \\
 \end{itemize}
 
 \subsubsection{Environment Variables}
-
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+\begin{itemize}
+  \item sel\_read\_path as \textbf{str}
+\end{itemize}
 
 \subsubsection{Assumptions}
 
@@ -777,9 +766,19 @@ img $\in \mathbb{Z}^{m \times n}$ & keypoints as \textbf{TBD} & - \\
 
 \subsubsection{Access Routine Semantics}
 
+\noindent load\_img(sel\_read\_path as \textbf{str}):\\
+read\_path = sel\_read\_path
+
+img = cv.imread(sel\_read\_path)
+
+\begin{itemize}
+\item output: img $\in \mathbb{Z}^{h \times w}$
+\item exception: None.
+\end{itemize}
 
 \noindent detectKeypoints(mthd\_kp\_detection $\in \mathbb{Z}$, 
-img $\in \mathbb{Z}^{m \times n}$):
+img $\in \mathbb{Z}^{h \times w}, \text{bin\_sz}\in \mathbb{Z}, \text{patch\_sz}\in 
+\mathbb{Z}, \text{FAST\_threshold} \in \mathbb{Z}$):
 
 \begin{itemize}
   \item transition: Generate instance of of the detector object
@@ -790,9 +789,10 @@ if mthd\_kp\_detection $== 1$ \newline
 orb\_object = ORB.create($\text{bin\_sz}\in \mathbb{Z}, \text{patch\_sz}\in 
 \mathbb{Z}, \text{FAST\_threshold} \in \mathbb{Z}$) \newline
 
-orb\_object.detect(img $\in \mathbb{Z}^{m \times n}$)
+orb\_object.detect(img $\in \mathbb{Z}^{h \times w}$)
 \begin{itemize}
-  \item output: Returns the set of keypoints \( K = \{ (x_i, y_i, s_i, \theta_i, r_i) \mid i \in \mathbb{N} \} \), where:
+  \item output: Returns orb\_object and the set of keypoints \(K = \{ (x_i, y_i, s_i, \theta_i, r_i) 
+  \mid i \in \mathbb{N} \} \), where:
   \begin{itemize}
       \item \( (x_i, y_i) \in \mathbb{R}^2 \) (spatial coordinates)
       \item \( s_i \in \mathbb{R}^+ \) (scale)
@@ -801,13 +801,6 @@ orb\_object.detect(img $\in \mathbb{Z}^{m \times n}$)
   \end{itemize}
 \end{itemize}
 
-
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
-
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -833,11 +826,13 @@ assignDescriptors
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{4cm} p{5cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-compute\_descriptors & - & - & - \\
+compute\_descriptors & mthd\_kp\_descriptors $\in \mathbb{Z}$ \newline
+img $\in \mathbb{Z}^{m\times n}$ \newline 
+keypoints as \textbf{keypoint tuple}& desc $\in \mathbb{F}_{2}^{256}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -851,40 +846,26 @@ compute\_descriptors & - & - & - \\
 
 \subsubsection{Environment Variables}
 
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+None.
 
 \subsubsection{Assumptions}
 
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+ORB object is instatiated in the Keypoint Detector Module.
 
 \subsubsection{Access Routine Semantics}
 
 \noindent compute\_descriptors(orb\_obj as \textbf{TBD}, img $\in 
-\mathbb{Z}^{m \times n}$, keypoints as keypoint ADT):\\
+\mathbb{Z}^{h \times w}$, keypoints as keypoint ADT):\\
 desc = orb\_object.compute(img, keypoints)
-
 \begin{itemize}
 \item output: desc $\in \mathbb{F}_{2}^{256}$
-\item exception: \wss{if appropriate} 
+\item exception: None 
 \end{itemize}
 
-\noindent \wss{accessProg}():
-\begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
-\end{itemize}
 
-\subsubsection{Local Functions}
 
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Feature Matching Module} \label{mFM}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
@@ -907,11 +888,23 @@ matchFeatures
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3.5cm} p{4cm} p{3.5cm} p{2.5cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+create\_BF\_matcher & mthd\_ft\_match $\in \mathbb{Z}$ 
+& matcher\_object as \textbf{TBD}& - \\
+\hline
+match\_features & mthd\_ft\_match $\in \mathbb{Z}$, \newline
+bf\_matcher\_object as \textbf{(TBD)}, \newline
+desc1 and desc2 as $\in \mathbb{F}_{2}^{n\times 256}$ 
+& $M = \{ m_i \mid m_i = (d_{1i}, d_{2i}, 
+dist_{Hamming})\}$ & - \\
+\hline
+sort\_matches & mthd\_ft\_match $\in \mathbb{Z}$, \newline 
+$M = \{ m_i \mid m_i = (d_{1i}, d_{2i}, dist_{Hamming})\}$ & 
+matches $\in M = \{m_i | m_i = (d_{1i}, d_{2i}, dist_{Hamming})\}$ 
+& - \\
 \hline
 \end{tabular}
 \end{center}
@@ -931,33 +924,41 @@ matchFeatures
 
 \subsubsection{Assumptions}
 
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+Exception handling on user-selected methods and parameters are handled in the Parameter 
+Specification Module.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+create\_BF\_matcher(mthd\_ft\_match $\in \mathbb{Z}$):\\ \\
+if mthd\_ft\_match $== 1$
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+  \item output: bf\_matcher\_object = cv.BFMatcher(cv.NORM\_HAMMING, crossCheck=True) 
+  \# Python syntax
+  \item exception: None
+\end{itemize} 
+match\_features(mthd\_ft\_match $\in \mathbb{Z}$, bf\_matcher\_object as \textbf{(TBD)},  
+$desc1$ and $desc2$ as $\in \mathbb{F}_{2}^{n\times 256}$:\\
+if mthd\_ft\_match $== 1$:
+\begin{itemize}
+  \item \textbf{output:} M = bf\_matcher\_object.match(desc1, desc2), such that \newline
+  matches $M = \{ m_i \mid m_i = (d_{1i}, d_{2i}, dist_{Hamming})\}$, where $d_{1i} 
+  \in desc1, d_{2i} \in desc2, \; dist_{Hamming} \in \mathbb{N}$, 
+  where $dist_{Hamming}$ is the match distance.
+  \item \textbf{exception:} None
+\end{itemize}
+sort\_matches(mthd\_ft\_match $\in \mathbb{Z}$, $M = \{ m_i \mid m_i = (d_{1i}, d_{2i}, 
+dist_{Hamming})\}$, where $d_{1i} 
+  \in desc1, d_{2i} \in desc2, \; dist_{Hamming} \in \mathbb{N}$): \newline
+if mthd\_ft\_match $== 1$: \newline
+matches = bf\_matcher\_object.sorted(M) 
+\begin{itemize}
+  \item \textbf{output:} matches $\in M = \{m_i | m_i = (d_{1i}, d_{2i}, dist_{Hamming})\}$
+  \item \textbf{exception:} None
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
 
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
-
-\subsubsection{Local Functions}
-
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
-
-  \section{MIS of Image Data Structure Module} \label{mIDS}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MIS of Image Data Structure Module} \label{mIDS}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
 
@@ -977,11 +978,28 @@ None.
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3.5cm} p{3.5cm} p{3.5cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+cv.imread & sel\_read\_path as \textbf{str} & 
+img $\in \mathbb{Z}^{h \times w}$ & inValidImgPath \\
+\hline
+cv.imwrite & sel\_save\_path as \textbf{str}, \newline 
+out\_img $\in \mathbb{Z}^{h \times w}$ & 
+img\_png \textbf{as .png} & inValidImgPath \\
+\hline
+cv.drawKeypoints & img\_in, overlayImage as $\in \mathbb{Z}^{h \times w}$, \newline
+keypoints as \textbf{keypoint tuple}, \newline
+colour $\in \mathbb{Z}^{3}$, \newline 
+flags $\in \mathbb{Z}$ & img\_kp $\in \mathbb{Z}^{h \times w}$ & - \\
+\hline
+cv.drawMatches & img1\_in, img2\_in, overlay\_image as $\in 
+\mathbb{Z}^{h \times w}$, \newline
+kp1, kp2 as \textbf{keypoint tuple}, \newline
+matches as \textbf{match tuple}, \newline
+flags $\in \mathbb{Z}$ 
+& img\_matches $\in \mathbb{Z}^{h \times w}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -989,52 +1007,60 @@ None.
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+\begin{itemize}
+\item img\_1\_name = as \textbf{str}
+\item img\_2\_name = as \textbf{str}
+\end{itemize}
 
 \subsubsection{Environment Variables}
-
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+\begin{itemize}
+  \item read\_path as \textbf{str}
+  \item save\_path as \textbf{str}
+\end{itemize}
 
 \subsubsection{Assumptions}
-
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+\begin{itemize}
+  \item ORB objects are initialized prior to use
+  \item BFMatcher objects are initialized prior to use
+\end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+\noindent cv.imread(sel\_read\_path as \textbf{str}):
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+\item transition: read\_path = sel\_read\_path
+\item output: img $\in \mathbb{Z}^{h \times w}$
+\item exception: if no image identified, flag as inValidImgPath 
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
+\noindent cv.imwrite(sel\_save\_path as \textbf{str}, out\_img 
+$\in \mathbb{Z}^{h \times w}$):
+\begin{itemize}
+\item transition: save\_path = sel\_save\_path
+\item output: img\_png \textbf{as .png}
+\item exception: if path is undefined, flag as inValidImgPath 
+\end{itemize}
 
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
+\noindent cv.drawKeypoints(img\_in as $\in \mathbb{Z}^{h \times w}$, 
+keypoints as \textbf{keypoint tuple}, overlayImage $\in \mathbb{Z}^{h \times w}$,
+colour $\in \mathbb{Z}^{3}$, flags $\in \mathbb{Z}$):
+\begin{itemize}
+\item output: img\_kp $\in \mathbb{Z}^{3}$
+\end{itemize}
 
-\subsubsection{Local Functions}
+\noindent cv.drawMatches(img1\_in as $\in \mathbb{Z}^{h \times w}$, 
+kp1 as \textbf{keypoint tuple}, img2\_in as $\in \mathbb{Z}^{h \times w}$, 
+kp2 as \textbf{keypoint tuple}, matches as \textbf{match tuple}, overlay\_image $\in \mathbb{Z}^{h \times w}$,
+flags $\in \mathbb{Z}$):
+\begin{itemize}
+\item output: img\_matches $\in \mathbb{Z}^{h\times w}$
+\end{itemize}
 
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Image Plot Module} \label{mIP}
-
-\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
-
 \subsection{Module}
-
 plotImage
 
 \subsection{Uses}
@@ -1043,17 +1069,24 @@ plotImage
 \end{itemize}
 
 \subsection{Syntax}
-
 \subsubsection{Exported Constants}
 
 \subsubsection{Exported Access Programs}
-
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{4cm} p{5cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+gen\_kp\_img & img\_in, as $\in \mathbb{Z}^{h \times w}$, \newline
+keypoints as \textbf{keypoint tuple}, \newline
+flags $\in \mathbb{Z}$ & img\_kp $\in \mathbb{Z}^{h \times w}$ & - \\
+\hline
+gen\_matched\_features 
+& img\_1, img\_2 $\in \mathbb{Z}^{h \times w}$, \newline
+kp\_1, kp\_2 as \textbf{keypoint tuple} \newline
+matches as \textbf{match tuple}, \newline 
+max\_matches $\in \mathbb{N}$
+& img\_matches $\in \mathbb{Z}^{h \times w}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -1062,8 +1095,7 @@ plotImage
 
 \subsubsection{State Variables}
 
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+DrawMatchesFlag $\in \mathbb{Z}$
 
 \subsubsection{Environment Variables}
 
@@ -1072,33 +1104,30 @@ plotImage
   device driver, screen interface, keyboard, file, etc.}
 
 \subsubsection{Assumptions}
+\begin{itemize}
+  \item save\_kp\_img has been initialized with keypoints
+\end{itemize}
 
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+\noindent gen\_kp\_img(img\_in, $\in \mathbb{Z}^{h \times w}$, keypoints 
+as \textbf{keypoint tuple}):\newline
+img\_keypoints = cv.drawKeypoints(img\_in, keypoints, None, colour=(0, 255, 0), 
+flags=0)
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+  \item output: img\_keypoints $\in \mathbb{Z}^{h \times w}$
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
 
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
-
-\subsubsection{Local Functions}
-
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
-
+\noindent gen\_matched\_features(img\_1, img\_2 $\in \mathbb{Z}^{h \times w}$,
+kp\_1, kp\_2 as \textbf{keypoint tuple}, matches as \textbf{match tuple}, 
+max\_matches $\in \mathbb{N}$): \newline 
+img\_matches = cv.drawMatches(img\_1, kp\_1, img\_2, kp\_2, matches[:max\_matches], 
+None, flags=DrawMatchesFlag) 
+\begin{itemize}
+  \item output: img\_matches $\in \mathbb{Z}^{h \times w}$
+\end{itemize}
 
 
 
@@ -1127,13 +1156,18 @@ None.
 \hline
 \textbf{Name} & \textbf{Input} & \textbf{Output} & \textbf{Exceptions} \\
 \hline
+GaussianBlur & $\text{img} \in \mathbb{Z}^{h \times w}, \newline 
+\text{kernel\_sz} \in \mathbb{Z}, \newline 
+\text{std\_deviation} \in \mathbb{R} $
+& smooth\_img $\in \mathbb{Z}^{m\times n}$ & -\\
+\hline
 ORB.create & $\text{bin\_sz}\in \mathbb{Z}, \newline 
 \text{patch\_sz}\in \mathbb{Z}, \newline 
 \text{FAST\_threshold} \in \mathbb{Z}$ & orb\_object & None \\
 \hline
-orb\_object.detect & $\text{image} \in \mathbb{Z}^{h \times w}$ & $K$ (set of keypoints) & invalidImg \\
+orb\_object.detect & $\text{img} \in \mathbb{Z}^{h \times w}$ & $K$ (set of keypoints) & invalidImg \\
 \hline
-orb\_object.compute & $\text{image} \in \mathbb{Z}^{h \times w}$, \newline 
+orb\_object.compute & $\text{img} \in \mathbb{Z}^{h \times w}$, \newline 
 $K$ where $K$ is a set of keypoints & $D$ (set of descriptors) & invalidImg, invalidKeypoints \\
 \hline
 \end{tabular}
@@ -1155,20 +1189,18 @@ None.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent GaussianBlur$(\text{img} \in \mathbb{Z}^{m \times n}, (\text{kernel\_sz} 
+\noindent GaussianBlur$(\text{img} \in \mathbb{Z}^{h \times w}, (\text{kernel\_sz} 
 \in \mathbb{Z}, \text{kernel\_sz} \in \mathbb{Z}), \text{std\_deviation} \in \mathbb{R})$:
 \begin{itemize}
-    \item Output: $\text{img\_blur} \in \mathbb{Z}^{m \times n}$
+    \item Output: $\text{img\_blur} \in \mathbb{Z}^{h \times w}$
     \item Exception: None. Exceptions are handled in Input Format Module.
 \end{itemize}
-
 \noindent ORB.create$(\text{bin\_sz} \in \mathbb{Z}, \text{patch\_sz} \in \mathbb{Z}, \text{FAST\_threshold} \in \mathbb{Z})$:
 \begin{itemize}
     \item Output: Initializes orb\_object as \textbf{TBD}
     \item Exception: None. Exceptions are handled in Input Format Module.
 \end{itemize}
-
-\noindent orb\_object.detect$(\text{image} \in \mathbb{Z}^{m \times n})$:
+\noindent orb\_object.detect$(\text{img} \in \mathbb{Z}^{h \times w})$:
 \begin{itemize}
     \item Output: Returns the set of keypoints \( K = \{ (x_i, y_i, s_i, \theta_i, r_i) \mid i \in \mathbb{N} \} \), where:
     \begin{itemize}
@@ -1179,10 +1211,10 @@ None.
     \end{itemize}
     \item Exception: invalidImage
 \end{itemize}
-
-\noindent orb\_object.compute$(\text{image}, K)$:
+\noindent orb\_object.compute$(\text{img}, K)$:
 \begin{itemize}
-    \item Output: Returns a set of binary descriptors \( D = \{ d_i \mid d_i \in \mathbb{F}_2^{256}, i \in \mathbb{N} \} \).
+    \item Output: Returns a set of binary descriptors 
+    \( D = \{ d_i \mid d_i \in \mathbb{F}_2^{n\times 256}, i \in \mathbb{N} \} \).
     \item Exception:
     \begin{itemize}
       \item image not found $\Rightarrow$ invalidImg
@@ -1211,16 +1243,29 @@ None.
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-  \begin{tabular}{p{3cm} p{4cm} p{5cm} p{3cm}}
+  \begin{tabular}{p{4cm} p{4cm} p{5cm} p{3cm}}
   \hline
   \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
   \hline
-  BFMatcher & - & Initializes brute\_force\_object \newline 
-  as \textbf{TBD} & None.\\
+  BFMatcher & match\_method $\in \mathbb{Z}$, cross\_check\_flag $\in \mathbb{F}$ 
+  & brute\_force\_object as \textbf{TBD}\newline 
+  & None.\\
   \hline
-  matchDescriptors & $D_1$ as descriptor type, $D_2$ as descriptor type & Returns a set of matches $M = \{ m_i \mid m_i = (k_{1i}, k_{2i}, d_i), k_{1i} \in D_1, k_{2i} \in D_2, d_i \in \mathbb{R}^+ \}$, where $d_i$ is the match distance. & Raises an error if descriptors are invalid or empty. \\
+  brute\_force\_object.\newline 
+  match & brute\_force\_object as \textbf{TBD}, \newline
+  $D_1, D_2 \in \mathbb{F}_{2}^{n\times 256}$ & 
+  Returns a tuple of matches $M = \{ m_i \mid m_i = (d_{1i}, d_{2i}, dist_{Hamming})$, \newline
+  such that $d_{1i} \in D_1, d_{2i} \in D_2, \; dist_{Hamming} \in \mathbb{N}$, 
+  where $dist_{Hamming}$ is the match distance. & Raises an error if descriptors are 
+  invalid or empty. \\
   \hline
-  sortMatches & $M$ (set of matches) & Returns a sorted set of matches $M'$, where matches are sorted in ascending order of distance $d_i$. & Raises an error if the match set is empty. \\
+  brute\_force\_object.\newline 
+  sorted & $M$, as tuple of match objects, \newline
+  key=lambda x: x.distance
+  & Returns a sorted tuple of matches $M'$, where 
+  $m'_i = (d_{1i}, d_{2i}, dist_{Hamming})$
+  matches are sorted in ascending order of $dist_{Hamming}$. & Raises an 
+  error if the match set is empty. \\
   \hline
   \end{tabular}
 \end{center}
@@ -1246,24 +1291,27 @@ None.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent BFMatcher():
+\noindent cv.BFMatcher(match\_method $\in \mathbb{Z}$, cross\_check\_flag $\in \mathbb{F}$):
 \begin{itemize}
 \item output: Initializes brute\_force\_object  as \textbf{TBD}
 \item exception: None. Exceptions are handled in Input Format Module.
 \end{itemize}
 
-\noindent matchDescriptors($D_1$ as descriptor type, $D_2$ as descriptor type):
+\noindent brute\_force\_object.match($D_1, D_2 \in \mathbb{F}_{2}^{n \times 256}$):
 \begin{itemize}
-\item output: Returns a set of matches \( M = \{ m_i \mid i \in \mathbb{N} \} \), where each match \( m_i \) is defined as 
-$m_i = (k_{1i}, k_{2i}, d_i)$
-with \( k_{1i} \in D_1 \), \( k_{2i} \in D_2 \), and \( d_i \in \mathbb{N} \), where \( d_i \) represents the match distance.
+\item output: Returns matches, $ M = \{ m_i \mid i \in \mathbb{N} \} $ as a tuple, 
+where each match \( m_i \) is defined as 
+$m_i = (d_{1i}, d_{2i}, dist_{Hamming})$
+with $d_{1i} \in D_1, d_{2i} \in D_2, \; dist_{Hamming} \in \mathbb{N}$, 
+where $dist_{Hamming}$ represents the match distance.
 
 \item exception: Raises an error if the descriptors are invalid or empty.
 \end{itemize}
 
-\noindent sortMatches$(M)$: 
+\noindent brute\_force\_object.sorted(M as \textbf{match tuple}, key=lambda x: x.distance): 
 \begin{itemize} 
-  \item output: Returns a sorted set of matches $M'$, where matches are sorted in ascending order of distance $d_i$. 
+  \item output: Returns a sorted tuple of matches $M'$, where matches are sorted in 
+  ascending order of distance, $dist_{Hamming}$. 
   \item exception: Raises an error if the match set is empty. 
 \end{itemize}
 
