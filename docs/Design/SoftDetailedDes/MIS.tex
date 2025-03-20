@@ -105,9 +105,9 @@ The following table summarizes the primitive data types used by the \progname so
 \midrule
 character & char & a single symbol or digit\\
 string & str & a sequence of characters\\
-boolean & $\mathbb{F}_{2}$ & a number in the binary field, where all elements are \{0,1\}\\
+boolean & $\mathbb{B}_{2}$ & a number in the binary field, where all elements are \{0,1\}\\
 integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
-natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
+natural number & $\mathbb{N}$ & a number without a fractional component in [0, $\infty$) \\
 real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
 \bottomrule
 \end{tabular} 
@@ -363,13 +363,13 @@ $mthd\_ft\_match: \mathbb{Z}$ \\
 \subsubsection{Access Routine Semantics}
 \noindent get\_default\_parameters():
 \begin{itemize}
-\item output:
+\item output: out:= 
   \begin{itemize}
-  \item $kernel\_sz: \mathbb{Z}$
-  \item $std\_deviation: \mathbb{R}$ 
-  \item $FAST\_threshold: \mathbb{Z}$ 
-  \item $bin\_sz: \mathbb{Z}$ 
-  \item $patch\_sz: \mathbb{Z}$ 
+  \item kernel\_sz: $\mathbb{Z}$
+  \item std\_deviation: $\mathbb{R}$ 
+  \item FAST\_threshold: $\mathbb{Z}$ 
+  \item bin\_sz: $\mathbb{Z}$ 
+  \item patch\_sz: $\mathbb{Z}$ 
   \end{itemize}
   \item exception: none  
 \end{itemize}
@@ -378,10 +378,10 @@ $mthd\_ft\_match: \mathbb{Z}$ \\
 \begin{itemize}
 \item output:
   \begin{itemize}
-    \item $mthd\_img\_smoothing: \mathbb{Z}$
-    \item $mthd\_kp\_detection: \mathbb{Z}$ 
-    \item $mthd\_kp\_description: \mathbb{Z}$
-    \item $mthd\_ft\_match: \mathbb{Z}$
+    \item mthd\_img\_smoothing: $\mathbb{Z}$
+    \item mthd\_kp\_detection: $\mathbb{Z}$ 
+    \item mthd\_kp\_description: $\mathbb{Z}$
+    \item mthd\_ft\_match: $\mathbb{Z}$
   \end{itemize}
   \item exception: none 
 \end{itemize}
@@ -570,16 +570,19 @@ main & - & - & - \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-  \item kernel\_sz $ \in \mathbb{Z}$
-  \item std\_deviation $ \in \mathbb{R}$
-  \item FAST\_threshold $ \in \mathbb{Z}$
-  \item bin\_sz $ \in \mathbb{Z}$
-  \item patch\_sz $ \in \mathbb{Z}$
-  \item mthd\_img\_smoothing $ \in \mathbb{Z}$
-  \item mthd\_kp\_detection $ \in \mathbb{Z}$
-  \item mthd\_kp\_description $ \in \mathbb{Z}$
-  \item mthd\_ft\_match $ \in \mathbb{Z}$
-  \item img\_obj\_1, img\_obj\_2 $\in \mathbb{Z}^{h \times w}$ 
+  \item kernel\_sz: $\mathbb{N}$
+  \item std\_deviation: $\mathbb{R}$
+  \item FAST\_threshold: $\mathbb{N}$
+  \item bin\_sz: $\mathbb{N}$
+  \item patch\_sz: $\mathbb{N}$
+  \item mthd\_img\_smoothing: $\mathbb{N}$
+  \item mthd\_kp\_detection: $\mathbb{N}$
+  \item mthd\_kp\_description: $\mathbb{N}$
+  \item mthd\_ft\_match: $\mathbb{N}$
+  \item img\_obj\_1, img\_obj\_2: $\mathbb{N}^{h \times w}$ 
+  \item orb\_obj1, orb\_obj2 as \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}
+  {OpenCV Keypoint Class}
+  \item brute\_force\_obj as \href{https://docs.opencv.org/3.4/d3/da1/classcv_1_1BFMatcher.html}{BFMatcher Class}
 \end{itemize}
 
 % do we need to make these directories here? I dont think so
@@ -587,11 +590,11 @@ main & - & - & - \\
 
 \subsubsection{Environment Variables}
 \begin{itemize}
-  \item head\_dir as \textbf{str}
-  \item path\_input\_img as \textbf{str} 
-  \item path\_keypoints as \textbf{str}
-  \item path\_descriptors as \textbf{str}
-  \item path\_feature\_matches as \textbf{str}
+  \item head\_dir as str
+  \item path\_input\_img as str 
+  \item path\_keypoints as str
+  \item path\_descriptors as str
+  \item path\_feature\_matches as str
 \end{itemize}
 
 
@@ -607,20 +610,18 @@ main & - & - & - \\
 environment variables for the Image Plot Module and Output Format Module.
 \end{itemize}
 [head\_dir as str] = get\_head\_directory() \newline \newline
-[mthd\_img\_smoothing $\in \mathbb{Z}$, mthd\_kp\_detection $\in \mathbb{Z}$, 
-mthd\_kp\_descriptors $\in \mathbb{Z}$, mthd\_ft\_matching $\in \mathbb{Z}$] 
+[mthd\_img\_smoothing, mthd\_kp\_detection, mthd\_kp\_descriptors, 
+mthd\_ft\_matching] 
 = get\_chosen\_methods() \newline \newline
-[kern\_sz $\in \mathbb{Z}$, std\_deviation $\in \mathbb{R}$, 
-FAST\_threshold $\in \mathbb{Z}$, bin\_sz $\in \mathbb{Z}$, 
-patch\_sz $\in \mathbb{Z}$] = get\_chosen\_parameters() \newline \newline
+[kern\_sz, std\_deviation, FAST\_threshold, bin\_sz, patch\_s] 
+= get\_chosen\_parameters() \newline \newline
 \#\# \textit{For each image, i}\newline
 \# \textit{Smooth the image as a preprocessing step to keypoint detection} \newline
-img\_obj\_1 = smooth\_image(img\_obj\_1$ \in \mathbb{Z}^{h \times w}$, kernel\_sz$ \in \mathbb{Z}$, 
-std\_deviation$ \in \mathbb{R}$) \newline \newline
+img\_obj\_1 = smooth\_image(img\_obj\_1, kernel\_sz, std\_deviation) \newline \newline
 \# \textit{Identify the keypoints. Note that if the methods for keypoint detection and 
 descriptors are both == 1, then ORB is the selected method, and the keypoint and descriptor 
 modules should use the same ORB object, which likely will come from the OpenCV library}\newline
-\newline 
+orb\_object = initialize\_orb(mthd\_kp\_detection\newline 
 \# \textit{Assign descriptors to keypoints} \newline \newline
 \# \textit{export keypoints to csv} \newline 
 \# \textit{export descriptors to csv} \newline\newline
@@ -647,7 +648,6 @@ smoothImage
 \subsection{Uses}
 \begin{itemize}
   \item config (Section~\ref{mC})
-  \item imageStruct (Section~\ref{mIDS})
 \end{itemize}
 
 \subsection{Syntax}
@@ -655,30 +655,37 @@ smoothImage
 \subsubsection{Exported Constants}
 None.
 \subsubsection{Exported Access Programs}
-
 \begin{center}
-\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-smooth\_image & 
-noisy\_img: $\mathbb{Z}^{H \times W}$, \newline 
-kernel\_sz: $\mathbb{Z}$ \newline
-std\_deviation: $\mathbb{R}$
- & smoothed\_img: $\mathbb{Z}^{H \times W}$ & - \\
-\hline
-\end{tabular}
-\end{center}
+  \begin{tabular}{p{4cm} p{4.5cm} p{4cm} p{2cm}}
+  \hline
+  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+  \hline
+  smooth\_image
+  & mthd\_img\_smoothing: $\mathbb{N}$ \newline
+  raw\_img: $\mathbb{N}^{h \times w}$ \newline
+  kernel\_sz: $\mathbb{N}$ \newline
+  std\_deviation: $\mathbb{N}$
+  & img\_blur: $\mathbb{N}^{h \times w}$
+  & - \\
+  \hline
+  get\_orb\_object 
+  & -
+  & orb\_object as \href{https://docs.opencv.org/3.4/db/d95/classcv_1_1ORB.html}{OpenCV ORB Class}
+  & - \\
+  \hline
+  detect\_keypoints 
+  & orb\_object as \href{https://docs.opencv.org/3.4/db/d95/classcv_1_1ORB.html}{OpenCV ORB Class}, \newline
+  img $\in \mathbb{N}^{h \times w}$
+  & keypoints as \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}{OpenCV Keypoint Class}
+  & - \\
+  \hline
+  \end{tabular}
+  \end{center}
 
-\subsection{Semantics}
 
-\subsubsection{State Variables}
-\begin{itemize}
-  \item smoothed\_img: $\mathbb{Z}^{H \times W}$
-\end{itemize}
+
 
 \subsubsection{Environment Variables}
-
 \wss{This section is not necessary for all modules.  Its purpose is to capture
   when the module has external interaction with the environment, such as for a
   device driver, screen interface, keyboard, file, etc.}
@@ -690,12 +697,11 @@ std\_deviation: $\mathbb{R}$
 
 \subsubsection{Access Routine Semantics}
 
-\noindent smooth\_image(c $\in \mathbb{Z}^{H \times W}$, 
-kernel\_sz $\in \mathbb{Z}$, std\_deviation $\in \mathbb{R}$):\newline \newline
-\# \textit{if method == 1, perform Gaussian Blur with OpenCV }\newline
-img\_blur = GaussianBlur(noisy\_img, kernel\_sz, std\_deviation)\newline
+\noindent smooth\_image(mthd\_img\_smoothing, raw\_img, 
+kernel\_sz, std\_deviation \textbar \: mthd\_img\_smoothing == 1):
 \begin{itemize}
-\item output: img\_blur $\in \mathbb{Z}^{h \times w}$
+\item output: out:= img\_blur = gaussianBlur(noisy\_img, 
+  kernel\_sz, std\_deviation)
 \end{itemize}
 
 \begin{itemize}
@@ -719,8 +725,7 @@ detectKeypoints
 \begin{itemize}
   \item config (Section~\ref{mIF})
   \item smoothImage (Section~\ref{mIS}) % may be removed since image smoothing is optional
-  \item imageStruct (Section~\ref{mIDS}) % to be merged as OpenCV library
-  \item orbStruct (Section~\ref{mORB}) % to be merged as OpenCV library
+  \item OpenCVLib (Section~\ref{mOpenCV})
 \end{itemize}
 
 \subsection{Syntax}
@@ -730,19 +735,28 @@ detectKeypoints
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{3cm} p{4.5cm} p{4cm} p{2cm}}
+\begin{tabular}{p{4cm} p{4.5cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-load\_img & sel\_read\_path as \textbf{str} & img $\in \mathbb{Z}^{h \times w}$ & - \\
+initalize\_orb 
+& mthd\_kp\_detection: $\mathbb{N}$,\newline
+FAST\_Threshold: $\mathbb{N}$, \newline
+bin\_sz: $\mathbb{N}$, \newline
+patch\_sz: $\mathbb{N}$
+& orb\_object: \href{https://docs.opencv.org/3.4/db/d95/classcv_1_1ORB.html}{OpenCV ORB Class}
+& - \\
 \hline
-detectKeypoints & mthd\_kp\_detection $\in \mathbb{Z}$,\newline
-img $\in \mathbb{Z}^{h \times w}$, \newline 
-\text{bin\_sz}$\in \mathbb{Z}$, \newline 
-\text{patch\_sz} $\in \mathbb{Z}$, \newline 
-\text{FAST\_threshold} $\in \mathbb{Z}$ 
-& orb\_object as \textbf{TBD}, \newline 
-keypoints as \textbf{keypoint tuple} & - \\
+get\_orb\_object 
+& -
+& orb\_object: \href{https://docs.opencv.org/3.4/db/d95/classcv_1_1ORB.html}{OpenCV ORB Class}
+& - \\
+\hline
+detect\_keypoints 
+& orb\_object: \href{https://docs.opencv.org/3.4/db/d95/classcv_1_1ORB.html}{OpenCV ORB Class}, \newline
+img: $\mathbb{N}^{h \times w}$
+& keypoints: \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}{OpenCV Keypoint Class}
+& - \\
 \hline
 \end{tabular}
 \end{center}
@@ -751,13 +765,14 @@ keypoints as \textbf{keypoint tuple} & - \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-  \item orb\_object as \textbf{TBD}
+  \item orb\_object as \href{https://docs.opencv.org/3.4/db/d95/classcv_1_1ORB.html}{OpenCV ORB Class}
 \end{itemize}
 
 \subsubsection{Environment Variables}
-\begin{itemize}
-  \item sel\_read\_path as \textbf{str}
-\end{itemize}
+none
+% \begin{itemize}
+%   \item sel\_read\_path as \textbf{str}
+% \end{itemize}
 
 \subsubsection{Assumptions}
 
@@ -766,39 +781,23 @@ keypoints as \textbf{keypoint tuple} & - \\
 
 \subsubsection{Access Routine Semantics}
 
-\noindent load\_img(sel\_read\_path as \textbf{str}):\\
-read\_path = sel\_read\_path
-
-img = cv.imread(sel\_read\_path)
-
+\noindent initialize\_orb(mthd\_kp\_detection, FAST\_Threshold, bin\_sz, patch\_sz 
+\textbar \: mthd\_kp\_detection == 1, mthd\_kp\_description == 1):
 \begin{itemize}
-\item output: img $\in \mathbb{Z}^{h \times w}$
-\item exception: None.
+  \item transition: tran:= orb\_object = ORB.create(FAST\_Threshold, bin\_sz, patch\_sz) 
+  \item output: none
+  \item exception: none
 \end{itemize}
-
-\noindent detectKeypoints(mthd\_kp\_detection $\in \mathbb{Z}$, 
-img $\in \mathbb{Z}^{h \times w}, \text{bin\_sz}\in \mathbb{Z}, \text{patch\_sz}\in 
-\mathbb{Z}, \text{FAST\_threshold} \in \mathbb{Z}$):
-
+\noindent get\_orb\_object():
 \begin{itemize}
-  \item transition: Generate instance of of the detector object
+  \item output: out:= orb\_object
+  \item exception: none
 \end{itemize}
-
-if mthd\_kp\_detection $== 1$ \newline
-
-orb\_object = ORB.create($\text{bin\_sz}\in \mathbb{Z}, \text{patch\_sz}\in 
-\mathbb{Z}, \text{FAST\_threshold} \in \mathbb{Z}$) \newline
-
-orb\_object.detect(img $\in \mathbb{Z}^{h \times w}$)
+\noindent detect\_keypoints(orb\_object, img):\newline\newline
+keypoints = orb\_object.detect(img)
 \begin{itemize}
-  \item output: Returns orb\_object and the set of keypoints \(K = \{ (x_i, y_i, s_i, \theta_i, r_i) 
-  \mid i \in \mathbb{N} \} \), where:
-  \begin{itemize}
-      \item \( (x_i, y_i) \in \mathbb{R}^2 \) (spatial coordinates)
-      \item \( s_i \in \mathbb{R}^+ \) (scale)
-      \item \( \theta_i \in [0, 2\pi] \) (orientation)
-      \item \( r_i \in \mathbb{R} \) (response strength)
-  \end{itemize}
+  \item output: out:= keypoints
+  \item exception: none
 \end{itemize}
 
 
@@ -816,7 +815,9 @@ assignDescriptors
 
 \subsection{Uses}
 \begin{itemize}
+  \item config (Section~\ref{mC})
   \item detectKeypoints (Section~\ref{mKD})
+  \item OpenCVLib (Section~\ref{mOpenCV})
 \end{itemize}
 
 \subsection{Syntax}
@@ -830,35 +831,37 @@ assignDescriptors
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-compute\_descriptors & mthd\_kp\_descriptors $\in \mathbb{Z}$ \newline
-img $\in \mathbb{Z}^{m\times n}$ \newline 
-keypoints as \textbf{keypoint tuple}& desc $\in \mathbb{F}_{2}^{256}$ & - \\
+compute\_descriptors
+& img: $\mathbb{Z}^{h \times w}$, \newline
+keypoints: \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}{OpenCV Keypoint Class}
+& descriptors: \href{https://docs.opencv.org/4.x/d0/d13/classcv_1_1Feature2D.html}{OpenCV Feature2D Class}
+& - \\
 \hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
-
 \subsubsection{State Variables}
 \begin{itemize}
-  \item orb\_object as \textbf{TBD}
+\item orb\_object: \href{https://docs.opencv.org/3.4/db/d95/classcv_1_1ORB.html}{OpenCV ORB Class}
 \end{itemize}
 
-\subsubsection{Environment Variables}
 
+\subsubsection{Environment Variables}
 None.
 
 \subsubsection{Assumptions}
+\begin{itemize}
+\item ORB object is instatiated in the Keypoint Detector Module.
+\end{itemize}
 
-ORB object is instatiated in the Keypoint Detector Module.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent compute\_descriptors(orb\_obj as \textbf{TBD}, img $\in 
-\mathbb{Z}^{h \times w}$, keypoints as keypoint ADT):\\
-desc = orb\_object.compute(img, keypoints)
+\noindent compute\_descriptors(orb\_obj, img, keypoints):\\
+orb\_object = get\_orb\_object()
 \begin{itemize}
-\item output: desc $\in \mathbb{F}_{2}^{256}$
+\item output: desc := orb\_object.compute(img, keypoints)
 \item exception: None 
 \end{itemize}
 
@@ -886,24 +889,33 @@ matchFeatures
 \subsubsection{Exported Constants}
 
 \subsubsection{Exported Access Programs}
-
+brute\_force\_match\_object: \href{https://docs.opencv.org/3.4/d3/da1/classcv_1_1BFMatcher.html}{BFMatcher Class}
 \begin{center}
 \begin{tabular}{p{3.5cm} p{4cm} p{3.5cm} p{2.5cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-create\_BF\_matcher & mthd\_ft\_match $\in \mathbb{Z}$ 
-& matcher\_object as \textbf{TBD}& - \\
+create\_BF\_matcher 
+& mthd\_fm\_match: $\mathbb{N}$, \newline
+norm\_method: $\mathbb{N}$, \newline
+crosscheck\_flag: $\mathbb{B}$ 
+& bf\_matcher\_object: \href{https://docs.opencv.org/3.4/d3/da1/classcv_1_1BFMatcher.html}{BFMatcher Class} 
+& - \\
 \hline
-match\_features & mthd\_ft\_match $\in \mathbb{Z}$, \newline
-bf\_matcher\_object as \textbf{(TBD)}, \newline
-desc1 and desc2 as $\in \mathbb{F}_{2}^{n\times 256}$ 
-& $M = \{ m_i \mid m_i = (d_{1i}, d_{2i}, 
-dist_{Hamming})\}$ & - \\
+get\_bfm\_object 
+& -
+& bf\_matcher\_object: \href{https://docs.opencv.org/3.4/d3/da1/classcv_1_1BFMatcher.html}{BFMatcher Class} 
+& - \\
 \hline
-sort\_matches & mthd\_ft\_match $\in \mathbb{Z}$, \newline 
-$M = \{ m_i \mid m_i = (d_{1i}, d_{2i}, dist_{Hamming})\}$ & 
-matches $\in M = \{m_i | m_i = (d_{1i}, d_{2i}, dist_{Hamming})\}$ 
+match\_features 
+& bf\_matcher\_object: \href{https://docs.opencv.org/3.4/d3/da1/classcv_1_1BFMatcher.html}{BFMatcher Class}, \newline
+desc1 and desc2: \href{https://docs.opencv.org/4.x/d0/d13/classcv_1_1Feature2D.html}{OpenCV Feature2D Class}
+& matches: \href{https://docs.opencv.org/3.4/d4/de0/classcv_1_1DMatch.html}{OpenCV DMatch Class} 
+& - \\
+\hline
+sort\_matches & bf\_matcher\_object: \href{https://docs.opencv.org/3.4/d3/da1/classcv_1_1BFMatcher.html}{BFMatcher Class}, \newline 
+matches: \href{https://docs.opencv.org/3.4/d4/de0/classcv_1_1DMatch.html}{OpenCV DMatch Class}, \newline 
+& sorted\_matches: \href{https://docs.opencv.org/3.4/d4/de0/classcv_1_1DMatch.html}{OpenCV DMatch Class}
 & - \\
 \hline
 \end{tabular}
@@ -912,15 +924,11 @@ matches $\in M = \{m_i | m_i = (d_{1i}, d_{2i}, dist_{Hamming})\}$
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+bf\_matcher\_object: \href{https://docs.opencv.org/3.4/d3/da1/classcv_1_1BFMatcher.html}{BFMatcher Class}
 
 \subsubsection{Environment Variables}
 
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+None.
 
 \subsubsection{Assumptions}
 
@@ -929,131 +937,23 @@ Specification Module.
 
 \subsubsection{Access Routine Semantics}
 
-create\_BF\_matcher(mthd\_ft\_match $\in \mathbb{Z}$):\\ \\
-if mthd\_ft\_match $== 1$
+create\_BF\_matcher(mthd\_fm\_match, norm\_method, crosscheck\_flag 
+\textbar \: mthd\_fm\_match == 1):
 \begin{itemize}
-  \item output: bf\_matcher\_object = cv.BFMatcher(cv.NORM\_HAMMING, crossCheck=True) 
-  \# Python syntax
+  \item output: out:= bf\_matcher\_object = BFMatcher(norm\_method, 
+  crosscheck\_flag) 
   \item exception: None
 \end{itemize} 
-match\_features(mthd\_ft\_match $\in \mathbb{Z}$, bf\_matcher\_object as \textbf{(TBD)},  
-$desc1$ and $desc2$ as $\in \mathbb{F}_{2}^{n\times 256}$:\\
-if mthd\_ft\_match $== 1$:
+matches = match\_features(bf\_matcher\_object, desc1, desc2) 
 \begin{itemize}
-  \item \textbf{output:} M = bf\_matcher\_object.match(desc1, desc2), such that \newline
-  matches $M = \{ m_i \mid m_i = (d_{1i}, d_{2i}, dist_{Hamming})\}$, where $d_{1i} 
-  \in desc1, d_{2i} \in desc2, \; dist_{Hamming} \in \mathbb{N}$, 
-  where $dist_{Hamming}$ is the match distance.
+  \item \textbf{output:} out:= matches = bf\_matcher\_object.match(desc1, desc2)
   \item \textbf{exception:} None
 \end{itemize}
-sort\_matches(mthd\_ft\_match $\in \mathbb{Z}$, $M = \{ m_i \mid m_i = (d_{1i}, d_{2i}, 
-dist_{Hamming})\}$, where $d_{1i} 
-  \in desc1, d_{2i} \in desc2, \; dist_{Hamming} \in \mathbb{N}$): \newline
-if mthd\_ft\_match $== 1$: \newline
-matches = bf\_matcher\_object.sorted(M) 
+sort\_matches(bf\_matcher\_object, matches):
 \begin{itemize}
-  \item \textbf{output:} matches $\in M = \{m_i | m_i = (d_{1i}, d_{2i}, dist_{Hamming})\}$
+  \item \textbf{output:} out:=sorted\_matches = bf\_matcher\_object.sorted(matches), where , such that the entries
+  are organized in ascending order of the distance attribute
   \item \textbf{exception:} None
-\end{itemize}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of Image Data Structure Module} \label{mIDS}
-
-\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
-
-\subsection{Module}
-
-imageStruct
-
-\subsection{Uses}
-None.
-
-\subsection{Syntax}
-
-\subsubsection{Exported Constants}
-
-\subsubsection{Exported Access Programs}
-
-\begin{center}
-\begin{tabular}{p{3.5cm} p{3.5cm} p{3.5cm} p{3cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-cv.imread & sel\_read\_path as \textbf{str} & 
-img $\in \mathbb{Z}^{h \times w}$ & inValidImgPath \\
-\hline
-cv.imwrite & sel\_save\_path as \textbf{str}, \newline 
-out\_img $\in \mathbb{Z}^{h \times w}$ & 
-img\_png \textbf{as .png} & inValidImgPath \\
-\hline
-cv.drawKeypoints & img\_in, overlayImage as $\in \mathbb{Z}^{h \times w}$, \newline
-keypoints as \textbf{keypoint tuple}, \newline
-colour $\in \mathbb{Z}^{3}$, \newline 
-flags $\in \mathbb{Z}$ & img\_kp $\in \mathbb{Z}^{h \times w}$ & - \\
-\hline
-cv.drawMatches & img1\_in, img2\_in, overlay\_image as $\in 
-\mathbb{Z}^{h \times w}$, \newline
-kp1, kp2 as \textbf{keypoint tuple}, \newline
-matches as \textbf{match tuple}, \newline
-flags $\in \mathbb{Z}$ 
-& img\_matches $\in \mathbb{Z}^{h \times w}$ & - \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-\begin{itemize}
-\item img\_1\_name = as \textbf{str}
-\item img\_2\_name = as \textbf{str}
-\end{itemize}
-
-\subsubsection{Environment Variables}
-\begin{itemize}
-  \item read\_path as \textbf{str}
-  \item save\_path as \textbf{str}
-\end{itemize}
-
-\subsubsection{Assumptions}
-\begin{itemize}
-  \item ORB objects are initialized prior to use
-  \item BFMatcher objects are initialized prior to use
-\end{itemize}
-
-\subsubsection{Access Routine Semantics}
-
-\noindent cv.imread(sel\_read\_path as \textbf{str}):
-\begin{itemize}
-\item transition: read\_path = sel\_read\_path
-\item output: img $\in \mathbb{Z}^{h \times w}$
-\item exception: if no image identified, flag as inValidImgPath 
-\end{itemize}
-
-\noindent cv.imwrite(sel\_save\_path as \textbf{str}, out\_img 
-$\in \mathbb{Z}^{h \times w}$):
-\begin{itemize}
-\item transition: save\_path = sel\_save\_path
-\item output: img\_png \textbf{as .png}
-\item exception: if path is undefined, flag as inValidImgPath 
-\end{itemize}
-
-\noindent cv.drawKeypoints(img\_in as $\in \mathbb{Z}^{h \times w}$, 
-keypoints as \textbf{keypoint tuple}, overlayImage $\in \mathbb{Z}^{h \times w}$,
-colour $\in \mathbb{Z}^{3}$, flags $\in \mathbb{Z}$):
-\begin{itemize}
-\item output: img\_kp $\in \mathbb{Z}^{3}$
-\end{itemize}
-
-\noindent cv.drawMatches(img1\_in as $\in \mathbb{Z}^{h \times w}$, 
-kp1 as \textbf{keypoint tuple}, img2\_in as $\in \mathbb{Z}^{h \times w}$, 
-kp2 as \textbf{keypoint tuple}, matches as \textbf{match tuple}, overlay\_image $\in \mathbb{Z}^{h \times w}$,
-flags $\in \mathbb{Z}$):
-\begin{itemize}
-\item output: img\_matches $\in \mathbb{Z}^{h\times w}$
 \end{itemize}
 
 
@@ -1132,17 +1032,19 @@ None, flags=DrawMatchesFlag)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MIS of ORB Data Structure Module} \label{mORB}
+\section{MIS of OpenCV Module} \label{mOpenCV}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
 
 \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
 \subsection{Module}
 
-orbStruct
+OpenCVLib
 
 \subsection{Uses}
-None.
+\begin{itemize}
+  \item config (Section~\ref{mIF})
+\end{itemize}
 
 \subsection{Syntax}
 
@@ -1151,26 +1053,83 @@ None.
 
 \subsubsection{Exported Access Programs}
 
+General OpenCV Access Programs
 \begin{center}
-\begin{tabular}{p{3.5cm} p{6cm} p{4.5cm} p{2cm}}
+\begin{tabular}{p{3.5cm} p{4.5cm} p{4.5cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{Input} & \textbf{Output} & \textbf{Exceptions} \\
 \hline
-GaussianBlur & $\text{img} \in \mathbb{Z}^{h \times w}, \newline 
-\text{kernel\_sz} \in \mathbb{Z}, \newline 
+imread & sel\_read\_path as \textbf{str} & 
+img $\in \mathbb{N}^{h \times w}$ & inValidImgPath \\
+\hline
+imwrite & sel\_save\_path as \textbf{str}, \newline 
+out\_img $\in \mathbb{N}^{h \times w}$ & 
+img\_png \textbf{as .png} & inValidImgPath \\
+\hline
+gaussianBlur & $\text{img} \in \mathbb{N}^{h \times w}, \newline 
+\text{kernel\_sz} \in \mathbb{N}, \newline 
 \text{std\_deviation} \in \mathbb{R} $
-& smooth\_img $\in \mathbb{Z}^{m\times n}$ & -\\
+& smooth\_img $\in \mathbb{N}^{m\times n}$ & -\\
 \hline
-ORB.create & $\text{bin\_sz}\in \mathbb{Z}, \newline 
-\text{patch\_sz}\in \mathbb{Z}, \newline 
-\text{FAST\_threshold} \in \mathbb{Z}$ & orb\_object & None \\
+drawKeypoints & img\_in $\in \mathbb{N}^{h \times w}$, \newline
+keypoints as \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}{OpenCV Keypoint Class}, \newline
+colour $\in \mathbb{N}^{3}$, \newline 
+flags $\in \mathbb{N}$ & img\_kp $\in \mathbb{N}^{h \times w}$ & - \\
 \hline
-orb\_object.detect & $\text{img} \in \mathbb{Z}^{h \times w}$ & $K$ (set of keypoints) & invalidImg \\
+drawMatches& img1\_in $\in \mathbb{N}^{h_{1} \times w_{1}}$, \newline 
+img2\_in $\in \mathbb{N}^{h_{2} \times w_{2}}$ \newline 
+kp1, kp2 as \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}{OpenCV Keypoint Class}, \newline
+flags as $\in \mathbb{N}$
+& img\_matches $\in \mathbb{N}^{(h_{1}+h_{2}) \times (w_{1}+w_{2})}$& - \\
 \hline
-orb\_object.compute & $\text{img} \in \mathbb{Z}^{h \times w}$, \newline 
-$K$ where $K$ is a set of keypoints & $D$ (set of descriptors) & invalidImg, invalidKeypoints \\
+ORB.create & bin\_sz, $\in \mathbb{N}$, \newline 
+patch\_sz, $\in \mathbb{N}$, \newline 
+FAST\_threshold $\in \mathbb{N}$ \newline 
+& orb\_object as \href{https://docs.opencv.org/3.4/db/d95/classcv_1_1ORB.html}
+{OpenCV ORB Class} & - \\
+\hline
+BFMatcher 
+& match\_method $\in \mathbb{N}$, \newline 
+cross\_check\_flag $\in \mathbb{B}$ 
+& brute\_force\_object as \href{https://docs.opencv.org/3.4/d3/da1/classcv_1_1BFMatcher.html}
+{OpenCV Brute Force Matcher Class} \newline 
+& -\\
 \hline
 \end{tabular}
+\end{center} 
+ORB Object Member Functions
+\begin{center}
+  \begin{tabular}{p{4cm} p{4cm} p{5cm} p{3cm}}
+  \hline
+  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+  \hline
+  detect & $\text{img} \in \mathbb{Z}^{h \times w}$ 
+& keypoints as \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}{OpenCV Keypoint Class} 
+& invalidImg \\
+\hline
+compute & $\text{img} \in \mathbb{Z}^{h \times w}$, \newline 
+$K$ where $K$ as \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}{OpenCV Keypoint Class} 
+& descriptors as \href{https://docs.opencv.org/4.x/d0/d13/classcv_1_1Feature2D.html}{OpenCV Feature2D Class} 
+& invalidImg, \newline 
+invalidKeypoints \\
+  \hline
+  \end{tabular}
+\end{center}
+Brute Force Matcher Object Functions
+\begin{center}
+  \begin{tabular}{p{3cm} p{4cm} p{5cm} p{3cm}}
+  \hline
+  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+  \hline
+  match & $D_1, D_2$ as \href{https://docs.opencv.org/4.x/d0/d13/classcv_1_1Feature2D.html}{OpenCV Feature2D Class} 
+  & matches as an \href{https://docs.opencv.org/3.4/d4/de0/classcv_1_1DMatch.html}{OpenCV DMatch Class} 
+  & Raises an error if descriptors are invalid or empty. \\
+  \hline
+  sorted 
+  & unsorted\_matches as an \href{https://docs.opencv.org/3.4/d4/de0/classcv_1_1DMatch.html}{OpenCV DMatch Class} 
+  & sorted\_matches as an \href{https://docs.opencv.org/3.4/d4/de0/classcv_1_1DMatch.html}{OpenCV DMatch Class} & - \\
+  \hline
+  \end{tabular}
 \end{center}
 
 \subsection{Semantics}
@@ -1185,42 +1144,91 @@ None.
 \begin{itemize}
     \item The input image is a valid grayscale or color image.
     \item Keypoints are detected before computing descriptors.
+    \item ORB objects are initialized prior to use.
+    \item BFMatcher objects are initialized prior to use.
 \end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
-\noindent GaussianBlur$(\text{img} \in \mathbb{Z}^{h \times w}, (\text{kernel\_sz} 
-\in \mathbb{Z}, \text{kernel\_sz} \in \mathbb{Z}), \text{std\_deviation} \in \mathbb{R})$:
+\noindent imread(sel\_read\_path as str):
 \begin{itemize}
-    \item Output: $\text{img\_blur} \in \mathbb{Z}^{h \times w}$
+\item output: out:= img $\in \mathbb{Z}^{h \times w}$
+\item exception: if no image identified, flag as inValidImgPath 
+\end{itemize}
+
+\noindent imwrite(sel\_save\_path as \textbf{str}, out\_img 
+$\in \mathbb{Z}^{h \times w}$):
+\begin{itemize}
+\item output: out:= img\_png as .png file
+\item exception: if path is undefined, flag as inValidImgPath 
+\end{itemize}
+
+\noindent gaussianBlur(img $\in \mathbb{N}^{h \times w}$, kernel\_sz $\in \mathbb{Z}$, std\_deviation $\in \mathbb{R})$:
+\begin{itemize}
+    \item Output: $\text{img\_blur} \in \mathbb{N}^{h \times w}$
     \item Exception: None. Exceptions are handled in Input Format Module.
 \end{itemize}
+
+\noindent drawKeypoints(img\_in as $\in \mathbb{N}^{h \times w}$, 
+keypoints as \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}{OpenCV Keypoint Class},
+colour $\in \mathbb{N}^{3}$, flags $\in \mathbb{N}$):
+\begin{itemize}
+\item output: out:= img\_kp $\in \mathbb{Z}^{3}$
+\end{itemize}
+
+\noindent drawMatches(img1\_in $\in \mathbb{N}^{h_{1} \times w_{1}}$, img2\_in $\in \mathbb{N}^{h_{2} \times w_{2}}$,
+kp1, kp2 as \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}{OpenCV Keypoint Class}, 
+matches as \href{https://docs.opencv.org/3.4/d4/de0/classcv_1_1DMatch.html}{OpenCV DMatch Class},
+flags $\in \mathbb{N}$):
+\begin{itemize}
+\item output: img\_matches $\in \mathbb{N}^{(h_{1}+h_{2}) \times (w_{1}+w_{2})}$
+\end{itemize}
+
 \noindent ORB.create$(\text{bin\_sz} \in \mathbb{Z}, \text{patch\_sz} \in \mathbb{Z}, \text{FAST\_threshold} \in \mathbb{Z})$:
 \begin{itemize}
-    \item Output: Initializes orb\_object as \textbf{TBD}
-    \item Exception: None. Exceptions are handled in Input Format Module.
+    \item output: out:= orb\_object as \href{https://docs.opencv.org/3.4/db/d95/classcv_1_1ORB.html}{OpenCV ORB Class}
+    \item exception: None. 
 \end{itemize}
-\noindent orb\_object.detect$(\text{img} \in \mathbb{Z}^{h \times w})$:
+
+\noindent detect$(\text{img} \in \mathbb{Z}^{h \times w})$:
 \begin{itemize}
-    \item Output: Returns the set of keypoints \( K = \{ (x_i, y_i, s_i, \theta_i, r_i) \mid i \in \mathbb{N} \} \), where:
-    \begin{itemize}
-        \item \( (x_i, y_i) \in \mathbb{R}^2 \) (spatial coordinates)
-        \item \( s_i \in \mathbb{R}^+ \) (scale)
-        \item \( \theta_i \in [0, 2\pi] \) (orientation)
-        \item \( r_i \in \mathbb{R} \) (response strength)
-    \end{itemize}
-    \item Exception: invalidImage
+    \item output: out:= keypoints $K$ as  \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}{OpenCV Keypoint Class}
+    %= \{ (x_i, y_i, s_i, \theta_i, r_i) \mid i \in \mathbb{N} \} \), where:
+    % \begin{itemize}
+    %     \item \( (x_i, y_i) \in \mathbb{R}^2 \) (spatial coordinates)
+    %     \item \( s_i \in \mathbb{R}^+ \) (scale)
+    %     \item \( \theta_i \in \mathbb{R}^+ \) (orientation)
+    %     \item \( r_i \in \mathbb{R} \) (response strength)
+    % \end{itemize}
+    \item exception: invalidImage
 \end{itemize}
-\noindent orb\_object.compute$(\text{img}, K)$:
+
+\noindent compute$(\text{img}, K)$:
 \begin{itemize}
-    \item Output: Returns a set of binary descriptors 
-    \( D = \{ d_i \mid d_i \in \mathbb{F}_2^{n\times 256}, i \in \mathbb{N} \} \).
-    \item Exception:
+    \item output: out:= D as \href{https://docs.opencv.org/4.x/d0/d13/classcv_1_1Feature2D.html}{OpenCV Feature2D Class}
+    \item exception: exc:=
     \begin{itemize}
       \item image not found $\Rightarrow$ invalidImg
       \item keypoints not found $\Rightarrow$ invalidKeypoints
     \end{itemize}
 \end{itemize}
+
+\noindent match($D_1, D_2$ as \href{https://docs.opencv.org/4.x/d0/d13/classcv_1_1Feature2D.html}{OpenCV Feature2D Class}):
+\begin{itemize}
+\item output: out:= matches $M$ as \href{https://docs.opencv.org/3.4/d4/de0/classcv_1_1DMatch.html}{OpenCV DMatch Class}.
+\item exception: exc:= Raises an error if the descriptors are invalid or empty.
+  \begin{itemize}
+      \item descriptors are invalid
+  \end{itemize}
+\end{itemize}
+
+\noindent sorted(M as \textbf{match tuple}, key=lambda x: x.distance): 
+\begin{itemize} 
+  \item output: Returns a sorted tuple of matches $M'$, where matches are sorted in 
+  ascending order of distance, $dist_{Hamming}$. 
+  \item exception: Raises an error if the match set is empty. 
+\end{itemize}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
