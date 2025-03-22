@@ -46,7 +46,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-2025-03-19 & 1.0 & Initial Release\\
+2025-03-21 & 1.0 & Initial Release\\
 \bottomrule
 \end{tabularx}
 
@@ -184,19 +184,12 @@ of the data structure used to hold identified feature matches.
 \item[\refstepcounter{acnum} \actheacnum \label{acRelation}:] The relationships 
 between what methods of feature identification, description, and comparison are 
 compatible with each other.
-\item[\refstepcounter{acnum} \actheacnum \label{acMetrics}:] The user wants to 
-modify the metrics to be stored alongside a candidate matches of features.
 \item[\refstepcounter{acnum} \actheacnum \label{acVisualize}:] The user wants 
 to visualize the outputs of a given processing operation.
 \item[\refstepcounter{acnum} \actheacnum \label{acSaveImage}:] The user wants 
 to save a snapshot of the output from any given processing operation.
 
-
 \end{description}
-
-\wss{Anticipated changes relate to changes that would be made in requirements,
-design or implementation choices.  They are not related to changes that are made
-at run-time, like the values of parameters.}
 
 \subsection{Unlikely Changes} \label{SecUchange}
 
@@ -231,20 +224,17 @@ below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented. Modules are numbered by \textbf{M} followed by a number.
 \begin{description}
 \item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware Hiding Module
+\item [\refstepcounter{mnum} \mthemnum \label{mC}:] Control Module
 \item [\refstepcounter{mnum} \mthemnum \label{mIF}:] Input Format Module
 \item [\refstepcounter{mnum} \mthemnum \label{mSP}:] Specification Parameters Module
 \item [\refstepcounter{mnum} \mthemnum \label{mOF}:] Output Format Module
 \item [\refstepcounter{mnum} \mthemnum \label{mOV}:] Output Verification Module
-\item [\refstepcounter{mnum} \mthemnum \label{mC}:] Control Module
 \item [\refstepcounter{mnum} \mthemnum \label{mIS}:] Image Smoothing Module
 \item [\refstepcounter{mnum} \mthemnum \label{mKD}:] Keypoint Detection Module
 \item [\refstepcounter{mnum} \mthemnum \label{mFD}:] Feature Descriptor Module
 \item [\refstepcounter{mnum} \mthemnum \label{mFM}:] Feature Matching Module
-\item [\refstepcounter{mnum} \mthemnum \label{mIDS}:] Image Data Structure Module
 \item [\refstepcounter{mnum} \mthemnum \label{mIP}:] Image Plot Module
-\item [\refstepcounter{mnum} \mthemnum \label{mFMD}:] Feature Match Data Module
-\item [\refstepcounter{mnum} \mthemnum \label{mDF}:] Dataframe Structure Module
-\item [\refstepcounter{mnum} \mthemnum \label{mORB}:] ORB Data Structure Module
+\item [\refstepcounter{mnum} \mthemnum \label{mOpenCV}:] OpenCV Library
 \end{description}
 
 
@@ -258,22 +248,20 @@ actually be implemented. Modules are numbered by \textbf{M} followed by a number
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{9}{0.3\textwidth}{Behaviour-Hiding Module} & \mref{mIF}\\
+\multirow{10}{0.3\textwidth}{Behaviour-Hiding Module} & \mref{mC}\\ 
+& \mref{mIF}\\
 & \mref{mSP}\\
 & \mref{mOF}\\
 & \mref{mOV}\\
-& \mref{mC}\\
 & \mref{mIS}\\
 & \mref{mKD}\\ 
 & \mref{mFD}\\
 & \mref{mFM}\\
+& \mref{mIP}\\
 \midrule
 
-\multirow{5}{0.3\textwidth}{Software Decision Module} & \mref{mIDS}\\
-& \mref{mIP}\\
-& \mref{mORB}\\
-& \mref{mFMD}\\
-& \mref{mDF}\\
+\multirow{1}{0.3\textwidth}{Software Decision Module} & \mref{mOpenCV}\\
+
 \bottomrule
 
 \end{tabular}
@@ -326,15 +314,22 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Input Format Module (\mref{mIF})}
+\subsubsection{Control Module (\mref{mC})}
 
+\begin{description}
+\item[Secrets:]The procedure to run the program.
+\item[Services:]Oversees execution of the overall program.
+\item[Implemented By:] IFCS
+\item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{Input Format Module (\mref{mIF})}
 \begin{description}
 \item[Secrets:]The format and structure of the input data.
 \item[Services:]Converts the input data into the data structure used by the
   input parameters module.
 \item[Implemented By:] IFCS
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Type of Module:] Abstract Data Type
 \end{description}
 
 \subsubsection{Specification Parameters Module (\mref{mSP})}
@@ -345,8 +340,7 @@ variables.
 \item[Services:]Read access for the input checks against the parameters in 
 \mref{mIF}.
 \item[Implemented By:] IFCS
-\item[Type of Module:] \emph{Record} [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Type of Module:] Record
 \end{description}
 
 \subsubsection{Output Format Module (\mref{mOF})}
@@ -356,52 +350,38 @@ variables.
 \item[Services:]Outputs the results of the matched features, including the source image and 
 feature identifiers.
 \item[Implemented By:] IFCS
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Type of Module:] Abstract Data Type
 \end{description}
 
-\subsubsection{Output Verification Module (\mref{mOV})}
 
+\subsubsection{Output Verification Module (\mref{mOV})}
 \begin{description}
 \item[Secrets:]Contains the algorithms used to check uniqueness of feature matches and their 
 identifiers.
 \item[Services:]Reviews the set of matches image features and flags any that are repeated 
 or share the same point of origin.
 \item[Implemented By:] IFCS
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Type of Module:] Abstract Data Type
 \end{description}
 
-\subsubsection{Control Module (\mref{mC})}
-
-\begin{description}
-\item[Secrets:]The procedure to run the program.
-\item[Services:]Oversees execution of the overall program.
-\item[Implemented By:] IFCS
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
-\end{description}
 
 \subsubsection{Image Smoothing Module (\mref{mIS})}
-
 \begin{description}
 \item[Secrets:]The Kernel parameters used to smooth the image.
 \item[Services:]Defines the smoothing kernel using the parameters in the Input 
 Format module.
 \item[Implemented By:] IFCS
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Type of Module:] Abstract Data Type
 \end{description}
 
-\subsubsection{Keypoint Detection Module (\mref{mKD})}
 
+\subsubsection{Keypoint Detection Module (\mref{mKD})}
 \begin{description}
 \item[Secrets:]The methods used to define features within images.
 \item[Services:]Defines the available methods used to detect features using the 
 parameters in the Input Format module.
 \item[Implemented By:] IFCS
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Type of Module:] Abstract Data Type
 \end{description}
 
 \subsubsection{Feature Descriptor Module (\mref{mFD})}
@@ -411,74 +391,35 @@ parameters in the Input Format module.
 \item[Services:]Defines the available methods used to describe features using the parameters 
 in the Input Format module.
 \item[Implemented By:] IFCS
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Type of Module:] Abstract Data Type
 \end{description}
 
 \subsubsection{Feature Matching Module (\mref{mFM})}
-
 \begin{description}
 \item[Secrets:]The methods used to compare features within images.
 \item[Services:]Defines the available methods used to compare image features using the 
 parameters in the Input Format module.
 \item[Implemented By:] IFCS
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Type of Module:] Abstract Data Type
 \end{description}
 
+
+\subsubsection{Image Plot Module (\mref{mIP})}
+\begin{description}
+\item[Secrets:]The methods used to generate new images using identified image attributes.
+\item[Services:]Defines the available methods used to generate a new image.
+\item[Implemented By:] IFCS
+\item[Type of Module:] Abstract Data Type
+\end{description}
 
 \subsection{Software Decision Module}
 
-\subsubsection{Image Data Structure Module (\mref{mIDS})}
+\subsubsection{OpenCV Library (\mref{mOpenCV})}
 \begin{description}
-\item[Secrets:] The design decision based on mathematical theorems, physical
-  facts, or programming considerations. The secrets of this module are
-  \emph{not} described in the SRS.
-\item[Services:] Includes data structure and algorithms used in the system that
-  do not provide direct interaction with the user. 
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
+\item[Secrets:] The data structures and algorithms used to manipulate imagery data.
+\item[Services:] Provides methods to import, manipulate, and export imagery data.
 \item[Implemented By:] OpenCV library
 \end{description}
-
-\subsubsection{Image Plot Module (\mref{mFD})}
-\begin{description}
-\item[Secrets:] The data structure of the image to be displayed.
-\item[Services:] Defines the methods used to generate and display an image as a figure.
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
-\item[Implemented By:] OpenCV library
-\end{description}
-
-\subsubsection{Feature Match Data Module (\mref{mFD})}
-\begin{description}
-\item[Secrets:] The algorithms used to identify matched features.
-\item[Services:] Provides data structure and algorithms to compare features between 
-images to identify candidate matches. 
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
-\item[Implemented By:] OpenCV library
-\end{description}
-
-\subsubsection{Dataframe Structure Module (\mref{mFD})}
-\begin{description}
-\item[Secrets:] The algorithms used to identify matched features.
-\item[Services:] Provides data structure and algorithm to compare features 
-between images to identify candidate matches. 
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
-\item[Implemented By:] OpenCV library
-\end{description}
-
-\subsubsection{ORB Data Structure Module (\mref{mFD})}
-\begin{description}
-\item[Secrets:] The algorithms that implement specialized keypoint detection and feature assignments as oriented-FAST and rotated BRIEF.
-\item[Services:] Provides data structure and algorithms to perform combined FAST and BRIEF.
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
-\item[Implemented By:] Pandas library
-\end{description}
-
 \subsubsection{Etc.}
 
 \section{Traceability Matrix} \label{SecTM}
@@ -498,17 +439,17 @@ R1 & \mref{mHH}, \mref{mIF}\\
 R2 & \mref{mHH}, \mref{mIF}\\
 R3 & \mref{mHH}, \mref{mIF}\\
 R4 & \mref{mHH}, \mref{mIF}\\
-R5 & \mref{mIS}\\
-R6 & \mref{mKD}, \mref{mORB}\\
-R7 & \mref{mFD}, \mref{mORB}\\
+R5 & \mref{mSP}\\
+R6 & \mref{mKD}\\
+R7 & \mref{mFD}\\
 R8 & \mref{mFM}\\
 R9 & \mref{mIS}\\
-R10 & \mref{mC}, \mref{mKD}, \mref{mIP}\\
-R11 & \mref{mC}, \mref{mFD}, \mref{mIP}\\
-R12 & \mref{mC}, \mref{mFM}, \mref{mFMD}, \mref{mIP}\\
+R10 & \mref{mC}, \mref{mKD}\\
+R11 & \mref{mC}, \mref{mFD}\\
+R12 & \mref{mC}, \mref{mFM}\\
 R13 & \mref{mOV}\\
-R14 & \mref{mOF}, \mref{mFMD}\\
-R15 & \mref{mOF}, \mref{mOV}, \mref{mDF}\\
+R14 & \mref{mOF}\\
+R15 & \mref{mOF}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
@@ -530,9 +471,10 @@ R15 & \mref{mOF}, \mref{mOV}, \mref{mDF}\\
 \acref{acKP} & \mref{mKD}\\
 \acref{acFD} & \mref{mFD}\\
 \acref{acFM} & \mref{mFM}\\
-\acref{acMatches} & \mref{mDF}\\
-\acref{acRelation} & \mref{mC}, \mref{mORB}\\
-\acref{acMetrics} & \mref{mFMD}\\
+\acref{acMatches} & \mref{mOpenCV}\\
+\acref{acRelation} & \mref{mC}\\
+\acref{acVisualize} & \mref{mIP}\\
+\acref{acSaveImage} & \mref{mIP}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
@@ -552,15 +494,6 @@ the modules. It can be seen that the graph is a directed acyclic graph
 system, and modules in the higher level of the hierarchy are essentially simpler
 because they use modules from the lower levels.
 
-\wss{The uses relation is not a data flow diagram.  In the code there will often
-be an import statement in module A when it directly uses module B.  Module B
-provides the services that module A needs.  The code for module A needs to be
-able to see these services (hence the import statement).  Since the uses
-relation is transitive, there is a use relation without an import, but the
-arrows in the diagram typically correspond to the presence of import statement.}
-
-\wss{If module A uses module B, the arrow is directed from A to B.}
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
@@ -568,23 +501,24 @@ arrows in the diagram typically correspond to the presence of import statement.}
 \label{FigUH}
 \end{figure}
 
-%\section*{References}
-
-\section{User Interfaces}
-
-\wss{Design of user interface for software and hardware.  Attach an appendix if
-needed. Drawings, Sketches, Figma}
-
-\section{Design of Communication Protocols}
-
-\wss{If appropriate}
-
 \section{Timeline}
+Table \ref{MG_Timeline} outlines the schedule of tasks that will be performed by member of the VnV team.
 
-\wss{Schedule of tasks and who is responsible}
-
-\wss{You can point to GitHub if this information is included there}
-
+\begin{table}[H]
+  \centering
+  \renewcommand{\arraystretch}{1.3} % Increases row height for readability
+  \begin{tabular}{|p{7cm}|c|c|}
+  \hline
+  \multicolumn{1}{|c|}{\textbf{Task}} & \textbf{V\&V Team Assignee} & \textbf{Due By} \\ \hline
+  \raggedright Implement Software Decision Modules for Implementation Presentation & Author & March 24, 2025 \\ \hline
+  \raggedright Implement Behaviour Hiding Modules for Implementation Presentation & Author & March 26, 2025 \\ \hline
+  \raggedright Review Modules and Provide Feedback & Domain Expert & March 26, 2025 \\ \hline
+  \raggedright Finalize modules for final documentation & Author & April 11, 2025 \\ \hline
+  \end{tabular}
+  \caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
+  \label{MG_Timeline}
+\end{table}
+  
 \bibliographystyle {plainnat}
 \bibliography{../../../refs/References}
 
