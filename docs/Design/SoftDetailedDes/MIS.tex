@@ -67,7 +67,7 @@ symbols and abbreviations are outlined in below.
 \renewcommand{\arraystretch}{1.2}
 %\noindent \begin{tabularx}{1.0\textwidth}{l l X}
 \noindent 
-\begin{longtable*}{l l p{12cm}} 
+\begin{longtable*}{|l l p{12cm}|} 
   \toprule
 \textbf{symbol} & \textbf{type} & \textbf{description}\\
 \midrule 
@@ -164,7 +164,16 @@ tuples. Sequences are lists filled with elements of the same data type. Strings
 are sequences of characters. Tuples contain a list of values, potentially of
 different types. In addition, \progname \ uses functions, which
 are defined by the data types of their inputs and outputs. Local functions are
-described by giving their type signature followed by their specification.
+described by giving their type signature followed by their specification. Examples of common 
+class definitions in OpenCV follow.
+\begin{itemize}
+  \item brute force matcher objects as \href{https://docs.opencv.org/3.4/d3/da1/classcv_1_1BFMatcher.html}{BFMatcher Class}
+  \item feature descriptor objects as \href{https://docs.opencv.org/3.4/d4/de0/classcv_1_1DMatch.html}{OpenCV DMatch Class}
+  \item image keypoints objects as \href{https://docs.opencv.org/3.4/db/d95/classcv_1_1ORB.html}{OpenCV ORB Class}
+  \item match objects as \href{https://docs.opencv.org/3.4/d4/de0/classcv_1_1DMatch.html}{OpenCV DMatch Class}
+  \item ORB objects as \href{https://docs.opencv.org/3.4/db/d95/classcv_1_1ORB.html}{OpenCV ORB Class}
+  \item OpenCV Norm objects as \href{https://docs.opencv.org/4.x/d2/de8/group__core__array.html#ggad12cefbcb5291cf958a85b4b67b6149fa4b063afd04aebb8dd07085a1207da727}{OpenCV NORM HAMMING}
+\end{itemize}
 
 \section{Module Decomposition}
 

@@ -59,7 +59,7 @@ This section records information for easy reference.
 \subsection{Abbreviations and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l} 
+\begin{tabular}{p{0.4\linewidth}  p{0.6\linewidth}}
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
@@ -75,8 +75,7 @@ This section records information for easy reference.
   R & Requirement\\
   SC & Scientific Computing \\
   SRS & Software Requirements Specification\\
-  \progname & Program to identify and retrive regions of \\ 
-            & interest within the scene of camera imagery\\
+  \progname & Program to identify and retrive regions of interest within the scene of camera imagery\\
 
   UC & Unlikely Change \\
   \bottomrule
@@ -248,19 +247,19 @@ actually be implemented. Modules are numbered by \textbf{M} followed by a number
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{10}{0.3\textwidth}{Behaviour-Hiding Module} & \mref{mC}\\ 
-& \mref{mIF}\\
-& \mref{mSP}\\
-& \mref{mOF}\\
-& \mref{mOV}\\
-& \mref{mIS}\\
-& \mref{mKD}\\ 
-& \mref{mFD}\\
-& \mref{mFM}\\
-& \mref{mIP}\\
+\multirow{10}{0.3\textwidth}{Behaviour-Hiding Module} & \mref{mC} Control Module\\ 
+& \mref{mIF} Input Format Module\\
+& \mref{mSP} Specification Parameters Module\\
+& \mref{mOF} Output Format Module\\
+& \mref{mOV} Output Verification Module\\
+& \mref{mIS} Image Smoothing Module\\
+& \mref{mKD} Keypoint Detection Module\\ 
+& \mref{mFD} Feature Descriptor Module\\
+& \mref{mFM} Feature Matching Module\\
+& \mref{mIP} Image Plot Module\\
 \midrule
 
-\multirow{1}{0.3\textwidth}{Software Decision Module} & \mref{mOpenCV}\\
+\multirow{1}{0.3\textwidth}{Software Decision Module} & \mref{mOpenCV} OpenCV Library\\
 
 \bottomrule
 
@@ -320,7 +319,7 @@ to be implemented.
 \item[Secrets:]The procedure to run the program.
 \item[Services:]Oversees execution of the overall program.
 \item[Implemented By:] IFCS
-\item[Type of Module:] Abstract Data Type
+\item[Type of Module:] Abstract Object
 \end{description}
 
 \subsubsection{Input Format Module (\mref{mIF})}
@@ -406,8 +405,8 @@ parameters in the Input Format module.
 
 \subsubsection{Image Plot Module (\mref{mIP})}
 \begin{description}
-\item[Secrets:]The methods used to generate new images using identified image attributes.
-\item[Services:]Defines the available methods used to generate a new image.
+\item[Secrets:]The methods used to generate  new images using identified image attributes.
+\item[Services:]Defines the available methods used to generate and manipulate a new image. This may encrouch upon
 \item[Implemented By:] IFCS
 \item[Type of Module:] Abstract Data Type
 \end{description}
@@ -420,7 +419,6 @@ parameters in the Input Format module.
 \item[Services:] Provides methods to import, manipulate, and export imagery data.
 \item[Implemented By:] OpenCV library
 \end{description}
-\subsubsection{Etc.}
 
 \section{Traceability Matrix} \label{SecTM}
 
@@ -502,7 +500,8 @@ because they use modules from the lower levels.
 \end{figure}
 
 \section{Timeline}
-Table \ref{MG_Timeline} outlines the schedule of tasks that will be performed by member of the VnV team.
+Table \ref{MG_Timeline} outlines the schedule of tasks that will be performed by members of the VnV team, as defined in 
+the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/VnVPlan/VnVPlan.pdf}{VnV Plan}.
 
 \begin{table}[H]
   \centering
@@ -515,7 +514,7 @@ Table \ref{MG_Timeline} outlines the schedule of tasks that will be performed by
   \raggedright Review Modules and Provide Feedback & Domain Expert & March 26, 2025 \\ \hline
   \raggedright Finalize modules for final documentation & Author & April 11, 2025 \\ \hline
   \end{tabular}
-  \caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
+  \caption{Development Timeline of the Module Guide/Interface Specification}
   \label{MG_Timeline}
 \end{table}
   
