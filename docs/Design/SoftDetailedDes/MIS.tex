@@ -346,11 +346,17 @@ save\_image(img\_fm,``fMatches'', img\_IDs($img\_idx\_{1}$ + img\_IDs($img\_idx\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Input Format Module} \label{mIF}
 This module addresses the functional requirements as follows.
+% \begin{itemize}
+%   \item R\ref{R_Update_SD}
+%   \item R\ref{R_Update_Intensity}
+%   \item R\ref{R_Update_Patch}
+%   \item R\ref{R_Update_BinSize}
+% \end{itemize}
 \begin{itemize}
-  \item R\ref{R_Update_SD}
-  \item R\ref{R_Update_Intensity}
-  \item R\ref{R_Update_Patch}
-  \item R\ref{R_Update_BinSize}
+  \item R1
+  \item R2
+  \item R3
+  \item R4
 \end{itemize}
 \subsection{Module}
 
@@ -490,8 +496,11 @@ num\_images = len(input\_img)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Specification Parameters Module} \label{mSP}
 This module addresses the functional requirements as follows.
+% \begin{itemize}
+%   \item R\ref{R_Default_Noise}
+% \end{itemize}
 \begin{itemize}
-  \item R\ref{R_Default_Noise}
+  \item R1
 \end{itemize}
 
 \subsection{Module}
@@ -581,9 +590,13 @@ none
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Output Format Module} \label{mOF}
+% \begin{itemize}
+%   \item R\ref{R_UniqueMatch_IDs}
+%   \item R\ref{R_OutputCorrespondences}
+% \end{itemize}
 \begin{itemize}
-  \item R\ref{R_UniqueMatch_IDs}
-  \item R\ref{R_OutputCorrespondences}
+  \item R14
+  \item R15
 \end{itemize}
 \subsection{Module}
 
@@ -714,8 +727,11 @@ none
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Output Verification Module} \label{mOV}
+% \begin{itemize}
+%   \item R\ref{R_DistinctImages}
+% \end{itemize}
 \begin{itemize}
-  \item R\ref{R_DistinctImages}
+  \item R13
 \end{itemize}
 \subsection{Module}
 
@@ -787,8 +803,11 @@ none
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Image Smoothing Module} \label{mIS}
+% \begin{itemize}
+%   \item R\ref{R_NoiseReduction}
+% \end{itemize}
 \begin{itemize}
-  \item R\ref{R_NoiseReduction}
+  \item R9
 \end{itemize}
 \subsection{Module}
 smoothImage
@@ -841,9 +860,13 @@ k, $\sigma$ \textbar \: mthd\_img\_smoothing == 1):
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Keypoint Detection Module} \label{mKD}
+% \begin{itemize}
+%   \item R\ref{R_Default_FD}
+%   \item R\ref{R_DetectKeypoints}
+% \end{itemize}
 \begin{itemize}
-  \item R\ref{R_Default_FD}
-  \item R\ref{R_DetectKeypoints}
+  \item R6
+  \item R10
 \end{itemize}
 
 \subsection{Module}
@@ -929,9 +952,13 @@ keypoints = orb\_object.detect(img)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Feature Descriptor Module} \label{mFD}
+% \begin{itemize}
+%   \item R\ref{R_Default_KD}
+%   \item R\ref{R_DefineDescriptors}
+% \end{itemize}
 \begin{itemize}
-  \item R\ref{R_Default_KD}
-  \item R\ref{R_DefineDescriptors}
+  \item R7
+  \item R11
 \end{itemize}
 \subsection{Module}
 
@@ -994,9 +1021,13 @@ orb\_object = get\_orb\_object()
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Feature Matching Module} \label{mFM}
+% \begin{itemize}
+%   \item R\ref{R_Default_FM}
+%   \item R\ref{R_CompareDescriptors}
+% \end{itemize}
 \begin{itemize}
-  \item R\ref{R_Default_FM}
-  \item R\ref{R_CompareDescriptors}
+  \item R8
+  \item R12
 \end{itemize}
 \subsection{Module}
 
@@ -1063,7 +1094,6 @@ Exception handling on user-selected methods and parameters are handled in the Pa
 Specification Module.
 
 \subsubsection{Access Routine Semantics}
-
 create\_BF\_matcher(mthd\_fm\_match, norm\_method, crosscheck\_flag 
 \textbar \: mthd\_fm\_match == 1):
 \begin{itemize}
@@ -1076,7 +1106,7 @@ matches = match\_features(bf\_matcher\_object, desc1, desc2)
   \item output: out:= matches = bf\_matcher\_object.match(desc1, desc2)
   \item exception: None
 \end{itemize}
-sort\_matches(bf\_matcher\_object, matches):\newline
+sort\_matches(bf\_matcher\_object, matches):
 \begin{itemize}
   \item output: out:= sorted \_matches = bf\_matcher\_object.sorted(matches), where , such that the entries
   are organized in ascending order of the distance attribute
