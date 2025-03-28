@@ -294,7 +294,7 @@ set\_parent\_directory(head\_dir)\newline \newline
 [mthd\_img\_smoothing, mthd\_kp\_detection, mthd\_kp\_descriptors, 
 mthd\_ft\_matching] 
 = get\_active\_methods() \newline \newline
-[k, $\sigma$, t, b, patch\_s]
+[k, $\sigma$, t, b, p]
 = get\_chosen\_parameters() \newline \newline
 check\_limits(k, b, p, t, $\sigma$) \newline \newline
 [image\_IDs, num\_images] = get\_img\_IDs(head\_dir) \newline \newline
@@ -397,6 +397,12 @@ t: $\mathbb{N}$, \newline
 $\sigma$: $\mathbb{N}$
 & - \\
 \hline
+set\_input\_img\_path 
+& head\_dir as str
+& img\_dir as str, \newline 
+local\_folder as str
+& - \\
+\hline
 get\_img\_IDs 
 & head\_dir as str 
 & img\_IDs as $str^{n}$ 
@@ -410,12 +416,18 @@ t: $\mathbb{N}$, \newline
 $\sigma$ $\mathbb{N}$
 & - 
 & invalid\_parameters\\
+\hline 
+verify\_imported\_image 
+& img $\in \mathbb{N}^{h \times w}$, \newline 
+img\_path as str, \newline 
+img\_id as str
+& -
+& ReadImageError\\
 \hline
 \end{tabular}
 
 
 \subsection{Semantics}
-
 \subsubsection{State Variables}
 \begin{itemize}
   \item k: $\mathbb{Z}$
@@ -447,7 +459,7 @@ none
 \begin{itemize}
   \item output: head\_dir = Path(os.getcwd()) where head\_dir defined as 
   a member of the \href{https://docs.python.org/3/library/os.path.html}{Python Path Class}.
-  \item exception exc:= none
+  \item exception exc:= noHeadFound if path is not returned
 \end{itemize}
 
 
@@ -465,7 +477,18 @@ none
 \end{itemize}
 
 
-\noindent get\_img\_IDs(head\_dir as str): \newline \newline
+\noindent set\_input\_img\_path(head\_dir):
+\begin{itemize}
+  \item transition: tran:= local\_folder = ``Raw\_Images"
+  \item transition: tran:= img\_dir = head\_dir + local\_folder
+\end{itemize}
+\begin{itemize}
+  \item output: out:= [img\_dir, local\_folder]
+  \item exception exc:= none
+\end{itemize}
+
+
+\noindent get\_img\_IDs(head\_dir): \newline \newline
 img\_path = Path(head\_dir + "Raw\_Images") \newline
 img\_dir = Path(img\_path) \newline
 image\_IDs = [(file.stem, file.suffix, file.name) 
@@ -490,6 +513,12 @@ num\_images = len(input\_img)
     $\neg (1 \leq b \leq 2048)$ & $\Rightarrow$ "badBinSize"\\
     $\neg (5 \leq p \leq 100)$ & $\Rightarrow$ "badPatchSize"\\
     \end{longtable*}
+\end{itemize}
+
+\noindent verify\_imported\_image((img, img\_path, img\_id)):
+\begin{itemize}
+  \item output: none
+  \item exception: exc:= ``ReadImageError" if img is of type `None'
 \end{itemize}
 
 
@@ -562,7 +591,7 @@ mthd\_kp\_description: $\mathbb{Z}$ \\
 mthd\_ft\_match: $\mathbb{Z}$ \\
 
 \subsubsection{Environment Variables}
-none
+none 
 
 \subsubsection{Assumptions}
 none 
@@ -614,9 +643,22 @@ Not applicable.
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-  \begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
+  \begin{tabular}{p{4cm} p{4cm} p{5cm} p{2cm}}
   \hline
   \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+  \hline
+  define\_output\_folders
+  & - 
+  & greyscale\_folder\_nm: str, \newline
+  smoothed\_imagery\_folder\_nm: str, \newline
+  keypoint\_folder\_nm: str, \newline
+  descriptor\_folder\_nm: str, \newline
+  matches\_folder\_nm: str
+  & - \\
+  \hline
+  make\_directory
+  & folder\_name: str
+  & - \\
   \hline
   output\_keypoints 
   & img\_id: str, \newline
@@ -647,17 +689,18 @@ Not applicable.
   
   \subsubsection{State Variables}
   \begin{itemize}
-    \item keypoint\_fldr: str
-    \item feature\_fldr: str
+    \item keypoint\_fldr: path
+    \item feature\_fldr: path
     \item match\_fldr: path
   \end{itemize}
   
   \subsubsection{Environment Variables}
   %%%%%%%%%% 
   \begin{itemize}
-    \item keypoint\_path: str
-    \item feature\_path: str
+    \item keypoint\_path: path
+    \item feature\_path: path
     \item match\_path: path
+    \item output\_folder: path
   \end{itemize}
   
   
@@ -665,11 +708,28 @@ Not applicable.
   none 
   \subsubsection{Access Routine Semantics}
   
+  \noindent define\_output\_folders(): \newline
+  greyscale\_folder\_nm = ``gsImagery" \newline
+  smoothed\_imagery\_folder\_nm = ``gkImagery" \newline
+  keypoint\_folder\_nm = ``kpDetection" \newline
+  descriptor\_folder\_nm = ``fDescriptors" \newline
+  matches\_folder\_nm = ``fMatches" 
+  \begin{itemize}
+    \item output: out:= [greyscale\_folder\_nm, smoothed\_imagery\_folder\_nm, keypoint\_folder\_nm, descriptor\_folder\_nm, matches\_folder\_nm]
+    \item exception: none 
+  \end{itemize}
+
+  \noindent make\_directory(folder\_name):
+  \begin{itemize}
+  \item output: out:= output\_folder = os.makedirs(folder\_name, exist\_ok=True) per \href{https://docs.python.org/3/library/os.html}{Python OS Class}
+  \item exception: none 
+  \end{itemize}  
+
   \noindent output\_keypoints(img\_id, parent\_id, keypoints):
   \begin{itemize}
     \item transition: tran:= keypoint\_path = parent\_dir + keypoint\_fldr + img\_id + ``kp'' + ``.csv", where keypoint\_path specifies the 
-    path to the output CSV file for the identified keypoints. This file will output the keypoint properties as follows 
-    per the \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}{OpenCV Keypoint Class}.
+    path to the output CSV file for the identified keypoints. This file will output the keypoint properties as follows per the 
+    \href{https://docs.opencv.org/3.4/d2/d29/classcv_1_1KeyPoint.html}{OpenCV Keypoint Class}.
   
     \begin{itemize}
       \item horizontal pixel position
@@ -1342,14 +1402,13 @@ None.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent imread(sel\_read\_path as str):
+\noindent imread(sel\_read\_path:str):
 \begin{itemize}
 \item output: out:= img $\in \mathbb{N}^{h \times w}$
 \item exception: if no image identified, flag as inValidImgPath 
 \end{itemize}
 
-\noindent imwrite(sel\_save\_path as \textbf{str}, out\_img 
-$\in \mathbb{N}^{h \times w}$):
+\noindent imwrite(sel\_save\_path, out\_img):
 \begin{itemize}
 \item output: out:= img\_png as .png file
 \item exception: exc:= invalidImage
