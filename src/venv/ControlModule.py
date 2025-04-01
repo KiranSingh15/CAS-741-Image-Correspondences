@@ -1,8 +1,5 @@
-import os
-import numpy as np
 import cv2 as cv
 import os
-from pathlib import Path
 
 import InputFormatModule as config
 import OutputFormatModule as formatOutput
@@ -15,8 +12,8 @@ import ImagePlotModule as plotImage
 
 
 # create empty variables
-orb_object = None
-bf_matcher_object = None
+# orb_object = None
+# bf_matcher_object = None
 
 ## Run the Input Format Module
 head_dir = config.get_head_directory()
@@ -130,8 +127,12 @@ for i in range(num_images):
         matches = matchFeatures.sort_matches(matches)
         # best_matches = matchFeatures.sort_matches(matchFeatures.match_descriptors(bf, fd1, fd2))
 
-        match_imgs = img1_name + "_" + img2_name
-        img_ext = match_imgs + ".png"
+        # check that matches originate from unique images
+        verifyOutput.check_match_uniqueness(img1_name, img2_name, matches)
+
+
+        match_images = img1_name + "_" + img2_name
+        img_ext = match_images + ".png"
         formatOutput.output_matches(img1_name, img2_name, matches, kp1, kp2, head_dir, matches_folder_nm)
 
         img_matches = plotImage.gen_matched_features(img_1, img_2, kp1, kp2, matches, 30, 25)
