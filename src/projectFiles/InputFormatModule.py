@@ -6,27 +6,32 @@ import numpy as np
 import pandas as pd
 import SpecificationParametersModule as specParams
 
+
 def get_head_directory():
     head_directory = Path(os.getcwd())
     return head_directory  # Convert to Path object
 
 
-def check_method_limits(mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match):
-    avail_mthd_count, avail_is, avail_kpd, avail_fd, avail_ftm = specParams.get_available_methods()
+def check_method_limits(
+    mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match
+):
+    avail_mthd_count, avail_is, avail_kpd, avail_fd, avail_ftm = (
+        specParams.get_available_methods()
+    )
 
     # assess available methods
     # Image smoothing
     assert (
-            mthd_img_smoothing <= avail_mthd_count[0]
+        mthd_img_smoothing <= avail_mthd_count[0]
     ), f"Method selection is out of scope. Number of available methods for image smoothing is {avail_mthd_count[0]}. (Input method = {mthd_img_smoothing})"
     assert (
-            mthd_kp_detection <= avail_mthd_count[1]
+        mthd_kp_detection <= avail_mthd_count[1]
     ), f"Method selection is out of scope. Number of available methods for keypoint detection is {avail_mthd_count[1]}. (Input method = {mthd_kp_detection})"
     assert (
-            mthd_kp_description <= avail_mthd_count[2]
+        mthd_kp_description <= avail_mthd_count[2]
     ), f"Method selection is out of scope. Number of available methods for feature descriptors is {avail_mthd_count[2]}. (Input method = {mthd_kp_description})"
     assert (
-            mthd_ft_match <= avail_mthd_count[3]
+        mthd_ft_match <= avail_mthd_count[3]
     ), f"Method selection is out of scope. Number of available methods for feature matching is {avail_mthd_count[3]}. (Input method = {mthd_img_smoothing})"
 
 
@@ -35,10 +40,11 @@ def get_active_methods():
         specParams.get_assigned_methods()
     )
 
-    check_method_limits(mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match)
+    check_method_limits(
+        mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match
+    )
 
     return mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match
-
 
 
 def check_parameter_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_sz):
@@ -132,7 +138,6 @@ def get_img_IDs(head_dir):
     ]
     num_images = len(input_img)
     return input_img, num_images
-
 
 
 def verify_imported_image(img, img_path, img_id):

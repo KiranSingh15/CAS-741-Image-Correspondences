@@ -1,5 +1,7 @@
-import cv2
 import argparse
+
+import cv2
+
 
 def rotate_image_in_place(image_path, rotation_code):
     # Load the image
@@ -14,25 +16,28 @@ def rotate_image_in_place(image_path, rotation_code):
     cv2.imwrite(image_path, rotated)
     print(f"Rotated image saved (overwritten): {image_path}")
 
+
 def get_rotation_code(degree_choice):
     rotation_map = {
         1: cv2.ROTATE_90_CLOCKWISE,
         2: cv2.ROTATE_180,
-        3: cv2.ROTATE_90_COUNTERCLOCKWISE
+        3: cv2.ROTATE_90_COUNTERCLOCKWISE,
     }
     if degree_choice not in rotation_map:
         raise ValueError("Invalid rotation option. Use 1 (90°), 2 (180°), or 3 (270°).")
     return rotation_map[degree_choice]
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Rotate an image and overwrite it.")
     parser.add_argument("image_path", help="Path to the image to be rotated.")
     parser.add_argument(
-        "-r", "--rotate",
+        "-r",
+        "--rotate",
         type=int,
         choices=[1, 2, 3],
         default=1,
-        help="Rotation: 1 = 90°, 2 = 180°, 3 = 270° (default: 1)"
+        help="Rotation: 1 = 90°, 2 = 180°, 3 = 270° (default: 1)",
     )
     args = parser.parse_args()
 
