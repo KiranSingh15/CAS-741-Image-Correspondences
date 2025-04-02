@@ -2,17 +2,18 @@
 
 # Exported Constants
 # function parameters
-k = int(5)          # gaussian kernel size
-sigma = 1           # gaussian blur standard deviation
-t = int(15)         # pixel intensity threshold
-b = int(2000)       # descriptor bin size
-p = int(31)         # descriptor patch search size
+k = int(5)  # gaussian kernel size
+sigma = 1  # gaussian blur standard deviation
+t = int(15)  # pixel intensity threshold
+b = int(2000)  # descriptor bin size
+p = int(31)  # descriptor patch search size
 
 # methods
 mthd_img_smoothing = int(1)
 mthd_kp_detection = int(1)
 mthd_kp_description = int(1)
 mthd_ft_match = int(1)
+
 
 def get_default_parameters():
     # def_params = {
@@ -33,7 +34,12 @@ def get_default_methods():
     # mthd_ftm = ["Hamming Distance"]  # methods of comparing descriptors
     # method_limits = [len(mthds_is), len(mthd_kpd), len(mthd_fd), len(mthd_ftm)]
 
-    ifc_def_mthds = [mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match]
+    ifc_def_mthds = [
+        mthd_img_smoothing,
+        mthd_kp_detection,
+        mthd_kp_description,
+        mthd_ft_match,
+    ]
 
     return mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match
     # return ifc_def_mthds, method_limits

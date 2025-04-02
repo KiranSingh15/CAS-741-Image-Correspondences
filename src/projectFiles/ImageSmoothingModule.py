@@ -3,7 +3,7 @@ import cv2 as cv
 
 
 def convert_to_greyscale(img_colour):
-    img_greyscale =  cv.cvtColor(img_colour, cv.COLOR_BGR2GRAY)
+    img_greyscale = cv.cvtColor(img_colour, cv.COLOR_BGR2GRAY)
     return img_greyscale
 
 
@@ -15,6 +15,8 @@ def smooth_image(mthd_img_smoothing, img_greyscale, sz_kern, std_dev):
     # sd is the standard deviation of the Gaussian Kernel
 
     if mthd_img_smoothing == 1:
-        img_smooth = cv.GaussianBlur(img_greyscale, (sz_kern, sz_kern), std_dev)  # GaussianBlur
+        img_smooth = cv.GaussianBlur(
+            img_greyscale, (sz_kern, sz_kern), std_dev
+        )  # GaussianBlur
 
     return img_smooth

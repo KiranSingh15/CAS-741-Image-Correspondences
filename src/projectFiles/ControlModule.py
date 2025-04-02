@@ -1,15 +1,14 @@
-import cv2 as cv
 import os
 
-import InputFormatModule as config
-import OutputFormatModule as formatOutput
-import OutputVerificationModule as verifyOutput
-import ImageSmoothingModule as smoothImage
-import KeypointDetectionModule as detectKeypoints
+import cv2 as cv
 import FeatureDescriptorModule as assignDescriptors
 import FeatureMatchingModule as matchFeatures
 import ImagePlotModule as plotImage
-
+import ImageSmoothingModule as smoothImage
+import InputFormatModule as config
+import KeypointDetectionModule as detectKeypoints
+import OutputFormatModule as formatOutput
+import OutputVerificationModule as verifyOutput
 
 # create empty variables
 # orb_object = None
@@ -20,24 +19,36 @@ head_dir = config.get_head_directory()
 # print(type(head_dir))
 
 # define output folders
-greyscale_folder_nm, smoothed_imagery_folder_nm, keypoint_folder_nm, descriptor_folder_nm, matches_folder_nm =formatOutput.define_output_folders()
+(
+    greyscale_folder_nm,
+    smoothed_imagery_folder_nm,
+    keypoint_folder_nm,
+    descriptor_folder_nm,
+    matches_folder_nm,
+) = formatOutput.define_output_folders()
 
 
-mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match = config.get_active_methods()
+mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match = (
+    config.get_active_methods()
+)
 k, sigma, t, b, p = config.get_chosen_parameters()
 config.check_limits(k, sigma, t, b, p)
 
-input_img_dir, local_input_folder = config.set_input_img_path(head_dir)   # set the location of input images
+input_img_dir, local_input_folder = config.set_input_img_path(
+    head_dir
+)  # set the location of input images
 input_image_names, num_images = config.get_img_IDs(head_dir)
 # print(input_images)
 
 # Cycle through each image to smooth, identify keypoints, and extract descriptors
 
 # declare orb_object
-orb_object = detectKeypoints.initialize_orb(mthd_kp_detection, mthd_kp_description, b, p, k)
+orb_object = detectKeypoints.initialize_orb(
+    mthd_kp_detection, mthd_kp_description, b, p, k
+)
 
 # declare bfm_object
-bf_matcher_object =matchFeatures.create_BF_matcher(mthd_ft_match, cv.NORM_HAMMING)
+bf_matcher_object = matchFeatures.create_BF_matcher(mthd_ft_match, cv.NORM_HAMMING)
 
 
 img_IDs = []
@@ -64,13 +75,11 @@ for i, img_id in enumerate(input_image_names):
     # print("Type of local folder: ", type(greyscale_folder_nm))
     # print("Type of image file: ", type(img_id[2]))
 
-
     img_path = head_dir / greyscale_folder_nm / img_id[2]
     full_gs_path = head_dir / greyscale_folder_nm / img_id[2]
     # print(type(img_path))
     # print(type(full_gs_path))
     plotImage.save_image(img_gs, head_dir, greyscale_folder_nm, img_id[2])
-
 
     # Image Smoothing Module
     img_gk = smoothImage.smooth_image(mthd_img_smoothing, img_gs, k, sigma)
@@ -78,26 +87,31 @@ for i, img_id in enumerate(input_image_names):
     plotImage.save_image(img_gk, head_dir, smoothed_imagery_folder_nm, img_id[2])
     # cv.imwrite(full_gs_path, img_gs)
 
-
     # Keypoint Detection Module
-    keypoints = detectKeypoints.detect_keypoints_ofast(mthd_kp_detection, orb_object, img_gk)
+    keypoints = detectKeypoints.detect_keypoints_ofast(
+        mthd_kp_detection, orb_object, img_gk
+    )
     # output keypoints
     formatOutput.output_keypoints(keypoints, img_id[0], head_dir, keypoint_folder_nm)
 
     # generate kp image
-    img_kp =plotImage.gen_kp_img(img_gk, keypoints, 0)
+    img_kp = plotImage.gen_kp_img(img_gk, keypoints, 0)
     # save kp image
     plotImage.save_image(img_kp, head_dir, keypoint_folder_nm, img_id[2])
 
-
     # Feature Descriptor Module
-    descriptors = assignDescriptors.compute_descriptors(mthd_kp_description, orb_object, img, keypoints)
+    descriptors = assignDescriptors.compute_descriptors(
+        mthd_kp_description, orb_object, img, keypoints
+    )
     # output descriptors
-    formatOutput.output_descriptors(keypoints, descriptors, img_id[0], head_dir, descriptor_folder_nm)
-
+    formatOutput.output_descriptors(
+        keypoints, descriptors, img_id[0], head_dir, descriptor_folder_nm
+    )
 
     # generate desc image
-    img_desc = plotImage.gen_kp_img(img_gk, keypoints, cv.DrawMatchesFlags_DRAW_RICH_KEYPOINTS)
+    img_desc = plotImage.gen_kp_img(
+        img_gk, keypoints, cv.DrawMatchesFlags_DRAW_RICH_KEYPOINTS
+    )
     # save desc image
     plotImage.save_image(img_desc, head_dir, descriptor_folder_nm, img_id[2])
 
@@ -130,14 +144,16 @@ for i in range(num_images):
         # check that matches originate from unique images
         verifyOutput.check_match_uniqueness(img1_name, img2_name, matches)
 
-
         match_images = img1_name + "_" + img2_name
         img_ext = match_images + ".png"
-        formatOutput.output_matches(img1_name, img2_name, matches, kp1, kp2, head_dir, matches_folder_nm)
+        formatOutput.output_matches(
+            img1_name, img2_name, matches, kp1, kp2, head_dir, matches_folder_nm
+        )
 
-        img_matches = plotImage.gen_matched_features(img_1, img_2, kp1, kp2, matches, 30, 25)
+        img_matches = plotImage.gen_matched_features(
+            img_1, img_2, kp1, kp2, matches, 30, 25
+        )
         plotImage.save_image(img_matches, head_dir, matches_folder_nm, img_ext)
-
 
         cv.waitKey(0)
         cv.destroyAllWindows()

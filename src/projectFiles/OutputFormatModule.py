@@ -1,9 +1,7 @@
-import cv2 as cv
-import csv
-import numpy as np
-import matplotlib.pyplot as plt
 import os
 from pathlib import Path
+
+import numpy as np
 import pandas as pd
 
 greyscale_folder_nm = "gsImagery"
@@ -12,6 +10,7 @@ keypoint_folder_nm = "kpDetection"
 descriptor_folder_nm = "fDescriptors"
 matches_folder_nm = "fMatches"
 
+
 def define_output_folders():
     greyscale_folder_nm = "gsImagery"
     smoothed_imagery_folder_nm = "gkImagery"
@@ -19,13 +18,20 @@ def define_output_folders():
     descriptor_folder_nm = "fDescriptors"
     matches_folder_nm = "fMatches"
 
-    return greyscale_folder_nm, smoothed_imagery_folder_nm, keypoint_folder_nm, descriptor_folder_nm, matches_folder_nm
+    return (
+        greyscale_folder_nm,
+        smoothed_imagery_folder_nm,
+        keypoint_folder_nm,
+        descriptor_folder_nm,
+        matches_folder_nm,
+    )
 
 
 def make_directory(parent_dir, target_name):
     # Ensure target directory exists
     folder_path = Path(parent_dir) / target_name
     os.makedirs(folder_path, exist_ok=True)
+
 
 def output_keypoints(keypoints, image_id, parent_dir, target_folder):
     # check to see if the keypoint folder exists, and create it if it does not
@@ -38,10 +44,16 @@ def output_keypoints(keypoints, image_id, parent_dir, target_folder):
     file_path = parent_dir / target_folder / file_name
 
     # Convert keypoints to a list of tuples
-    keypoint_list = [(kp.pt[0], kp.pt[1], kp.size, kp.angle, kp.response, kp.octave, kp.class_id) for kp in keypoints]
+    keypoint_list = [
+        (kp.pt[0], kp.pt[1], kp.size, kp.angle, kp.response, kp.octave, kp.class_id)
+        for kp in keypoints
+    ]
 
     # Create a DataFrame
-    df = pd.DataFrame(keypoint_list, columns=["x", "y", "size", "angle", "response", "octave", "class_id"])
+    df = pd.DataFrame(
+        keypoint_list,
+        columns=["x", "y", "size", "angle", "response", "octave", "class_id"],
+    )
 
     # Name the file
     # unique_file_name = "PoseID_" + str(pose_id) + "_" + "CameraID_" + str(camera_id) + "_" + "kp"
@@ -76,29 +88,53 @@ def output_descriptors(keypoints, descriptors, image_id, parent_dir, target_fold
 
     # Ensure descriptors is the second element in the tuple
     if isinstance(descriptors, tuple):
-        descriptors = descriptors[1]  # Access the second element of the tuple which contains descriptors
+        descriptors = descriptors[
+            1
+        ]  # Access the second element of the tuple which contains descriptors
 
     if descriptors is None:
         print(f"No descriptors found for {image_id}. Skipping save.")
         return
 
     # Convert keypoints to a list of tuples (x, y, size, angle, response, octave, class_id)
-    keypoint_list = [(kp.pt[0], kp.pt[1], kp.size, kp.angle, kp.response, kp.octave, kp.class_id) for kp in keypoints]
+    keypoint_list = [
+        (kp.pt[0], kp.pt[1], kp.size, kp.angle, kp.response, kp.octave, kp.class_id)
+        for kp in keypoints
+    ]
 
     # Ensure descriptors is a numpy array of the correct type
     if isinstance(descriptors, np.ndarray) and descriptors.dtype == np.uint8:
         # Convert descriptors to a list (convert binary descriptors to a string representation of bits)
-        descriptor_list = [''.join([str(int(b)) for b in np.unpackbits(np.uint8(desc))]) for desc in descriptors]
+        descriptor_list = [
+            "".join([str(int(b)) for b in np.unpackbits(np.uint8(desc))])
+            for desc in descriptors
+        ]
     else:
-        print(f"Invalid descriptor type. Expected np.uint8 array, got {type(descriptors)}")
+        print(
+            f"Invalid descriptor type. Expected np.uint8 array, got {type(descriptors)}"
+        )
         return
 
     # Combine the keypoints and descriptors into a single list of tuples
-    combined_data = [keypoint + (descriptor,) for keypoint, descriptor in zip(keypoint_list, descriptor_list)]
+    combined_data = [
+        keypoint + (descriptor,)
+        for keypoint, descriptor in zip(keypoint_list, descriptor_list)
+    ]
 
     # Create a DataFrame
-    df = pd.DataFrame(combined_data,
-                      columns=["x", "y", "size", "angle", "response", "octave", "class_id", "descriptor"])
+    df = pd.DataFrame(
+        combined_data,
+        columns=[
+            "x",
+            "y",
+            "size",
+            "angle",
+            "response",
+            "octave",
+            "class_id",
+            "descriptor",
+        ],
+    )
 
     # Save the DataFrame to CSV
     df.to_csv(file_path, index=False)
@@ -107,7 +143,9 @@ def output_descriptors(keypoints, descriptors, image_id, parent_dir, target_fold
 
 
 # def output_matches(matches, kp1, kp2, image_id, target_folder):
-def output_matches(query_img_ID, train_imd_ID, matches, kp1, kp2, parent_dir, target_dir):
+def output_matches(
+    query_img_ID, train_imd_ID, matches, kp1, kp2, parent_dir, target_dir
+):
     """
     Saves brute-force matching results to a CSV file using pandas.
     :param matches: List of cv2.DMatch objects containing feature matches.
@@ -137,13 +175,31 @@ def output_matches(query_img_ID, train_imd_ID, matches, kp1, kp2, parent_dir, ta
         #                    q_kp[0], q_kp[1], t_kp[0], t_kp[1]])
 
         # round match coordinates
-        match_data.append([q_idx, t_idx, match.distance,
-                           round(q_kp[0]), round(q_kp[1]),
-                           round(t_kp[0]), round(t_kp[1])])
+        match_data.append(
+            [
+                q_idx,
+                t_idx,
+                match.distance,
+                round(q_kp[0]),
+                round(q_kp[1]),
+                round(t_kp[0]),
+                round(t_kp[1]),
+            ]
+        )
 
     # Create a DataFrame
-    df = pd.DataFrame(match_data, columns=["Query Index", "Train Index", "Distance",
-                                           "Query X", "Query Y", "Train X", "Train Y"])
+    df = pd.DataFrame(
+        match_data,
+        columns=[
+            "Query Index",
+            "Train Index",
+            "Distance",
+            "Query X",
+            "Query Y",
+            "Train X",
+            "Train Y",
+        ],
+    )
 
     # Ensure target directory exists
     # os.makedirs(matches_folder, exist_ok=True)
