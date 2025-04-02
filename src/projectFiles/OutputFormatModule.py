@@ -155,7 +155,7 @@ def output_matches(
     :param target_folder: Directory where the CSV file will be saved.
     """
 
-    # check to see if the descriptors folder exists, and create it if it does not
+    # check to see if the matches folder exists, and create it if it does not
     make_directory(parent_dir, target_dir)
     file_name = f"{query_img_ID}_{train_imd_ID}_fm.csv"
     file_path = os.path.join(parent_dir, matches_folder_nm, file_name)
@@ -170,9 +170,6 @@ def output_matches(
         q_kp = kp1[q_idx].pt  # (x, y)
         t_kp = kp2[t_idx].pt  # (x, y)
 
-        ## unrounded match coordinates
-        # match_data.append([q_idx, t_idx, match.distance,
-        #                    q_kp[0], q_kp[1], t_kp[0], t_kp[1]])
 
         # round match coordinates
         match_data.append(
@@ -200,9 +197,6 @@ def output_matches(
             "Train Y",
         ],
     )
-
-    # Ensure target directory exists
-    # os.makedirs(matches_folder, exist_ok=True)
 
     # Save DataFrame to CSV
     df.to_csv(file_path, index=False)

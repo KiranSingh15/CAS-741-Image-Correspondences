@@ -6,11 +6,10 @@ import numpy as np
 import pandas as pd
 import SpecificationParametersModule as specParams
 
-head_directory = Path(os.getcwd())
 
 
 def get_head_directory():
-    # head_directory = Path(os.getcwd())
+    head_directory = Path(os.getcwd())
     return head_directory  # Convert to Path object
 
 
@@ -29,22 +28,18 @@ def get_chosen_parameters():
 def set_input_img_path(head_dir):
     local_folder = "Raw_Images"
     img_dir = head_dir / local_folder  # Use '/' for safe path joining
-    # print(img_dir)    # uncomment for debugging only
     return img_dir, local_folder
 
 
 def get_img_IDs(head_dir):
     local_folder = "Raw_Images"
-    # print("Head directory: ", head_dir)
     img_dir = head_dir / local_folder  # Use '/' for safe path joining
-    # print(img_dir)    # uncomment for debugging only
     input_img = [
         (file.stem, file.suffix, file.name)
         for file in img_dir.iterdir()
         if file.is_file()
     ]
     num_images = len(input_img)
-    # print ("IFM: ", num_images)    # uncomment for debugging only
     return input_img, num_images
 
 
@@ -114,30 +109,6 @@ def check_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_sz):
     assert isinstance(
         u_patch_sz, int
     ), f"badPatchSize. Patch Size must be an integer. (Patch Size = {u_patch_sz})"
-
-    # if u_bin_sz < bin_bounds[0] or u_bin_sz > bin_bounds[1]:
-    #     err_count += 1
-    #     err_list.append(
-    #         "Error: badBinSize.")
-    #         # "Error: User-defined feature descriptor bin size is invalid. Update the bin size to fall within the allowable bounds before rerunning the program.")
-    #
-    # if u_patch_sz < patch_sz[0] or u_patch_sz > patch_sz[1]:
-    #     err_count += 1
-    #     err_list.append(
-    #         "Error: badPatchSize.")
-    #         # "User-defined patch size is invalid. Update the patch size to fall within the allowable bounds before rerunning the program.")
-    #
-    # # print(err_count) # uncomment only to support debugging
-    # if err_count == 0:
-    #     # print("No errors detected in user-specified parameters.") # uncomment only to support debugging
-    #     a = 0 # dummy line to avoid throwing an error
-    # else:
-    #     print("Total errors detected: ", err_count) # uncomment only to support debugging
-    #     print(type(err_list)) # uncomment only to support debugging
-    #     for i in err_list:
-    #         print(i)
-    #
-    # return err_count, err_list
 
 
 def verify_imported_image(img, img_path, img_id):
