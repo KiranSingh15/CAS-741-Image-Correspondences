@@ -128,14 +128,11 @@ Next, review the selected methods of operation in
 `SpecificationParametersModule.py`. Default methods are outlined below.
 
 <br>
-$**Activity:** *Status* || **Specific Method** (Enumerated Method)$
-
-
-1. **Image Smoothing**: *Enabled* || Gaussian Smoothing (Method == 1)
-2. **Keypoint Detection**: *Enabled* || Features from Accelerated Segment Test (FAST) (Method == 1)
-3. **Feature Assignment**: *Enabled* || Binary Robust Independent Elementary Features (BRIEF) (Method == 1)
-4. **Feature Matching**: *Enabled* || Brute Force (Method == 1)
-
+Activity	Status	Specific Method
+Image Smoothing	Enabled	Gaussian Smoothing (Method = 1)
+Keypoint Detection	Enabled	FAST – Features from Accelerated Segment Test (Method = 1)
+Feature Assignment	Enabled	BRIEF – Binary Robust Independent Elementary Features (Method = 1)
+Feature Matching	Enabled	Brute Force (Method = 1)
 ## Configure the Processing Parameters
 For selected methods, the user may adjust certain parameters to improve the response of the system to inputs such as noise within the image environment. These parameters are outlined in the `InputFormatParameters.py` file.
 
