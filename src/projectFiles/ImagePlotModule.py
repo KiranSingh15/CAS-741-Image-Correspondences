@@ -1,6 +1,7 @@
-import cv2 as cv
 import os
 from pathlib import Path
+
+import cv2 as cv
 
 
 # Drawing the keypoints
@@ -22,6 +23,7 @@ def gen_matched_features(
         image1, keypoint1, image2, keypoint2, matches[:max_num_matches], None, flags=2
     )
     return img_matches
+
 
 def make_directory(head_dir, target_name):
     # Ensure target parent directory exists

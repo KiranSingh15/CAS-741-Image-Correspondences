@@ -147,9 +147,11 @@ def verify_imported_image(img, img_path, img_id):
     else:
         print("No detected errors with path for ", img_id)
 
-def get_descriptor_path (head_dir, descriptor_folder_nm):
+
+def get_descriptor_path(head_dir, descriptor_folder_nm):
     descriptor_path = head_dir / "Outputs" / descriptor_folder_nm
     return descriptor_path
+
 
 def load_orb_descriptors(filename, directory):
     """
