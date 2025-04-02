@@ -108,7 +108,6 @@ for i in range(num_images):
     img_1 = cv.imread(img1_path, cv.IMREAD_GRAYSCALE)
     kp1, fd1 = config.load_orb_descriptors(img1_name, fd_path)
 
-
     for j in range(i + 1, num_images):
         img2_name = input_image_names[j][0]
         img2_path = os.path.join(input_img_dir, input_image_names[j][2])

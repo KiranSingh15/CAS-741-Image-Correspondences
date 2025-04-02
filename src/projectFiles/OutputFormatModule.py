@@ -162,7 +162,6 @@ def output_matches(
     file_name = f"{query_img_ID}_{train_imd_ID}_fm.csv"
     file_path = os.path.join(output_head_dir, matches_folder_nm, file_name)
 
-
     # Extract match data
     match_data = []
     for match in matches:
