@@ -35,13 +35,13 @@ def make_directory(parent_dir, target_name):
 
 def output_keypoints(keypoints, image_id, parent_dir, target_folder):
     # check to see if the keypoint folder exists, and create it if it does not
-    make_directory(parent_dir, keypoint_folder_nm)
+    output_head_dir = parent_dir / "Outputs"
+    make_directory(output_head_dir, keypoint_folder_nm)
 
     # Generate a unique file name
-    # file_name = f"{image_id}_matches.csv"
     file_name = f"{image_id}_kp.csv"
-    file_path = os.path.join(parent_dir, target_folder, file_name)
-    file_path = parent_dir / target_folder / file_name
+    file_path = os.path.join(output_head_dir, target_folder, file_name)
+    file_path = output_head_dir / target_folder / file_name
 
     # Convert keypoints to a list of tuples
     keypoint_list = [
@@ -77,10 +77,11 @@ def output_descriptors(keypoints, descriptors, image_id, parent_dir, target_fold
     """
 
     # check to see if the descriptors folder exists, and create it if it does not
-    make_directory(parent_dir, target_folder)
+    output_head_dir = parent_dir / "Outputs"
+    make_directory(output_head_dir, descriptor_folder_nm)
     file_name = f"{image_id}_fd.csv"
     # file_path = os.path.join(parent_dir, target_folder, file_name)
-    file_path = parent_dir / target_folder / file_name
+    file_path = output_head_dir / target_folder / file_name
 
     # unique_file_name = image_id + "_fd"
     # full_file_name = unique_file_name + ".csv"
@@ -156,11 +157,11 @@ def output_matches(
     """
 
     # check to see if the matches folder exists, and create it if it does not
-    make_directory(parent_dir, target_dir)
+    output_head_dir = parent_dir / "Outputs"
+    make_directory(output_head_dir, matches_folder_nm)
     file_name = f"{query_img_ID}_{train_imd_ID}_fm.csv"
-    file_path = os.path.join(parent_dir, matches_folder_nm, file_name)
+    file_path = os.path.join(output_head_dir, matches_folder_nm, file_name)
 
-    # matches_folder = parent_dir / matches_folder_nm  # Use '/' for safe path joining
 
     # Extract match data
     match_data = []

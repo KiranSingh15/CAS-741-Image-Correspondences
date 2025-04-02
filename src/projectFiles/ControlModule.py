@@ -50,23 +50,21 @@ img_IDs = []
 for i, img_id in enumerate(input_image_names):
     img_IDs.append([i])  # assigns unique image IDs
 
-    # read the image
+    # read the raw image
     img_path = os.path.join(input_img_dir, img_id[2])
-
     img = cv.imread(img_path, cv.IMREAD_COLOR)
+
+    # verify that the image is not corrupted
     config.verify_imported_image(img, img_path, img_id[2])
 
     # import greyscale image
     img_gs = cv.imread(img_path, cv.IMREAD_GRAYSCALE)
-    formatOutput.make_directory(head_dir, greyscale_folder_nm)
-
     img_path = head_dir / greyscale_folder_nm / img_id[2]
     full_gs_path = head_dir / greyscale_folder_nm / img_id[2]
     plotImage.save_image(img_gs, head_dir, greyscale_folder_nm, img_id[2])
 
     # Image Smoothing Module
     img_gk = smoothImage.smooth_image(mthd_img_smoothing, img_gs, k, sigma)
-    formatOutput.make_directory(head_dir, smoothed_imagery_folder_nm)
     plotImage.save_image(img_gk, head_dir, smoothed_imagery_folder_nm, img_id[2])
 
     # Keypoint Detection Module
@@ -97,19 +95,20 @@ for i, img_id in enumerate(input_image_names):
     # save desc image
     plotImage.save_image(img_desc, head_dir, descriptor_folder_nm, img_id[2])
 
-print("GS conversion complete")
+print("GS conversion complete.")
 print("Image Smoothing complete.")
 print("Keypoint Detection complete.")
 print("Feature Assignment complete.")
 
 # Execute Feature Matching Module
-fd_path = head_dir / descriptor_folder_nm
+fd_path = config.get_descriptor_path(head_dir, descriptor_folder_nm)
 
 for i in range(num_images):
     img1_name = input_image_names[i][0]
     img1_path = os.path.join(input_img_dir, input_image_names[i][2])
     img_1 = cv.imread(img1_path, cv.IMREAD_GRAYSCALE)
     kp1, fd1 = config.load_orb_descriptors(img1_name, fd_path)
+
 
     for j in range(i + 1, num_images):
         img2_name = input_image_names[j][0]

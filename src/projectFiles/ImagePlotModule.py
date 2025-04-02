@@ -1,4 +1,6 @@
 import cv2 as cv
+import os
+from pathlib import Path
 
 
 # Drawing the keypoints
@@ -21,7 +23,17 @@ def gen_matched_features(
     )
     return img_matches
 
+def make_directory(head_dir, target_name):
+    # Ensure target parent directory exists
+    folder_path = Path(head_dir) / target_name
+    os.makedirs(folder_path, exist_ok=True)
+
 
 def save_image(image_in, parent_dir, target_folder, image_name):
-    img_out_path = parent_dir / target_folder / image_name
+    output_head_dir = parent_dir / "Outputs"
+
+    make_directory(output_head_dir, target_folder)
+
+    img_out_path = output_head_dir / target_folder / image_name
+
     cv.imwrite(img_out_path, image_in)

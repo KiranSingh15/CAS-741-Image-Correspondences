@@ -147,6 +147,9 @@ def verify_imported_image(img, img_path, img_id):
     else:
         print("No detected errors with path for ", img_id)
 
+def get_descriptor_path (head_dir, descriptor_folder_nm):
+    descriptor_path = head_dir / "Outputs" / descriptor_folder_nm
+    return descriptor_path
 
 def load_orb_descriptors(filename, directory):
     """
@@ -158,7 +161,6 @@ def load_orb_descriptors(filename, directory):
     """
     # Construct the full file path
     file_path = os.path.join(directory, filename + "_fd.csv")
-
     # Load the CSV into a DataFrame
     df = pd.read_csv(file_path)
 
