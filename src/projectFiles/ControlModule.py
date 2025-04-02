@@ -33,6 +33,7 @@ input_img_dir, local_input_folder = config.set_input_img_path(
     head_dir
 )  # set the location of input images
 input_image_names, num_images = config.get_img_IDs(head_dir)
+print("Number of images identified: ", num_images)
 
 # Cycle through each image to smooth, identify keypoints, and extract descriptors
 
@@ -59,8 +60,6 @@ for i, img_id in enumerate(input_image_names):
 
     # import greyscale image
     img_gs = cv.imread(img_path, cv.IMREAD_GRAYSCALE)
-    img_path = head_dir / greyscale_folder_nm / img_id[2]
-    full_gs_path = head_dir / greyscale_folder_nm / img_id[2]
     plotImage.save_image(img_gs, head_dir, greyscale_folder_nm, img_id[2])
 
     # Image Smoothing Module

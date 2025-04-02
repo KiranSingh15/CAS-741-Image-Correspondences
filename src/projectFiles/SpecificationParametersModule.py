@@ -6,7 +6,7 @@
 k = int(5)  # gaussian kernel size
 sigma = 3  # gaussian blur standard deviation
 t = int(15)  # pixel intensity threshold
-b = int(2000)  # descriptor bin size
+b = int(500)  # descriptor bin size
 p = int(31)  # descriptor patch search size
 
 # available methods of processing
