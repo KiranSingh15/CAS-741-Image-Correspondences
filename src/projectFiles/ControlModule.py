@@ -26,8 +26,8 @@ head_dir = config.get_head_directory()
 mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match = (
     config.get_active_methods()
 )
+
 k, sigma, t, b, p = config.get_chosen_parameters()
-config.check_limits(k, sigma, t, b, p)
 
 input_img_dir, local_input_folder = config.set_input_img_path(
     head_dir

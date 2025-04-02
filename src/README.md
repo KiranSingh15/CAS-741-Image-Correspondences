@@ -105,9 +105,9 @@ project
 |   README.md
 |   Requirements.txt
 |   projectFiles
-        ...
+|   └── ... (assiciated core program scripts, inputs and outputs)
     venv_ifcs
-        ... (configuration files, dependencies, and scripts for the venv)
+|   └── ... (configuration files, dependencies, and scripts for the venv)
 ```
 
 -----------------------

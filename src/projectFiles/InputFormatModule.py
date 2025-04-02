@@ -7,42 +7,43 @@ import pandas as pd
 import SpecificationParametersModule as specParams
 
 
+
 def get_head_directory():
     head_directory = Path(os.getcwd())
     return head_directory  # Convert to Path object
+
+
+def check_method_limits(mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match):
+    avail_mthd_count, avail_is, avail_kpd, avail_fd, avail_ftm = specParams.get_available_methods()
+
+    # assess available methods
+    # Image smoothing
+    assert (
+            mthd_img_smoothing <= avail_mthd_count[0]
+    ), f"Method selection is out of scope. Number of available methods for image smoothing is {avail_mthd_count[0]}. (Input method = {mthd_img_smoothing})"
+    assert (
+            mthd_kp_detection <= avail_mthd_count[1]
+    ), f"Method selection is out of scope. Number of available methods for keypoint detection is {avail_mthd_count[1]}. (Input method = {mthd_kp_detection})"
+    assert (
+            mthd_kp_description <= avail_mthd_count[2]
+    ), f"Method selection is out of scope. Number of available methods for feature descriptors is {avail_mthd_count[2]}. (Input method = {mthd_kp_description})"
+    assert (
+            mthd_ft_match <= avail_mthd_count[3]
+    ), f"Method selection is out of scope. Number of available methods for feature matching is {avail_mthd_count[3]}. (Input method = {mthd_img_smoothing})"
 
 
 def get_active_methods():
     mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match = (
         specParams.get_default_methods()
     )
+
+    check_method_limits(mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match)
+
     return mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match
 
 
-def get_chosen_parameters():
-    k, sigma, t, b, p = specParams.get_default_parameters()  # where
-    return k, sigma, t, b, p
 
-
-def set_input_img_path(head_dir):
-    local_folder = "Raw_Images"
-    img_dir = head_dir / local_folder  # Use '/' for safe path joining
-    return img_dir, local_folder
-
-
-def get_img_IDs(head_dir):
-    local_folder = "Raw_Images"
-    img_dir = head_dir / local_folder  # Use '/' for safe path joining
-    input_img = [
-        (file.stem, file.suffix, file.name)
-        for file in img_dir.iterdir()
-        if file.is_file()
-    ]
-    num_images = len(input_img)
-    return input_img, num_images
-
-
-def check_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_sz):
+def check_parameter_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_sz):
     # Gaussian Filtering
     kern_bounds = [3, 15]  # 3 and 11 inclusive to scale down the kernel
     sd_bounds = [0, 10]  # (0, 10], or 0 exclusive and 10 inclusive
@@ -108,6 +109,32 @@ def check_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_sz):
     assert isinstance(
         u_patch_sz, int
     ), f"badPatchSize. Patch Size must be an integer. (Patch Size = {u_patch_sz})"
+
+
+def get_chosen_parameters():
+    k, sigma, t, b, p = specParams.get_default_parameters()
+    check_parameter_limits(k, sigma, t, b, p)
+
+    return k, sigma, t, b, p
+
+
+def set_input_img_path(head_dir):
+    local_folder = "Raw_Images"
+    img_dir = head_dir / local_folder  # Use '/' for safe path joining
+    return img_dir, local_folder
+
+
+def get_img_IDs(head_dir):
+    local_folder = "Raw_Images"
+    img_dir = head_dir / local_folder  # Use '/' for safe path joining
+    input_img = [
+        (file.stem, file.suffix, file.name)
+        for file in img_dir.iterdir()
+        if file.is_file()
+    ]
+    num_images = len(input_img)
+    return input_img, num_images
+
 
 
 def verify_imported_image(img, img_path, img_id):
@@ -178,9 +205,9 @@ def load_orb_descriptors(filename, directory):
             np.vstack(descriptor_list).astype(np.uint8) if descriptor_list else None
         )
 
-    # print(f"Data loaded and converted to ORB descriptors and keypoints from {file_path}")
     return keypoints, descriptors
 
 
 # module testing code
-check_limits(5, 1, 15, 50, 5)
+# check_method_limits(1, 2, 1, 2)
+# check_parameter_limits(5, 1, 15, 50, 5)
