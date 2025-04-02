@@ -10,7 +10,6 @@ import KeypointDetectionModule as detectKeypoints
 import OutputFormatModule as formatOutput
 import OutputVerificationModule as verifyOutput
 
-
 ## Run the Input Format Module
 head_dir = config.get_head_directory()
 

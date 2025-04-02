@@ -170,7 +170,6 @@ def output_matches(
         q_kp = kp1[q_idx].pt  # (x, y)
         t_kp = kp2[t_idx].pt  # (x, y)
 
-
         # round match coordinates
         match_data.append(
             [

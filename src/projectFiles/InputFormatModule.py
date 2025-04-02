@@ -7,7 +7,6 @@ import pandas as pd
 import SpecificationParametersModule as specParams
 
 
-
 def get_head_directory():
     head_directory = Path(os.getcwd())
     return head_directory  # Convert to Path object
