@@ -6,8 +6,6 @@ import numpy as np
 import pandas as pd
 import SpecificationParametersModule as specParams
 
-
-
 def get_head_directory():
     head_directory = Path(os.getcwd())
     return head_directory  # Convert to Path object
@@ -34,7 +32,7 @@ def check_method_limits(mthd_img_smoothing, mthd_kp_detection, mthd_kp_descripti
 
 def get_active_methods():
     mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match = (
-        specParams.get_default_methods()
+        specParams.get_assigned_methods()
     )
 
     check_method_limits(mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match)
@@ -112,7 +110,7 @@ def check_parameter_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_s
 
 
 def get_chosen_parameters():
-    k, sigma, t, b, p = specParams.get_default_parameters()
+    k, sigma, t, b, p = specParams.get_assigned_parameters()
     check_parameter_limits(k, sigma, t, b, p)
 
     return k, sigma, t, b, p

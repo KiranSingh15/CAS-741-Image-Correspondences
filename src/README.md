@@ -1,36 +1,93 @@
-# Prerequisite Software
-Before proceeding, your system must have the following software installed.
-1. Git Bash (Anything from version 2.43 onwards)
-2. Make (Version V4.4 or higher)
-3. Python (Version 3.13.0 or higher)
+# Prerequisite Conditions
+Please ensure that you have installed the software and prepared the virtual environment (venv_ifcs) before you attempt to run the software.
 
 
 # File Structure
 Upon initial download, your project folder should have the following file structure.
 ```
-\project\
+project
 |   Makefile
 |   README.md
 |   Requirements.txt
 |   projectFiles
-|   ├── ControlModule.py
-|   ├── FeatureDescriptorModule.py 
-|   ├── FeatureMatchingModule.py 
-|   ├── ImagePlotModule.py 
-|   ├── ImageSmoothingModule.py 
-|   ├── InputFormatModule.py 
-|   ├── KeypointDetectionModule.py 
-|   ├── OutputFormatModule.py 
-|   ├── OutputVerificationModule.py 
-|   ├── SpecificationParametersModule.py 
-|   ├── Output_Archive
-|   ├── Raw_Image_Lib   (contains generic imagery sets)
-|   └── Raw_Images  
+    └── ... (assiciated core program scripts, inputs and outputs)
+    venv_ifcs
+    └── ... (configuration files, dependencies, and scripts for the venv)
 ```
-where \project\ is the custom name of your parent directory.
+where \project\ is the custom name of your parent directory. If you have not set up the virtual environment, then you must complete the CMake file. These steps are repeated below.
+
+---
+---
+# Set up Virtual Environment (venv)
+## Making the Virtual Environment and Loading Dependencies
+In the head `project` folder, run the following command, depending on your operating system. If you are using Windows, then be sure to use Git Bash as this follows a Unix style of shell.
+In the head `project` folder, run the following command, depending on your operating system. If you are using Windows, then be sure to use Git Bash as this follows a Unix style of shell.
+
+**Windows**
+```bash
+choco install make
+```
+
+**MacOS**,
+```shell 
+xcode-select --install
+```
+**Ubuntu/Linux**
+```bash
+sudo apt install make
+```
+-----------
+## Results from the Make file
+
+Once the virtual environment has been created and its dependencies are imported, you should see a new folder titled `venv_ifcs` under the main `project` folder.
+```
+project
+|   Makefile
+|   README.md
+|   Requirements.txt
+|   projectFiles
+    └── ... (assiciated core program scripts, inputs and outputs)
+    venv_ifcs
+    └── ... (configuration files, dependencies, and scripts for the venv)
 
 
-## Project Files - Subfolders
+``` Folder Structure
+`\project\`
+|   Makefile
+|   README.md
+|   Requirements.txt
+|   projectFiles
+    ├── ControlModule.py
+    ├── FeatureDescriptorModule.py 
+    ├── FeatureMatchingModule.py 
+    ├── ImagePlotModule.py 
+    ├── ImageSmoothingModule.py 
+    ├── InputFormatModule.py 
+    ├── KeypointDetectionModule.py 
+    ├── OutputFormatModule.py 
+    ├── OutputVerificationModule.py 
+    ├── SpecificationParametersModule.py 
+    ├── Output_Archive
+    ├── Raw_Image_Lib 
+        └── ... (contains generic imagery sets)
+    └── Raw_Images  
+|   .venv_ifcs
+    ├── Include
+    ├── Lib
+    |    └── ... (associated Python dependencies)    
+    ├── Scripts
+         └── ... (associated Activate, Deactivate, and PIP files)  
+    ├── Share
+         └── ... (additional files, not to be altered)  
+    ├── .gigignore
+    └── pyvenv.cfg(associated virtual environment files)
+```
+
+where `\project\` is the custom name of your parent directory.
+
+---
+---
+# Project Files - Subfolders
 Navigate to the `projectFiles` subfolder in your Command Line/Shell/Bash tool. 
 
 #### 1. Raw_Image
@@ -53,77 +110,17 @@ The `Output_Archive` folder contains no data and the IFCS software does not inte
 <br>
 *Note that, after the program has been run once, additional folders will be introduced. These folders follow below.*
 
-#### 4. gsImagery
-This folder contains greyscale images that are generated as output PNG files.
-<br>
-<br>
-
-#### 5. gkImagery
-This folder contains greyscale images that are generated as output PNG files.
-<br>
-<br>
-
-#### 6. kpDetection
-This folder contains images that are generated as output PNG files with all identified keypoints. Additionally, the folder contains a CSV for each image that contains the locations of all identified keypoints.
-<br>
-<br>
-
-#### 7. fDescriptors
-This folder contains images that are generated as output PNG files with all identified descriptors. Additionally, the folder contains a CSV for each image that contains the locations of all assigned descriptors.
-<br>
-<br>
-
-#### 8. fMatches
-This folder contains images that are generated as output PNG files with all identified matches between the features of the corresponding duo of images. Additionally, the folder contains a CSV for each image that contains the locations of all matched descriptors between each image, with corresponding identifiers for the image coordinates, descriptors, camera, and pose.
-<br>
-<br>
 
 -----------------------
 -----------------------
-# Virtual Environment (venv)
-## Make the Virtual Environment and Load Dependencies
-In the head `project` folder, run the following command, depending on your operating system. If you are using Windows, then be sure to use Git Bash as this follows a Unix style of shell.
+# Running the IFCS Software
 
-**Windows**
-```bash
-choco install make
-```
-
-**MacOS**,
-```shell 
-xcode-select --install
-```
-**Ubuntu/Linux**
-```bash
-sudo apt install make
-```
-
-Once the virtual environment has been created and its dependencies are imported, you should see a new folder titled `venv_ifcs` under the main `project` folder.
-```
-project
-|   Makefile
-|   README.md
-|   Requirements.txt
-|   projectFiles
-|   └── ... (assiciated core program scripts, inputs and outputs)
-    venv_ifcs
-|   └── ... (configuration files, dependencies, and scripts for the venv)
-```
-
------------------------
 ## Activate The Virtual Environment
 Once the make file has been processed, you can access the virtual environment (`venv_ifcs`) by running the following command in the head project folder: 
 `venv_ifcs/Scripts/activate`
 
-
-## Disable the Virtual Environment
-When you have completed your work with the program, deactivate the venv by entering `deactivate` into the console.
-
------------------------
-# Running the IFCS Software
 ## Loading Input Images
 Upload the JPG and PNG images that you wish to process into the `Raw_Images` folder. 
-
 
 
 ## Configure the Processing Methods
@@ -157,8 +154,50 @@ Note that you may need to specify that you are using Python3 if you are using Un
 
 `python3 ControlModule.py` 
 
-# System Outputs
+
+## Program Outputs
+All outputs are output as part of the general folder structure.
+
+```
+`project`
+|   Makefile
+|   README.md
+|   Requirements.txt
+|   projectFiles
+|   ├── ... (Misc. Project Files)
+|   ├── gsImagery
+|   |   ├── 
+```
+#### 4. gsImagery
+This folder contains greyscale images that are generated as output PNG files.
+<br>
+<br>
+
+#### 5. gkImagery
+This folder contains greyscale images that are generated as output PNG files.
+<br>
+<br>
+
+#### 6. kpDetection
+This folder contains images that are generated as output PNG files with all identified keypoints. Additionally, the folder contains a CSV for each image that contains the locations of all identified keypoints.
+<br>
+<br>
+
+#### 7. fDescriptors
+This folder contains images that are generated as output PNG files with all identified descriptors. Additionally, the folder contains a CSV for each image that contains the locations of all assigned descriptors.
+<br>
+<br>
+
+#### 8. fMatches
+This folder contains images that are generated as output PNG files with all identified matches between the features of the corresponding duo of images. Additionally, the folder contains a CSV for each image that contains the locations of all matched descriptors between each image, with corresponding identifiers for the image coordinates, descriptors, camera, and pose.
+<br>
+<br>
+
+---
+---
+# Terminating the IFCS Software
 Outputs will be outlined in the `gsImagery`, `gkImagery`, `kpDetection`, `fDescriptors`, and `fMatches`. A description of the contents of each folder is outlined in **Output_Archive** section of this document.
 
 
-
+## Disable the Virtual Environment
+When you have completed your work with the program, deactivate the venv by entering `deactivate` into the console.

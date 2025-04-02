@@ -22,7 +22,7 @@ head_dir = config.get_head_directory()
     matches_folder_nm,
 ) = formatOutput.define_output_folders()
 
-
+# scan for user-defined features
 mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match = (
     config.get_active_methods()
 )

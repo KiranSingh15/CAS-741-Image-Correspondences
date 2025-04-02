@@ -9,7 +9,11 @@ This project outlines the development of scientific computing software that iden
 The folders and files for this project are as follows:
 
 docs - Documentation for the project
+
 refs - Reference material used for the project, including papers
+
 src - Source code
+
 test - Test cases
+
 etc.
