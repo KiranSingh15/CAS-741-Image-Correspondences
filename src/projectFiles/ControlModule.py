@@ -13,7 +13,10 @@ import OutputVerificationModule as verifyOutput
 ## Run the Input Format Module
 head_dir = config.get_head_directory()
 
-# define output folders
+# create Output folder if one does not exist
+formatOutput.make_directory(head_dir, "Outputs")
+
+# define Output subfolders
 (
     greyscale_folder_nm,
     smoothed_imagery_folder_nm,
@@ -95,9 +98,9 @@ for i, img_id in enumerate(input_image_names):
     plotImage.save_image(img_desc, head_dir, descriptor_folder_nm, img_id[2])
 
 print("GS conversion complete.")
-print("Image Smoothing complete.")
-print("Keypoint Detection complete.")
-print("Feature Assignment complete.")
+print("Image smoothing complete.")
+print("Keypoint detection complete.")
+print("Feature assignment complete.")
 
 # Execute Feature Matching Module
 fd_path = config.get_descriptor_path(head_dir, descriptor_folder_nm)

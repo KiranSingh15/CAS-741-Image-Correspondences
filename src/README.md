@@ -3,9 +3,9 @@ Please ensure that you have installed the software and prepared the virtual envi
 
 
 # File Structure
-Upon initial download, your project folder should have the following file structure.
+Upon initial download, your src folder should have the following file structure.
 ```
-project
+`src`
 |   Makefile
 |   README.md
 |   Requirements.txt
@@ -14,14 +14,14 @@ project
     venv_ifcs
     └── ... (configuration files, dependencies, and scripts for the venv)
 ```
-where \project\ is the custom name of your parent directory. If you have not set up the virtual environment, then you must complete the CMake file. These steps are repeated below.
+where \src\ is the custom name of your parent directory. If you have not set up the virtual environment, then you must complete the CMake file. These steps are repeated below.
 
 ---
 ---
 # Set up Virtual Environment (venv)
 ## Making the Virtual Environment and Loading Dependencies
-In the head `project` folder, run the following command, depending on your operating system. If you are using Windows, then be sure to use Git Bash as this follows a Unix style of shell.
-In the head `project` folder, run the following command, depending on your operating system. If you are using Windows, then be sure to use Git Bash as this follows a Unix style of shell.
+In the head `src` folder, run the following command, depending on your operating system. If you are using Windows, then be sure to use Git Bash as this follows a Unix style of shell.
+In the head `src` folder, run the following command, depending on your operating system. If you are using Windows, then be sure to use Git Bash as this follows a Unix style of shell.
 
 **Windows**
 ```bash
@@ -39,20 +39,10 @@ sudo apt install make
 -----------
 ## Results from the Make file
 
-Once the virtual environment has been created and its dependencies are imported, you should see a new folder titled `venv_ifcs` under the main `project` folder.
-```
-project
-|   Makefile
-|   README.md
-|   Requirements.txt
-|   projectFiles
-    └── ... (assiciated core program scripts, inputs and outputs)
-    venv_ifcs
-    └── ... (configuration files, dependencies, and scripts for the venv)
-
+Once the virtual environment has been created and its dependencies are imported, you should see a new folder titled `venv_ifcs` under the main `src` folder.
 
 ``` Folder Structure
-`\project\`
+`\src\`
 |   Makefile
 |   README.md
 |   Requirements.txt
@@ -67,6 +57,8 @@ project
     ├── OutputFormatModule.py 
     ├── OutputVerificationModule.py 
     ├── SpecificationParametersModule.py 
+    ├── Outputs
+        └── ... (folder which contains all outputs from the IFCS. Overwrites data from the previous run)
     ├── Output_Archive
     ├── Raw_Image_Lib 
         └── ... (contains generic imagery sets)
@@ -83,19 +75,20 @@ project
     └── pyvenv.cfg(associated virtual environment files)
 ```
 
-where `\project\` is the custom name of your parent directory.
+where `\src\` is the custom name of your parent directory.
 
 ---
 ---
 # Project Files - Subfolders
 Navigate to the `projectFiles` subfolder in your Command Line/Shell/Bash tool. 
 
-#### 1. Raw_Image
-The `Raw_Image` folder is the most important folder in the system. The user can input a collection of JPG and PNG images to be processed by the IFCS software. We leave the specific naming scheme of the imagery up to the user as this may vary depending on their setup. However, it is recommended that the filename of every image have the characteristics as follows.
+#### 1. Raw_Images
+The `Raw_Images` folder is the most important folder in the system. The user can input a collection of JPG and PNG images to be processed by the IFCS software. We leave the specific naming scheme of the imagery up to the user as this may vary depending on their setup. However, it is recommended that the filename of every image have the characteristics as follows.
 1. A unique identifier for the camera used to capture the image.
 2. A unique identifier of the robot pose for which the image was captured. This may take the form of a timestamp or enumerated index. 
 <br>
 <br>
+
 #### 2. Raw_Image_Lib
 The `Raw_Image_Lib` folder contains some sample imagery sets for the user to familiarize themselve with the software. The imagery sets follow.
 1. A Tesla Cybertruck
@@ -104,7 +97,14 @@ The `Raw_Image_Lib` folder contains some sample imagery sets for the user to fam
 4. A video game cover
 <br>
 <br>
-#### 3. Output_Archive
+
+#### 4. Outputs
+The `Outputs` folder contains all the subfolders and data that are produced by the IFCS software. See the **Outputs Folder** section for more details.
+<br>
+<br>
+*Note that, after the program has been run once, additional folders will be introduced. These folders follow below.*
+
+#### 4. Output_Archive
 The `Output_Archive` folder contains no data and the IFCS software does not interact with it directly. Its presence is solely to provide the user with a local staging ground for output imagery and CSV data between subsequent runs of the software.
 <br>
 <br>
@@ -156,17 +156,17 @@ Note that you may need to specify that you are using Python3 if you are using Un
 
 
 ## Program Outputs
-All outputs are output as part of the general folder structure.
+All outputs are saved to subfolders within the parent `Outputs` folder.
 
 ```
-`project`
+`src`
 |   Makefile
 |   README.md
 |   Requirements.txt
 |   projectFiles
 |   ├── ... (Misc. Project Files)
-|   ├── gsImagery
-|   |   ├── 
+    └── Outputs
+        └── ... (folder which contains all outputs from the IFCS. Overwrites data from the previous run)
 ```
 #### 4. gsImagery
 This folder contains greyscale images that are generated as output PNG files.

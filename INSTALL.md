@@ -31,7 +31,8 @@ Upon initial download, your project folder should have the following file struct
     ├── KeypointDetectionModule.py 
     ├── OutputFormatModule.py 
     ├── OutputVerificationModule.py 
-    ├── SpecificationParametersModule.py 
+    ├── SpecificationParametersModule.py
+    ├── Outputs
     ├── Output_Archive
     ├── Raw_Image_Lib   (contains generic imagery sets)
     └── Raw_Images  
