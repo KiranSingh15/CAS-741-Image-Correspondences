@@ -4,10 +4,12 @@
 # Tuning Parameters
 """USER INPUT HERE"""
 k = int(5)  # gaussian kernel size
-sigma = 3  # gaussian blur standard deviation
+sigma = 1  # gaussian blur standard deviation
 t = int(15)  # pixel intensity threshold
-b = int(500)  # descriptor bin size
+b = int(1000)  # descriptor bin size
 p = int(31)  # descriptor patch search size
+d = int(25) # upper bound for Hamming distance between features
+n_disp_matches = int(30) # max number of displayed feature matches
 
 # available methods of processing
 mthd_is = ["Gaussian Kernel"]  # methods of image smoothing
@@ -39,7 +41,7 @@ def get_assigned_parameters():
     # "bin size": 2000,
     # "patch size": 31,
     # }
-    return k, sigma, t, b, p
+    return k, sigma, t, b, p, d, n_disp_matches
 
 
 def get_assigned_methods():

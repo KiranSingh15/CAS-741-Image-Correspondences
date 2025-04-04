@@ -47,7 +47,7 @@ def get_active_methods():
     return mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match
 
 
-def check_parameter_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_sz):
+def check_parameter_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_sz, u_match_dist, u_match_disp):
     # Gaussian Filtering
     kern_bounds = [3, 15]  # 3 and 11 inclusive to scale down the kernel
     sd_bounds = [0, 10]  # (0, 10], or 0 exclusive and 10 inclusive
@@ -56,8 +56,13 @@ def check_parameter_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_s
     fast_bounds = [2, 254]  # inclusive
 
     # Feature Detector
-    bin_bounds = [1, 2048]
-    patch_sz = [5, 100]
+    bin_bounds = [1, 2048]  # exclusive
+    patch_sz = [5, 100] # inclusive
+
+    # Match Plotting
+    match_distance_limits = [0, 150] # exclusive
+    num_match_disp = [1, 1000]    # inclusive
+
 
     # kernel size
     assert (
@@ -114,12 +119,32 @@ def check_parameter_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_s
         u_patch_sz, int
     ), f"badPatchSize. Patch Size must be an integer. (Patch Size = {u_patch_sz})"
 
+    # Match Distance Limit
+    assert (
+        u_match_dist > match_distance_limits[0]
+    ), f"badMatchDistance. Match distance must be > {match_distance_limits[0]} and <= {match_distance_limits[1]}. (Match distance = {u_match_dist})"
+    assert (
+        u_match_dist <= match_distance_limits[1]
+    ), f"badMatchDistance. Match distance must be > {match_distance_limits[0]} and <= {match_distance_limits[1]}. (Match distance = {u_match_dist})"
+
+
+    # Displayed Matches Count
+    assert (
+        u_match_disp >= num_match_disp[0]
+    ), f"badMatchDistance. Number of displayed matches must be >= {num_match_disp[0]} and <= {num_match_disp[1]}. (Selected match distance = {u_match_disp})"
+    assert (
+        u_match_disp <= num_match_disp[1]
+    ), f"badMatchDistance. Number of displayed matches must be >= {num_match_disp[0]} and <= {num_match_disp[1]}. (Selected match distance = {u_match_disp})"
+    assert isinstance(
+        u_match_disp, int
+    ), f"badPatchSize. Patch Size must be an integer. (Patch Size = {u_patch_sz})"
+
 
 def get_chosen_parameters():
-    k, sigma, t, b, p = specParams.get_assigned_parameters()
-    check_parameter_limits(k, sigma, t, b, p)
+    k, sigma, t, b, p, d, n_disp_matches = specParams.get_assigned_parameters()
+    check_parameter_limits(k, sigma, t, b, p, d, n_disp_matches)
 
-    return k, sigma, t, b, p
+    return k, sigma, t, b, p, d, n_disp_matches
 
 
 def set_input_img_path(head_dir):

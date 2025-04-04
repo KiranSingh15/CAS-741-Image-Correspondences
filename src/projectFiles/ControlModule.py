@@ -30,7 +30,7 @@ mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match = (
     config.get_active_methods()
 )
 
-k, sigma, t, b, p = config.get_chosen_parameters()
+k, sigma, t, b, p, d, n_matches_disp = config.get_chosen_parameters()
 
 input_img_dir, local_input_folder = config.set_input_img_path(
     head_dir
@@ -132,7 +132,7 @@ for i in range(num_images):
         )
 
         img_matches = plotImage.gen_matched_features(
-            img_1, img_2, kp1, kp2, matches, 30, 25
+            img_1, img_2, kp1, kp2, matches, n_matches_disp, d
         )
         plotImage.save_image(img_matches, head_dir, matches_folder_nm, img_ext)
 
