@@ -8,8 +8,8 @@ sigma = 1  # gaussian blur standard deviation
 t = int(15)  # pixel intensity threshold
 b = int(1000)  # descriptor bin size
 p = int(31)  # descriptor patch search size
-d = int(25) # upper bound for Hamming distance between features
-n_disp_matches = int(30) # max number of displayed feature matches
+d = int(25)  # upper bound for Hamming distance between features
+n_disp_matches = int(30)  # max number of displayed feature matches
 
 # available methods of processing
 mthd_is = ["Gaussian Kernel"]  # methods of image smoothing

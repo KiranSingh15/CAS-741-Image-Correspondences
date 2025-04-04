@@ -47,7 +47,9 @@ def get_active_methods():
     return mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match
 
 
-def check_parameter_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_sz, u_match_dist, u_match_disp):
+def check_parameter_limits(
+    u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_sz, u_match_dist, u_match_disp
+):
     # Gaussian Filtering
     kern_bounds = [3, 15]  # 3 and 11 inclusive to scale down the kernel
     sd_bounds = [0, 10]  # (0, 10], or 0 exclusive and 10 inclusive
@@ -57,12 +59,11 @@ def check_parameter_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_s
 
     # Feature Detector
     bin_bounds = [1, 2048]  # exclusive
-    patch_sz = [5, 100] # inclusive
+    patch_sz = [5, 100]  # inclusive
 
     # Match Plotting
-    match_distance_limits = [0, 150] # exclusive
-    num_match_disp = [1, 1000]    # inclusive
-
+    match_distance_limits = [0, 150]  # exclusive
+    num_match_disp = [1, 1000]  # inclusive
 
     # kernel size
     assert (
@@ -126,7 +127,6 @@ def check_parameter_limits(u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_s
     assert (
         u_match_dist <= match_distance_limits[1]
     ), f"badMatchDistance. Match distance must be > {match_distance_limits[0]} and <= {match_distance_limits[1]}. (Match distance = {u_match_dist})"
-
 
     # Displayed Matches Count
     assert (
