@@ -33,9 +33,6 @@ def make_directory(head_dir, target_name):
 
 def save_image(image_in, parent_dir, target_folder, image_name):
     output_head_dir = parent_dir / "Outputs"
-
     make_directory(output_head_dir, target_folder)
-
     img_out_path = output_head_dir / target_folder / image_name
-
     cv.imwrite(img_out_path, image_in)

@@ -6,6 +6,22 @@ import numpy as np
 import pandas as pd
 import SpecificationParametersModule as specParams
 
+## Parameter Limits
+# Gaussian Filtering
+kern_bounds = [3, 15]  # 3 and 11 inclusive to scale down the kernel
+sd_bounds = [0, 10]  # (0, 10], or 0 exclusive and 10 inclusive
+
+# Keypoint detection
+fast_bounds = [2, 254]  # inclusive
+
+# Feature Detector
+bin_bounds = [1, 2048]  # exclusive
+patch_sz = [5, 100]  # inclusive
+
+# Match Plotting
+match_distance_limits = [0, 150]  # exclusive
+num_match_disp = [1, 1000]  # inclusive
+
 
 def get_head_directory():
     head_directory = Path(os.getcwd())
@@ -22,16 +38,16 @@ def check_method_limits(
     # assess available methods
     # Image smoothing
     assert (
-        mthd_img_smoothing <= avail_mthd_count[0]
+        0 <= mthd_img_smoothing <= avail_mthd_count[0]
     ), f"Method selection is out of scope. Number of available methods for image smoothing is {avail_mthd_count[0]}. (Input method = {mthd_img_smoothing})"
     assert (
-        mthd_kp_detection <= avail_mthd_count[1]
+        0 <= mthd_kp_detection <= avail_mthd_count[1]
     ), f"Method selection is out of scope. Number of available methods for keypoint detection is {avail_mthd_count[1]}. (Input method = {mthd_kp_detection})"
     assert (
-        mthd_kp_description <= avail_mthd_count[2]
+        0 <= mthd_kp_description <= avail_mthd_count[2]
     ), f"Method selection is out of scope. Number of available methods for feature descriptors is {avail_mthd_count[2]}. (Input method = {mthd_kp_description})"
     assert (
-        mthd_ft_match <= avail_mthd_count[3]
+        0 <= mthd_ft_match <= avail_mthd_count[3]
     ), f"Method selection is out of scope. Number of available methods for feature matching is {avail_mthd_count[3]}. (Input method = {mthd_img_smoothing})"
 
 
@@ -50,22 +66,11 @@ def get_active_methods():
 def check_parameter_limits(
     u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_sz, u_match_dist, u_match_disp
 ):
-    # Gaussian Filtering
-    kern_bounds = [3, 15]  # 3 and 11 inclusive to scale down the kernel
-    sd_bounds = [0, 10]  # (0, 10], or 0 exclusive and 10 inclusive
-
-    # Keypoint detection
-    fast_bounds = [2, 254]  # inclusive
-
-    # Feature Detector
-    bin_bounds = [1, 2048]  # exclusive
-    patch_sz = [5, 100]  # inclusive
-
-    # Match Plotting
-    match_distance_limits = [0, 150]  # exclusive
-    num_match_disp = [1, 1000]  # inclusive
 
     # kernel size
+    assert isinstance(
+        u_sz_kern, int
+    ), f"badKernelSize. Kernel must be an integer. (Kernel Size = {u_sz_kern})"
     assert (
         u_sz_kern > kern_bounds[0]
     ), f"badKernelSize. Kernel must be > 1. (Kernel Size = {u_sz_kern})"
@@ -75,9 +80,7 @@ def check_parameter_limits(
     assert (
         u_sz_kern % 2 == 1
     ), f"badKernelSize. Kernel must be odd. (Kernel Size = {u_sz_kern})"
-    assert isinstance(
-        u_sz_kern, int
-    ), f"badKernelSize. Kernel must be an integer. (Kernel Size = {u_sz_kern})"
+
 
     # Standard Deviation
     assert (
@@ -88,39 +91,45 @@ def check_parameter_limits(
     ), f"badStandardDeviation. Standard deviation must be > 0 and < 10. (Standard Deviation = {u_std_dev})"
 
     # Pixel Intensity
+    assert isinstance(
+        u_fast_thr, int
+    ), f"badFASTThreshold. Threshold must be an integer. (Kernel Size = {u_fast_thr})"
     assert (
         u_fast_thr >= fast_bounds[0]
     ), f"badFASTThreshold. Threshold must be >= {fast_bounds[0]} and <= {fast_bounds[1]}. (Threshold = {u_fast_thr})"
     assert (
         u_fast_thr <= fast_bounds[1]
     ), f"badFASTThreshold. Threshold must be >= {fast_bounds[0]} and <= {fast_bounds[1]}. (Threshold = {u_fast_thr})"
-    assert isinstance(
-        u_fast_thr, int
-    ), f"badFASTThreshold. Threshold must be an integer. (Kernel Size = {u_fast_thr})"
+
 
     # Bin Size
+    assert isinstance(
+        u_bin_sz, int
+    ), f"badBinSize. Bin Size must be an integer. (Bin Size = {u_bin_sz})"
     assert (
         u_bin_sz >= bin_bounds[0]
     ), f"badBinSize. Bin Size must be >= {bin_bounds[0]} and <= {bin_bounds[1]}. (Bin size = {u_bin_sz})"
     assert (
         u_bin_sz <= bin_bounds[1]
     ), f"badBinSize. Bin Size must be = {bin_bounds[0]} and <= {bin_bounds[1]}. (Bin size = {u_bin_sz})"
-    assert isinstance(
-        u_bin_sz, int
-    ), f"badBinSize. Bin Size must be an integer. (Bin Size = {u_bin_sz})"
+
 
     # Patch Size
+    assert isinstance(
+        u_patch_sz, int
+    ), f"badPatchSize. Patch Size must be an integer. (Patch Size = {u_patch_sz})"
     assert (
         u_patch_sz >= patch_sz[0]
     ), f"badPatchSize. Patch size must be >= {patch_sz[0]} and <= {patch_sz[1]}. (Patch size = {u_patch_sz})"
     assert (
         u_patch_sz <= patch_sz[1]
     ), f"badPatchSize. Patch size must be >= {patch_sz[0]} and <= {patch_sz[1]}. (Patch size = {u_patch_sz})"
-    assert isinstance(
-        u_patch_sz, int
-    ), f"badPatchSize. Patch Size must be an integer. (Patch Size = {u_patch_sz})"
+
 
     # Match Distance Limit
+    assert isinstance(
+        u_match_dist, int
+    ), f"badMatchDistanceLimit. Match Distance Limit must be an integer. (Match distance = {u_match_dist})"
     assert (
         u_match_dist > match_distance_limits[0]
     ), f"badMatchDistance. Match distance must be > {match_distance_limits[0]} and <= {match_distance_limits[1]}. (Match distance = {u_match_dist})"
@@ -129,15 +138,16 @@ def check_parameter_limits(
     ), f"badMatchDistance. Match distance must be > {match_distance_limits[0]} and <= {match_distance_limits[1]}. (Match distance = {u_match_dist})"
 
     # Displayed Matches Count
+    assert isinstance(
+        u_match_disp, int
+    ), f"badPatchSize. Patch Size must be an integer. (Patch Size = {u_patch_sz})"
     assert (
         u_match_disp >= num_match_disp[0]
     ), f"badMatchDistance. Number of displayed matches must be >= {num_match_disp[0]} and <= {num_match_disp[1]}. (Selected match distance = {u_match_disp})"
     assert (
         u_match_disp <= num_match_disp[1]
     ), f"badMatchDistance. Number of displayed matches must be >= {num_match_disp[0]} and <= {num_match_disp[1]}. (Selected match distance = {u_match_disp})"
-    assert isinstance(
-        u_match_disp, int
-    ), f"badPatchSize. Patch Size must be an integer. (Patch Size = {u_patch_sz})"
+
 
 
 def get_chosen_parameters():
@@ -189,7 +199,7 @@ def load_orb_descriptors(filename, directory):
     # Construct the full file path
     file_path = os.path.join(directory, filename + "_fd.csv")
     # Load the CSV into a DataFrame
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, dtype={"descriptor": str})
 
     # Check if the necessary columns exist
     if not all(
