@@ -32,11 +32,10 @@ def get_available_methods():
     method_count = [len(mthd_is), len(mthd_kpd), len(mthd_fd), len(mthd_ftm)]
     return method_count, mthd_is, mthd_kpd, mthd_fd, mthd_ftm
 
+
 def get_assigned_methods():
     return mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match
 
+
 def get_assigned_parameters():
     return k, sigma, t, b, p, d, n_disp_matches
-
-
-

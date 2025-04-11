@@ -1,15 +1,15 @@
 import os
 import sys
 from pathlib import Path
-import pytest
-import builtins
-import pandas as pd
-import numpy as np
+
 import cv2 as cv
+import numpy as np
+import pandas as pd
+import pytest
 
 # Add 'src/projectFiles' to sys.path so InputFormatModule can import its sibling
 current_dir = os.path.dirname(__file__)
-project_dir = os.path.abspath(os.path.join(current_dir, '..', 'projectFiles'))
+project_dir = os.path.abspath(os.path.join(current_dir, "..", "projectFiles"))
 sys.path.insert(0, project_dir)
 import projectFiles.InputFormatModule as config
 
@@ -18,22 +18,27 @@ import projectFiles.InputFormatModule as config
 # Test that all bounds are defined as 2-element numeric ranges
 # and match their expected hardcoded values.
 # ------------------------------------------------------------
-@pytest.mark.parametrize("param_name, bounds, expected", [
-    ("kern_bounds", config.kern_bounds, (3, 15)),
-    ("sd_bounds", config.sd_bounds, (0, 10)),
-    ("fast_bounds", config.fast_bounds, (2, 254)),
-    ("bin_bounds", config.bin_bounds, (1, 2048)),
-    ("patch_sz", config.patch_sz, (5, 100)),
-    ("match_distance_limits", config.match_distance_limits, (0, 150)),
-    ("num_match_disp", config.num_match_disp, (1, 1000)),
-])
+@pytest.mark.parametrize(
+    "param_name, bounds, expected",
+    [
+        ("kern_bounds", config.kern_bounds, (3, 15)),
+        ("sd_bounds", config.sd_bounds, (0, 10)),
+        ("fast_bounds", config.fast_bounds, (2, 254)),
+        ("bin_bounds", config.bin_bounds, (1, 2048)),
+        ("patch_sz", config.patch_sz, (5, 100)),
+        ("match_distance_limits", config.match_distance_limits, (0, 150)),
+        ("num_match_disp", config.num_match_disp, (1, 1000)),
+    ],
+)
 def test_bounds_are_valid(param_name, bounds, expected):
     # Ensure bounds are a list or tuple with exactly two items
     assert isinstance(bounds, (list, tuple)), f"{param_name} should be a list or tuple."
     assert len(bounds) == 2, f"{param_name} should have exactly 2 elements."
 
     # Ensure both elements are integers
-    assert all(isinstance(b, int) for b in bounds), f"{param_name} bounds must be integers."
+    assert all(
+        isinstance(b, int) for b in bounds
+    ), f"{param_name} bounds must be integers."
 
     # Check actual values match the expected reference
     assert bounds[0] == expected[0], f"{param_name} lower bound incorrect."
@@ -51,30 +56,32 @@ def test_kern_bounds_are_odd():
 def test_dir_path():
     # Test get_head_directory()
     head_dir = config.get_head_directory()
-    assert isinstance(head_dir, Path), "get_head_directory() should return a Path object"
+    assert isinstance(
+        head_dir, Path
+    ), "get_head_directory() should return a Path object"
 
 
 # Test the check of the method limits
 # Each test gets one bad value, others are valid
-@pytest.mark.parametrize("img, kp, desc, match", [
-    (-1, 2, 1, 1),   # img smoothing too low
-    (3, 2, 1, 1),    # img smoothing too high (max is 2)
-
-    (1, -1, 1, 1),   # keypoint detection too low
-    (1, 4, 1, 1),    # keypoint detection too high (max is 3)
-
-    (1, 2, -1, 1),   # feature descriptor too low
-    (1, 2, 3, 1),    # feature descriptor too high (max is 2)
-
-    (1, 2, 1, -1),   # feature matching too low
-    (1, 2, 1, 3),    # feature matching too high (max is 2)
-])
+@pytest.mark.parametrize(
+    "img, kp, desc, match",
+    [
+        (-1, 2, 1, 1),  # img smoothing too low
+        (3, 2, 1, 1),  # img smoothing too high (max is 2)
+        (1, -1, 1, 1),  # keypoint detection too low
+        (1, 4, 1, 1),  # keypoint detection too high (max is 3)
+        (1, 2, -1, 1),  # feature descriptor too low
+        (1, 2, 3, 1),  # feature descriptor too high (max is 2)
+        (1, 2, 1, -1),  # feature matching too low
+        (1, 2, 1, 3),  # feature matching too high (max is 2)
+    ],
+)
 def test_check_method_limits_invalid(monkeypatch, img, kp, desc, match):
     # Mock specParams.get_available_methods() to return max values
     monkeypatch.setattr(
         config.specParams,
         "get_available_methods",
-        lambda: ([2, 3, 2, 2], [], [], [], [])
+        lambda: ([2, 3, 2, 2], [], [], [], []),
     )
 
     # Should raise AssertionError for all of the above
@@ -86,41 +93,46 @@ def test_check_method_limits_valid(monkeypatch):
     monkeypatch.setattr(
         config.specParams,
         "get_available_methods",
-        lambda: ([2, 3, 2, 2], [], [], [], [])
+        lambda: ([2, 3, 2, 2], [], [], [], []),
     )
 
     # All inputs valid
     config.check_method_limits(1, 2, 1, 2)
 
 
-
-
 # Test the internal check for the allowable Parameter Limits
 @pytest.mark.parametrize(
-    "kernel, stddev, threshold, binsize, patchsize, matchdist, matchdisp", [
+    "kernel, stddev, threshold, binsize, patchsize, matchdist, matchdisp",
+    [
         # Invalid kernel sizes:
-        (2, 1.0, 100, 100, 20, 50, 100),     # too small (must be > 3)
-        (16, 1.0, 100, 100, 20, 50, 100),    # too large (max is 15)
-        (4, 1.0, 100, 100, 20, 50, 100),     # even kernel (must be odd)
-        (5.5, 1.0, 100, 100, 20, 50, 100),   # float (must be int)
-        ("7", 1.0, 100, 100, 20, 50, 100),   # string (must be int)
-    ]
+        (2, 1.0, 100, 100, 20, 50, 100),  # too small (must be > 3)
+        (16, 1.0, 100, 100, 20, 50, 100),  # too large (max is 15)
+        (4, 1.0, 100, 100, 20, 50, 100),  # even kernel (must be odd)
+        (5.5, 1.0, 100, 100, 20, 50, 100),  # float (must be int)
+        ("7", 1.0, 100, 100, 20, 50, 100),  # string (must be int)
+    ],
 )
-def test_check_parameter_limits_invalid_kernel(kernel, stddev, threshold, binsize, patchsize, matchdist, matchdisp):
+def test_check_parameter_limits_invalid_kernel(
+    kernel, stddev, threshold, binsize, patchsize, matchdist, matchdisp
+):
     with pytest.raises(AssertionError):
-        config.check_parameter_limits(kernel, stddev, threshold, binsize, patchsize, matchdist, matchdisp)
+        config.check_parameter_limits(
+            kernel, stddev, threshold, binsize, patchsize, matchdist, matchdisp
+        )
+
 
 def test_check_parameter_limits_valid():
     # All values within allowed ranges
     config.check_parameter_limits(
-        5,        # kernel size (odd, within bounds)
-        1.5,      # std dev (between 0 and 10)
-        100,      # threshold (between 2 and 254)
-        128,      # bin size (between 1 and 2048)
-        20,       # patch size (between 5 and 100)
-        100,      # match distance (>0 and <=150)
-        50        # match display count (between 1 and 1000)
+        5,  # kernel size (odd, within bounds)
+        1.5,  # std dev (between 0 and 10)
+        100,  # threshold (between 2 and 254)
+        128,  # bin size (between 1 and 2048)
+        20,  # patch size (between 5 and 100)
+        100,  # match distance (>0 and <=150)
+        50,  # match display count (between 1 and 1000)
     )
+
 
 # Test set_input_img_path()
 def test_set_input_img_path(tmp_path):
@@ -137,7 +149,8 @@ def create_dummy_files(folder: Path, filenames: list):
     for fname in filenames:
         (folder / fname).touch()
 
-def test_get_img_IDs_with_images(tmp_path): # Test for non-empty folder with files
+
+def test_get_img_IDs_with_images(tmp_path):  # Test for non-empty folder with files
     # Setup directory structure: head_dir/Raw_Images/
     raw_dir = tmp_path / "Raw_Images"
     raw_dir.mkdir()
@@ -152,7 +165,8 @@ def test_get_img_IDs_with_images(tmp_path): # Test for non-empty folder with fil
     assert all(len(entry) == 3 for entry in image_ids)  # stem, suffix, name
     assert {name for _, _, name in image_ids} == set(filenames)
 
-def test_get_img_IDs_empty_directory(tmp_path): # Test of empty folder
+
+def test_get_img_IDs_empty_directory(tmp_path):  # Test of empty folder
     raw_dir = tmp_path / "Raw_Images"
     raw_dir.mkdir()
 
@@ -160,6 +174,7 @@ def test_get_img_IDs_empty_directory(tmp_path): # Test of empty folder
 
     assert count == 0
     assert image_ids == []
+
 
 def test_get_img_IDs_ignores_directories(tmp_path):
     raw_dir = tmp_path / "Raw_Images"
@@ -174,12 +189,14 @@ def test_get_img_IDs_ignores_directories(tmp_path):
     assert count == 1
     assert image_ids[0][2] == "img.jpg"
 
+
 # Test verify_imported_image() method
 def test_verify_imported_image_none(capsys):
     config.verify_imported_image(None, "fake/path.jpg", "img001")
 
     captured = capsys.readouterr()
     assert "ReadImageError: fake/path.jpg could not be read." in captured.out
+
 
 def test_verify_imported_image_valid(capsys):
     dummy_img = np.zeros((100, 100, 3), dtype=np.uint8)  # a valid image-like object
@@ -210,16 +227,20 @@ def test_load_orb_descriptors_valid(tmp_path):
     descriptor_bits = "0" * 256  # all zeros
 
     # Create dummy data for one keypoint
-    df = pd.DataFrame([{
-        "x": 10.0,
-        "y": 20.0,
-        "size": 31.0,
-        "angle": 45.0,
-        "response": 0.8,
-        "octave": 0,
-        "class_id": 1,
-        "descriptor": str(descriptor_bits)
-    }])
+    df = pd.DataFrame(
+        [
+            {
+                "x": 10.0,
+                "y": 20.0,
+                "size": 31.0,
+                "angle": 45.0,
+                "response": 0.8,
+                "octave": 0,
+                "class_id": 1,
+                "descriptor": str(descriptor_bits),
+            }
+        ]
+    )
 
     # Explicitly cast the column to string before saving
     df["descriptor"] = df["descriptor"].astype(str)
@@ -242,15 +263,19 @@ def test_load_orb_descriptors_missing_columns(tmp_path):
     file_path = directory / f"{filename}_fd.csv"
 
     # Missing 'descriptor' column
-    df = pd.DataFrame([{
-        "x": 10.0,
-        "y": 20.0,
-        "size": 31.0,
-        "angle": 45.0,
-        "response": 0.8,
-        "octave": 0,
-        "class_id": 1
-    }])
+    df = pd.DataFrame(
+        [
+            {
+                "x": 10.0,
+                "y": 20.0,
+                "size": 31.0,
+                "angle": 45.0,
+                "response": 0.8,
+                "octave": 0,
+                "class_id": 1,
+            }
+        ]
+    )
     df.to_csv(file_path, index=False)
 
     keypoints, descriptors = config.load_orb_descriptors(filename, str(directory))
@@ -274,17 +299,19 @@ def test_orb_descriptor_roundtrip(tmp_path):
     records = []
     for kp, desc in zip(keypoints, descriptors):
         desc_bits = np.unpackbits(desc).astype(str)
-        desc_str = ''.join(desc_bits)
-        records.append({
-            "x": kp.pt[0],
-            "y": kp.pt[1],
-            "size": kp.size,
-            "angle": kp.angle,
-            "response": kp.response,
-            "octave": kp.octave,
-            "class_id": kp.class_id,
-            "descriptor": desc_str
-        })
+        desc_str = "".join(desc_bits)
+        records.append(
+            {
+                "x": kp.pt[0],
+                "y": kp.pt[1],
+                "size": kp.size,
+                "angle": kp.angle,
+                "response": kp.response,
+                "octave": kp.octave,
+                "class_id": kp.class_id,
+                "descriptor": desc_str,
+            }
+        )
 
     df = pd.DataFrame.from_records(records)
 

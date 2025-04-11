@@ -81,7 +81,6 @@ def check_parameter_limits(
         u_sz_kern % 2 == 1
     ), f"badKernelSize. Kernel must be odd. (Kernel Size = {u_sz_kern})"
 
-
     # Standard Deviation
     assert (
         u_std_dev > sd_bounds[0]
@@ -101,7 +100,6 @@ def check_parameter_limits(
         u_fast_thr <= fast_bounds[1]
     ), f"badFASTThreshold. Threshold must be >= {fast_bounds[0]} and <= {fast_bounds[1]}. (Threshold = {u_fast_thr})"
 
-
     # Bin Size
     assert isinstance(
         u_bin_sz, int
@@ -113,7 +111,6 @@ def check_parameter_limits(
         u_bin_sz <= bin_bounds[1]
     ), f"badBinSize. Bin Size must be = {bin_bounds[0]} and <= {bin_bounds[1]}. (Bin size = {u_bin_sz})"
 
-
     # Patch Size
     assert isinstance(
         u_patch_sz, int
@@ -124,7 +121,6 @@ def check_parameter_limits(
     assert (
         u_patch_sz <= patch_sz[1]
     ), f"badPatchSize. Patch size must be >= {patch_sz[0]} and <= {patch_sz[1]}. (Patch size = {u_patch_sz})"
-
 
     # Match Distance Limit
     assert isinstance(
@@ -147,7 +143,6 @@ def check_parameter_limits(
     assert (
         u_match_disp <= num_match_disp[1]
     ), f"badMatchDistance. Number of displayed matches must be >= {num_match_disp[0]} and <= {num_match_disp[1]}. (Selected match distance = {u_match_disp})"
-
 
 
 def get_chosen_parameters():
