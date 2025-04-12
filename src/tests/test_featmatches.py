@@ -1,6 +1,7 @@
-import pytest
-import numpy as np
 import cv2 as cv
+import numpy as np
+import pytest
+
 import projectFiles.FeatureMatchingModule as featmod
 
 
@@ -13,7 +14,9 @@ def test_create_BF_matcher_valid():
 def test_create_BF_matcher_invalid_behavior():
     """Test that create_BF_matcher returns None or causes error for invalid method (not handled explicitly)."""
     matcher = featmod.create_BF_matcher(0, cv.NORM_L2)
-    assert matcher is None or isinstance(matcher, cv.BFMatcher)  # depends on how module handles invalid cases
+    assert matcher is None or isinstance(
+        matcher, cv.BFMatcher
+    )  # depends on how module handles invalid cases
 
 
 def test_match_features_no_loss():
@@ -58,4 +61,4 @@ def test_no_matches_returns_empty_list():
     desc2 = np.empty((0, 32), dtype=np.uint8)
     matcher = featmod.create_BF_matcher(1, cv.NORM_HAMMING)
 
-    matches = featmod.match_features(matcher, desc1, desc2)
+    featmod.match_features(matcher, desc1, desc2)

@@ -1,10 +1,11 @@
+import os
 import shutil
 import sys
-import os
-from pathlib import Path
-import pytest
-import cv2 as cv
 from datetime import datetime
+from pathlib import Path
+
+import cv2 as cv
+import pytest
 
 # Add 'src/projectFiles' to sys.path so InputFormatModule can import its sibling
 current_dir = os.path.dirname(__file__)
@@ -13,9 +14,8 @@ sys.path.insert(0, project_dir)
 
 # Now try importing from projectFiles
 import projectFiles.ControlModule as control
-import projectFiles.InputFormatModule as config
 import projectFiles.ImageSmoothingModule as smoothmod
-import projectFiles.ImagePlotModule as plotmod
+import projectFiles.InputFormatModule as config
 
 
 def save_image(image_in, parent_dir, target_folder, image_name):
@@ -34,11 +34,13 @@ def save_image(image_in, parent_dir, target_folder, image_name):
     print(f"Saving image to: {img_out_path}")  # Debugging line
     cv.imwrite(str(img_out_path), image_in)
 
+
 def assert_valid_image(path: Path):
     assert path.exists(), f"Image not found: {path}"
     img = cv.imread(str(path))
     assert img is not None, f"Failed to load image at {path}"
     assert img.size > 0, f"Loaded image is empty: {path}"
+
 
 @pytest.mark.parametrize("label_name", ["building", "cybertruck", "game", "lego"])
 def test_controlmodule_image_read_and_smooth_outputs(tmp_path, label_name):
@@ -101,8 +103,12 @@ def test_controlmodule_image_read_and_smooth_outputs(tmp_path, label_name):
         save_image(smoothed, tmp_path, "gkImagery", img_file.name)
 
         # Check if the image files were saved
-        assert (gs_path / img_file.name).exists(), f"{img_file.name} missing in gsImagery"
-        assert (gk_path / img_file.name).exists(), f"{img_file.name} missing in gkImagery"
+        assert (
+            gs_path / img_file.name
+        ).exists(), f"{img_file.name} missing in gsImagery"
+        assert (
+            gk_path / img_file.name
+        ).exists(), f"{img_file.name} missing in gkImagery"
 
         for img_file in image_files:
             assert_valid_image(gs_path / img_file.name)
@@ -122,4 +128,3 @@ def test_controlmodule_image_read_and_smooth_outputs(tmp_path, label_name):
     # Check if summary file exists
     assert summary_path.exists(), "test_summary.txt was not created."
     print(f"Results saved to the Results subfolder of : {tmp_path}")
-

@@ -1,12 +1,13 @@
-import pytest
 import cv2 as cv
 import numpy as np
-import projectFiles.KeypointDetectionModule as kpmod
+import pytest
 
+import projectFiles.KeypointDetectionModule as kpmod
 
 # --------------------------
 # Tests for initialize_orb()
 # --------------------------
+
 
 def test_initialize_orb_valid_config():
     orb = kpmod.initialize_orb(
@@ -14,7 +15,7 @@ def test_initialize_orb_valid_config():
         mthd_kp_description=1,
         bin_sz=500,
         patch_sz=31,
-        fast_thresh=20
+        fast_thresh=20,
     )
     assert isinstance(orb, cv.ORB), "Should return a cv2.ORB instance"
 
@@ -25,7 +26,7 @@ def test_initialize_orb_invalid_config_detection():
         mthd_kp_description=1,
         bin_sz=500,
         patch_sz=31,
-        fast_thresh=20
+        fast_thresh=20,
     )
     assert orb is None
 
@@ -36,7 +37,7 @@ def test_initialize_orb_invalid_config_description():
         mthd_kp_description=0,
         bin_sz=500,
         patch_sz=31,
-        fast_thresh=20
+        fast_thresh=20,
     )
     assert orb is None
 
@@ -47,7 +48,7 @@ def test_initialize_orb_invalid_both():
         mthd_kp_description=0,
         bin_sz=500,
         patch_sz=31,
-        fast_thresh=20
+        fast_thresh=20,
     )
     assert orb is None
 
@@ -55,6 +56,7 @@ def test_initialize_orb_invalid_both():
 # -------------------------------
 # Tests for detect_keypoints_ofast()
 # -------------------------------
+
 
 def test_detect_keypoints_with_valid_orb():
     img = np.zeros((100, 100), dtype=np.uint8)

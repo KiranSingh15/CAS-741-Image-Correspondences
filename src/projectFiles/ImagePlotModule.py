@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 import cv2 as cv
 
 
@@ -30,7 +31,9 @@ def make_directory(head_dir, target_name):
     os.makedirs(folder_path, exist_ok=True)
 
 
-def save_image(image_in, parent_dir, target_folder, image_name, use_outputs_folder=True):
+def save_image(
+    image_in, parent_dir, target_folder, image_name, use_outputs_folder=True
+):
     """
     Save image to the specified folder.
     :param image_in: The image to save.

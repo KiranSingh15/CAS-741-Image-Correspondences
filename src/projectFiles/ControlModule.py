@@ -1,5 +1,7 @@
 import os
+
 import cv2 as cv
+
 try:
     # Relative imports for testing/packaging context
     from . import FeatureDescriptorModule as assignDescriptors
@@ -32,7 +34,6 @@ except ImportError:
 # import projectFiles.OutputFormatModule as formatOutput
 # import projectFiles.OutputVerificationModule as verifyOutput
 # import projectFiles.SpecificationParametersModule as specParams
-
 
 
 def main():
@@ -84,7 +85,9 @@ def main():
         keypoints = detectKeypoints.detect_keypoints_ofast(
             mthd_kp_detection, orb_object, img_gk
         )
-        formatOutput.output_keypoints(keypoints, img_id[0], output_root, keypoint_folder_nm)
+        formatOutput.output_keypoints(
+            keypoints, img_id[0], output_root, keypoint_folder_nm
+        )
 
         img_kp = plotImage.gen_kp_img(img_gk, keypoints, 0)
         plotImage.save_image(img_kp, output_root, keypoint_folder_nm, img_id[2])

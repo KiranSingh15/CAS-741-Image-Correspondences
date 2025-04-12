@@ -1,8 +1,9 @@
 import os
-import sys
 import shutil
-import pytest
+import sys
 from pathlib import Path
+
+import pytest
 
 # Add 'src/projectFiles' to sys.path so InputFormatModule can import its sibling
 current_dir = os.path.dirname(__file__)
@@ -49,7 +50,13 @@ def test_controlmodule_outputs_and_csv(tmp_path, label_name):
     output_root = tmp_path / "Outputs"
     assert output_root.exists(), "Outputs folder was not created."
 
-    expected_folders = ["gsImagery", "gkImagery", "kpDetection", "fDescriptors", "fMatches"]
+    expected_folders = [
+        "gsImagery",
+        "gkImagery",
+        "kpDetection",
+        "fDescriptors",
+        "fMatches",
+    ]
     for folder in expected_folders:
         folder_path = output_root / folder
         assert folder_path.exists(), f"{folder} folder was not created."
@@ -58,8 +65,12 @@ def test_controlmodule_outputs_and_csv(tmp_path, label_name):
     gs_path = output_root / "gsImagery"
     gk_path = output_root / "gkImagery"
     for img_file in image_files:
-        assert (gs_path / img_file.name).exists(), f"{img_file.name} missing in gsImagery"
-        assert (gk_path / img_file.name).exists(), f"{img_file.name} missing in gkImagery"
+        assert (
+            gs_path / img_file.name
+        ).exists(), f"{img_file.name} missing in gsImagery"
+        assert (
+            gk_path / img_file.name
+        ).exists(), f"{img_file.name} missing in gkImagery"
 
     # Check that keypoint and descriptor CSVs were saved
     kp_path = output_root / "kpDetection"

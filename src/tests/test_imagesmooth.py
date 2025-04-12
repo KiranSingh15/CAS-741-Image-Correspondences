@@ -1,7 +1,9 @@
-import pytest
-import numpy as np
 import cv2 as cv
+import numpy as np
+import pytest
+
 import projectFiles.ImageSmoothingModule as smoothmod
+
 
 # ------------------------------
 # Tests for greyscale conversion
@@ -27,12 +29,15 @@ def test_convert_to_greyscale_actual_conversion():
 def test_convert_to_greyscale_invalid_input():
     # Test that passing a single-channel (already grayscale) image raises an error
     with pytest.raises(cv.error):
-        _ = smoothmod.convert_to_greyscale(np.zeros((10, 10), dtype=np.uint8))  # Not BGR
+        _ = smoothmod.convert_to_greyscale(
+            np.zeros((10, 10), dtype=np.uint8)
+        )  # Not BGR
 
 
 # ------------------------------
 # Tests for smooth_image
 # ------------------------------
+
 
 def test_smooth_image_valid_gaussian():
     # Test that Gaussian blur with valid parameters returns a same-sized, blurred image
@@ -58,4 +63,3 @@ def test_smooth_image_invalid_kernel_size():
 
     with pytest.raises(cv.error):
         _ = smoothmod.smooth_image(1, img, sz_kern=4, std_dev=1.0)
-
