@@ -1,8 +1,6 @@
-import os
 import shutil
-from pathlib import Path
 from datetime import datetime
-
+from pathlib import Path
 
 
 def create_timestamped_output_dir(test_id: str) -> Path:
@@ -79,7 +77,9 @@ def summarize_image_check_results(results: list, check_type: str) -> str:
     return summary
 
 
-def copy_selected_subfolders(source_dir: Path, target_dir: Path, folders_to_copy: list[str]):
+def copy_selected_subfolders(
+    source_dir: Path, target_dir: Path, folders_to_copy: list[str]
+):
     """
     Copies only selected subfolders from source_dir to target_dir.
 

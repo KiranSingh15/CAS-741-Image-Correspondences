@@ -1,13 +1,13 @@
 import sys
-import os
 from pathlib import Path
-import cv2 as cv
+
 import pandas as pd
 
 current_dir = Path(__file__).parent
 sys.path.insert(0, str(current_dir))
 
 import helper_functions as helper
+
 
 def test_descriptor_generation(bin_size=100, patch_size=31):
     test_id = "STFR-FD-01"
@@ -43,8 +43,9 @@ def test_descriptor_generation(bin_size=100, patch_size=31):
     # Archive and collect results
     archive_dir = helper.create_timestamped_output_dir(test_id)
     descriptor_path = output_dir / "fDescriptors"
-    helper.copy_selected_subfolders(output_dir, archive_dir, folders_to_copy=["fDescriptors"])
-
+    helper.copy_selected_subfolders(
+        output_dir, archive_dir, folders_to_copy=["fDescriptors"]
+    )
 
     # Check each descriptor CSV
     errors = []
@@ -52,8 +53,14 @@ def test_descriptor_generation(bin_size=100, patch_size=31):
         try:
             df = pd.read_csv(csv_file)
             for idx, val in enumerate(df["descriptor"]):
-                if not isinstance(val, str) or len(val) != 256 or any(c not in "01" for c in val):
-                    errors.append((csv_file.name, idx, "Invalid binary string in descriptor"))
+                if (
+                    not isinstance(val, str)
+                    or len(val) != 256
+                    or any(c not in "01" for c in val)
+                ):
+                    errors.append(
+                        (csv_file.name, idx, "Invalid binary string in descriptor")
+                    )
         except Exception as e:
             errors.append((csv_file.name, "file", f"Failed to load: {str(e)}"))
 
@@ -63,7 +70,9 @@ def test_descriptor_generation(bin_size=100, patch_size=31):
         f.write("\n--- Descriptor Generation ---\n")
         f.write(f"Bin Size (b): {bin_size}\n")
         f.write(f"Patch Size (p): {patch_size}\n")
-        f.write(f"Number of descriptor files checked: {len(list(descriptor_path.glob('*_fd.csv')))}\n")
+        f.write(
+            f"Number of descriptor files checked: {len(list(descriptor_path.glob('*_fd.csv')))}\n"
+        )
         f.write("Errors:\n")
         if errors:
             for e in errors:

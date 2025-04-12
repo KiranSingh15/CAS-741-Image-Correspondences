@@ -13,11 +13,12 @@ project_dir = os.path.abspath(os.path.join(current_dir, "..", "projectFiles"))
 sys.path.insert(0, project_dir)
 import projectFiles.InputFormatModule as config
 
-
 """
 # Test that the upper and lower bounds that are used to constrain the user-defined 
 # parameters themselves conform to the data type and value constraints 
 """
+
+
 @pytest.mark.parametrize(
     "param_name, bounds, expected",
     [
@@ -49,6 +50,8 @@ def test_bounds_are_valid(param_name, bounds, expected):
 # Kernel size bounds should both be odd integers — e.g., 3 to 15.
 # 
 """
+
+
 def test_kern_bounds_are_odd():
     assert config.kern_bounds[0] % 2 == 1, "Lower kernel size bound must be odd."
     assert config.kern_bounds[1] % 2 == 1, "Upper kernel size bound must be odd."
@@ -58,6 +61,8 @@ def test_kern_bounds_are_odd():
 Test that the system can successfully identify the current root of the directory. This is important for portability 
 between different computers and operating systems
 """
+
+
 def test_dir_path():
     # Test get_head_directory()
     head_dir = config.get_head_directory()
@@ -72,6 +77,8 @@ def test_dir_path():
 Ensure that each method of Image Smoothing, Keypoint Detection, Feature Description, and Feature Matching 
 fall between the specified number of allowable methods, or are disabled
 """
+
+
 @pytest.mark.parametrize(
     "img, kp, desc, match",
     [

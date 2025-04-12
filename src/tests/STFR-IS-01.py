@@ -1,6 +1,6 @@
 import sys
-import os
 from pathlib import Path
+
 import cv2 as cv
 
 # Allow importing helper_functions
@@ -15,7 +15,9 @@ the smoothing module, which uses Gaussian Blurring by default.
 
 We use default parameters
 """
-def test_image_smoothing(kernel_size = 5, std_dev = 1.0):
+
+
+def test_image_smoothing(kernel_size=5, std_dev=1.0):
     # Parameters for smoothing
 
     # Clear project output directories
@@ -33,7 +35,6 @@ def test_image_smoothing(kernel_size = 5, std_dev = 1.0):
     sys.path.insert(0, str(project_dir))
     import ControlModule as control
     import InputFormatModule as config
-    import ImageSmoothingModule as smoothmod
 
     # Patch the config
     config.get_head_directory = lambda: project_dir
@@ -63,14 +64,22 @@ def test_image_smoothing(kernel_size = 5, std_dev = 1.0):
         gk_img = cv.imread(str(gk_img_path), cv.IMREAD_GRAYSCALE)
 
         if gs_img.shape != input_shape:
-            gs_errors.append((img_file.name, f"Shape mismatch: {gs_img.shape} vs {input_shape}"))
+            gs_errors.append(
+                (img_file.name, f"Shape mismatch: {gs_img.shape} vs {input_shape}")
+            )
         if gs_img.dtype != input_dtype:
-            gs_errors.append((img_file.name, f"Dtype mismatch: {gs_img.dtype} vs {input_dtype}"))
+            gs_errors.append(
+                (img_file.name, f"Dtype mismatch: {gs_img.dtype} vs {input_dtype}")
+            )
 
         if gk_img.shape != input_shape:
-            gk_errors.append((img_file.name, f"Shape mismatch: {gk_img.shape} vs {input_shape}"))
+            gk_errors.append(
+                (img_file.name, f"Shape mismatch: {gk_img.shape} vs {input_shape}")
+            )
         if gk_img.dtype != input_dtype:
-            gk_errors.append((img_file.name, f"Dtype mismatch: {gk_img.dtype} vs {input_dtype}"))
+            gk_errors.append(
+                (img_file.name, f"Dtype mismatch: {gk_img.dtype} vs {input_dtype}")
+            )
 
     # Archive results
     archive_dir = helper.create_timestamped_output_dir("STFR-IS-01")

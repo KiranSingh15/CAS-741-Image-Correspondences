@@ -1,6 +1,5 @@
-import sys
-import os
 import csv
+import sys
 from pathlib import Path
 
 # Setup current directory and import helper functions
@@ -45,7 +44,7 @@ def test_keypoint_detection(threshold=60):
     for csv_file in kp_path.glob("*_kp.csv"):
         with open(csv_file, newline="") as f:
             reader = csv.reader(f)
-            header = next(reader)
+            next(reader)
             for row_idx, row in enumerate(reader, start=2):  # Skip header
                 try:
                     x = float(row[0])
@@ -69,7 +68,9 @@ def test_keypoint_detection(threshold=60):
         if invalid_entries:
             f.write("Some keypoint CSVs contained non-integer x or y values:\n")
             for entry in invalid_entries:
-                f.write(f" - {entry[0]} (line {entry[1]}): x={entry[2]}, y={entry[3]}\n")
+                f.write(
+                    f" - {entry[0]} (line {entry[1]}): x={entry[2]}, y={entry[3]}\n"
+                )
         else:
             f.write("All keypoint CSVs passed: x and y values are all integers.\n")
 
