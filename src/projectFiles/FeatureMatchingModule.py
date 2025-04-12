@@ -4,7 +4,9 @@ import cv2 as cv
 def create_BF_matcher(mthd_ft_match, norm_method):
     if mthd_ft_match == 1:
         bfm_object = cv.BFMatcher(norm_method, crossCheck=True)
-    return bfm_object
+        return bfm_object
+
+    return None
 
 
 def match_features(bfm_object, desc1, desc2):

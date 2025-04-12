@@ -35,7 +35,7 @@ def make_directory(parent_dir, target_name):
 
 def output_keypoints(keypoints, image_id, parent_dir, target_folder):
     # check to see if the keypoint folder exists, and create it if it does not
-    output_head_dir = parent_dir / "Outputs"
+    output_head_dir = parent_dir
     make_directory(output_head_dir, keypoint_folder_nm)
 
     # Generate a unique file name
@@ -77,7 +77,7 @@ def output_descriptors(keypoints, descriptors, image_id, parent_dir, target_fold
     """
 
     # check to see if the descriptors folder exists, and create it if it does not
-    output_head_dir = parent_dir / "Outputs"
+    output_head_dir = parent_dir
     make_directory(output_head_dir, descriptor_folder_nm)
     file_name = f"{image_id}_fd.csv"
     # file_path = os.path.join(parent_dir, target_folder, file_name)
@@ -157,7 +157,7 @@ def output_matches(
     """
 
     # check to see if the matches folder exists, and create it if it does not
-    output_head_dir = parent_dir / "Outputs"
+    output_head_dir = parent_dir
     make_directory(output_head_dir, matches_folder_nm)
     file_name = f"{query_img_ID}_{train_imd_ID}_fm.csv"
     file_path = os.path.join(output_head_dir, matches_folder_nm, file_name)

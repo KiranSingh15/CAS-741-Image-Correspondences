@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-
 import cv2 as cv
 
 
@@ -31,8 +30,22 @@ def make_directory(head_dir, target_name):
     os.makedirs(folder_path, exist_ok=True)
 
 
-def save_image(image_in, parent_dir, target_folder, image_name):
-    output_head_dir = parent_dir / "Outputs"
-    make_directory(output_head_dir, target_folder)
-    img_out_path = output_head_dir / target_folder / image_name
-    cv.imwrite(img_out_path, image_in)
+def save_image(image_in, parent_dir, target_folder, image_name, use_outputs_folder=True):
+    """
+    Save image to the specified folder.
+    :param image_in: The image to save.
+    :param parent_dir: Base directory (e.g., head_dir).
+    :param target_folder: Name of the subfolder to save into.
+    :param image_name: Output file name (e.g., "img1.png").
+    :param use_outputs_folder: If True, image is saved under Outputs/target_folder. If False, saved under target_folder.
+    """
+    if use_outputs_folder:
+        output_head_dir = Path(parent_dir)
+    else:
+        output_head_dir = Path(parent_dir) / "Outputs"
+
+    full_output_dir = output_head_dir / target_folder
+    full_output_dir.mkdir(parents=True, exist_ok=True)
+
+    img_out_path = full_output_dir / image_name
+    cv.imwrite(str(img_out_path), image_in)

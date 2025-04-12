@@ -1,4 +1,3 @@
-
 import projectFiles.SpecificationParametersModule as specParams
 
 lim_kern_bounds = [3, 15]  # 3 and 11 inclusive to scale down the kernel

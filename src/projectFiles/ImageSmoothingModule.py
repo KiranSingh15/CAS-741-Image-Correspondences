@@ -18,5 +18,7 @@ def smooth_image(mthd_img_smoothing, img_greyscale, sz_kern, std_dev):
         img_smooth = cv.GaussianBlur(
             img_greyscale, (sz_kern, sz_kern), std_dev
         )  # GaussianBlur
+        return img_smooth
 
-    return img_smooth
+
+    return None # Return explicitly when method is not supported
