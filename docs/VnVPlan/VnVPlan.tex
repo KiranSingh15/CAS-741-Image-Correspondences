@@ -52,6 +52,7 @@
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule
+  a & arbitrary positive integer\\
   CAS & Computing and Software\\
   CI & Continuous Integration\\
   DE & Domain Expert \\
@@ -358,11 +359,7 @@ A permissible image intensity threshold, $t$, shall also be introduced, where $t
 positive integer between 1 and 255.
 
 \textbf{Output:} A flag which indicates that corner detection is active. 
-A 2D array of size ${k \times 2}$, where $k$ is the quantity of identified keypoints, 
-where the first and second columns are populated with the horizontal and vertical coordinates for each 
-keypoint. Each entry in the array should be an positive integer value. Each array should have a unique identifier that 
-clearly defines the original image from which its keypoints were identified. All output arrays should be saved 
-to a unique folder to separate them from the input images.
+A 2D array of size ${k \times m}$, where $k$ is the quantity of identified keypoints and the first and second columns are populated with the horizontal and vertical coordinates for each keypoint. Each entry in the array should be rounded to a positive integer value. Any outstanding columns may be populated with associated metadata as a product of the selected method of keypoint detection. For example, oriented FAST (o-FAST) differs from standard FAST in that it also provides an measure of rotation for each keypoint as an additional column. Each array should have a unique title that clearly defines the original image from which its keypoints were identified. All output arrays should be saved to a unique folder to separate them from the input images.
 
 \textbf{How test will be performed:} Automated Tools (i.e. Pytest)
 \end{enumerate}
@@ -382,7 +379,7 @@ will also be input as a scalar integer to define the the region for which to sea
 number of descriptors titled $d_{total}$, also known as the bin size, will also be provided as a non-negative integer 
 between 1 and 1023.
 
-\textbf{Output:} $D_{bin}$, a 1D array of length $d_{total}$ where all entries of the array are 32 byte binary strings. 
+\textbf{Output:} $D_{bin}$, an array of length $d_{total}$ with a minimum width of 1 where all entries of the array are 32 byte binary strings. The width of this array may be increased if associated horizontal and vertical coordinates for the corresponding keypoint may be affixed to each descriptor. 
 
 \textbf{Test Case Derivation:} \href{https://sites.cc.gatech.edu/classes/AY2024/cs4475_summer/images/ORB_an_efficient_alternative_to_SIFT_or_SURF.pdf}
 {ORB: An efficient alternative to SIFT or SURF}. This publication outlines methods 

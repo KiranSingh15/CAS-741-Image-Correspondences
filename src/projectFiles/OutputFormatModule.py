@@ -40,7 +40,6 @@ def output_keypoints(keypoints, image_id, parent_dir, target_folder):
 
     # Generate a unique file name
     file_name = f"{image_id}_kp.csv"
-    file_path = os.path.join(output_head_dir, target_folder, file_name)
     file_path = output_head_dir / target_folder / file_name
 
     # Convert keypoints to a list of tuples
@@ -55,15 +54,10 @@ def output_keypoints(keypoints, image_id, parent_dir, target_folder):
         columns=["x", "y", "size", "angle", "response", "octave", "class_id"],
     )
 
-    # Name the file
-    # unique_file_name = "PoseID_" + str(pose_id) + "_" + "CameraID_" + str(camera_id) + "_" + "kp"
-    # unique_file_name = parent_dir + image_id + "_kp" + ".csv"
-    # full_file_name = unique_file_name + ".csv"
+    # Round x and y to nearest integer and convert to int
+    df[["x", "y"]] = df[["x", "y"]].round().astype(int)
 
-    # full_file_name = parent_dir + image_id + "_kp" + ".csv"
-    # file_path = os.path.join(target_folder, full_file_name)
     df.to_csv(file_path, index=False)
-    # print("Keypoints saved to keypoints.csv")
 
 
 def output_descriptors(keypoints, descriptors, image_id, parent_dir, target_folder):
@@ -136,6 +130,9 @@ def output_descriptors(keypoints, descriptors, image_id, parent_dir, target_fold
             "descriptor",
         ],
     )
+
+    # Round x and y values to the nearest integer
+    df[["x", "y"]] = df[["x", "y"]].round().astype(int)
 
     # Save the DataFrame to CSV
     df.to_csv(file_path, index=False)

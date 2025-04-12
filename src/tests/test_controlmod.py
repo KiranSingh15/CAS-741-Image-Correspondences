@@ -128,3 +128,4 @@ def test_controlmodule_image_read_and_smooth_outputs(tmp_path, label_name):
     # Check if summary file exists
     assert summary_path.exists(), "test_summary.txt was not created."
     print(f"Results saved to the Results subfolder of : {tmp_path}")
+
