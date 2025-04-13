@@ -1,19 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="83549127-e72c-458a-814c-20cbf0c1bc1c" name="Changes" comment="" />
+    <list default="true" id="83549127-e72c-458a-814c-20cbf0c1bc1c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/test/run_unit_checks.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/testImages/building/MAC_04.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/testImages/building/MAC_05.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/testImages/game/PS_01.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/testImages/game/PS_02.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/testImages/game/PS_03.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/testImages/lego/LG_02.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/testImages/lego/LG_03.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_controlmod.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_featdesc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_featmatches.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_imagePlot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_imagesmooth.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_kpdetect.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_outputFormat.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_specParams.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2vSa2gJjbuhnXPGldx6nX9LKxaU" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -23,12 +53,23 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.InputFormatModule.executor": "Run",
+    "Python.run_unit_checks.executor": "Run",
+    "Python.test_config.executor": "Run",
+    "Python.test_featdesc.executor": "Run",
+    "Python.test_imagePlot.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Course_Work/CAS_741/CAS-741-Image-Correspondences/test",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\test" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -46,5 +87,15 @@
       <updated>1744140724869</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/test_imagePlot.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
