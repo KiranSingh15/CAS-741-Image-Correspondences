@@ -1,0 +1,9 @@
+Test ID: STFR-KP-01
+Timestamp: 2025-04-13_12-20-06
+Output Directory: 2025-04-13_12-20-06
+
+--- Keypoint Detection Validation ---
+Pixel Intensity Threshold (t): 60
+Keypoint detection method: FAST
+
+All keypoint CSVs passed: x and y values are all integers.

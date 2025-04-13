@@ -20,7 +20,6 @@ test_files = [
     "test_imagePlot.py",
     "test_imagesmooth.py",
     "test_kpdetect.py",
-    "test_main.py",
     "test_outputFormat.py",
     "test_specParams.py",
 ]

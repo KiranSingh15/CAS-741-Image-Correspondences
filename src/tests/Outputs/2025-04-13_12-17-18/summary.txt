@@ -1,0 +1,16 @@
+Test ID: STFR-FD-01
+Timestamp: 2025-04-13_12-17-18
+Output Directory: 2025-04-13_12-17-18
+
+--- Descriptor Generation ---
+Bin Size (b): 100
+Patch Size (p): 31
+Number of descriptor files checked: 21
+Errors:
+No descriptor format issues found.
+
+--- Descriptor Validation ---
+Bin Size: 100
+Patch Size: 31
+Descriptor module active: True
+All descriptor CSVs validated successfully.
