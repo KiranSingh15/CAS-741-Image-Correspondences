@@ -4,12 +4,12 @@
 # Tuning Parameters
 """USER INPUT HERE"""
 k = int(5)  # gaussian kernel size
-sigma = float(1.0)  # gaussian blur standard deviation
-t = int(15)  # pixel intensity threshold
-b = int(1000)  # descriptor bin size
-p = int(31)  # descriptor patch search size
-d = int(25)  # upper bound for Hamming distance between features
-n_disp_matches = int(30)  # max number of displayed feature matches
+sigma = float(2.0)  # gaussian blur standard deviation
+t = int(35)  # pixel intensity threshold
+b = int(500)  # descriptor bin size
+p = int(70)  # descriptor patch search size
+d = int(30) # upper bound for Hamming distance between displayed features
+n_disp_matches = int(70)  # max number of displayed feature matches
 
 # available methods of processing
 mthd_is = ["Gaussian Kernel"]  # methods of image smoothing

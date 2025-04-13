@@ -142,45 +142,52 @@ def output_descriptors(keypoints, descriptors, image_id, parent_dir, target_fold
 
 # def output_matches(matches, kp1, kp2, image_id, target_folder):
 def output_matches(
-    query_img_ID, train_imd_ID, matches, kp1, kp2, parent_dir, target_dir
+        query_img_ID, train_imd_ID, matches, kp1, kp2, desc1, desc2, parent_dir, target_dir
 ):
     """
     Saves brute-force matching results to a CSV file using pandas.
+
     :param matches: List of cv2.DMatch objects containing feature matches.
     :param kp1: List of cv2.KeyPoint objects from the first image.
     :param kp2: List of cv2.KeyPoint objects from the second image.
-    :param image_id: Identifier for the image pair (used in the CSV file name).
-    :param target_folder: Directory where the CSV file will be saved.
+    :param desc1: ORB descriptors from the first image.
+    :param desc2: ORB descriptors from the second image.
+    :param query_img_ID: ID of the first image.
+    :param train_imd_ID: ID of the second image.
+    :param parent_dir: Base directory for writing results.
+    :param target_dir: Subfolder where results should be saved.
     """
 
-    # check to see if the matches folder exists, and create it if it does not
     output_head_dir = parent_dir
     make_directory(output_head_dir, matches_folder_nm)
     file_name = f"{query_img_ID}_{train_imd_ID}_fm.csv"
-    file_path = os.path.join(output_head_dir, matches_folder_nm, file_name)
+    file_path = output_head_dir / matches_folder_nm / file_name
 
-    # Extract match data
     match_data = []
     for match in matches:
         q_idx = match.queryIdx
         t_idx = match.trainIdx
-        q_kp = kp1[q_idx].pt  # (x, y)
-        t_kp = kp2[t_idx].pt  # (x, y)
+        q_kp = kp1[q_idx].pt
+        t_kp = kp2[t_idx].pt
 
-        # round match coordinates
-        match_data.append(
-            [
-                q_idx,
-                t_idx,
-                match.distance,
-                round(q_kp[0]),
-                round(q_kp[1]),
-                round(t_kp[0]),
-                round(t_kp[1]),
-            ]
-        )
+        # Convert descriptors to binary strings
+        q_desc_str = "".join(str(int(b)) for b in np.unpackbits(np.uint8(desc1[q_idx])))
+        t_desc_str = "".join(str(int(b)) for b in np.unpackbits(np.uint8(desc2[t_idx])))
 
-    # Create a DataFrame
+        match_data.append([
+            q_idx,
+            t_idx,
+            match.distance,
+            round(q_kp[0]),
+            round(q_kp[1]),
+            round(t_kp[0]),
+            round(t_kp[1]),
+            q_desc_str,
+            t_desc_str,
+            query_img_ID,
+            train_imd_ID
+        ])
+
     df = pd.DataFrame(
         match_data,
         columns=[
@@ -191,10 +198,12 @@ def output_matches(
             "Query Y",
             "Train X",
             "Train Y",
+            "Query Descriptor",
+            "Train Descriptor",
+            "Query Image ID",
+            "Train Image ID"
         ],
     )
 
-    # Save DataFrame to CSV
     df.to_csv(file_path, index=False)
 
-    # print(f"Matches saved to {file_path}")

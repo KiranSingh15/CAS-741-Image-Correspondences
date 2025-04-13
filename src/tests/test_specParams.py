@@ -1,6 +1,6 @@
 import projectFiles.SpecificationParametersModule as specParams
 
-lim_kern_bounds = [3, 15]  # 3 and 11 inclusive to scale down the kernel
+lim_kern_bounds = [3, 11]  # 3 and 11 inclusive to scale down the kernel
 lim_sd_bounds = [0, 10]  # (0, 10], or 0 exclusive and 10 inclusive
 lim_fast_bounds = [2, 254]  # inclusive
 lim_bin_bounds = [1, 2048]  # exclusive

@@ -8,7 +8,7 @@ import SpecificationParametersModule as specParams
 
 ## Parameter Limits
 # Gaussian Filtering
-kern_bounds = [3, 15]  # 3 and 11 inclusive to scale down the kernel
+kern_bounds = [3, 11]  # 3 and 11 inclusive to scale down the kernel
 sd_bounds = [0, 10]  # (0, 10], or 0 exclusive and 10 inclusive
 
 # Keypoint detection
@@ -72,11 +72,11 @@ def check_parameter_limits(
         u_sz_kern, int
     ), f"badKernelSize. Kernel must be an integer. (Kernel Size = {u_sz_kern})"
     assert (
-        u_sz_kern > kern_bounds[0]
+        u_sz_kern >= kern_bounds[0]
     ), f"badKernelSize. Kernel must be > 1. (Kernel Size = {u_sz_kern})"
     assert (
-        u_sz_kern < kern_bounds[1]
-    ), f"badKernelSize. Kernel must be <= 15. (Kernel Size = {u_sz_kern})"
+        u_sz_kern <= kern_bounds[1]
+    ), f"badKernelSize. Kernel must be <= 11. (Kernel Size = {u_sz_kern})"
     assert (
         u_sz_kern % 2 == 1
     ), f"badKernelSize. Kernel must be odd. (Kernel Size = {u_sz_kern})"
@@ -175,7 +175,7 @@ def verify_imported_image(img, img_path, img_id):
         print(f"ReadImageError: {img_path} could not be read.")
 
     else:
-        print("No detected errors with path for ", img_id)
+        print("No detected errors with path for", img_id)
 
 
 def get_descriptor_path(head_dir, descriptor_folder_nm):

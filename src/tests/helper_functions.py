@@ -16,7 +16,7 @@ def create_timestamped_output_dir(test_id: str) -> Path:
     new_dir.mkdir(parents=True, exist_ok=False)
 
     summary_path = new_dir / "summary.txt"
-    with open(summary_path, "w") as f:
+    with open(summary_path, "w", encoding="utf-8") as f:
         f.write(f"Test ID: {test_id}\n")
         f.write(f"Timestamp: {timestamp}\n")
         f.write(f"Output Directory: {new_dir.name}\n")

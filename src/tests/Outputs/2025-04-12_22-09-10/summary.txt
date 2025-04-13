@@ -1,0 +1,11 @@
+Test ID: STFR-IS-01
+Timestamp: 2025-04-12_22-09-10
+Output Directory: 2025-04-12_22-09-10
+
+--- Image Validation ---
+Kernel Size (k): 5
+Standard Deviation (sigma): 1.0
+
+All grayscale images passed validation.
+
+All smoothed images passed validation.
