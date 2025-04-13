@@ -1,13 +1,14 @@
-import os
 import sys
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 # Allow importing helper_functions from the current directory
 current_dir = Path(__file__).parent
 sys.path.insert(0, str(current_dir))
 
 import helper_functions as helper
+
 
 def test_feature_matching(d=25, n_disp_matches=30):
     test_id = "STFR-FM-01"
@@ -97,14 +98,28 @@ def test_feature_matching(d=25, n_disp_matches=30):
                 distance = row["Distance"]
 
                 # Check descriptors are 256 bits
-                if not isinstance(q_desc, str) or len(q_desc) != 256 or not set(q_desc).issubset({"0", "1"}):
-                    descriptor_issues.append((csv_file.name, idx, "Query Descriptor Invalid"))
-                if not isinstance(t_desc, str) or len(t_desc) != 256 or not set(t_desc).issubset({"0", "1"}):
-                    descriptor_issues.append((csv_file.name, idx, "Train Descriptor Invalid"))
+                if (
+                    not isinstance(q_desc, str)
+                    or len(q_desc) != 256
+                    or not set(q_desc).issubset({"0", "1"})
+                ):
+                    descriptor_issues.append(
+                        (csv_file.name, idx, "Query Descriptor Invalid")
+                    )
+                if (
+                    not isinstance(t_desc, str)
+                    or len(t_desc) != 256
+                    or not set(t_desc).issubset({"0", "1"})
+                ):
+                    descriptor_issues.append(
+                        (csv_file.name, idx, "Train Descriptor Invalid")
+                    )
 
                 # Check match score (distance) is numeric and within bounds
                 if not isinstance(distance, (int, float)):
-                    match_score_issues.append((csv_file.name, idx, f"Distance is not numeric: {distance}"))
+                    match_score_issues.append(
+                        (csv_file.name, idx, f"Distance is not numeric: {distance}")
+                    )
 
     # Write summary
     summary_file = archive_dir / "summary.txt"

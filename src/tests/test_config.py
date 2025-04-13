@@ -49,7 +49,6 @@ def test_bounds_are_valid(param_name, bounds, expected):
     assert bounds[1] == expected[1], f"{param_name} upper bound incorrect."
 
 
-
 def test_kern_bounds_are_odd():
     """
     Verify that both bounds of kernel size are odd integers,

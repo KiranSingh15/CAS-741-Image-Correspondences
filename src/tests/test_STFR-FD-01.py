@@ -82,7 +82,6 @@ def test_descriptor_generation(bin_size=100, patch_size=31):
 
     print(f"Test {test_id} complete. Archived to {archive_dir}")
 
-
     # Validate descriptor CSV files
     descriptor_errors = []
     for csv_file in descriptor_path.glob("*_fd.csv"):
@@ -90,7 +89,14 @@ def test_descriptor_generation(bin_size=100, patch_size=31):
 
         # Check required columns
         required_columns = [
-            "x", "y", "size", "angle", "response", "octave", "class_id", "descriptor"
+            "x",
+            "y",
+            "size",
+            "angle",
+            "response",
+            "octave",
+            "class_id",
+            "descriptor",
         ]
         if list(df.columns) != required_columns:
             descriptor_errors.append((csv_file.name, "Missing or misordered columns"))
@@ -98,14 +104,22 @@ def test_descriptor_generation(bin_size=100, patch_size=31):
 
         # Check that x, y are numeric
         for idx, row in df.iterrows():
-            if not isinstance(row["x"], (int, float)) or not isinstance(row["y"], (int, float)):
-                descriptor_errors.append((csv_file.name, f"Invalid coordinates at row {idx}"))
+            if not isinstance(row["x"], (int, float)) or not isinstance(
+                row["y"], (int, float)
+            ):
+                descriptor_errors.append(
+                    (csv_file.name, f"Invalid coordinates at row {idx}")
+                )
                 break
 
             # Optional: check descriptor format
             descriptor = row["descriptor"]
-            if not isinstance(descriptor, str) or not set(descriptor).issubset({"0", "1"}):
-                descriptor_errors.append((csv_file.name, f"Invalid descriptor format at row {idx}"))
+            if not isinstance(descriptor, str) or not set(descriptor).issubset(
+                {"0", "1"}
+            ):
+                descriptor_errors.append(
+                    (csv_file.name, f"Invalid descriptor format at row {idx}")
+                )
                 break
 
     # Append descriptor validation to summary
@@ -121,5 +135,3 @@ def test_descriptor_generation(bin_size=100, patch_size=31):
                 f.write(f" - {file}: {msg}\n")
         else:
             f.write("All descriptor CSVs validated successfully.\n")
-
-

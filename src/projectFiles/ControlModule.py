@@ -112,7 +112,7 @@ def main():
 
     fd_path = config.get_descriptor_path(head_dir, descriptor_folder_nm)
 
-    print("Number of comparisons: ", int((num_images-1)*num_images/2))
+    print("Number of comparisons: ", int((num_images - 1) * num_images / 2))
     comp_count = 0
 
     for i in range(num_images):
@@ -124,7 +124,6 @@ def main():
         for j in range(i + 1, num_images):
             # increase comparison counter
             comp_count += 1
-
 
             img2_name = input_image_names[j][0]
             img2_path = os.path.join(input_img_dir, input_image_names[j][2])
@@ -139,7 +138,15 @@ def main():
             img_ext = match_images + ".png"
 
             formatOutput.output_matches(
-                img1_name, img2_name, matches, kp1, kp2, fd1, fd2, output_root, matches_folder_nm
+                img1_name,
+                img2_name,
+                matches,
+                kp1,
+                kp2,
+                fd1,
+                fd2,
+                output_root,
+                matches_folder_nm,
             )
 
             img_matches = plotImage.gen_matched_features(
@@ -151,7 +158,7 @@ def main():
             cv.destroyAllWindows()
 
             if comp_count % 10 == 1:
-                print("Completed", comp_count -1, "comparisons.")
+                print("Completed", comp_count - 1, "comparisons.")
 
     print("Feature matching complete.")
     print("Program flow complete!")

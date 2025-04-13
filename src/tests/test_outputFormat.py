@@ -1,17 +1,15 @@
+import os
+import sys
+
 import cv2 as cv
 import numpy as np
 import pandas as pd
-import sys
-import os
-from pathlib import Path
 import pytest
-
 
 current_dir = os.path.dirname(__file__)
 project_dir = os.path.abspath(os.path.join(current_dir, "..", "projectFiles"))
 sys.path.insert(0, project_dir)
 import projectFiles.OutputFormatModule as outmod
-
 
 
 @pytest.mark.parametrize("num_points", [1, 100, 1000])
@@ -27,7 +25,15 @@ def test_output_keypoints_variable_size(tmp_path, num_points):
 
     df = pd.read_csv(output_file)
     assert df.shape[0] == num_points
-    assert list(df.columns) == ["x", "y", 'size', 'angle', 'response', 'octave', 'class_id']
+    assert list(df.columns) == [
+        "x",
+        "y",
+        "size",
+        "angle",
+        "response",
+        "octave",
+        "class_id",
+    ]
 
 
 @pytest.mark.parametrize("num_points", [1, 100, 1000])
@@ -80,9 +86,19 @@ def test_output_matches_variable_size(tmp_path, num_matches):
 
     df = pd.read_csv(output_file)
     assert df.shape[0] == num_matches
-    assert all(col in df.columns for col in [
-        "Query Index", "Train Index", "Distance",
-        "Query X", "Query Y", "Train X", "Train Y",
-        "Query Descriptor", "Train Descriptor",
-        "Query Image ID", "Train Image ID"
-    ])
+    assert all(
+        col in df.columns
+        for col in [
+            "Query Index",
+            "Train Index",
+            "Distance",
+            "Query X",
+            "Query Y",
+            "Train X",
+            "Train Y",
+            "Query Descriptor",
+            "Train Descriptor",
+            "Query Image ID",
+            "Train Image ID",
+        ]
+    )

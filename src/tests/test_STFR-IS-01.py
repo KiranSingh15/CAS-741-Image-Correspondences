@@ -97,4 +97,3 @@ def test_image_smoothing(kernel_size=5, std_dev=1.0):
         f.write(helper.summarize_image_check_results(gk_errors, "smoothed"))
 
     print(f"Test STFR-IS-01 complete. Outputs archived to: {archive_dir}")
-

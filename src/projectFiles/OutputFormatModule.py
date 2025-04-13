@@ -142,7 +142,7 @@ def output_descriptors(keypoints, descriptors, image_id, parent_dir, target_fold
 
 # def output_matches(matches, kp1, kp2, image_id, target_folder):
 def output_matches(
-        query_img_ID, train_imd_ID, matches, kp1, kp2, desc1, desc2, parent_dir, target_dir
+    query_img_ID, train_imd_ID, matches, kp1, kp2, desc1, desc2, parent_dir, target_dir
 ):
     """
     Saves brute-force matching results to a CSV file using pandas.
@@ -174,19 +174,21 @@ def output_matches(
         q_desc_str = "".join(str(int(b)) for b in np.unpackbits(np.uint8(desc1[q_idx])))
         t_desc_str = "".join(str(int(b)) for b in np.unpackbits(np.uint8(desc2[t_idx])))
 
-        match_data.append([
-            q_idx,
-            t_idx,
-            match.distance,
-            round(q_kp[0]),
-            round(q_kp[1]),
-            round(t_kp[0]),
-            round(t_kp[1]),
-            q_desc_str,
-            t_desc_str,
-            query_img_ID,
-            train_imd_ID
-        ])
+        match_data.append(
+            [
+                q_idx,
+                t_idx,
+                match.distance,
+                round(q_kp[0]),
+                round(q_kp[1]),
+                round(t_kp[0]),
+                round(t_kp[1]),
+                q_desc_str,
+                t_desc_str,
+                query_img_ID,
+                train_imd_ID,
+            ]
+        )
 
     df = pd.DataFrame(
         match_data,
@@ -201,9 +203,8 @@ def output_matches(
             "Query Descriptor",
             "Train Descriptor",
             "Query Image ID",
-            "Train Image ID"
+            "Train Image ID",
         ],
     )
 
     df.to_csv(file_path, index=False)
-
