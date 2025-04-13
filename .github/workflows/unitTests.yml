@@ -21,9 +21,9 @@ jobs:
     - name: Install Make (if needed)
       run: sudo apt-get install -y make
 
-    - name: Run Makefile to set up venv
-      working-directory: src/tests
-      run: make
+    - name: Run Makefile to create .venv_ifcs and install requirements
+      run: make install
+      working-directory: src
 
     - name: Run unit tests from .venv_ifcs
       run: |
