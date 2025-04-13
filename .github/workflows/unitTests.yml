@@ -1,0 +1,38 @@
+name: CI – Unit Test Runner
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"  # Match your development version
+
+    - name: Install Make (if needed)
+      run: sudo apt-get install -y make
+
+    - name: Run Makefile to set up venv
+      working-directory: src/tests
+      run: make
+
+    - name: Run unit tests from .venv_ifcs
+      run: |
+        source src/.venv_ifcs/bin/activate
+        python test/run_unit_checks.py
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: unit-test-results
+        path: test/results/
