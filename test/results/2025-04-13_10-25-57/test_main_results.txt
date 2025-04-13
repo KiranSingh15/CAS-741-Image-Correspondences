@@ -1,9 +1,0 @@
-============================= test session starts =============================
-platform win32 -- Python 3.13.2, pytest-8.3.5, pluggy-1.5.0 -- C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\src\.venv_ifcs\Scripts\python.exe
-cachedir: .pytest_cache
-rootdir: C:\Course_Work\CAS_741\CAS-741-Image-Correspondences
-collecting ... ERROR: file or directory not found: C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\test\test_main.py
-
-collected 0 items
-
-============================ no tests ran in 0.00s ============================
