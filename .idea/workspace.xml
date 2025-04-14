@@ -5,46 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83549127-e72c-458a-814c-20cbf0c1bc1c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/tests/testImages/lego_swap/LG_SWAP_01.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/tests/testImages/lego_swap/LG_SWAP_02.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/tests/test_STNFR-RE-01.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/SRS/SRS.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/SRS/SRS.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/SRS/SRS.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/SRS/SRS.tex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/SRS/SystemContextFigure.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/SRS/SystemContextFigure.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/SRS/SystemContextFigure.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/SRS/SystemContextFigure.pptx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/VnVPlan/VnVPlan.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVPlan/VnVPlan.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/VnVPlan/VnVPlan.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVPlan/VnVPlan.tex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/refs/References.bib" beforeDir="false" afterPath="$PROJECT_DIR$/refs/References.bib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/ControlModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/ControlModule.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/OutputVerificationModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/OutputVerificationModule.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_000.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_002.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_003.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_004.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_005.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_006.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_007.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_008.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_009.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_010.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_011.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_012.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_013.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_014.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_015.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_016.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_017.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_018.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_019.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_020.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projectFiles/SpecificationParametersModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/SpecificationParametersModule.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/gen_arcuo.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/gen_aruco.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/test/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/run_unit_checks.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/run_unit_checks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_specParams.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_specParams.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

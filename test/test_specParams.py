@@ -24,6 +24,17 @@ test_k, test_sigma, test_t, test_b, test_p, test_d, test_displayed_matches = (
 
 # Gaussian Kernel
 def test_kernel_bounds():
+    """
+    Test that the assigned Gaussian kernel size is:
+    - an integer,
+    - an odd number,
+    - within the defined bounds (inclusive).
+
+    Fails if:
+    - the type is not int,
+    - the kernel size is even,
+    - the size falls outside of [3, 15].
+    """
     assert isinstance(test_k, int), "Lower Gaussian kernel limit must be an integer"
     assert test_k % 2 == 1, f"kern_bounds must be odd but is equal to {test_k}"
     assert test_k >= lim_kern_bounds[0], "Expected lower Gaussian kernel limit to be 3"
@@ -31,7 +42,19 @@ def test_kernel_bounds():
 
 
 # Gaussian Standard Deviation
-def test_kernel_bounds():  # if std dev is not a natural number, then need to account for floating point error
+def test_standard_deviation():  # if std dev is not a natural number, then need to account for floating point error
+    """
+    Verifies that the Gaussian standard deviation:
+    - is a float or int,
+    - is strictly greater than 0,
+    - is at most 10.
+
+    Uses epsilon for float rounding.
+
+    Fails if:
+    - the type is incorrect,
+    - it is out of the interval (0, 10].
+    """
     assert isinstance(test_sigma, (float, int)), f"sigma is of type {type(test_sigma)}."
     assert (
         test_sigma > lim_sd_bounds[0] - 1e-6
@@ -41,7 +64,17 @@ def test_kernel_bounds():  # if std dev is not a natural number, then need to ac
     ), f"Test Gaussian standard deviation  failed. (Standard Deviation = {test_sigma})"
 
 
+# Test FAST intensity threshold
 def test_fast_bounds():  # pixel intensity
+    """
+    Validates the FAST threshold parameter:
+    - must be an integer,
+    - in the range [2, 254].
+
+    Fails if:
+    - the type is incorrect,
+    - the value is outside the allowable threshold range.
+    """
     assert isinstance(test_t, int)
     assert (
         test_t >= lim_fast_bounds[0]
@@ -53,6 +86,15 @@ def test_fast_bounds():  # pixel intensity
 
 # Bin Size
 def test_bin_bounds():
+    """
+    Ensures the descriptor bin size:
+    - is an integer,
+    - falls within the allowed range [1, 2048].
+
+    Fails if:
+    - not an integer,
+    - value is out of range.
+    """
     assert isinstance(test_b, int)
     assert test_b >= lim_bin_bounds[0], f"Test bin size failed. (Bin size = {test_b})"
     assert test_b <= lim_bin_bounds[1], f"Test bin size failed. (Bin size = {test_b})"
@@ -60,6 +102,15 @@ def test_bin_bounds():
 
 # Patch Size
 def test_patch_size_bounds():
+    """
+    Verifies the patch size for feature descriptors:
+    - is an integer,
+    - is between 5 and 100, inclusive.
+
+    Fails if:
+    - not an integer,
+    - value out of range.
+    """
     assert isinstance(test_p, int)
 
     assert test_p >= lim_patch_sz[0], f"Test patch size failed. (Patch size = {test_p})"
@@ -68,6 +119,15 @@ def test_patch_size_bounds():
 
 # Match Distance Limit
 def test_match_distance_limits():
+    """
+    Confirms that the maximum match distance:
+    - is an integer,
+    - is within (0, 150].
+
+    Fails if:
+    - not an integer,
+    - value is nonpositive or above limit.
+    """
     assert isinstance(test_d, int)
     assert (
         test_d > lim_match_distance_limits[0]
@@ -79,6 +139,15 @@ def test_match_distance_limits():
 
 # Displayed Matches Count
 def test_num_match_disp():
+    """
+    Validates the number of displayed matches:
+    - is an integer,
+    - is in the range [1, 1000].
+
+    Fails if:
+    - not an integer,
+    - value is below 1 or above 1000.
+    """
     assert isinstance(test_displayed_matches, int)
     assert (
         test_displayed_matches >= lim_num_match_disp[0]
@@ -93,6 +162,17 @@ def test_num_match_disp():
 
 # Test available methods of processing
 def test_avail_methods():
+    """
+    Checks availability of at least one method in each category:
+    - Image smoothing,
+    - Keypoint detection,
+    - Feature description,
+    - Feature matching.
+
+    Fails if:
+    - any method list is not a list or tuple,
+    - any list is empty.
+    """
     assert isinstance(
         specParams.mthd_is, (list, tuple)
     ), f"The format of available image smoothing methods cannot be read."
@@ -121,6 +201,16 @@ def test_avail_methods():
 
 # Test User selected methods
 def test_selected_methods():
+    """
+    Ensures that user-specified methods for each processing stage:
+    - are integers,
+    - are non-negative (0 means disabled),
+    - align with valid enumerated options.
+
+    Fails if:
+    - not an int,
+    - value < 0.
+    """
     assert isinstance(
         specParams.mthd_img_smoothing, int
     ), f"The selected method of available image smoothing must be enumerated."

@@ -607,88 +607,385 @@ All modules have unit tests verifying both normal and edge case behavior. Each t
 Testing of the OpenCV Module itself is considered out of scope.
 
 \subsection{Tests for Functional Requirements}
+Note that the unit tests are not outlined in the numerical order of the modules (i.e. M1, M2, etc.) as it is intended to reflect a gradual increase in complexity of unit testing up to the \textbf{Control Module (M2)}. A full breakdown of the unit tests can be found in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/test}{\textbf{test}} folder of the Github Repository.
 
 
-\subsubsection{Module: Input Format Module}
+\subsubsection{Module: Specification Parameters Module (M4)}
+This module is responsible for housing the script that enables the users to configure the methods of image processing will be used in the pipeline and to adjust the respective tuning parameters for each method.
+
+\begin{enumerate}
+  \item \texttt{test\_kernel\_bounds} \textnormal{(from \texttt{test\_specParams.py})}. \\
+
+  Type: Unit, Automatic
+
+  Initial State: A predefined kernel value \texttt{test\_k} and kernel bounds \texttt{lim\_kern\_bounds = [3, 15]}.
+
+  Input: An integer representing a Gaussian kernel size.
+
+  Output: Assertion pass/fail depending on whether the kernel size is odd and within the inclusive bounds.
+
+  Test Case Derivation: This test is a simple check to ensure that the select kernel size is compatible with Gaussian filtering operations.
+
+  How test will be performed: Implemented via automated Pytest script and Github Actions. Checks that \texttt{test\_k} is of type \texttt{int}, odd-valued, and lies within the bounds.
+
+  \item \texttt{test\_standard\_deviation} \textnormal{(from \texttt{test\_specParams.py})}. \\
+
+  Type: Unit, Automatic
+
+  Initial State: A defined standard deviation value \texttt{test\_sigma} and limits \texttt{lim\_sd\_bounds = (0, 10]}.
+
+  Input: A float or integer representing Gaussian standard deviation.
+
+  Output: Assertion pass/fail if the value is not in \((0, 10]\), accounting for floating-point precision.
+
+  Test Case Derivation: Supports \textbf{R01}, validating continuous parameter constraints for Gaussian blur.
+
+  How test will be performed: Automated script via Pytest and GitHub Actions. Type-checked and validated using an epsilon margin for numerical stability.
+
+  \item \texttt{test\_fast\_bounds} \textnormal{(from \texttt{test\_specParams.py})}. \\
+
+  Type: Unit, Automatic
+
+  Initial State: FAST detection threshold \texttt{test\_t} and intensity limits \texttt{lim\_fast\_bounds = [2, 254]}.
+
+  Input: An integer intensity threshold value.
+
+  Output: Boolean result from assertion checking bounds compliance.
+
+  Test Case Derivation: Supports \textbf{R02}, ensuring intensity threshold parameterization for corner detection.
+
+  How test will be performed: Automated script via Pytest and GitHub Actions. The test asserts that the value lies within bounds and is an integer.
+
+  \item \texttt{test\_bin\_bounds} \textnormal{(from \texttt{test\_specParams.py})}. \\
+
+  Type: Unit, Automatic
+
+  Initial State: Descriptor bin count \texttt{test\_b}, constrained by \texttt{lim\_bin\_bounds = [1, 2048]}.
+
+  Input: Integer representing number of ORB descriptors to retain.
+
+  Output: Passes if within bounds, otherwise assertion error is raised.
+
+  Test Case Derivation: Enforces \textbf{R04}, which governs descriptor configuration consistency.
+
+  How test will be performed: Automated script via Pytest and Github Actions. Type and range checks performed on the bin size.
+
+  \item \texttt{test\_patch\_size\_bounds} \textnormal{(from \texttt{test\_specParams.py})}. \\
+
+  Type: Unit, Automatic
+
+  Initial State: Descriptor patch size \texttt{test\_p} bounded by \texttt{lim\_patch\_sz = [5, 100]}.
+
+  Input: Integer specifying the spatial extent for descriptor extraction.
+
+  Output: Assertion checks for compliance with defined patch size range.
+
+  Test Case Derivation: Related to \textbf{R03}, controlling spatial descriptor characteristics.
+
+  How test will be performed: Automated script via Pytest and Github Actions. The patch size is verified to be an integer and within range.
+
+  \item \texttt{test\_avail\_methods} \textnormal{(from \texttt{test\_specParams.py})}. \\
+
+  Type: Unit, Automatic
+
+  Initial State: Lists of available methods defined in \texttt{SpecificationParametersModule.py}:
+  \texttt{mthd\_is}, \texttt{mthd\_kpd}, \texttt{mthd\_fd}, \texttt{mthd\_ftm}.
+
+  Input: None (test inspects module-level variables).
+
+  Output: Assertion passes if each method list is a non-empty list or tuple.
+
+  Test Case Derivation: Supports \textbf{R06}, \textbf{R07}, and \textbf{R08} to ensure at least one method is implemented for each stage of the pipeline.
+
+  Test Cases:
+  \begin{itemize}
+    \item All lists are non-empty and of valid types (expected outcome: pass)
+    \item \texttt{mthd\_is = []} (expected outcome: fail)
+    \item \texttt{mthd\_fd = "ORB"} (expected outcome: fail)
+  \end{itemize}
+
+  How test will be performed: Automated script via Pytest and GitHub Actions. Module is imported and assertions are applied directly to global method lists without requiring user input.
+
+  \item \texttt{test\_selected\_methods} \textnormal{(from \texttt{test\_specParams.py})}. \\
+
+  Type: Unit, Automatic
+
+  Initial State: User-selected method identifiers from \texttt{SpecificationParametersModule.py}:
+  \texttt{mthd\_img\_smoothing}, \texttt{mthd\_kp\_detection}, \texttt{mthd\_kp\_description}, \texttt{mthd\_ft\_match}.
+
+  Input: Enumerated integer selections for each image processing stage.
+
+  Output: Assertion passes if all values are integers and \(\geq 0\).
+
+  Test Case Derivation: Automated script via Pytest and GitHub Actions. Supports ,\textbf{R06, R07, R08}, ensuring valid configuration and preventing undefined method selection.
+
+  Test Cases:
+  \begin{itemize}
+    \item All values are valid integers \(\geq 0\) (e.g., 1, 2, 3; expected outcome: pass)
+    \item \texttt{mthd\_img\_smoothing = -1} (expected outcome: fail)
+    \item \texttt{mthd\_ft\_match = "brute\_force"} (expected outcome: fail)
+  \end{itemize}
+
+  How test will be performed: Automated script via Pytest and GitHub Actions. Module-level configuration parameters are evaluated and asserted for type and range correctness.
+\end{enumerate}
+
+
+
+\subsubsection{Module: Input Format Module (M3)}
 
 This module is responsible for validating user inputs, setting defaults, and enforcing parameter bounds.
 
 \begin{enumerate}
-  \item \texttt{test\_check\_parameter\_limits\_valid} \textnormal{(from \texttt{test\_config.py})}. \\
+\item{test\_check\_parameter\_limits\_valid\\}
+
+Type: Functional, Automatic
+          
+Initial State: All parameters, including standard deviation $\sigma$ = 1.5, are within valid bounds.
+
+Input: $\sigma = 1.5$
+
+Output: No assertion error; standard deviation value accepted.
+
+Test Case Derivation: Satisfies \textbf{R01} where user input for $\sigma$  falls within allowable range $(0, 10]$.
+
+How test will be performed: Automated via Pytest and GitHub Actions using parameterized validation checks in \texttt{check\_parameter\_limits()}.
+
+\item{test\_check\_parameter\_limits\_valid\\}
 
 Type: Functional, Automatic
 
-Initial State: No image data required.
+Initial State: Threshold t = 100
 
-Input: Valid values for Gaussian kernel size, standard deviation, intensity threshold, bin size, patch size, and match filtering parameters.
+Input: t = 100
 
-Output: No exception is raised; internal assertion checks pass.
+Output: No assertion error; threshold value accepted.
 
-Test Case Derivation: Satisfies \textbf{R1} through \textbf{R4}, which require the IFC system to accept updated parameter inputs and validate them.
+Test Case Derivation: Address \textbf{R02} where the user-defined input for FAST threshold lies within [2, 254].
 
-How test will be performed: A set of valid parameters is passed to the validation function. The test passes if all assertions are satisfied.
+How test will be performed: Automated via Pytest and GitHub Actions using valid parameter combination.
+
+\item{test\_check\_parameter\_limits\_valid\\}
+
+Type: Functional, Automatic
+
+Initial State: Patch size = 20
+
+Input: Patch size = 20
+
+Output: No assertion error; patch size is accepted.
+
+Test Case Derivation: Addresses \textbf{R03} to confirm that patch size lies within range [5, 100] and is integer.
+
+How test will be performed: Automated script via Pytest and GitHub Actions using structured parameter validation.
+
+\item{test\_check\_parameter\_limits\_valid\\}
+
+Type: Functional, Automatic
+
+Initial State: Bin size = 128
+
+Input: bin size = 128
+
+Output: No assertion error; bin size accepted.
+
+Test Case Derivation: Addresses,\textbf{R04} to confirm that the bin size lies within [1, 2048].
+
+How test will be performed: Automated script via Pytest and GitHub Actions by calling \texttt{check\_parameter\_limits()} with all valid values.
+  
+\item{test\_check\_method\_limits\_valid\\}
+
+Type: Functional, Automatic
+
+Initial State: A mock list of available methods for each processing stage, [2, 3, 2, 2] 
+
+Input: (img, kp, desc, match) = (1, 2, 1, 2)
+
+Output: No assertion errors are raised; method selections are accepted as valid.
+
+Test Case Derivation: Ensures that selected method indices lie within allowed ranges (e.g., $\leq$ max available methods for each category). Supports defaults and user inputs for \textbf{R6–R8}.
+
+How test will be performed: Automated via Pytest using monkeypatching to mock method availability. Confirms the system accepts enumerated method inputs within valid bounds.
+
+\item{test\_check\_method\_limits\_invalid\\}
+
+Type: Functional, Automatic
+
+Initial State: A mock method list [2, 3, 2, 2] is returned by the system, limiting valid index ranges.
+
+Input: Various invalid combinations such as:
+\begin{itemize}
+  \item (img = -1), (kp = 4), (desc = 3), (match = -1)
+\end{itemize}
+
+Output: \texttt{AssertionError} is raised when any input exceeds its allowed range or is negative.
+
+Test Case Derivation: Verifies that invalid enumerations are properly rejected, preventing undefined behavior in the processing pipeline. Supports enforcement of valid method selection for \textbf{R6–R8}.
+
+How test will be performed: Automated script via Pytest and GitHub Actions using monkeypatched configuration. Each input case is run individually and expected to raise an \texttt{AssertionError}.
+
+
 \end{enumerate}
 
 
-\subsubsection{Module: Output Format Module}
+
+
+\subsubsection{Module: Output Format Module (M5)}
 
 These tests confirm that keypoints, descriptors, and matches are saved to CSVs correctly and scale with variable input sizes.
 
 \begin{enumerate}
+  \item{test\_output\_keypoints\_variable\_size\\}
+
+  Type: Functional, Automatic
+  
+  Initial State: The system is provided with a list of synthetically generated keypoints associated with a known image identifier. The number of keypoints is varied across test cases (1, 100, 1000).
+  
+  Input: A list of \texttt{cv::KeyPoint} objects representing features extracted from a synthetic image.
+  
+  Output: A CSV file containing one row per keypoint, with all required metadata fields: \texttt{x}, \texttt{y}, \texttt{size}, \texttt{angle}, \texttt{response}, \texttt{octave}, and \texttt{class\_id}.
+  
+  Test Case Derivation: This test verifies that the software fulfills \textbf{R10} by correctly encoding and exporting keypoints that have been detected per system thresholds.
+  
+  How test will be performed: An automated Pytest script calls the keypoint output routine, checks that the resulting file exists, confirms the expected number of rows, and asserts that the metadata fields are all present. Execution is handled via GitHub Actions.
+ 
+
+
+  \item{test\_output\_descriptors\_variable\_size\\}
+
+  Type: Functional, Automatic
+  
+  Initial State: The system is supplied with a list of synthetic \texttt{cv::KeyPoint} objects and a NumPy array of binary descriptors corresponding to a known image identifier. The number of keypoints and descriptors is varied across trials (1, 100, 1000).
+  
+  Input: A collection of keypoints and their corresponding ORB descriptors, encoded as 32-element \texttt{uint8} arrays.
+  
+  Output: A descriptor CSV file that accurately records the number of descriptors and includes all required descriptor metadata fields.
+  
+  Test Case Derivation: This test confirms that the IFC software fulfills \textbf{R11} by exporting a consistent, valid representation of keypoint descriptors derived from an image frame.
+  
+  How test will be performed: An automated Pytest script executes the descriptor output routine, checks for the existence of the CSV file, and validates both the row count and required columns. The test is deployed via GitHub Actions.
+  
+
+
   \item \texttt{test\_output\_matches\_variable\_size} \textnormal{(from \texttt{test\_outputFormat.py})}. \\
 
-Type: Functional, Automatic
+  Type: Functional, Automatic
 
-Initial State: Valid descriptors and matches for two synthetic images.
+  Initial State: Valid descriptors and matches for two synthetic images.
 
-Input: Keypoint pairs and matched descriptor arrays for \(n = 1000\) features.
+  Input: Keypoint pairs and matched descriptor arrays for \(n = 1000\) features.
 
-Output: A properly formatted CSV file with the correct number of rows and labeled fields.
+  Output: A properly formatted CSV file with the correct number of rows and labeled fields.
 
-Test Case Derivation: Satisfies \textbf{R14} and \textbf{R15}, which require the software to report unique correspondences and include camera/frame identifiers.
+  Test Case Derivation: Satisfies \textbf{R14} and \textbf{R15}, which require the software to report unique correspondences and include camera/frame identifiers.
 
-How test will be performed: Matches between descriptor sets are synthesized and passed to the output module. The resulting CSV file is parsed and validated for completeness.
+  How test will be performed: Matches between descriptor sets are synthesized and passed to the output module. The resulting CSV file is parsed and validated for completeness.
 \end{enumerate}
 
-\subsubsection{Module: Image Plotting Module}
+\subsubsection{Module: Image Plotting Module (M11)}
 
 Tests validate that keypoints and feature matches can be drawn to image composites and that directories are created when needed.
 
 \begin{enumerate}
-  \item \texttt{test\_gen\_matched\_features\_success} \textnormal{(from \texttt{test\_imagePlot.py})}. \\
+\item{test\_gen\_kp\_img\_with\_none\_keypoints\\}
 
 Type: Functional, Automatic
 
-Initial State: Two blank RGB images and corresponding keypoints and matches.
+Initial State: A blank image is provided, and no keypoints are passed to the plotting function.
 
-Input: Image pairs, synthetic keypoints, and a valid match list.
+Input: A 3-channel grayscale image (all zeros) and \texttt{None} for keypoints.
 
-Output: A composite image visualizing the matched features.
+Output: The function returns a valid image with the same shape as the input.
 
-Test Case Derivation: Supports \textbf{R15}, which requires outputs of feature correspondences to be visualized or recorded.
+Test Case Derivation: Confirms that keypoint visualization gracefully handles empty keypoint input without error.
 
-How test will be performed: Synthetic images and match structures are passed to the match plotting function, and the output image is checked for shape and data integrity.
+How test will be performed: Pytest executes the image rendering function and asserts that the result is a valid NumPy array of expected dimensions.
+
+\item{test\_gen\_kp\_img\_no\_flag\\}
+
+Type: Functional, Automatic
+
+Initial State: A small image and a list containing one keypoint.
+
+Input: A grayscale image and a list of \texttt{cv::KeyPoint} with no OpenCV draw flags.
+
+Output: An image with the keypoint drawn in the default style.
+
+Test Case Derivation: Ensures default rendering path functions correctly for basic keypoint visualization.
+
+How test will be performed: Pytest evaluates whether a valid image of the same shape is returned, confirming that drawing occurred without error.
+
+
+\item{test\_gen\_kp\_img\_rich\_keypoints\\}
+
+Type: Functional, Automatic
+
+Initial State: A grayscale image and a keypoint are passed, with the rich keypoint visualization flag enabled.
+
+Input: One keypoint and \texttt{cv::DRAW\_MATCHES\_FLAGS\_DRAW\_RICH\_KEYPOINTS}.
+
+Output: An annotated image with detailed keypoint rendering (e.g., size, orientation).
+
+Test Case Derivation: Verifies that the rich visualization mode of OpenCV is supported and produces valid output.
+
+How test will be performed: Pytest confirms output is a valid NumPy array and has the same spatial shape as the input image.
+
+
+\item{test\_gen\_kp\_img\_with\_none\_image\\}
+
+Type: Functional, Automatic
+
+Initial State: No image is passed to the visualization function.
+
+Input: \texttt{None} as the input image and an empty list of keypoints.
+
+Output: An OpenCV error is raised, indicating that image input is required.
+
+Test Case Derivation: Ensures input validation is enforced and invalid image input is handled via exception.
+
+How test will be performed: Pytest uses \texttt{raises()} context to assert that a \texttt{cv::error} is thrown.
+
+
+
+\item{test\_gen\_matched\_features\_success\\}
+
+Type: Functional, Automatic
+
+Initial State: Two synthetic images, a pair of keypoints, and one match are provided.
+
+Input: Two images, keypoint sets, and a \texttt{cv::DMatch} object.
+
+Output: A composite image visualizing the matched keypoints.
+
+Test Case Derivation: Confirms that the software can render visual correspondence between two keypoints using OpenCV's drawing routines.
+
+How test will be performed: Pytest checks the output image is valid and has a height greater than zero (indicating combined image was generated).
+
 \end{enumerate}
 
 
 
-\subsubsection{Module: Image Smoothing Module}
+\subsubsection{Module: Image Smoothing Module (M7)}
 Gaussian filtering is tested for correct kernel size, standard deviation, and type safety.
 
 \begin{enumerate}
   \item \texttt{test\_smooth\_image\_valid\_gaussian} \textnormal{(from \texttt{test\_imagesmooth.py})}. \\
 
 Type: Functional, Automatic
+
 Initial State: A synthetic noisy grayscale image.
+
 Input: Method index \(= 1\); kernel size \(= 5\); standard deviation \(\sigma = 1.0\).
+
 Output: A smoothed image with unchanged dimensions and type.
+
 Test Case Derivation: Satisfies \textbf{R9}, which requires the system to perform noise reduction based on user-specified standard deviation.
+
 
 How test will be performed: Random noise is applied to a grayscale image, Gaussian smoothing is applied, and differences from the input are confirmed.
 \end{enumerate}
 
 
-\subsubsection{Module: Keypoint Detection Module}
+\subsubsection{Module: Keypoint Detection Module (M8)}
 Keypoint detection via ORB is tested for valid configurations, disabled methods, and behavior with missing components.
 
 \begin{enumerate}
@@ -704,11 +1001,11 @@ Keypoint detection via ORB is tested for valid configurations, disabled methods,
   
   Test Case Derivation: According to \textbf{R10}, the system must detect keypoints using the provided image and method.
   
-  How test will be performed: ORB is initialized and applied to a blank image. It verifies the returned keypoints are instances of \texttt{cv2.KeyPoint}.
+  How test will be performed: Automated script via Pytest and GitHub Actions using structured parameter validation. ORB is initialized and applied to a blank image. It verifies the returned keypoints are instances of \texttt{cv2.KeyPoint}.
   \end{enumerate}
   
 
-\subsubsection{Module: Feature Descriptor Module}
+\subsubsection{Module: Feature Descriptor Module (M9)}
 \begin{enumerate}
   \item \texttt{test\_compute\_descriptors\_valid} \textnormal{(from \texttt{test\_featdesc.py})}
   
@@ -722,144 +1019,217 @@ Keypoint detection via ORB is tested for valid configurations, disabled methods,
   
   Test Case Derivation: According to \textbf{R11}, the system must generate valid descriptors from previously identified keypoints.
   
-  How test will be performed: Random image data is used to generate keypoints. These are passed to the descriptor method, and the output types and dimensions are validated.
+  How test will be performed: Automated script via Pytest and GitHub Actions using structured parameter validation. Random image data is used to generate keypoints. These are passed to the descriptor method, and the output types and dimensions are validated.
   \end{enumerate}
   
 
 
 
-  \subsubsection{Module: Feature Matching Module}
+\subsubsection{Module: Feature Matching Module (M10)}
 
-  Tests ensure descriptors from different images are correctly matched using brute-force Hamming distance and validated for 1-to-1 correspondence.
-  
-  \begin{enumerate}
-    \item \texttt{test\_match\_features\_no\_loss} \textnormal{(from \texttt{test\_featmatches.py})}
-    
-    Type: Functional, Automatic
-    
-    Initial State: Identical descriptors from two images.
-    
-    Input: Descriptor arrays \texttt{desc1} and \texttt{desc2} (identical), and a matcher configured for Hamming distance.
-    
-    Output: A list of matches, one per descriptor.
-    
-    Test Case Derivation: Satisfies \textbf{R12}, ensuring all descriptors from matching images are paired correctly when descriptors are identical.
-    
-    How test will be performed: Two identical descriptor sets are matched with a brute-force matcher using cross-checking. One-to-one matching is expected.
-    \end{enumerate}
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\subsubsection{Module 1}
-
-\wss{Include a blurb here to explain why the subsections below cover the module.
-  References to the MIS would be good.  You will want tests from a black box
-  perspective and from a white box perspective.  Explain to the reader how the
-  tests were selected.}
+Tests ensure descriptors from different images are correctly matched using brute-force Hamming distance and validated for 1-to-1 correspondence.
 
 \begin{enumerate}
-
-\item{test-id1\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
-
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
-
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-
-How test will be performed: 
-
-\item{...\\}
+  \item \texttt{test\_match\_features\_no\_loss} \textnormal{(from \texttt{test\_featmatches.py})}
+  
+  Type: Functional, Automatic
+  
+  Initial State: Identical descriptors from two images.
+  
+  Input: Descriptor arrays \texttt{desc1} and \texttt{desc2} (identical), and a matcher configured for Hamming distance.
+  
+  Output: A list of matches, one per descriptor.
+  
+  Test Case Derivation: Satisfies \textbf{R12}, ensuring all descriptors from matching images are paired correctly when descriptors are identical.
+  
+  How test will be performed: Automated script via Pytest and GitHub Actions using structured parameter validation. Two identical descriptor sets are matched with a brute-force matcher using cross-checking. One-to-one matching is expected.
+  \end{enumerate}
     
+
+\subsubsection{Module: Output Verification Module (M6)}
+These tests are intended to address  \textbf{R13}.
+
+\begin{enumerate}
+\item{test\_check\_match\_uniqueness\_valid\\}
+
+Type: Functional, Automatic
+
+Initial State: Two distinct image IDs are provided, with an empty match list.
+
+Input: \texttt{img\_query = "img001"}, \texttt{img\_train = "img002"}, and \texttt{matches = []}.
+
+Output: The function returns \texttt{True} with no warnings.
+
+Test Case Derivation: Satisfies \textbf{R13} by ensuring that valid matches between distinct images pass silently, confirming proper inter-image correspondence.
+
+How test will be performed: Pytest executes the uniqueness check and asserts that the return value is \texttt{True} and no warning is issued.
+
+\item{test\_check\_match\_uniqueness\_warns\_for\_same\_ids\\}
+Type: Functional, Automatic
+
+Initial State: Two identical image IDs are passed as both query and train identifiers, with an empty match list.
+
+Input: \texttt{img\_query = "img001"}, \texttt{img\_train = "img001"}, \texttt{matches = []}.
+
+Output: The function returns \texttt{True} and raises a \texttt{UserWarning} about non-unique image match.
+
+Test Case Derivation: Satisfies \textbf{R13} by confirming that the system detects invalid intra-image match attempts and flags them appropriately.
+
+How test will be performed: Pytest asserts that a \texttt{UserWarning} is raised and that the return value remains \texttt{True} for compatibility.
+
+\item{test\_check\_match\_uniqueness\_warns\_with\_matches\\}
+
+Type: Functional, Automatic
+
+Initial State: Two identical image IDs are passed along with a list of dummy matches.
+
+Input: \texttt{img\_query = "imgA"}, \texttt{img\_train = "imgA"}, \texttt{matches = [match1, ..., match5]}.
+
+Output: A \texttt{UserWarning} is issued despite the presence of match data.
+
+Test Case Derivation: Reinforces \textbf{R13} by demonstrating that even non-empty match lists are flagged if the query and train image IDs are not unique.
+
+How test will be performed: Pytest checks for the expected warning condition using \texttt{pytest.warns()} and validates that the warning mechanism functions regardless of match list content.
+
 \end{enumerate}
 
-\subsubsection{Module 2}
 
-...
+\subsubsection{Module: Control Module (M2)}
+Tests the end-to-end IFC pipeline using synthetic image inputs. This includes validation of intermediate image outputs (grayscale and smoothed), feature detection, descriptor generation, match computation, and their respective CSV and image outputs.
+  
+\begin{enumerate}
+\item \texttt{test\_pipeline\_synthetic\_images} \textnormal{(from \texttt{test\_main.py})}
+
+Type: Functional, Automatic
+
+Initial State: Two synthetic RGB images created with distinct geometric features.
+
+Input: Two test images (\texttt{synthetic\_01.png}, \texttt{synthetic\_02.png}) and a patched configuration with default parameters.
+    
+Output: 
+\begin{itemize}
+\item Grayscale images in \texttt{gsImagery/}
+\item Smoothed images in \texttt{gkImagery/}
+\item Keypoints in \texttt{kpDetection/*.csv} and \texttt{*.png}
+\item Descriptors in \texttt{fDescriptors/*.csv} and \texttt{*.png}
+\item Matches in \texttt{fMatches/*.csv} and \texttt{*.png}
+\end{itemize}
+
+Test Case Derivation: Addresses \textbf{R10} through \textbf{R12}, ensuring that all required outputs of the image processing pipeline are generated and correctly formatted.
+
+How test will be performed: Automated script via Pytest and GitHub Actions using structured parameter validation. The full pipeline is executed on two synthetic images that are used as inputs, with defaults of the system methods and parameters being used. The test asserts that all expected files are created and accessible in their respective output directories. Filenames and structures are verified using deterministic patterns derived from the test inputs.
+\end{enumerate}
+
 
 \subsection{Tests for Nonfunctional Requirements}
 
-\wss{If there is a module that needs to be independently assessed for
-  performance, those test cases can go here.  In some projects, planning for
-  nonfunctional tests of units will not be that relevant.}
+\subsubsection{Control Module (M2)}
 
-\wss{These tests may involve collecting performance data from previously
-  mentioned functional tests.}
-
-\subsubsection{Module 3}
-		
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{test\_timing\_metrics\_recorded\\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
+Type: Functional, Dynamic, Automatic
+        
+Initial State: The IFC system is configured to execute the full image processing pipeline (grayscale conversion, smoothing, keypoint detection, descriptor extraction, matching), with metric logging enabled.
 
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
+Input: A small batch of synthetic images with known dimensions and content.
+
+Output: A structured log (e.g., CSV or JSON) reporting elapsed time (in milliseconds) for each of the following: grayscale conversion, smoothing, keypoint detection, descriptor extraction, and matching.
+
+Test Case Derivation: This test ensures the software satisfies \textbf{FR4} by confirming that each stage of the pipeline logs its processing time explicitly.
+
+How test will be performed: Automated test script wraps each pipeline call with a timing logger (e.g., \texttt{time.perf\_counter()}), collects the reported values, and asserts presence, validity (non-negative), and uniqueness of timing data for each processing stage. Deployed via Pytest and validated under CI with GitHub Actions.
+  
+
+\item{test\_memory\_metrics\_recorded\\}
+
+Type: Non-Functional, Dynamic, Automatic
+          
+Initial State: The system executes a full image processing task with memory profiling tools enabled (e.g., \texttt{tracemalloc} or \texttt{psutil}).
+
+Input: A single grayscale image passed through all processing stages (smoothing, feature detection, description, and matching).
+
+Output: A report containing average and peak memory usage (in kilobytes or megabytes) for each processing operation.
+
+Test Case Derivation: Ensures compliance with \textbf{NFR5} by verifying that memory usage statistics are gathered and reported correctly.
+
+How test will be performed: The test is run with a memory profiling context around each major function. After execution, the test checks that memory metrics exist for each stage, are numeric, and include both mean and peak usage values. Can be executed in Pytest with plugins such as \texttt{pytest-monitor} or custom logging using \texttt{psutil}.
+  
 
 \end{enumerate}
 
-\subsubsection{Module ?}
-
-...
 
 \subsection{Traceability Between Test Cases and Modules}
+A full outline of the traceability between the unit tests and the modules as outlined in the MIS is provided in Figure \ref{tab:mod_units}.
 
-\wss{Provide evidence that all of the modules have been considered.}
+% Define plain text symbols
+\newcommand{\markinit}{\texttt{/}}   % initialization
+\newcommand{\markyes}{\texttt{x}}    % module tested
+\newcommand{\markna}{\texttt{-}}     % not applicable
+
+\begin{table}[htbp]
+  \centering
+  \renewcommand{\arraystretch}{1.4}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|}
+  \hline
+  \textbf{Test Name} & \textbf{M1} & \textbf{M2} & \textbf{M3} & \textbf{M4} & \textbf{M5} & \textbf{M6} & \textbf{M7} & \textbf{M8} & \textbf{M9} & \textbf{M10} & \textbf{M11} \\
+  \hline
+  test\_pipeline\_synthetic\_images & \markinit & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  \hline 
+  test\_check\_parameter\_limits\_valid & \markinit & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_check\_method\_limits\_valid & \markinit & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_check\_method\_limits\_invalid & \markinit & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  \hline
+
+  test\_kernel\_bounds & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_standard\_deviation & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_fast\_bounds & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_bin\_bounds & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_patch\_size\_bounds & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_avail\_methods & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_selected\_methods & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  \hline
+  
+  test\_output\_keypoints\_variable\_size & \markinit & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_output\_descriptors\_variable\_size & \markinit & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_output\_matches\_variable\_size & \markinit & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna \\
+  \hline
+
+  test\_check\_match\_uniqueness\_valid & \markinit & \markna & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna \\
+  test\_check\_match\_uniqueness\_warns\_for\_same\_ids & \markinit & \markna & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna \\
+  test\_check\_match\_uniqueness\_warns\_with\_matches & \markinit & \markna & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna \\
+  \hline
+
+  test\_smooth\_image\_valid\_gaussian & \markinit & \markna & \markna & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna \\
+  \hline
+
+  test\_detect\_keypoints\_with\_valid\_orb & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markyes & \markna & \markna & \markna \\
+  \hline
+
+  test\_compute\_descriptors\_valid & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes & \markna & \markna \\
+  \hline
+
+  test\_match\_features\_no\_loss & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes & \markna \\
+  \hline
+
+  test\_gen\_kp\_img\_with\_none\_keypoints & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes \\
+  test\_gen\_kp\_img\_no\_flag & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes \\
+  test\_gen\_kp\_img\_rich\_keypoints & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes \\
+  test\_gen\_kp\_img\_with\_none\_image & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes \\
+  test\_gen\_matched\_features\_success & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes \\
+
+
+
+  \hline
+  \end{tabular}%
+  }
+  \caption{Traceability matrix mapping unit tests to associated software modules (M2–M11).}
+  \label{tab:mod_units}
+  \end{table}
+  
+
 				
 \bibliographystyle{plainnat}
 
