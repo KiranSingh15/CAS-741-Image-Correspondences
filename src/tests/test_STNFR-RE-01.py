@@ -1,9 +1,10 @@
+import shutil
 import sys
 from pathlib import Path
-import pandas as pd
-import shutil
-import pytest
+
 import cv2 as cv
+import pandas as pd
+import pytest
 
 # Allow local helper import
 current_dir = Path(__file__).parent
@@ -15,16 +16,16 @@ project_dir = current_dir.parent / "projectFiles"
 sys.path.insert(0, str(project_dir))
 import ControlModule as control
 import InputFormatModule as config
-import OutputFormatModule as output
 
 lego_img_ID = ["LG_02.png", "LG_03.png"]
 lego_swap_ID = ["LG_SWAP_02.png", "LG_SWAP_01.png"]
+
 
 def load_descriptor_pairs_with_coords(match_folder, img_ids):
     """Load match descriptor and (x,y) coords as unordered sets."""
     desc_pairs = set()
     for csv_file in match_folder.glob("*.csv"):
-        if not any(img_id.replace('.png', '') in csv_file.name for img_id in img_ids):
+        if not any(img_id.replace(".png", "") in csv_file.name for img_id in img_ids):
             continue
         df = pd.read_csv(csv_file)
         for _, row in df.iterrows():
@@ -34,13 +35,18 @@ def load_descriptor_pairs_with_coords(match_folder, img_ids):
                 dq = row.get("Query Descriptor", "").strip()
                 dt = row.get("Train Descriptor", "").strip()
                 if dq and dt:
-                    desc_pairs.add(frozenset([
-                        (round(qx, 1), round(qy, 1), dq),
-                        (round(tx, 1), round(ty, 1), dt)
-                    ]))
+                    desc_pairs.add(
+                        frozenset(
+                            [
+                                (round(qx, 1), round(qy, 1), dq),
+                                (round(tx, 1), round(ty, 1), dt),
+                            ]
+                        )
+                    )
             except Exception:
                 continue
     return desc_pairs
+
 
 def copy_match_outputs(source_dir, target_dir):
     """Copy all match CSVs and PNGs to archive output."""
@@ -48,6 +54,7 @@ def copy_match_outputs(source_dir, target_dir):
     for file in source_dir.glob("*"):
         if file.suffix in [".csv", ".png"]:
             shutil.copy(file, target_dir)
+
 
 @pytest.mark.repeatability
 def test_repeatability_controlmodule_output():
@@ -119,4 +126,6 @@ def test_repeatability_controlmodule_output():
         if not unmatched_a and not unmatched_b:
             f.write("All descriptor + coordinate matches are repeatable.\n")
 
-    assert not unmatched_a and not unmatched_b, "Mismatch in descriptor-coordinate matches across datasets"
+    assert (
+        not unmatched_a and not unmatched_b
+    ), "Mismatch in descriptor-coordinate matches across datasets"
