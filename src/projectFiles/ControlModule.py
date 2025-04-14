@@ -25,17 +25,6 @@ except ImportError:
     import OutputVerificationModule as verifyOutput
 
 
-# import projectFiles.FeatureDescriptorModule as assignDescriptors
-# import projectFiles.FeatureMatchingModule as matchFeatures
-# import projectFiles.ImagePlotModule as plotImage
-# import projectFiles.ImageSmoothingModule as smoothImage
-# import projectFiles.InputFormatModule as config
-# import projectFiles.KeypointDetectionModule as detectKeypoints
-# import projectFiles.OutputFormatModule as formatOutput
-# import projectFiles.OutputVerificationModule as verifyOutput
-# import projectFiles.SpecificationParametersModule as specParams
-
-
 def main():
     # Run the Input Format Module
     head_dir = config.get_head_directory()

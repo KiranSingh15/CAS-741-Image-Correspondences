@@ -278,5 +278,6 @@ TSWLatexianTemp*
 # DS_Store file from Mac computers
 .DS_Store
 
-# Ignore Outputs from projectFiles git stats
+# Ignore Outputs from projectFiles and functional tests
 src/projectFiles/Outputs/
+src/tests/Outputs/

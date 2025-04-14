@@ -5,6 +5,7 @@
 \usepackage{hyperref}
 \usepackage{pdflscape}
 \usepackage{graphicx}
+\usepackage{amsmath}
 \usepackage{float}
 \hypersetup{
     colorlinks,
@@ -55,6 +56,7 @@
   a & arbitrary positive integer\\
   CAS & Computing and Software\\
   CI & Continuous Integration\\
+  CSV & Comma-Separated Values\\
   DE & Domain Expert \\
   $d_{total}$ & bin size, or number of binary descriptions \\
   $D_{bin}$ & 1D array of 32 byte binary strings \\
@@ -69,10 +71,11 @@
   MIS & Module Interface Specification\\
   $n$ & vertical image dimension\\
   ORB & Oriented FAST and Rotated BRIEF\\
+  $p$ & patch size\\
   PEP8 & Python Enhancement Proposal-8\\
+  PNG & Portable Network Graphic\\
   PS & Project Supervisor\\
   RGB & Red-Green-Blue coloured imagery\\
-  $s$ & patch size\\
   SDI & Software Design Instructor\\
   SLAM & Simultaneous Localization and Mapping\\
   SRS & Software Requirements Specification\\
@@ -85,12 +88,12 @@
 \newpage
 
 \pagenumbering{arabic}
-\noindent The intent of this document is to define the verification and validation (VnV) processes
+\noindent The intent of this document is to define the Verification and Validation (VnV) processes
 that will be used to assess \progname, (IFC) software. Specifically, this document will be used to 
 characterize the behaviour and performance of this software. The remaining sections of this document 
 outline a detailed summary of the specific objectives of the VnV campaign. This includes considerations 
-for the scope of the VnV efforts with respect to contraints that stem from the CAS 741 
-development schedule, as well as anticipated activities beyond the scope of CAS 741.
+for the scope of the VnV efforts with respect to contraints that stem from the Winter 2025
+development schedule, as well as anticipated activities for the Summer 2025 development cycle.
 Verification procedures are present for select deliverables and milestone, and include 
 an overview of anticipated cases for both system tests unit tests.
 
@@ -119,32 +122,41 @@ are defined below.
   memory usage
   \item cross-validate the performance of the IFC software with accepted benchmarked datasets
 \end{itemize}
-
 Verification of the individual functions within the OpenCV library themselves falls outside of the 
 scope of this project, as we can assume that the library has been verified by its own 
 implementation team. 
 \\ \\
 
 \subsection{Challenge Level and Extras}
-The proposed software will serve as the front end of a robust optimization framework 
-for extrinsic camera calibration. The IFC software must be capable of handling large volumes of 
-high-resolution imagery while ensuring reliability through consistent and repeatable outputs. 
-The software will be designed for robustness in data processing, accommodating a wide range of 
-input conditions. Additionally, it will maintain a streamlined user experience, allowing users 
-to override select default parameters while ensuring that the learning curve remains minimal 
-for efficient adoption. 
+% Updated to clearly indicate the challenge level of the project and how it consitutes the first portion of a larger image processing pipeline for MASc studies.
+The proposed software constitutes a research project, as the IFC software serves as the front end of a robust optimization framework 
+for extrinsic camera calibration. The IFC software must be capable of handling large volumes of high-resolution imagery while ensuring reliability through consistent and repeatable outputs. The software will be designed for robustness in data processing, accommodating a wide range of input conditions. Additionally, it will maintain a streamlined user experience, allowing users to override select default parameters while ensuring that the learning curve remains minimal for efficient adoption. 
 
-As the long-term goal for this software is to absorb it into a larger calibration 
-pipeline for research in the domain of mobile robotic, this project is defined as 
-an advanced level of challenge. In addition to the standard codebase, verification 
-report, and documentation for the CAS 741 deliverables, a User Manual shall also be 
-submitted to support future development of the IFC software and its integration into 
-the full camera calibration pipeline.
+As the long-term goal for this software is to absorb it into a larger calibration pipeline for research in the domain of mobile robotic, this project is defined as an advanced level of challenge. This program will supply a set of installation instructions, source code, test scripts, test imagery, and verification report. No additional documentation, such as a user manual will be provided.
 
 \subsection{Relevant Documentation}
 Relevant documentation has been hyperlinked throughout the length of the document. This enables 
-the reader to access each resource within the context of the section that the reference is 
-invoked.
+the reader to access each resource within the context of the section that the reference is invoked.
+\begin{itemize}
+\item \textbf{Software Requirements Specification \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
+{(SRS)}}
+\item \textbf{Module Guide \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftArchitecture/MG.pdf}
+{(MG)}} 
+\item 
+\textbf{Module Interface Specification \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}{(MIS)}}
+\end{itemize}
+
+Additional document includes the checklists as follows.
+\begin{itemize}
+\item \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/
+main/docs/Checklists/SRS-Checklist.pdf}
+{SRS Checklist}}. 
+\item \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/MG-Checklist.pdf}
+{MG Checklist}} 
+\item \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/MIS-Checklist.pdf}{MIS Checklist}}
+\item \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/VnV-Checklist.pdf}
+{VnV Checklist}}
+\end{itemize}
 
 \section{Plan}
 This section outlines how each aspect of the VnV effort will be performed. This may be handled by 
@@ -213,10 +225,10 @@ main/docs/Checklists/SRS-Checklist.pdf}
 {SRS Checklist}}. 
 The lead developer will respond in turn to each issue and if 
 reserves the right to reject a proposed change as needed. \\
-The Lead Developer will schedule a meeting with the PS to walk through 
+The Lead Developer will schedule a meeting with the Project Supervisor to walk through 
 the first revision of the \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
 {SRS}}
- document. In this meeting, the PS will offer 
+ document. In this meeting, the Project Supervisor will offer 
 feedback and recommendations for candidate revisions to the outlined models and requirements. 
 The Lead Developer will then create issues in Github to address each proposed revision.
 
@@ -227,9 +239,9 @@ The DE and SDI will review the Module Guide
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}
 {(MIS)}} against the 
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/MG-Checklist.pdf}
-{MG}} and
+{MG Checklist}} and
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/MIS-Checklist.pdf}
-{MIS}} checklists. The objective of this review cycle is to ensure that the design of the system:
+{ Checklist}}. The objective of this review cycle is to ensure that the design of the system:
 \begin{enumerate}
 \item is unambiguous
 \item adheres to best-practices of module design
@@ -242,17 +254,13 @@ The DE and SDI will review the Module Guide
 \subsection{Verification and Validation Plan Verification Plan}
 The VnV Plan will be verified via inspection by the DE and the 
 Software Development Instructor. The 
-\textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/SRS-Checklist.pdf}
+\textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Checklists/VnV-Checklist.pdf}
 {VnV Plan Checklist}} 
 will be used as the assessment criteria for the inspection. 
 Feedback will provided as Github issues and will be handled in the same manner as feedback 
 for the SRS.\\ \\
-Mutation testing will be performed against the tests outlined in Section \ref{UTD}, which are expected to be 
-completed as part of a Rev 2.0 release of the VnV Plan, as part of the initial release (Rev 1.0) of the 
-{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftArchitecture/MG.pdf}
-{(MG)}} and 
-{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}
-{(MIS)}}.
+
+% Removed discussion of mutation testing due to schedule constraints.
 
 \subsection{Implementation Verification Plan}
 The IFC software shall be verified against the test procedures outlined in Sections \ref{FR_Tests} and 
@@ -270,18 +278,12 @@ Several tools will be used to support automated testing and verification. They i
 to run automated tests.
 \item Pytest will be used to execute system tests, unit tests, and to assess code coverage. 
 \item flake8 will be used as a linter to ensure adherence to PEP8 standards. 
-\item PyLint, as an alternative linter to flake8.
+% Pylint has been removed in favour of flake8
 \end{itemize}
 
 \subsection{Software Validation Plan}
-The IFC software will be compared against benchmark data from one or more of the following 
-\href{https://github.com/youngguncho/awesome-slam-datasets}{SLAM datasets} that feature camera imagery data. 
-These datasets provide a much more challenging scene to identify and match features than generated binary markers. 
-Imagery from the selected datasets will be preprocessed 
-from RGB data to greyscale data, and will undergo a testing procedure similar to that of the systems tests 
-outlined in Section \ref{FR_Tests}. These tests would be inclusive of the general form of timing and memory 
-usage  metrics outlined in Section \ref{Performance}. These tests may exceed the constraints of the  CAS 
-741 schedule and will be continued as part of future work.
+% Updated per Instructor feedback on Rev 1.0
+Validation testing has been identified as out of scope for the IFCS software.
 
 \section{System Tests}\label{Sys_Tests}
 This section outlines the general roadmap for the required integrated system tests. 
@@ -302,10 +304,9 @@ Section 5 of the
 
 \begin{figure}[h!]
   \begin{center}
-   \includegraphics[width=0.6\textwidth]{images/GS_ArUco_Field_Image.jpg}
+   \includegraphics[width=0.6\textwidth]{images/aruco_000.png}
   \caption[An example of ArUco patterns within the scene of a captured greyscale image]
-  {An example of ArUco patterns within the scene of a captured greyscale image. 
-  Image taken from \cite{ARUCO_Markers_openCV}}
+  {Expected baseline ArUco pattern for functional tests STFR-IS-01, STFR-KP-01, STFR-FD-01, and STFR-FM-01}
   \label{gs_aruco_field} 
   \end{center}
 \end{figure}
@@ -328,18 +329,12 @@ requirements R1 through R7 and R9 through R11, in Section 5.1 of the
 
 \textbf{Input:} Generated binary patterned fiducial markers, named 
 \href{https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html}
-{ArUco} markers, will be used as simplified targets for corner detection. A depiction of these markers is shown 
-in Figure \ref{gen_aruco}. A collection of 20 images that contain ArUco markers within the image scene will be 
-provided as test inputs, as shown in Figure \ref{gs_aruco_field}. Each image $I$ will be defined as 2D array of 
-a user-specified resolution. The user will also assign the image intensity standard deviation $\sigma$ to define 
-the size of the Gaussian Kernel.
+{ArUco} markers, will be used as simplified targets for corner detection. The script that is used to generate these images is provided in the src code, \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/src/tests/gen_arcuo.py}{gen\_aruco.py}.A depiction of these markers is shown in Figure \ref{gen_aruco}. This script generates an initial image with contains 25 $6\times 6$-bit ArUco markers. It uses a seed of 42 to perform scaling, rotational, and translational transforms on the baseline marker. These transforms range between $-45^\circ$ and $45^\circ$, 30 pixels of lateral translation, and a scaling factor between 0.5 and 0.9. A total of 20 transformed images are produced as inputs for the test. Each image $I$ is defined as a 2D image of $600 \times 600$ pixel resolution. A Gaussian smoothing kernel of 5 and standard deviation of 1.0 will be used to smooth the edges of the imagery. 
 
-\textbf{Output:} 20 output images as a 2D array, each of which have a descriptive name that clearly identifies the 
-input image from which it originates. The $I'$ array should be of equal size and the same data type as its 
-corresponding image $I$. All images should be saved under its own uniquely named folder to prevent mixing 
-of input and output imagery.
+\textbf{Output:} 20 output images as a 2D array, each of which have a descriptive name that clearly identifies the input image from which it originates. In this case, all images should use the convention of 'aruco\_xxx.png', where 'xxx' represents the enumerated ID of the ArUco marker. The output image, $I'$, should be of equal size and the same data type as its 
+corresponding image $I$. All images should be saved under a distinct folder to prevent mixing of input and output imagery.
 
-\textbf{How test will be performed:} Automated Tools (i.e. Pytest)
+\textbf{How test will be performed:} Automated Tools (i.e. Pytest). If the ArUco imagery is not provided in the src/tests folder, then the user needs to run the gen\_aruco.py script to generate the test imagery. Once complete, the user needs to only run STFR-IM-01.py via Pytest while in the src folder to run the test. The pytest file then checks each generated image to confirm that it has the same size and image datatype as the original input image. If each image has a resolution of $600 \times 600$ pixels and is an image of type unit8, then the test is considered a pass.
 
 \end{enumerate}
 
@@ -353,15 +348,13 @@ of input and output imagery.
 
 \textbf{Initial State:} Uninitialized			
 
-\textbf{Input:} A collection of 20 smoothed images $I'$, each defined as 2D array of specified resolution, that 
-contain a binary patterned fiducial markers as outlined in System Test \hyperlink{STFR-IS-01}{STFR-IS-01}. 
-A permissible image intensity threshold, $t$, shall also be introduced, where $t$ is defined as a non-zero 
-positive integer between 1 and 255.
+\textbf{Input:} A collection of 20 smoothed PNG images $I'$ with a resolution of $600\times 600$ that 
+contain the same ArUco markers as outlined in System Test \hyperlink{STFR-IS-01}{STFR-IS-01}. The user assigns a pixel intensity threshold ($t$) of 60.
 
 \textbf{Output:} A flag which indicates that corner detection is active. 
 A 2D array of size ${k \times m}$, where $k$ is the quantity of identified keypoints and the first and second columns are populated with the horizontal and vertical coordinates for each keypoint. Each entry in the array should be rounded to a positive integer value. Any outstanding columns may be populated with associated metadata as a product of the selected method of keypoint detection. For example, oriented FAST (o-FAST) differs from standard FAST in that it also provides an measure of rotation for each keypoint as an additional column. Each array should have a unique title that clearly defines the original image from which its keypoints were identified. All output arrays should be saved to a unique folder to separate them from the input images.
 
-\textbf{How test will be performed:} Automated Tools (i.e. Pytest)
+\textbf{How test will be performed:} Automated Tools (i.e. Pytest)If the smoothed ArUco imagery is not provided in the src/tests folder, then the user needs to run the gen\_aruco.py script to generate the test imagery. Once complete, the user needs to only run STFR-KP-01.py via Pytest while in the src folder to run the test. The Pytest file then checks each row of the generated CSV file to confirm that each x and y coordinate is rounded to an integer value. If any keypoint does not contain either an x or y coordinate, a flag is raised and is reported. If all x and y coordinates are rounded to the nearest integer, then the test is deemed to be a pass.
 \end{enumerate}
 
 \paragraph{Feature Definition}
@@ -373,19 +366,14 @@ A 2D array of size ${k \times m}$, where $k$ is the quantity of identified keypo
 
 \textbf{Initial State:} Uninitialized
 
-\textbf{Input:} A collection of 20 images, each defined as a 2D array of integers, and a collection of 20 
-$k\times 2$ 2D arrays, where $k$ is the number of keypoints within each image. A patch size, $s$, 
-will also be input as a scalar integer to define the the region for which to search for descriptors. A target 
-number of descriptors titled $d_{total}$, also known as the bin size, will also be provided as a non-negative integer 
-between 1 and 1023.
+\textbf{Input:} A collection of 20 PNG images with a resolution of $600\times 600$, where each image features 25 $6\times 6$ ArUco markers within the scene. A $k\times m$ 2D array will be provided for each image, where $k$ is the number of keypoints within each image. A target bin size ($d_{total}$) of 100 will be used to define the target number of feature descriptors. A patch size ($p$) of 31 will be used to define the adjacent region of a keypoint for which to define descriptors.
 
 \textbf{Output:} $D_{bin}$, an array of length $d_{total}$ with a minimum width of 1 where all entries of the array are 32 byte binary strings. The width of this array may be increased if associated horizontal and vertical coordinates for the corresponding keypoint may be affixed to each descriptor. 
 
 \textbf{Test Case Derivation:} \href{https://sites.cc.gatech.edu/classes/AY2024/cs4475_summer/images/ORB_an_efficient_alternative_to_SIFT_or_SURF.pdf}
-{ORB: An efficient alternative to SIFT or SURF}. This publication outlines methods 
-to develop and the corresponding assessment of binary feature descriptors.
+{ORB: An efficient alternative to SIFT or SURF}. This publication outlines methods to develop and the corresponding assessment of binary feature descriptors.
 
-\textbf{How test will be performed:} Automated Tools (i.e. Pytest)
+\textbf{How test will be performed:} Automated Tools (i.e. Pytest). If the smoothed ArUco imagery is not provided in the src/tests folder, then the user needs to run the gen\_aruco.py script to generate the test imagery. Once complete, the user needs to only run test\_STFR-FD-01.py via Pytest while in the src folder to run the test. The Pytest file then checks each row of the generated CSV file to confirm that each descriptor has a horizontal and vertical coordinate, rounded to the nearest integer. All 256 bits of the binary descriptor are then checked to ensure that there is no data bit loss from conversion to CSV. If associated horizontal or vertical coordinates are identified as missing, then the test fails. If there is any loss of databit within the 32 byte descriptor, then the test fails. If all identified descriptors pass both the coordinates and descriptor bitwise checks, then the test is defined to be a pass.
 \end{enumerate}
 
 \subsubsection{Feature Comparison}
@@ -409,16 +397,18 @@ array is a 32 byte binary string known as a binary descriptor. Each array should
 descriptive name that clearly references the instance of both the camera and pose at the time of image 
 capture.
 
-\textbf{Output:} A flag that indicates that Hamming Distances were compared. 
-A dynamically-sized array, stored as a Pandas dataframe, where the length of the array is the 
-number of matched features. The columns of the array will include the properties as follows.
+\textbf{Output:} A flag that indicates that Hamming Distances were compared. A dynamically-sized array, stored as a Pandas dataframe, where the length of the array is the number of matched features. The columns of the array will include the properties as follows.
 \begin{itemize}
 \item Binary descriptors of both features as 32 byte binary strings
 \item Corresponding image IDs for each feature
 \item Matching scores between both features
+\item The Hamming Distance of each candidate match between features
 \end{itemize}
+% Introduced to address the question of "What is the Correct Hamming Distance?" per feedback on Rev 1.0
+Note that we do not compare the identified Hamming Distance as there is no baseline Hamming Distance for which to compare. \\
 
 \textbf{How test will be performed:} Automated Tools (i.e. Pytest)
+If the smoothed ArUco imagery is not provided in the src/tests folder, then the user needs to run the gen\_aruco.py script to generate the test imagery. Once complete, the user needs to only run test\_STFR-FM-01.py via Pytest while in the src folder to run the test. The Pytest file then checks each row of the generated CSV file to confirm that for both pairs of descriptors that compose a candidate match, each descriptor has a horizontal and vertical coordinate, rounded to the nearest integer. All 256 bits of the binary descriptor are then checked to ensure that there is no data bit loss from conversion to CSV. Finally, the calculated distance between each descriptor is assessed to confirm that it is a positive integer. If associated horizontal or vertical coordinates are identified as missing, then the test fails. If there is any loss of databit within the 32 byte descriptor, then the test fails. If the distance between descriptors is not a positive integer, the test fails. If all identified descriptors pass both the coordinates and descriptor bitwise checks, and the distance is a positive integer, then the test is defined to be a pass.
 \end{enumerate}
 
 \subsection{Tests for Nonfunctional Requirements}\label{NFR_Tests}
@@ -445,10 +435,14 @@ images for both datasets. For both datasets, a dynamically-sized array will be o
 contain the feature descriptors and the image IDs of origin, as specified in as specified in 
 \hyperlink{STFR-DC-01}{STFR-DC-01}. 
 One array will be reordered to reflect the order of the other array. Once the second array has been reordered, 
-the arrays will be compared in terms of their length and contents. The test will be considered a pass if the 
-data in each element of the array can be matched to a corresponding element of the other array. 
+the arrays will be compared in terms of their length and contents. For example, in images A and B, they will be 
+processed under the pseudonym of B' and A', respectively. That is, for each feature of A, its descriptor and x-y 
+coordinates are equivalent to those of B'. Similarly, the coordinates and descriptor of B are equivalent to A'. 
+The features of A and B will be compared to identify matches. Then the features of A' and B' will be compared as 
+well. The test will be considered a pass if the identified matches between A and B share the same descriptors and 
+coordinates as the identified matches between B' and A', respectively.
 
-\textbf{How test will be performed:} PyTest
+\textbf{How test will be performed:} PyTest. Two sample images from the Lego library have been duplicated and reordered with new names. Paths to the original and transformed images are outlined in the  test\_STFR-RE-01.py file. A script will assess that for the corresponding transformed image, that the same coordinates and 32-byte feature descriptor are identified as a match candidate with the same coordinates and 32-byte descriptor of the transformed image for the complementary image.
 \end{enumerate}
 
 \subsubsection{Usability}
@@ -477,8 +471,7 @@ system, and to remark on the following topics.
 
 \textbf{How test will be performed:} Dynamic Test by User
 \end{enumerate}
-
-The user will be provided a collection of images from different cameras. Each image will be labelled with 
+The characteristics of the desired user are outlined in the \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}{SRS}}. However, for the intent of testing, the user may be defined as the Project Supervisor or Domain Expert. The user will be provided a collection of images from different cameras. Each image will be labelled with 
 a descriptive title that clearly defines what camera the image originates from. The user shall be responsible 
 to insert all images into a common folder.
 
@@ -599,36 +592,179 @@ The traceability between each scoped test case and its respective requirements i
 
 
 \section{Unit Test Description}\label{UTD}
-\textbf{This section has been tabled as future work. It will be revised in support of the 
-initial release of the Module Guide and Module Interface Specification.}\\ \\
+This section describes the unit tests developed for the Image Feature Correspondences (IFC) system. The tests validate that the system conforms to the functional and nonfunctional requirements specified in the SRS and implemented per the design in MIS. The unit tests are executed using the \texttt{pytest} framework and primarily assess correctness, parameter bounds, default behavior, and file outputs.
 
-\wss{This section should not be filled in until after the MIS (detailed design
-  document) has been completed.}
+The test strategy includes both black-box and white-box testing:
+\begin{itemize}
+  \item \textbf{Black-box testing} ensures that each module produces expected results given a specific input.
+  \item \textbf{White-box testing} checks internal method logic, parameter validation, and error handling.
+\end{itemize}
 
-\wss{Reference your MIS (detailed design document) and explain your overall
-philosophy for test case selection.}  
-
-\wss{To save space and time, it may be an option to provide less detail in this section.  
-For the unit tests you can potentially layout your testing strategy here.  That is, you 
-can explain how tests will be selected for each module.  For instance, your test building 
-approach could be test cases for each access program, including one test for normal behaviour 
-and as many tests as needed for edge cases.  Rather than create the details of the input 
-and output here, you could point to the unit testing code.  For this to work, you code 
-needs to be well-documented, with meaningful names for all of the tests.}
+All modules have unit tests verifying both normal and edge case behavior. Each test function name corresponds to its functionality and is self-documenting.
 
 \subsection{Unit Testing Scope}
 
-\wss{What modules are outside of the scope.  If there are modules that are
-  developed by someone else, then you would say here if you aren't planning on
-  verifying them.  There may also be modules that are part of your software, but
-  have a lower priority for verification than others.  If this is the case,
-  explain your rationale for the ranking of module importance.}
+Testing of the OpenCV Module itself is considered out of scope.
 
 \subsection{Tests for Functional Requirements}
 
-\wss{Most of the verification will be through automated unit testing.  If
-  appropriate specific modules can be verified by a non-testing based
-  technique.  That can also be documented in this section.}
+
+\subsubsection{Module: Input Format Module}
+
+This module is responsible for validating user inputs, setting defaults, and enforcing parameter bounds.
+
+\begin{enumerate}
+  \item \texttt{test\_check\_parameter\_limits\_valid} \textnormal{(from \texttt{test\_config.py})}. \\
+
+Type: Functional, Automatic
+
+Initial State: No image data required.
+
+Input: Valid values for Gaussian kernel size, standard deviation, intensity threshold, bin size, patch size, and match filtering parameters.
+
+Output: No exception is raised; internal assertion checks pass.
+
+Test Case Derivation: Satisfies \textbf{R1} through \textbf{R4}, which require the IFC system to accept updated parameter inputs and validate them.
+
+How test will be performed: A set of valid parameters is passed to the validation function. The test passes if all assertions are satisfied.
+\end{enumerate}
+
+
+\subsubsection{Module: Output Format Module}
+
+These tests confirm that keypoints, descriptors, and matches are saved to CSVs correctly and scale with variable input sizes.
+
+\begin{enumerate}
+  \item \texttt{test\_output\_matches\_variable\_size} \textnormal{(from \texttt{test\_outputFormat.py})}. \\
+
+Type: Functional, Automatic
+
+Initial State: Valid descriptors and matches for two synthetic images.
+
+Input: Keypoint pairs and matched descriptor arrays for \(n = 1000\) features.
+
+Output: A properly formatted CSV file with the correct number of rows and labeled fields.
+
+Test Case Derivation: Satisfies \textbf{R14} and \textbf{R15}, which require the software to report unique correspondences and include camera/frame identifiers.
+
+How test will be performed: Matches between descriptor sets are synthesized and passed to the output module. The resulting CSV file is parsed and validated for completeness.
+\end{enumerate}
+
+\subsubsection{Module: Image Plotting Module}
+
+Tests validate that keypoints and feature matches can be drawn to image composites and that directories are created when needed.
+
+\begin{enumerate}
+  \item \texttt{test\_gen\_matched\_features\_success} \textnormal{(from \texttt{test\_imagePlot.py})}. \\
+
+Type: Functional, Automatic
+
+Initial State: Two blank RGB images and corresponding keypoints and matches.
+
+Input: Image pairs, synthetic keypoints, and a valid match list.
+
+Output: A composite image visualizing the matched features.
+
+Test Case Derivation: Supports \textbf{R15}, which requires outputs of feature correspondences to be visualized or recorded.
+
+How test will be performed: Synthetic images and match structures are passed to the match plotting function, and the output image is checked for shape and data integrity.
+\end{enumerate}
+
+
+
+\subsubsection{Module: Image Smoothing Module}
+Gaussian filtering is tested for correct kernel size, standard deviation, and type safety.
+
+\begin{enumerate}
+  \item \texttt{test\_smooth\_image\_valid\_gaussian} \textnormal{(from \texttt{test\_imagesmooth.py})}. \\
+
+Type: Functional, Automatic
+Initial State: A synthetic noisy grayscale image.
+Input: Method index \(= 1\); kernel size \(= 5\); standard deviation \(\sigma = 1.0\).
+Output: A smoothed image with unchanged dimensions and type.
+Test Case Derivation: Satisfies \textbf{R9}, which requires the system to perform noise reduction based on user-specified standard deviation.
+
+How test will be performed: Random noise is applied to a grayscale image, Gaussian smoothing is applied, and differences from the input are confirmed.
+\end{enumerate}
+
+
+\subsubsection{Module: Keypoint Detection Module}
+Keypoint detection via ORB is tested for valid configurations, disabled methods, and behavior with missing components.
+
+\begin{enumerate}
+  \item \texttt{test\_detect\_keypoints\_with\_valid\_orb} \textnormal{(from \texttt{test\_kpdetect.py})}
+  
+  Type: Functional, Automatic
+  
+  Initial State: A grayscale image and a configured ORB object.
+  
+  Input: ORB method index \(= 1\); input image of shape \(100 \times 100\).
+  
+  Output: A list of keypoints.
+  
+  Test Case Derivation: According to \textbf{R10}, the system must detect keypoints using the provided image and method.
+  
+  How test will be performed: ORB is initialized and applied to a blank image. It verifies the returned keypoints are instances of \texttt{cv2.KeyPoint}.
+  \end{enumerate}
+  
+
+\subsubsection{Module: Feature Descriptor Module}
+\begin{enumerate}
+  \item \texttt{test\_compute\_descriptors\_valid} \textnormal{(from \texttt{test\_featdesc.py})}
+  
+  Type: Functional, Automatic
+  
+  Initial State: A grayscale image and a set of detected keypoints.
+  
+  Input: Method index \(= 1\); keypoints detected from an ORB detector.
+  
+  Output: A tuple \((\text{keypoints}, \text{descriptors})\), where descriptors is a NumPy array.
+  
+  Test Case Derivation: According to \textbf{R11}, the system must generate valid descriptors from previously identified keypoints.
+  
+  How test will be performed: Random image data is used to generate keypoints. These are passed to the descriptor method, and the output types and dimensions are validated.
+  \end{enumerate}
+  
+
+
+
+  \subsubsection{Module: Feature Matching Module}
+
+  Tests ensure descriptors from different images are correctly matched using brute-force Hamming distance and validated for 1-to-1 correspondence.
+  
+  \begin{enumerate}
+    \item \texttt{test\_match\_features\_no\_loss} \textnormal{(from \texttt{test\_featmatches.py})}
+    
+    Type: Functional, Automatic
+    
+    Initial State: Identical descriptors from two images.
+    
+    Input: Descriptor arrays \texttt{desc1} and \texttt{desc2} (identical), and a matcher configured for Hamming distance.
+    
+    Output: A list of matches, one per descriptor.
+    
+    Test Case Derivation: Satisfies \textbf{R12}, ensuring all descriptors from matching images are paired correctly when descriptors are identical.
+    
+    How test will be performed: Two identical descriptor sets are matched with a brute-force matcher using cross-checking. One-to-one matching is expected.
+    \end{enumerate}
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \subsubsection{Module 1}
 

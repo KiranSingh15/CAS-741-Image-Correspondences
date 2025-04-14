@@ -11,7 +11,7 @@ Upon initial download, your src folder should have the following file structure.
 |   Requirements.txt
 |   projectFiles
     └── ... (assiciated core program scripts, inputs and outputs)
-    venv_ifcs
+    .venv_ifcs
     └── ... (configuration files, dependencies, and scripts for the venv)
 ```
 where \src\ is the custom name of your parent directory. If you have not set up the virtual environment, then you must complete the CMake file. These steps are repeated below.

@@ -1,0 +1,9 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-8.3.5, pluggy-1.5.0 -- C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\src\.venv_ifcs\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Course_Work\CAS_741\CAS-741-Image-Correspondences
+collecting ... collected 1 item
+
+test/test_main.py::test_pipeline_synthetic_images[img_names0] PASSED     [100%]
+
+============================== 1 passed in 1.71s ==============================

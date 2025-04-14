@@ -5,18 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83549127-e72c-458a-814c-20cbf0c1bc1c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/tests/testImages/lego_swap/LG_SWAP_01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/tests/testImages/lego_swap/LG_SWAP_02.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/tests/test_STNFR-RE-01.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/test_config.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/test_controlmod.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/test_featdesc.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/test_featmatches.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/test_imagePlot.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/test_imagesmooth.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/test_kpdetect.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/test_main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/test_outputFormat.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/test_specParams.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/SRS/SRS.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/SRS/SRS.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/SRS/SRS.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/SRS/SRS.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/SRS/SystemContextFigure.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/SRS/SystemContextFigure.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/SRS/SystemContextFigure.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/SRS/SystemContextFigure.pptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/VnVPlan/VnVPlan.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVPlan/VnVPlan.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/VnVPlan/VnVPlan.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVPlan/VnVPlan.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/refs/References.bib" beforeDir="false" afterPath="$PROJECT_DIR$/refs/References.bib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/ControlModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/ControlModule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/OutputVerificationModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/OutputVerificationModule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_000.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_001.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_002.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_003.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_004.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_005.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_006.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_007.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_008.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_009.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_010.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_011.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_012.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_013.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_014.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_015.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_016.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_017.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_018.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_019.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/Raw_Images/aruco_020.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/SpecificationParametersModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/SpecificationParametersModule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tests/gen_arcuo.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/gen_aruco.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/test/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/run_unit_checks.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/run_unit_checks.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,24 +72,32 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.ControlModule.executor&quot;: &quot;Run&quot;,
-    &quot;Python.InputFormatModule.executor&quot;: &quot;Run&quot;,
-    &quot;Python.run_unit_checks.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_config.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_featdesc.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_imagePlot.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Course_Work/CAS_741/CAS-741-Image-Correspondences/test&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests in test_STNFR-RE-01.py.executor": "Run",
+    "Python.ControlModule.executor": "Run",
+    "Python.InputFormatModule.executor": "Run",
+    "Python.run_unit_checks.executor": "Run",
+    "Python.test_config.executor": "Run",
+    "Python.test_featdesc.executor": "Run",
+    "Python.test_imagePlot.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Course_Work/CAS_741/CAS-741-Image-Correspondences/src/tests/testImages/lego_swap",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\src\tests\testImages\lego_swap" />
+      <recent name="C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\src\tests\testImages\lego2" />
+      <recent name="C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\src\tests\testImages\lego" />
+      <recent name="C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\src" />
       <recent name="C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\test" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\src\tests\testImages" />
     </key>
   </component>
   <component name="SharedIndexes">

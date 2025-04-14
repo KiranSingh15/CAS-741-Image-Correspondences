@@ -1,0 +1,16 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-8.3.5, pluggy-1.5.0 -- C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\src\.venv_ifcs\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Course_Work\CAS_741\CAS-741-Image-Correspondences
+collecting ... collected 8 items
+
+test/test_specParams.py::test_kernel_bounds PASSED                       [ 12%]
+test/test_specParams.py::test_fast_bounds PASSED                         [ 25%]
+test/test_specParams.py::test_bin_bounds PASSED                          [ 37%]
+test/test_specParams.py::test_patch_size_bounds PASSED                   [ 50%]
+test/test_specParams.py::test_match_distance_limits PASSED               [ 62%]
+test/test_specParams.py::test_num_match_disp PASSED                      [ 75%]
+test/test_specParams.py::test_avail_methods PASSED                       [ 87%]
+test/test_specParams.py::test_selected_methods PASSED                    [100%]
+
+============================== 8 passed in 0.04s ==============================

@@ -13,15 +13,16 @@ results_dir.mkdir(parents=True, exist_ok=True)
 
 # List of test files to run
 test_files = [
+    "test_specParams.py",
     "test_config.py",
-    "test_controlmod.py",
+    "test_imagesmooth.py",
+    "test_kpdetect.py",
     "test_featdesc.py",
     "test_featmatches.py",
     "test_imagePlot.py",
-    "test_imagesmooth.py",
-    "test_kpdetect.py",
     "test_outputFormat.py",
-    "test_specParams.py",
+    "test_verifyOutput.py",
+    "test_main.py",
 ]
 
 def run_test_and_save_output(test_file):

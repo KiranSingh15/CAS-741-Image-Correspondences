@@ -4,7 +4,7 @@
 # Tuning Parameters
 """USER INPUT HERE"""
 k = int(5)  # gaussian kernel size
-sigma = float(2.0)  # gaussian blur standard deviation
+sigma = float(1.0)  # gaussian blur standard deviation
 t = int(35)  # pixel intensity threshold
 b = int(500)  # descriptor bin size
 p = int(70)  # descriptor patch search size

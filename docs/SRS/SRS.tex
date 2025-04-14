@@ -324,6 +324,7 @@ document is written under the assumption that that the imagery scene
 is free of significant changes in ambient illumination during imagery capture.
 
 \subsection{Characteristics of Intended Reader} \label{sec_IntendedReader}
+% Addressed comment to specify characteristics of desired reader from Rev 1.0
 Readers of this document should have a introductory understanding of robot mechanics and 
 engineering statistics, such as that provided in a 3rd or 4th year undergraduate course. They 
 should also have a strong comprehension of image processing algorithms, which may consist of 
@@ -333,7 +334,7 @@ Table \ref{Table_UserChar} outlines examples of courses that satisfy
 the desired prerequisite knowledge criteria for the reader. 
 
 \begin{table}[h!]
-  \begin{tabular}{|p{0.3\linewidth}|p{0.3\linewidth}|p{0.4\linewidth}|}
+  \begin{tabular}{|p{0.3\linewidth}|p{0.3\linewidth}|p{0.32\linewidth}|}
   \hline 
   Subject                       & Prequisite Knowledge Level                   & Equivalent Course                                                                                                                                                            \\ \hline
   Robot Kinematics and Dynamics & Introductory undergraduate-level             & \href{https://academiccalendars.romcmaster.ca/preview\_course\_nopop.php?catoid=53\&coid=265836}{MECHENG 4K03 - Robotics}                                 \\ \hline
@@ -369,9 +370,10 @@ the IFC software itself, whereas circles depict interactions with stakeholders,
 namely the user. Arrowheads are used to demonstrate the sequential flow of data 
 between the software system and the environment.
 
+% Updated System Context Diagram with meaningful software name, inputs, and outputs 
 \begin{figure}[h!]
 \begin{center}
- \includegraphics[width=0.6\textwidth]{SystemContextFigure}
+ \includegraphics[width=1.0\textwidth]{SystemContextFigure}
 \caption{System Context}
 \label{Fig_SystemContext} 
 \end{center}
@@ -379,27 +381,29 @@ between the software system and the environment.
 
 \begin{itemize}
 \item User Responsibilities:
+\item % Updated bullets to reflect the input as camera data
 \begin{itemize}
-\item Provide camera configuration data and imagery data to the system
+\item Provide camera images to the system
+\item Specific the desired methods of image smoothing, keypoint identification, definition of features from keypoints, and comparison of features
+\item Refine the tuning parameters used for each of the specified processes
 \item Verify that the input data is contained in the correct data structures
 \item Configure the type of feature-handler algorithms to be used with corresponding 
 threshold criteria
 \end{itemize}
 \item \progname{} Responsibilities:
 \begin{itemize}
-\item Detect data type mismatch, such as a string of characters instead of a
-  floating point number
+\item Detect data type mismatch, such as a string of characters instead of a floating point number
 \item Assess whether inputs constitute a fully defined physical setup
-\item Calculate required outputs
+\item Calculate match candidates between two images
 \item Provide a quality metric of confidence in the calculated outputs
 \end{itemize}
 \end{itemize}
-
 This software is not intended for use in safety-critical applications. If it is required for 
 applications that are deemed to be safety-critical, then the software will need to undergo a new 
 review and verification cycle.
 
 \subsection{User Characteristics} \label{SecUserCharacteristics}
+% updated per feedback on SRS Rev 1.0
 As the intent of this software is intended to be used primarily in a research environment, 
 the intended user is expected to posses a similar prerequisite knowledge base as that of the 
 intended reader of the SRS, as outlined in Section \ref{sec_IntendedReader}. Therefore, the 
@@ -439,6 +443,7 @@ significant and repeatable features
 \item \textbf{Correspondences:} pairs of keypoints between two images that represent 
 represent the same real-world point
 
+% typo updated
 \item \textbf{Extrinsic Parameters:} the transform between the 3D camera frame to the 
 3D world frame.
 
@@ -456,6 +461,7 @@ within a given reference frame
 \end{itemize}
 
 \subsubsection{Physical System Description} \label{sec_phySystDescrip}
+% corrected pointers to figures
 The physical system of \progname{}, as shown in Figure \ref{Wang_EOH}, outlines 
 case of a single-camera, single target configuration (PS1). This outlines the frames of 
 interest for for the broader problem formulation. This configuration can be extrapolated to the multi-camera, 
@@ -501,10 +507,11 @@ by the IFC software.
 \noindent The system goals follow.
 
 \begin{itemize}
-  
+  % removed GS1 and GS2 from REv 1.0
   \item[GS\refstepcounter{goalnum}\thegoalnum \label{identify_features}:]
     Identify a collection of features from each input image frame. 
   \item[GS\refstepcounter{goalnum}\thegoalnum \label{identify_matches}:] 
+  \item[] % updated to specify the images for which features as assessed
     Identify feature correspondences amongst each input image.
   \item[GS\refstepcounter{goalnum}\thegoalnum \label{report_matches}:]
     Generate a report of the identified feature correspondences.
@@ -513,7 +520,7 @@ by the IFC software.
 
 \subsection{Solution Characteristics Specification}
 \begin{figure}[H]
-  \includegraphics[scale=0.9]{RelationsBetweenTM_GD_IM_DD_A.pdf}
+  \includegraphics[scale=1.0]{RelationsBetweenTM_GD_IM_DD_A.pdf}
 \end{figure}
 
 The instance models that govern \progname{} are presented in
@@ -576,12 +583,11 @@ Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_ND_Gauss}\\
 \hline
 Label &\bf N-Dimensional Gaussian Kernel \\
 \hline
-Equation&$G_{N-Dim}(\overrightarrow{x},\sigma) = \frac{1}{2\pi\sigma^2}e^{-\frac{\overrightarrow{x}}
+Equation&$G_{N-Dim}(x,\sigma) = \frac{1}{2\pi\sigma^2}e^{-\frac{\overrightarrow{x}}
 {2\sigma^2}}$  \\
 \hline
 Description & The above equation represents the distribution of data when defined as a n-dimensional  
-Gaussian Distribution. $\overrightarrow{x}$ is the collection of n-dimensions in the 
-Gaussian distribution. $\sigma$ is the standard deviation of the Gaussian distribution. 
+Gaussian Distribution. $\overrightarrow{x}$ is the collection of $n$-dimensions in the Gaussian distribution. $\sigma$ is the standard deviation of the Gaussian distribution. 
 \\
 \hline
 Notes & All variables are unitless. \\
@@ -608,20 +614,11 @@ Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_FAST}\\
 \hline
 Label &\bf Features from Accelerated Segment Test (FAST)  \\
 \hline
-Equation& $S_{p \rightarrow x} = \begin{cases} 
-  \mathit{d, , I_{p \rightarrow x} \leq I_{p} - t} \quad\textnormal{(darker)} \\
-  \mathit{s, , I_{p \rightarrow x} \leq I_{p} + t} \quad\textnormal{(similar)} \\
-  \mathit{b, , I_{p} + t \leq I_{p \rightarrow x} \quad\textnormal{(brighter)}} \\
-  \end{cases}
-$  \\
+Equation& $S = \sum_{i \in x} (I(p) - I(x_i) > t) > 12$   \\
 \hline
-Description & For the 2D image from an pinhole, affine camera model (\aref{A_camera_model}), $\mathit{x}$ 
-represents the 16 contiguous pixels that surround pixel $\mathit{p}$ within the image plane, or 
-$\mathit{x} \in \{1,...,16\}$. 
-$S_{p \rightarrow x}$ represents the comparison of pixel intensity for $\mathit{p}$ to $\mathit{x}$, 
-with an assignment of $\mathit{d, s}$, or $\mathit{b}$ to represent that pixel $\mathit{p}$ is brighter, 
-darker, or similar to its neighbours. If the pixel is classified as either a $\mathit{b}$ or a 
-$\mathit{d}$, then the pixel is defined as a keypoint for edge detection. 
+% Updated description to use specified variables
+Description & For the 2D image from an pinhole, affine camera model (\aref{A_camera_model}), $p$ represents the central pixel of interest and $\mathit{x}$ represents the 16 contiguous pixels that surround pixel $\mathit{p}$ within the image plane, where $\mathit{x} \in \{1,...,16\}$. Each pixel of $p$ and $x$ have an integer value between 0 and 255, known as the pixel intensity. A visualization of these pixels is shown in Figure \ref{FAST9}.
+$S$ represents the function that compares the pixel intensity for $\mathit{p}$ to $\mathit{x}$ to a specified threshold, $t$. If the difference in intensity between the two pixels exceeds the total count of 12, the candidate pixel $p$ is defined as a keypoint. 
 \\
 \hline
 Notes & All variables are unitless. \\
@@ -638,6 +635,15 @@ Derivation for TM\thetheorynum: &None \\
 \end{minipage}\\
 
 
+\begin{figure}[ht!]
+  \begin{center}
+  \centering\includegraphics[width=0.5\textwidth]{Images/fast_speedtest.jpg}
+  \caption{FAST Pixel Intensity Comparison 
+  Modified from \cite{fast_pic}.}
+  \label{FAST9}
+  \end{center}
+\end{figure}
+
 
 % Theoretical Model 3
 \noindent
@@ -650,12 +656,11 @@ Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_BRIEF}\\
 \hline
 Label &\bf Binary Robust Independent Elementary Features (BRIEF)  \\
 \hline
-Equation& $\mathit{d_{k}}= \mathbf{1}({\mathit{I(p_{k})< I(q_{k})}})$
+Equation& $d = \{d_1,d_2,...d_{256}\}$, where $\mathit{d_{k}}= \mathbf{1} |\quad ({\mathit{I(p_{k})< I(q_{k})}})$
 \\
 \hline
-Description & For a selected patch within an 2D image from a pinhole camera (\aref{A_camera_model}), \
-and $\mathit{d_{k}}$ represents the kth bit in a descriptor, pixels $\mathit{p_{k}}$ 
-and $\mathit{q_{k}}$ are randomly sampled. 
+Description & For a selected patch within an 2D image, $\mathit{d_{k}}$ represents the kth bit in a descriptor, pixels $\mathit{p_{k}}$ 
+and $\mathit{q_{k}}$ are randomly sampled from an assigned bin size.
 \\
 \hline
 Notes & This theory is computationally expensive and may not be suited to real-time applications 
@@ -672,6 +677,8 @@ Derivation for TM\thetheorynum: &None \\
 \end{tabular}
 \end{minipage}\\
 
+
+
 ~\newline
 
 % Theoretical Model 4
@@ -685,6 +692,7 @@ Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_Dist_Ham}\\
 \hline
 Label &\bf Hamming Distance  \\
 \hline
+% Added a definition of the Hamming Distance operation in the Description
 Equation& $\mathit{d_{Hamming}(d_{k,\alpha}, d_{k,\beta}) =\sum_{i=0}^{n-1}(d_{k,\alpha} 
 \bigoplus d_{k,\beta})} $ \\
 \hline
