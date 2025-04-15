@@ -186,7 +186,7 @@ verification process. These roles and responsibilities are outlined in Table \re
     Aliyah Jimoh & Domain Expert (DE) & Responsibilities include provision of 
     feedback on proposed test cases for the 
     scope of test cases for both the functional and non-functional requirements. They 
-    will also provide feedback on the code walkthrough per the final CAS 741 presentation. 
+    will also provide feedback on the code walkthrough. 
     This statisfies the need for a reviewer that is removed from the design effort yet
     still holds sufficient domain knowledge to provide feedback on the overall design 
     and associated VnV efforts.\\ 
@@ -194,7 +194,7 @@ verification process. These roles and responsibilities are outlined in Table \re
     Spencer Smith & Software Development Instructor (SDI) & Responsibilities include 
     provision of feedback on proposed test cases for the scope of test cases 
     for both the functional and non-functional requirements. They will also 
-    provide feedback on the code walkthrough per the final CAS 741 presentation. 
+    provide feedback via a code walkthrough. 
     This reviewer provides an essential stream of feedback as they are fully removed 
     from the application domain and may willing to question assumptions and address biases 
     that may be implicit amongst other members of the VnV team.\\
@@ -263,9 +263,10 @@ for the SRS.\\ \\
 % Removed discussion of mutation testing due to schedule constraints.
 
 \subsection{Implementation Verification Plan}
+% updateed to remove reference to CAS 741 per Issue #9
 The IFC software shall be verified against the test procedures outlined in Sections \ref{FR_Tests} and 
 \ref{NFR_Tests}. Static verification of the IFC software will consist of a code walkthrough. This will take 
-place during the CAS 741 final presentation, where the DE and SDI will have the opportunity to observe 
+place on April 4th, 2025, during which the the DE and SDI will have the opportunity to observe 
 the code and raise issues following the presentation via GitHub. \\ \\
 Dynamic verification of the IFC software will consist of system and unit tests via PyTest. System tests 
 are outlined in Section \ref{Sys_Tests}. Unit tests will be outlined in Rev 2 of the VnV Plan in 
@@ -509,7 +510,7 @@ Verification of \textbf{NFR3}, outlined in
 \textbf{\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
 {SRS}}, 
 has been delegated as future work in favour of other verification procedures outlined within this 
-document. This tradeoff was made to satisfy the schedule constraints of CAS 741. 
+document. This tradeoff was made to satisfy the schedule and developer resource constraints of the Winter 2025 development cycle. 
 It would however, be simple to evaluate if a new detection was to be implement. Once the default feature 
 detection method has successfully been completed, the total number of hours spent to design the feature 
 detection module should be summed together. A factor of 0.3 should be applied to the summed effort to define 
