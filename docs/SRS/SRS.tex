@@ -173,54 +173,43 @@ their units.  The choice of symbols was made to be consistent with robotic visio
 The symbols are listed in alphabetical order.
 
 \renewcommand{\arraystretch}{1.2}
-%\noindent \begin{tabularx}{1.0\textwidth}{l l X}
-\noindent \begin{longtable*}{l l p{12cm}} \toprule
-\textbf{symbol} & \textbf{data type} & \textbf{description}\\
+\noindent
+\begin{longtable*}{l l p{12cm}} 
+\toprule
+\textbf{symbol} & \textbf{data type} & \textbf{description} \\
 \midrule 
-$\textbf{A}$ & 3$\times$4 Matrix & SE(3) equivalent transformation of a camera 
-with respect to the target feature frame
-\\
-$\textbf{B}$ & 3$\times$4 Matrix & SE(3) equivalent transformation of the 
-end-effector in the robot-base frame
-\\
-$c$ &	Unitless & Camera instance
-\\
-$d_{k}$ & Unitless & Indexed pixel or binary descriptor 
-\\
-$d_{Hamming}$ & Unitless & Hamming Distance from bit-wise comparison of binary objects
-\\
-$\mathit{\mathcal{D}_{i, j}}$ & $n \times 2$ matrix & Detected keypoint for pose $i$
-and camera $k$
-\\
-$i$ & Unitless & Robot pose instance
-\\
-$j$ & Unitless & camera instance
-\\
-$\mathit{\mathcal{I}_{i, j}}$ & $u \times v$ matrix & Image matrix
-\\
-$I_{k}$ & Unitless & Pixel intensity
-\\
-$k$ &	Unitless & Target feature instance
-\\
-SE(3) & $4\times 4$ matrix & Special Euclidean Group in three-dimensional space. It describes the set of 
-all possible rigid body motions in 3D, which includes both rotation and translation.
-\\
-$t$ & Initless & Pixel intensity threshold
-\\
-$u$ & Unitless & horizontal pixel position
-\\
-$v$ & Unitless & horizontal pixel position
-\\
-$\mathit{X}$ & $u \times v$ matrix & 2-dimensional representation of image coordinates 
-\\
-$\textbf{X}$ & 3$\times$4 Matrix & SE(3) equivalent transformation of the target 
-feature in the robot-base frame
-\\
-$\textbf{Y}$ & 3$\times$4 Matrix & SE(3) equivalent transformation of the camera 
-in the end-effector frame
-\\ 
+$\alpha$ & 32-byte int & Instance of a binary descriptor \\
+$\beta$ & 32-byte int & Instance of a binary descriptor \\
+$\textbf{A}$ & 3$\times$4 matrix of float & SE(3) transformation of the camera with respect to the target feature frame \\
+$\textbf{B}$ & 3$\times$4 matrix of float & SE(3) transformation of the end-effector with respect to the robot-base frame \\
+$d_{k}$ & int & $k^\text{th}$ bit in a binary descriptor \\
+$d_{\text{Hamming}}$ & int & Hamming distance computed by bitwise XOR of two binary descriptors \\
+$\mathcal{D}_{i,j}$ & $n \times 2$ int & Set of keypoint coordinates $(u,v)$ detected for pose $i$ and camera $j$ \\
+$G_{2D}$ & $p \times p$ matrix of float & 2D Gaussian kernel applied for image smoothing \\
+$i$ & int & Robot pose instance index \\
+$j$ & int & Camera instance index \\
+$\mathcal{I}_{i,j}$ & $u \times v$ matrix of int & Grayscale image captured by camera $j$ at pose $i$ \\
+$I(p)$ & int & Pixel intensity at location $p$ \\
+$I(x_i)$ & int & Pixel intensity at a surrounding pixel $x_i$ in the FAST test \\
+$k$ & int & Feature index within the descriptor or patch \\
+$n$ & int & Total number of bits in the binary descriptor (commonly 256) \\
+$\oplus$ & bitwise operator & Bitwise exclusive-OR (XOR) operation \\
+$p$ & int & Central pixel under test in the FAST algorithm \\
+$p_{k1}, p_{k2}$ & int & Sampled pixel coordinates within the descriptor patch \\
+$p_{k1}', p_{k2}'$ & int & Rotated versions of $p_{k1}$ and $p_{k2}$ based on keypoint orientation \\
+$p_{sz}$ & int & Patch size used to compute BRIEF descriptors \\
+$q_k, q_k'$ & int & Canonical and rotated reference pixel locations used in orientation calculations \\
+$S$ & int & Count of surrounding pixels exceeding intensity threshold in FAST \\
+$\sigma$ & float & Standard deviation of the Gaussian kernel \\
+$t$ & int & Pixel intensity threshold for FAST detection \\
+$u$ & int & Horizontal pixel coordinate \\
+$v$ & int & Vertical pixel coordinate \\
+SE(3) & $4\times4$ matrix & Special Euclidean Group in 3D space: all rigid-body motions (rotation + translation) \\
+$\textbf{X}$ & 3$\times$4 matrix of float & SE(3) transformation of the target feature in the robot-base frame \\
+$\textbf{Y}$ & 3$\times$4 matrix of float & SE(3) transformation of the camera in the end-effector frame \\
 \bottomrule
 \end{longtable*}
+
 
 \subsection{Abbreviations and Acronyms}
 
@@ -239,6 +228,7 @@ in the end-effector frame
   GS & Goal Statement\\
   HERW  & Hand-Eye Robot-World Formulation \\
   IM & Instance Model\\
+  int & integer data type \\
   LC & Likely Change\\
   ORB & Oriented FAST and Rotated BRIEF\\
   PS & Physical System Description\\
@@ -258,7 +248,6 @@ convention for the SRS document.
 \begin{itemize}
   \item Matrices are capitalized and are bolded, i.e. $\mathbf{X, Y}$
   \item Column vectors are lowercase and are bolded, i.e. $\mathbf{s, t}$
-  \item Scalars are lowercase and are not bolded, i.e.\ a, b
 \end{itemize}
 
 \newpage
@@ -448,9 +437,8 @@ represent the same real-world point
 2D image plane frame to the 3D camera frame
 \item \textbf{Hand-eye:} the relation between the robot end-effector to the camera frame
 \item \textbf{Robot-world:} the relation between the robot base frame to the world frame
-\item \textbf{Pose:} refers to the position and orientation of an object, sensor, or robot 
-within a given reference frame 
-\item \textbf{Patch:} a square region of an image of an assigned size
+\item \textbf{Pose:} refers to the position and orientation of an object, sensor, or robot in $SE(3)$
+\item \textbf{Patch:} a region of defined size ($p_{sz} \times p_{sz}$) that is used to compare pixels and define a feature descriptor
 \end{itemize}
 
 
@@ -487,7 +475,7 @@ interest for for the broader problem formulation. \\
   \begin{center}
   \centering\includegraphics[width=0.45\textwidth]{Images/MULTIVIEW.png}
   \caption{PS3: Multi-camera mobile robotic platform. 
-  Modified from \cite{Hartley_Zisserman}.}.
+  Modified from \cite{Hartley_Zisserman}.}
   \label{MV_HZ}
   \end{center}
 \end{figure}
@@ -503,7 +491,7 @@ interest for for the broader problem formulation. \\
     Identify a collection of features from each input image frame. 
   \item[GS\refstepcounter{goalnum}\thegoalnum \label{identify_matches}:] 
   % updated to specify the images for which features as assessed
-    Identify feature correspondences amongst each input image.
+    Identify feature correspondences between all input images.
   \item[GS\refstepcounter{goalnum}\thegoalnum \label{report_matches}:]
     Generate a report of the identified feature correspondences.
     
@@ -570,29 +558,30 @@ This section introduces the general equations and laws that are used to build th
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_ND_Gauss}\\
+Number & TM\refstepcounter{theorynum}\thetheorynum \label{TM_ND_Gauss} \\
 \hline
-Label &\bf N-Dimensional Gaussian Kernel \\
+Label & \textbf{N-Dimensional Gaussian Kernel} \\
 \hline
-Equation&$G_{N-Dim}(x,\sigma) = \frac{1}{2\pi\sigma^2}e^{-\frac{\overrightarrow{x}}
-{2\sigma^2}}$  \\
+Equation & $G_{\text{N-Dim}}(x,\sigma) = \frac{1}{2\pi\sigma^2} \exp\left(-\frac{\|\vec{x}\|^2}{2\sigma^2}\right)$ \\
 \hline
-Description & The above equation represents the distribution of data when defined as a n-dimensional  
-Gaussian Distribution. $\overrightarrow{x}$ is the collection of $n$-dimensions in the Gaussian distribution. $\sigma$ is the standard deviation of the Gaussian distribution. 
-\\
+Description & 
+$G_{\text{N-Dim}}$ represents the probability density function of an $n$-dimensional Gaussian distribution. 
+$\vec{x}$ is the $n$-dimensional input vector, and $\sigma$ is the standard deviation controlling the spread of the distribution. 
+This kernel is often used in smoothing, weighting, and noise modeling. \\
 \hline
 Notes & All variables are unitless. \\
 \hline
 Source & \cite{Gauss_Kernel} \\
 \hline
-Ref.\ By & \dref{GD_2D_Gauss}\\
+Ref.\ By & \dref{GD_2D_Gauss} \\
 \hline
-Pre-conditions for TM\thetheorynum: &None \\
+Pre-conditions for TM\thetheorynum: & None \\
 \hline
-Derivation for TM\thetheorynum: &None \\
+Derivation for TM\thetheorynum: & None \\
 \hline
 \end{tabular}
 \end{minipage}\\
+
 
 % Theoretical Model 2
 \noindent
@@ -601,39 +590,30 @@ Derivation for TM\thetheorynum: &None \\
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_FAST}\\
+Number & TM\refstepcounter{theorynum}\thetheorynum \label{TM_FAST} \\
 \hline
-Label &\bf Features from Accelerated Segment Test (FAST)  \\
+Label & \textbf{Features from Accelerated Segment Test (FAST)} \\
 \hline
-Equation& $S = \sum_{i \in x} (I(p) - I(x_i) > t) > 12$   \\
+Equation & $S = \sum_{i \in x} \left( |I(p) - I(x_i)| > t \right) > 12$ \\
 \hline
-% Updated description to use specified variables
-Description & For the 2D image from an pinhole, affine camera model (\aref{A_camera_model}), $p$ represents the central pixel of interest and $\mathit{x}$ represents the 16 contiguous pixels that surround pixel $\mathit{p}$ within the image plane, where $\mathit{x} \in \{1,...,16\}$. Each pixel of $p$ and $x$ have an integer value between 0 and 255, known as the pixel intensity. A visualization of these pixels is shown in Figure \ref{FAST9}.
-$S$ represents the function that compares the pixel intensity for $\mathit{p}$ to $\mathit{x}$ to a specified threshold, $t$. If the difference in intensity between the two pixels exceeds the total count of 12, the candidate pixel $p$ is defined as a keypoint. 
-\\
+Description & 
+For a 2D image acquired via a pinhole affine camera model (\aref{A_camera_model}), $p$ denotes the central pixel of interest, and $x = \{x_1, \dots, x_{16}\}$ are the 16 contiguous pixels forming a circle around $p$. \\
+& $I(p)$ and $I(x_i)$ are the pixel intensities at locations $p$ and $x_i$, respectively. \\
+& $t$ is a user-defined intensity threshold. The segment test $S$ counts how many surrounding pixels differ from $p$ by more than $t$. If more than 12 such pixels are found, $p$ is identified as a keypoint. \\
 \hline
 Notes & All variables are unitless. \\
 \hline
 Source & \cite{FAST} \\
 \hline
-Ref.\ By & \dref{GD_FAST}, \lcref{LC_keypoint_method}\\
+Ref.\ By & \dref{GD_FAST}, \lcref{LC_keypoint_method} \\
 \hline
-Pre-conditions for TM\thetheorynum: &None \\
+Pre-conditions for TM\thetheorynum: & None \\
 \hline
-Derivation for TM\thetheorynum: &None \\
+Derivation for TM\thetheorynum: & None \\
 \hline
 \end{tabular}
 \end{minipage}\\
 
-
-\begin{figure}[ht!]
-  \begin{center}
-  \centering\includegraphics[width=0.5\textwidth]{Images/fast_speedtest.jpg}
-  \caption{FAST Pixel Intensity Comparison 
-  Modified from \cite{fast_pic}.}
-  \label{FAST9}
-  \end{center}
-\end{figure}
 
 
 % Theoretical Model 3
@@ -643,30 +623,37 @@ Derivation for TM\thetheorynum: &None \\
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_BRIEF}\\
+Number & TM\refstepcounter{theorynum}\thetheorynum \label{TM_BRIEF} \\
 \hline
-Label &\bf Binary Robust Independent Elementary Features (BRIEF)  \\
+Label & \textbf{Binary Robust Independent Elementary Features (BRIEF)} \\
 \hline
-Equation& $d = \{d_1,d_2,...d_{256}\}$, where $\mathit{d_{k}}= \mathbf{1} |\quad ({\mathit{I(p_{k})< I(q_{k})}})$
-\\
+Equation & 
+$\mathbf{d} = \{d_1, d_2, \dots, d_{256}\}, \quad 
+\text{where } d_k = 
+\begin{cases}
+1 & \text{if } I(p_{k1}) < I(p_{k2}) \\
+0 & \text{otherwise}
+\end{cases}$ \\
 \hline
-Description & For a selected patch within an 2D image, $\mathit{d_{k}}$ represents the kth bit in a descriptor, pixels $\mathit{p_{k}}$ 
-and $\mathit{q_{k}}$ are randomly sampled from an assigned bin size.
-\\
+Description & 
+$\mathbf{d}$ is a 256-bit (32-byte) binary descriptor vector. 
+To compute each bit $d_k$, a square patch of size $p_{sz} \times p_{sz}$ is centered at a detected keypoint. 
+Two pixels, $p_{k1}$ and $p_{k2}$, are randomly sampled from this patch. 
+If the intensity at $p_{k1}$ is less than that at $p_{k2}$, $d_k$ is set to 1; otherwise, it is set to 0. \\
 \hline
-Notes & This theory is computationally expensive and may not be suited to real-time applications 
-(\aref{A_RT_Memory}). \\
+Notes & BRIEF is efficient but may not be suitable for real-time applications under strict memory constraints (\aref{A_RT_Memory}). \\
 \hline
 Source & \cite{opencv_orb_tutorial} \\
 \hline
-Ref.\ By & \dref{GD_rBRIEF}, \lcref{LC_descriptor_method}\\
+Ref.\ By & \dref{GD_rBRIEF}, \lcref{LC_descriptor_method} \\
 \hline
-Pre-conditions for TM\thetheorynum: &None \\
+Pre-conditions for TM\thetheorynum: & None \\
 \hline
-Derivation for TM\thetheorynum: &None \\
+Derivation for TM\thetheorynum: & None \\
 \hline
 \end{tabular}
 \end{minipage}\\
+
 
 
 
@@ -679,34 +666,31 @@ Derivation for TM\thetheorynum: &None \\
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum \label{TM_Dist_Ham}\\
+Number & TM\refstepcounter{theorynum}\thetheorynum \label{TM_Dist_Ham} \\
 \hline
-Label &\bf Hamming Distance  \\
+Label & \textbf{Hamming Distance} \\
 \hline
-% Added a definition of the Hamming Distance operation in the Description
-Equation& $\mathit{d_{Hamming}(d_{k,\alpha}, d_{k,\beta}) =\sum_{i=0}^{n-1}(d_{k,\alpha} 
-\bigoplus d_{k,\beta})} $ \\
+Equation & 
+$d_{\text{Hamming}}(\mathbf{d}_{\alpha}, \mathbf{d}_{\beta}) = \sum_{i=0}^{n-1} \left( d_{\alpha, i} \oplus d_{\beta, i} \right)$ \\
 \hline
-Description & The Hamming distance is used to compare two binary numbers by each succesive bit, 
-and return the sum, $\mathit{d_{Hamming}}$, for the binary descriptors $\mathit{\alpha}$ and 
-$\mathit{\beta}$. The Hamming Distance does not represent a physical distance.
-represent a physical distance S$\mathit{i}$ represents the index within the total of $\mathit{n}$ descriptors. 
-$\bigoplus$ represents the bitwise exclusive-OR (XOR) operation. 
-Both descriptors are assumed to originate from separate images (\aref{A_min_num_cameras}).
-\\
+Description & 
+The Hamming distance measures the number of differing bits between two binary descriptors, $\mathbf{d}_{\alpha}$ and $\mathbf{d}_{\beta}$. \\
+& Each descriptor is composed of $n$ bits. The bitwise exclusive-OR operation ($\oplus$) is used to compare corresponding bits. \\
+& The total number of differing bits is returned as an integer. This is not a geometric distance, but a metric in Hamming space. \\
 \hline
 Notes & All variables are unitless. \\
 \hline
 Source & \cite{opencv_flann_matcher} \\
 \hline
-Ref.\ By & \iref{IM_Dist_Hamm}, \lcref{LC_comparison_method}\\
+Ref.\ By & \iref{IM_Dist_Hamm}, \lcref{LC_comparison_method} \\
 \hline
-Pre-conditions for TM\thetheorynum: &None \\
+Pre-conditions for TM\thetheorynum: & None \\
 \hline
-Derivation for TM\thetheorynum: &None \\
+Derivation for TM\thetheorynum: & None \\
 \hline
 \end{tabular}
 \end{minipage}\\
+
 
 ~\newline
 
@@ -716,41 +700,37 @@ instance models.
 
 ~\newline
 
-% General Defintion 1
+% General Definition 1
+% updated per comment to clarify derivation
 \noindent
 \begin{minipage}{\textwidth}
 \renewcommand*{\arraystretch}{1.5}
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{GD_2D_Gauss}\\
+Number & GD\refstepcounter{defnum}\thedefnum \label{GD_2D_Gauss} \\
 \hline
-Label &\bf 2-Dimensional Gaussian Kernel \\
+Label & \textbf{2-Dimensional Gaussian Kernel} \\
 \hline
-% Units&$MLt^{-3}T^0$\\
-% \hline
-SI Units&Unitless\\
+SI Units & Unitless \\
 \hline
-Equation&$G_{2D}(u,v,\sigma) = \frac{1}{2\pi\sigma^2}e^{-\frac{u^{2} + v^{2}}
-{2\sigma^2}}$  \\
+Equation & 
+$G_{2D}(u, v, \sigma) = \frac{1}{2\pi\sigma^2} \exp\left(-\frac{u^2 + v^2}{2\sigma^2}\right)$ \\
 \hline
-Description & $G_{2D}$ represents the gaussian kernel transform that is  applied 
-    to the 2D greyscale image (\aref{A_camera_model}, \aref{A_greyscale}) given by horizonal pixel $u$ and vertical pixel $v$, both of which are 
-    unitless. $\sigma$ represents the allowable standard deviation of the two dimensional 
-    distribution for a given image. The Gaussian kernel is used to smooth an image to reduce 
-    noise amongst the individual pixels. 
-\\
- & $\overrightarrow{x}$ is the collection of n-dimensions in the Gaussian distribution. 
-\\
- & $\sigma$ is the standard deviation of the Gaussian distribution.
-\\
+Description & 
+$G_{2D}$ represents the 2D Gaussian kernel function applied to a grayscale image 
+(\aref{A_camera_model}, \aref{A_greyscale}). 
+The variables $u$ and $v$ denote the horizontal and vertical distances from the kernel center, respectively (both are unitless). 
+The parameter $\sigma$ represents the standard deviation of the Gaussian distribution, which controls the amount of smoothing applied. 
+This kernel is convolved with the image to reduce high-frequency noise and enhance regional uniformity. \\
 \hline
-  Source & TM\ref{TM_ND_Gauss} \\
-  \hline
-  Ref.\ By & \iref{IM_GK}\\
-  \hline
+Source & TM\ref{TM_ND_Gauss} \\
+\hline
+Ref.\ By & \iref{IM_GK} \\
+\hline
 \end{tabular}
 \end{minipage}\\
+
 
 ~\newline
 
@@ -784,32 +764,36 @@ $\mathit{t}$ represents the user-defined threshold to define an allowable range 
 
 
 
-% General Defintion 3
+% General Definition 3
 \noindent
 \begin{minipage}{\textwidth}
 \renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth} |}
 \hline
 \rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{GD_rBRIEF}\\
+Number & GD\refstepcounter{defnum}\thedefnum \label{GD_rBRIEF} \\
 \hline
-Label &\bf Rotated Brief \\
+Label & \textbf{Rotated BRIEF} \\
 \hline
-% Units&$MLt^{-3}T^0$\\
-% \hline
-Units&Unitless\\
+Units & Unitless \\
 \hline
-Equation&$d_{k} = I(p_{k}^{'}) < I(q_{k}^{'})$  \\
+Equation & 
+$d_k = 
+\begin{cases}
+1 & \text{if } I(p_{k1}') < I(p_{k2}') \\
+0 & \text{otherwise}
+\end{cases}$ \\
 \hline
-Description & For a defined patch size around a selected keypoint, pixels $\mathit{p}$ and 
-$\mathit{q}$ are randomly selected. $\mathit{d_{k}}$ represents the kth bit in a descriptor, 
-pixels $\mathit{p_{k}^{'}}$ and $\mathit{q_{k}^{'}}$ are randomly sampled. This ensures that 
-BRIEF can be implemented in a manner that is rotation invariant to an image within a plane.\\
+Description & 
+$\mathit{d_k}$ represents the $k^{th}$ bit in the BRIEF descriptor. 
+For each bit, two points $p_{k1}'$ and $p_{k2}'$ are selected within a patch centered at the keypoint. 
+These point pairs are generated by rotating a canonical sampling pattern according to the keypoint's orientation. 
+This process ensures that BRIEF descriptors are invariant to in-plane rotations. \\
 \hline
-  Source & \cite{opencv_orb_tutorial} \\
-  \hline
-  Ref.\ By & \iref{IM_BRIEF_Desc}\\
-  \hline
+Source & \cite{opencv_orb_tutorial} \\
+\hline
+Ref.\ By & \iref{IM_BRIEF_Desc} \\
+\hline
 \end{tabular}
 \end{minipage}\\
 
@@ -844,25 +828,32 @@ models outlined in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
   \hline
   \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{IM_GK}\\
+  Number & IM\refstepcounter{instnum}\theinstnum \label{IM_GK} \\
   \hline
-  Label& \bf Gaussian-Smoothed Image, $\mathit{\mathcal{I'}_{i, j}(u,v, \sigma)}$\\
+  Label & \textbf{Gaussian-Smoothed Image, $\mathcal{I'}_{i,j}(u,v,\sigma)$} \\
   \hline
-  Input&$\mathit{\mathcal{I}_{i, j}(u,v)}$, from \tref{TM_ND_Gauss} \\ &$G_{2D}(u,v,\sigma)$ from \dref{GD_2D_Gauss}\\
+  Input & $\mathcal{I}_{i,j}(u,v)$, the raw grayscale image from \tref{TM_ND_Gauss} \\ 
+        & $G_{2D}(x,y,\sigma)$, the 2D Gaussian kernel from \dref{GD_2D_Gauss} \\
   \hline
-  Output&$\mathit{\mathcal{I'}_{i, j}(u,v, \sigma)}$ from \tref{TM_ND_Gauss} \\
+  Output & $\mathcal{I'}_{i,j}(u,v,\sigma)$, the Gaussian-smoothed image \\
   \hline
-  Description&$\mathit{\mathcal{I'}_{i, j}(u,v, \sigma)}$ is the smoothed output image.\\
-  &$\mathit{\mathcal{I}_{i, j}(u,v, \sigma)}$ is the unfiltered input image.\\
-  &$G_{2D}$ is the 2-dimensional Gaussian convolution kernel of the image where \\
-  &$\sigma$ is the standard deviation of the 2D Gaussian Distribution.\\
+  Equation & 
+  $\mathcal{I'}_{i,j}(u,v,\sigma) = \sum_{x=-k}^{k} \sum_{y=-k}^{k} G_{2D}(x,y,\sigma) \cdot \mathcal{I}_{i,j}(u-x, v-y)$ \\[1ex]
   \hline
-  Sources& \cite{Gauss_Kernel} \\
+  Description & 
+  $\mathcal{I'}_{i,j}(u,v,\sigma)$ is the output image obtained by convolving the input image $\mathcal{I}_{i,j}(u,v)$ with a Gaussian kernel $G_{2D}(x,y,\sigma)$ of size $(2k+1)\times(2k+1)$. \\
+  & 
+  The kernel size is selected based on the standard deviation $\sigma$, and defines the smoothing window centered at pixel $(u,v)$. \\
+  & 
+  The convolution suppresses high-frequency components (e.g., noise), producing a smoother version of the input image. \\
   \hline
-  Ref.\ By & \gsref{identify_features}, \gsref{identify_matches}, \iref{IM_FAST_Detect}\\
+  Sources & \cite{Gauss_Kernel} \\
+  \hline
+  Ref.\ By & \gsref{identify_features}, \gsref{identify_matches}, \iref{IM_FAST_Detect} \\
   \hline
 \end{tabular}
 \end{minipage}\\
+
 
 ~\newline
 
@@ -873,26 +864,28 @@ models outlined in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
   \hline
   \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{IM_FAST_Detect}\\
+  Number & IM\refstepcounter{instnum}\theinstnum \label{IM_FAST_Detect} \\
   \hline
-  Label& \bf Image Keypoint Detection, $\mathit{\mathcal{D}_{i, j}(u,v)}$\\
+  Label & \textbf{Image Keypoint Detection, $\mathcal{D}_{i,j}(u,v)$} \\
   \hline
-  Input&$\mathit{\mathcal{I}_{i, j}(u,v, \sigma)}$ from \iref{IM_GK}, $t$ \\
+  Input & $\mathcal{I}_{i,j}(u,v,\sigma)$ from \iref{IM_GK}, intensity threshold $t$ \\
   \hline
-  Output&$\mathit{\mathcal{D}_{i, j}(u,v)}$, such that D is an n-dimensional 2D matrix of the horizontal 
-  and vertical pixel coordinates in the form of (u,v).\\
+  Output & $\mathcal{D}_{i,j}(u,v)$ — a set of keypoints, each defined by pixel coordinates $(u,v)$ in the image plane. \\
   \hline
-  Description& $\mathit{\mathcal{D}_{i, j}(u,v)}$ defined by the mapping transform, $S_{p \rightarrow x}$, 
-  as outlined in \tref{TM_FAST}.\\
-  & $\mathit{\mathcal{I}_{i, j}(u,v, \sigma)}$ is the smoothed image (m x n) from \iref{IM_GK}.\\
-  & $t$ is the pixel intensity threshold.\\
+  Description & 
+  $\mathcal{D}_{i,j}(u,v)$ represents the set of image keypoints detected in the smoothed grayscale image 
+  $\mathcal{I}_{i,j}(u,v,\sigma)$ using the FAST algorithm described in \tref{TM_FAST}. \\
+  & Each keypoint corresponds to a pixel location $(u,v)$ for which the segment test $S$ exceeds a count of 12, 
+  indicating a corner-like intensity pattern around that pixel. \\
+  & $t$ is the user-defined pixel intensity threshold that determines contrast sensitivity. \\
   \hline
-  Sources& \cite{FAST} \\
+  Sources & \cite{FAST} \\
   \hline
-  Ref.\ By & \gsref{identify_features}, \iref{IM_BRIEF_Desc}\\
+  Ref.\ By & \gsref{identify_features}, \iref{IM_BRIEF_Desc} \\
   \hline
 \end{tabular}
 \end{minipage}\\
+
 
 ~\newline
 
@@ -903,25 +896,27 @@ models outlined in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
   \hline
   \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{IM_BRIEF_Desc}\\
+  Number & IM\refstepcounter{instnum}\theinstnum \label{IM_BRIEF_Desc} \\
   \hline
-  Label& \bf Produce Feature Descriptors, $\mathit{D_{bin}}$\\
+  Label & \textbf{Produce Feature Descriptors, $\mathit{D_{bin}}$} \\
   \hline
-  Input&$\mathit{\mathcal{D}_{i, j}(u,v)}$ from \iref{IM_FAST_Detect}, $p_{s}$, $l_{bin}$ \\
+  Input & $\mathcal{D}_{i,j}(u,v)$ from \iref{IM_FAST_Detect}, $p_{sz}$, $l_{bin}$ \\
   \hline
-  Output&$\mathit{D_{bin}}$ as as variable size vector\\
+  Output & $\mathit{D_{bin}}$, a variable-length vector of binary feature descriptors \\
   \hline
-  Description&$\mathit{\mathcal{D}_{i, j}}$ is the vector of pixels (u,v) of identified keypoints, per \iref{IM_FAST_Detect}.\\
-  &$p_{s}$ is the size of pixel patch to draw samples, as an integer.\\
-  &$l_{bin}$ is the size of the binary descriptor, in bits, per \tref{TM_BRIEF}.\\
-  &$\mathit{D_{bin}}$ is the output vector of identified descriptors, per \tref{TM_BRIEF}.\\
+  Description & 
+  $\mathcal{D}_{i,j}(u,v)$ is the set of keypoints defined by their pixel coordinates, as obtained from \iref{IM_FAST_Detect}. \\
+  & $p_{sz}$ is the size of the square pixel patch (in pixels) used to compute each descriptor. \\
+  & $l_{bin}$ specifies the number of binary comparisons (i.e., bits) to generate per descriptor, as required by \tref{TM_BRIEF}. \\
+  & $\mathit{D_{bin}}$ is the resulting collection of BRIEF descriptors, each computed from randomly sampled pixel pairs within a patch centered on a keypoint. \\
   \hline
-  Sources& \cite{opencv_orb_tutorial} \\
+  Sources & \cite{opencv_orb_tutorial} \\
   \hline
-  Ref.\ By & \gsref{identify_matches}, \iref{IM_Dist_Hamm}\\
+  Ref.\ By & \gsref{identify_matches}, \iref{IM_Dist_Hamm} \\
   \hline
 \end{tabular}
 \end{minipage}\\
+
 
 ~\newline
 
@@ -932,23 +927,26 @@ models outlined in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
   \hline
   \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{IM_Dist_Hamm}\\
+  Number & IM\refstepcounter{instnum}\theinstnum \label{IM_Dist_Hamm} \\
   \hline
-  Label& \bf Inter-Image Descriptor Comparison, $\mathit{dist_{Hamming}}$\\
+  Label & \textbf{Inter-Image Descriptor Comparison, $\mathit{dist_{Hamming}}$} \\
   \hline
-  Input&$\mathit{d_{a}}$, $\mathit{d_{b}}$ from \iref{IM_BRIEF_Desc}\\
+  Input & $\mathit{d_a}$, $\mathit{d_b}$ from \iref{IM_BRIEF_Desc} \\
   \hline
-  Output&$\mathit{dist_{Hamming}}$\\
+  Output & $\mathit{dist_{Hamming}}$, an integer value \\
   \hline
-  Description&$\mathit{dist_{Hamming}}$ is the sum of bitwise $\mathbf{XOR}$ binary descriptors as outlined in \tref{GD_rBRIEF}.\\
-  &$\mathit{d_{a}}$, $\mathit{d_{b}}$ are binary descriptors as defined by \iref{IM_BRIEF_Desc}.\\
+  Description & 
+  $\mathit{d_a}$ and $\mathit{d_b}$ are binary descriptors generated from different keypoints, as defined in \iref{IM_BRIEF_Desc}. \\
+  & $\mathit{dist_{Hamming}}$ is computed as the Hamming distance between these descriptors, equal to the number of differing bits. \\
+  & Each bit-wise comparison uses the exclusive-OR operator ($\oplus$), as formalized in \tref{TM_Dist_Ham}. \\
   \hline
-  Sources& \cite{opencv_flann_matcher} \\
+  Sources & \cite{opencv_flann_matcher} \\
   \hline
   Ref.\ By & \gsref{identify_matches} \\
   \hline
 \end{tabular}
 \end{minipage}\\
+
 
 
 
@@ -981,10 +979,6 @@ The specification parameters are outlined in Table~\ref{TblInputVar}.
   \\
   $\sigma$ & $\sigma > 0$ & $\sigma > 0 $ & 0.05 & N/A % std dev > 0
   \\
-  $i$ & $ 1 \i > 1$ & $\leq i \leq 250$ & 40 & N/A
-  \\
-  $j_{max}$ & $1 \leq j_{max} \leq 10$ & $1 \leq j \leq 10$ & 3 & N/A
-  \\
   \bottomrule
 \end{longtable*}
 \end{table}
@@ -998,30 +992,14 @@ The specification parameters are outlined in Table~\ref{TblInputVar}.
 \subsubsection{Properties of a Correct Solution} \label{sec_CorrectSolution}
 
 \noindent
-A correct solution must exhibit high recall. Recall can be described by the comparison of true positive (TP) over the 
-total predicted results, which is the sum of all true positive and false negative (FN) outcomes. However, a specific performance metric will not be assigned until completion and characterization of a proof-of-concept model for the software.
-
-$$Recall = \frac{TP}{TP + FN}$$
-
-
+Each image needs to be assessed such that it is invariant to the order for which it is processed by the software. In other words, the output of the \progname{} software should be deterministic. Each identified keypoint needs to have an associated set of pixel coordinates. Each descriptor needs to have an associated keypoint and unique identifier. Each candidate match between features needs to have associated keypoints, descriptors, and identifiers for the points of origin of both consituitive images.
 
 \noindent
 \\
 \\
-This table should be addressed for a subsequent revision. As it standard, there are currently no 
+As it stands, there are currently no 
 identified physical constraints on the system.
-\begin{table}[!h]
-\caption{Output Variables} \label{TblOutputVar}
-\renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable*}{l l} 
-  \toprule
-  \textbf{Var} & \textbf{Physical Constraints} \\
-  \midrule 
 
-  \\
-  \bottomrule
-\end{longtable*}
-\end{table}
 
 \section{Requirements}\label{Header_Req}
 This section provides the functional requirements, the business tasks that the
@@ -1117,10 +1095,10 @@ The system should report the average and maximum memory used during each operati
 The scope and assumptions of this document are intended to encapsulate a realistic problem formulation 
 software. This software is intended for use in laboratory experimentation and configurations, rather than 
 as an off-the-shelf product for applications that involve more risk, such as those that are safety-critical 
-or mission critical in scope.
+or mission critical in scope.\\ \\
+A\ref{A_min_num_cameras} is necessary at it enables flexibility to developers to scale the software to the case of multiple cameras in the event that the use case of a single camera can be successfully implemented. However, it does not specify that support for multiple cameras is necessary. A\ref{A_camera_model} is necessary as all imagery needs to be projected on a 2D affine plane as the software is not intended to be used with imagery that is procurred using a fish-eye lens. A\ref{A_greyscale} is necessary as it significant reduces the complexity of computation that is required to process colour imagery. Conversion to greyscale is a standard industrial practice for image processing. A\ref{A_RT_Memory} is necessary to avoid imposing timing and performance constraints on the software. This would consitute the need to perform a hazard analysis to address safety and performance challenges that would arise from operating in a real-time scenario. 
 
-\section{Likely Changes}    
-
+\section{Likely Changes} 
 \noindent \begin{itemize}
 
 \item[LC\refstepcounter{lcnum}\thelcnum\label{LC_keypoint_method}:] 
@@ -1232,8 +1210,8 @@ the assumptions.
   & \rref{R_Update_SD} &\rref{R_Update_Intensity} &\rref{R_Update_Patch} &\rref{R_Update_BinSize}
   & \rref{R_Default_Noise} &\rref{R_Default_FD} & \rref{R_Default_KD} 
   & \rref{R_Default_FM} &\rref{R_NoiseReduction}  &\rref{R_DetectKeypoints} 
-  & \rref{R_DefineDescriptors} &\rref{R_CompareDescriptors} &\rref{R_OutputCorrespondences}
-  & \rref{R_DistinctImages} &\rref{R_UniqueMatch_IDs} \\
+  & \rref{R_DefineDescriptors} &\rref{R_CompareDescriptors} &\rref{R_DistinctImages}
+  & \rref{R_UniqueMatch_IDs} &\rref{R_OutputCorrespondences} \\
 \hline
                               % I1I2I3I4 1 2 3 4 5 6 7 8 9 101112131415
 \iref{IM_GK}                    & &X& & &X& & & &X& & & &X& & & & & & \\ \hline
@@ -1252,9 +1230,9 @@ the assumptions.
 \rref{R_DetectKeypoints}        & &X& & & & & & & & & & & & & & & & & \\ \hline
 \rref{R_DefineDescriptors}      & & &X& & & & & & & & & & & & & & & & \\ \hline
 \rref{R_CompareDescriptors}     & & & &X& & & & & & & & & & & & & & & \\ \hline
-\rref{R_OutputCorrespondences}  & & & &X& & & & & & & & & & & & & & & \\ \hline
-\rref{R_DistinctImages}         & & & &X& & & & & & & & & & & & & & & \\ \hline
-\rref{R_UniqueMatch_IDs}        & &X&X&X& & & & & & & & & & & & & & & \\ \hline
+\rref{R_DistinctImages}  & & & &X& & & & & & & & & & & & & & & \\ \hline
+\rref{R_UniqueMatch_IDs}         & & & &X& & & & & & & & & & & & & & & \\ \hline
+\rref{R_OutputCorrespondences}        & &X&X&X& & & & & & & & & & & & & & & \\ \hline
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
@@ -1263,7 +1241,7 @@ the assumptions.
 \end{landscape}
 
 \section{Development Plan}
-This section may be expanded upon as part of a future release.
+An outline of the expected development objectives and milestones is outlined in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/VnVPlan/VnVPlan.pdf}\textbf{VnV Plan}.
 
 \section{Values of Auxiliary Constants}
 No auxillary constants are defined for this software.
