@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.2, pytest-8.3.5, pluggy-1.5.0 -- /home/runner/work/CAS-741-Image-Correspondences/CAS-741-Image-Correspondences/src/.venv_ifcs/bin/python
+cachedir: .pytest_cache
+rootdir: /home/runner/work/CAS-741-Image-Correspondences/CAS-741-Image-Correspondences
+collecting ... collected 9 items
+
+test/test_specParams.py::test_kernel_bounds PASSED                       [ 11%]
+test/test_specParams.py::test_standard_deviation PASSED                  [ 22%]
+test/test_specParams.py::test_fast_bounds PASSED                         [ 33%]
+test/test_specParams.py::test_bin_bounds PASSED                          [ 44%]
+test/test_specParams.py::test_patch_size_bounds PASSED                   [ 55%]
+test/test_specParams.py::test_match_distance_limits PASSED               [ 66%]
+test/test_specParams.py::test_num_match_disp PASSED                      [ 77%]
+test/test_specParams.py::test_avail_methods PASSED                       [ 88%]
+test/test_specParams.py::test_selected_methods PASSED                    [100%]
+
+============================== 9 passed in 0.04s ===============================

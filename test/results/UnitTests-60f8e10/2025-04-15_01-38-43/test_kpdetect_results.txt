@@ -1,0 +1,15 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.2, pytest-8.3.5, pluggy-1.5.0 -- /home/runner/work/CAS-741-Image-Correspondences/CAS-741-Image-Correspondences/src/.venv_ifcs/bin/python
+cachedir: .pytest_cache
+rootdir: /home/runner/work/CAS-741-Image-Correspondences/CAS-741-Image-Correspondences
+collecting ... collected 7 items
+
+test/test_kpdetect.py::test_initialize_orb_valid_config PASSED           [ 14%]
+test/test_kpdetect.py::test_initialize_orb_invalid_config_detection PASSED [ 28%]
+test/test_kpdetect.py::test_initialize_orb_invalid_config_description PASSED [ 42%]
+test/test_kpdetect.py::test_initialize_orb_invalid_both PASSED           [ 57%]
+test/test_kpdetect.py::test_detect_keypoints_with_valid_orb PASSED       [ 71%]
+test/test_kpdetect.py::test_detect_keypoints_invalid_method PASSED       [ 85%]
+test/test_kpdetect.py::test_detect_keypoints_with_none_orb PASSED        [100%]
+
+============================== 7 passed in 0.12s ===============================

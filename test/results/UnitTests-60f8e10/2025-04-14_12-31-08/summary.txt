@@ -1,0 +1,48 @@
+Unit Test Summary (2025-04-14_12-31-08)
+============================================================
+
+Program: test_specParams.py
+  Total tests: 8
+  Passed: 8
+  Failed: 0
+
+Program: test_config.py
+  Total tests: 34
+  Passed: 34
+  Failed: 0
+
+Program: test_imagesmooth.py
+  Total tests: 6
+  Passed: 6
+  Failed: 0
+
+Program: test_kpdetect.py
+  Total tests: 7
+  Passed: 7
+  Failed: 0
+
+Program: test_featdesc.py
+  Total tests: 4
+  Passed: 4
+  Failed: 0
+
+Program: test_featmatches.py
+  Total tests: 6
+  Passed: 6
+  Failed: 0
+
+Program: test_imagePlot.py
+  Total tests: 8
+  Passed: 8
+  Failed: 0
+
+Program: test_outputFormat.py
+  Total tests: 9
+  Passed: 9
+  Failed: 0
+
+Program: test_main.pytest_main.py
+  Total tests: 0
+  Passed: 0
+  Failed: 0
+

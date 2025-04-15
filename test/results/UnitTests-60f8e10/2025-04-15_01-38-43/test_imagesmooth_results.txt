@@ -1,0 +1,14 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.2, pytest-8.3.5, pluggy-1.5.0 -- /home/runner/work/CAS-741-Image-Correspondences/CAS-741-Image-Correspondences/src/.venv_ifcs/bin/python
+cachedir: .pytest_cache
+rootdir: /home/runner/work/CAS-741-Image-Correspondences/CAS-741-Image-Correspondences
+collecting ... collected 6 items
+
+test/test_imagesmooth.py::test_convert_to_greyscale_output_shape PASSED  [ 16%]
+test/test_imagesmooth.py::test_convert_to_greyscale_actual_conversion PASSED [ 33%]
+test/test_imagesmooth.py::test_convert_to_greyscale_invalid_input PASSED [ 50%]
+test/test_imagesmooth.py::test_smooth_image_valid_gaussian PASSED        [ 66%]
+test/test_imagesmooth.py::test_smooth_image_invalid_method_returns_nothing PASSED [ 83%]
+test/test_imagesmooth.py::test_smooth_image_invalid_kernel_size PASSED   [100%]
+
+============================== 6 passed in 0.13s ===============================

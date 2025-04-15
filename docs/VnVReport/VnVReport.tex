@@ -46,6 +46,8 @@
   \textbf{symbol} & \textbf{description}\\
   \midrule 
   CSV & comma separated value \\
+  FAST & Features from Accelerated Segment Test \\
+  IFCS & \progname{} software\\
   T & Test\\
   \bottomrule
 \end{tabular}\\
@@ -213,8 +215,24 @@ Figure \ref{fig-FM-AR} shows an example of thirty candidate feature matches betw
 
 
 \section{Nonfunctional Requirements Evaluation}
+\subsection{Reliability}
+\begin{itemize}
+  \item NFR1 (Invariance to the Order of Images)
+  \end{itemize}
+A test script named \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/src/tests/test_STNFR-RE-01.py}{\textbf{test\_STNFR-RE-01.py}} was prepared. In this script, two images from the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/testImages/lego}{\textbf{Lego}} image set are renamed and reordered, as outlined in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/testImages/lego_swap}{\textbf{Lego\_Swap}} folder. Both of these datasets are processed to identify candidate matches. The resulting match candidates are compared between each data set to confirm that each descriptor and corresponding coordinates from the Lego dataset is matched to the equivalent descriptor in the transformed Lego\_Swap dataset. This test passed with zero errors, and the results are summarized in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/Outputs/2025-04-13_15-19-26}{\textbf{STNFR-RE-01}}.
+
 
 \subsection{Usability}
+Ten (10) individuals were given a demonstration of the IFCS software, which included a detailed walkthough of the download process, installation processes, and setup of the virtual environment. Audience members were shown how to add new images from the provided library to the inputs folder, adjust the methods and parameters of image processing, and initiate the IFCS pipeline. Once completed, audience members were shown the following outputs.
+\begin{itemize}
+  \item generated greyscale imagery
+  \item generated smoothed imagery
+  \item generated imagery with keypoints
+  \item generated imagery with descriptors
+  \item generated imagery that compare images with candidate descriptor matches
+  \item CSV files of keypoints, descriptors and candidate matches
+\end{itemize}
+Following the demonstration, a show-of-hands identified that seven (7) of ten audience members stated that they have a favourable opinion of the software and its simplicity of use. At a success rate of 70\%, this fall below the target rate of 80\%. However, this may be improved with the implementation of any one of a user manual, user walkthrough video, or a one-on-one training session with one of the IFCS developers.
 
 \subsection{Maintainability}
 \textit{Requirements Addressed:} 
@@ -246,6 +264,14 @@ the feedback from the Rev 0 demo to the supervisor (or to potential users)
 should be highlighted.}
 
 \section{Automated Testing}
+All unit tests are automated to run via a pull request and Pytest Github Actions. These tests can be found in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/test}{\textbf{test}}. Each test is initiated by the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/run_unit_checks.py}{\textbf{run\_unit\_checks.py}} program, as shown in Figure \ref{unit_tests}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\linewidth]{images/unit_test_names.png}
+  \caption{Outline of Automated Unit Tests}
+  \label{unit_tests}
+\end{figure}
 		
 \section{Trace to Requirements}
 		
