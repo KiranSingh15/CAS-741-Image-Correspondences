@@ -54,12 +54,10 @@
   \textbf{symbol} & \textbf{description}\\
   \midrule
   a & arbitrary positive integer\\
-  CAS & Computing and Software\\
   CI & Continuous Integration\\
   CSV & Comma-Separated Values\\
   DE & Domain Expert \\
   $d_{total}$ & bin size, or number of binary descriptions \\
-  $D_{bin}$ & 1D array of 32 byte binary strings \\
   FOV & field-of-view\\
   $I$ & 2D array of pixel values for a greyscale image \\
   $I'$ & transformed 2D array of pixel values\\
@@ -138,13 +136,17 @@ As the long-term goal for this software is to absorb it into a larger calibratio
 Relevant documentation has been hyperlinked throughout the length of the document. This enables 
 the reader to access each resource within the context of the section that the reference is invoked.
 \begin{itemize}
-\item \textbf{Software Requirements Specification \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}
-{(SRS)}}
-\item \textbf{Module Guide \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftArchitecture/MG.pdf}
-{(MG)}} 
-\item 
-\textbf{Module Interface Specification \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}{(MIS)}}
-\end{itemize}
+
+  \item \textbf{Software Requirements Specification \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/SRS/SRS.pdf}{(SRS)}}\\
+  Defines the functional and non-functional requirements of the IFC system. This document outlines the system context, theoretical models, required inputs and outputs, and expected behavior under various operating conditions. It also establishes performance goals, usability expectations, and traceability with outlined models.
+  
+  \item \textbf{Module Guide \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftArchitecture/MG.pdf}{(MG)}}\\
+  Presents the high-level architectural decomposition of the IFC software. The Module Guide describes the system's structure using a module hierarchy and outlines the responsibilities, relationships, and rationales behind each module, supporting design decisions with principles such as separation of concerns and information hiding.
+  
+  \item \textbf{Module Interface Specification \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}{(MIS)}}\\
+  Specifies the precise interface for each module defined in the Module Guide. This includes data types, function signatures, constants, and assumptions. The MIS supports correct and consistent implementation by detailing how modules interact and what services they provide.
+  
+  \end{itemize}
 
 Additional document includes the checklists as follows.
 \begin{itemize}
@@ -332,7 +334,7 @@ requirements R1 through R7 and R9 through R11, in Section 5.1 of the
 \href{https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html}
 {ArUco} markers, will be used as simplified targets for corner detection. The script that is used to generate these images is provided in the src code, \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/src/tests/gen_arcuo.py}{gen\_aruco.py}.A depiction of these markers is shown in Figure \ref{gen_aruco}. This script generates an initial image with contains 25 $6\times 6$-bit ArUco markers. It uses a seed of 42 to perform scaling, rotational, and translational transforms on the baseline marker. These transforms range between $-45^\circ$ and $45^\circ$, 30 pixels of lateral translation, and a scaling factor between 0.5 and 0.9. A total of 20 transformed images are produced as inputs for the test. Each image $I$ is defined as a 2D image of $600 \times 600$ pixel resolution. A Gaussian smoothing kernel of 5 and standard deviation of 1.0 will be used to smooth the edges of the imagery. 
 
-\textbf{Output:} 20 output images as a 2D array, each of which have a descriptive name that clearly identifies the input image from which it originates. In this case, all images should use the convention of 'aruco\_xxx.png', where 'xxx' represents the enumerated ID of the ArUco marker. The output image, $I'$, should be of equal size and the same data type as its 
+\textbf{Output:} 20 output images as a 2D array, each of which have a descriptive name that clearly identifies the input image from which it originates. In this case, all images should use the convention of `aruco\_xxx.png', where `xxx' represents the enumerated ID of the ArUco marker. The output image, $I'$, should be of equal size and the same data type as its 
 corresponding image $I$. All images should be saved under a distinct folder to prevent mixing of input and output imagery.
 
 \textbf{How test will be performed:} Automated Tools (i.e. Pytest). If the ArUco imagery is not provided in the src/tests folder, then the user needs to run the gen\_aruco.py script to generate the test imagery. Once complete, the user needs to only run STFR-IS-01.py via Pytest while in the src folder to run the test. The pytest file then checks each generated image to confirm that it has the same size and image datatype as the original input image. If each image has a resolution of $600 \times 600$ pixels and is an image of type unit8, then the test is considered a pass.
@@ -367,14 +369,14 @@ A 2D array of size ${k \times m}$, where $k$ is the quantity of identified keypo
 
 \textbf{Initial State:} Uninitialized
 
-\textbf{Input:} A collection of 20 PNG images with a resolution of $600\times 600$, where each image features 25 $6\times 6$ ArUco markers within the scene. A $k\times m$ 2D array will be provided for each image, where $k$ is the number of keypoints within each image. A target bin size ($d_{total}$) of 100 will be used to define the target number of feature descriptors. A patch size ($p$) of 31 will be used to define the adjacent region of a keypoint for which to define descriptors.
+\textbf{Input:} A collection of 20 PNG images with a resolution of $600\times 600$, where each image features 25 $6\times 6$ ArUco markers within the scene. A $k\times 1$ array will be provided for each image, where $k$ is the number of keypoints within each image. A target bin size ($d_{total}$) of 100 will be used to define the target number of feature descriptors. A patch size ($p$) of 31 will be used to define the adjacent region of a keypoint for which to define descriptors.
 
-\textbf{Output:} $D_{bin}$, an array of length $d_{total}$ with a minimum width of 1 where all entries of the array are 32 byte binary strings. The width of this array may be increased if associated horizontal and vertical coordinates for the corresponding keypoint may be affixed to each descriptor. 
+\textbf{Output:} $D_{bin}$, an array of 32 byte binary values. The width of this array may be increased if associated horizontal and vertical coordinates for the corresponding keypoint may be affixed to each descriptor. 
 
 \textbf{Test Case Derivation:} \href{https://sites.cc.gatech.edu/classes/AY2024/cs4475_summer/images/ORB_an_efficient_alternative_to_SIFT_or_SURF.pdf}
 {ORB: An efficient alternative to SIFT or SURF}. This publication outlines methods to develop and the corresponding assessment of binary feature descriptors.
 
-\textbf{How test will be performed:} Automated Tools (i.e. Pytest). If the smoothed ArUco imagery is not provided in the src/tests folder, then the user needs to run the gen\_aruco.py script to generate the test imagery. Once complete, the user needs to only run test\_STFR-FD-01.py via Pytest while in the src folder to run the test. The Pytest file then checks each row of the generated CSV file to confirm that each descriptor has a horizontal and vertical coordinate, rounded to the nearest integer. All 256 bits of the binary descriptor are then checked to ensure that there is no data bit loss from conversion to CSV. If associated horizontal or vertical coordinates are identified as missing, then the test fails. If there is any loss of databit within the 32 byte descriptor, then the test fails. If all identified descriptors pass both the coordinates and descriptor bitwise checks, then the test is defined to be a pass.
+\textbf{How test will be performed:} Automated Tools (i.e. Pytest). If the smoothed ArUco imagery is not provided in the src/tests folder, then the user needs to run the gen\_aruco.py script to generate the test imagery. Once complete, the user needs to only run test\_STFR-FD-01.py via Pytest while in the src folder to run the test. The Pytest file then checks each row of the generated CSV file to confirm that each descriptor has a horizontal and vertical coordinate, rounded to the nearest integer. All 256 bits of the binary descriptor are then checked to ensure that there is no data bit loss from conversion to CSV. If associated horizontal or vertical coordinates are identified as missing, then the test fails. If there is any loss of databit within the 32 byte descriptor, then the test fails. If all identified descriptors pass both the coordinates and descriptor bitwise checks, then the test is defined to be a pass. $D_{bin}$ should be within $10\%$ of the target number of descriptors, $d_{total}$.
 \end{enumerate}
 
 \subsubsection{Feature Comparison}
@@ -393,10 +395,7 @@ requirements R8 and R12 through R15 in Section 5.1 of the
 
 \textbf{Initial State:} Uninitialized
 
-\textbf{Input:} 20 1D arrays, each which have a unique length, $D_{bin}$, where each element of the 
-array is a 32 byte binary string known as a binary descriptor. Each array should be labeled with a 
-descriptive name that clearly references the instance of both the camera and pose at the time of image 
-capture.
+\textbf{Input:} 20 descriptor arrays of size $D_{bin} \times 4$, where each row represents a feature descriptor, with the horizontal and vertical coordinates, descriptor ID, and image of orgin as the columns of the array. Each descriptor ID is a 32 byte binary string known as a binary descriptor. Each array should be labeled with a descriptive name that clearly references the instance of both the camera and pose at the time of image capture. For this test, set $D_{bin} = 100$ for each descriptor array. A maximum of 30 match candidates will be permitted with a maximum permissible Hamming Distance of 25.
 
 \textbf{Output:} A flag that indicates that Hamming Distances were compared. A dynamically-sized array, stored as a Pandas dataframe, where the length of the array is the number of matched features. The columns of the array will include the properties as follows.
 \begin{itemize}
