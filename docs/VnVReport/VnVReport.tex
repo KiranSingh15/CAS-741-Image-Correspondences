@@ -223,6 +223,10 @@ A test script named \href{https://github.com/KiranSingh15/CAS-741-Image-Correspo
 
 
 \subsection{Usability}
+\textbf{IFCS\_DEMO-01}\\
+\begin{itemize}
+  \item NFR2 (Simple to Use)
+  \end{itemize}
 Ten (10) individuals were given a demonstration of the IFCS software, which included a detailed walkthough of the download process, installation processes, and setup of the virtual environment. Audience members were shown how to add new images from the provided library to the inputs folder, adjust the methods and parameters of image processing, and initiate the IFCS pipeline. Once completed, audience members were shown the following outputs.
 \begin{itemize}
   \item generated greyscale imagery
@@ -251,59 +255,179 @@ Timing metrics and memory usage were identified as test features of interest for
 
 	
 \section{Comparison to Existing Implementation}	
-
 This section is \textbf{not applicable}.
 
 \section{Unit Testing}
+All unit tests are automated to run via a pull request and Pytest Github Actions. These tests can be found in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/test}{\textbf{test}}. Each test is initiated by the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/run_unit_checks.py}{\textbf{run\_unit\_checks.py}} program, as shown in Figure \ref{unit_tests}. Upon completion of the unit tests a \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/results/UnitTests-60f8e10/2025-04-15_01-38-43/summary.txt}{\textbf{summary}} file is generated that outlines the quantity of tests that have passed or failed for each module, as shown in Figure \ref{unit_tests_summary}. In the same folder, a detailed summary of all unit tests for each module is outlined, as shown in Figure \ref{unit_tests_reports}. A detailed example of the unit test report for the \textbf{Specification Parameters Module (M4)} is outlined in Figure \ref{sp_report}. All unit tests were shown to have passed successfully for each module.
 
-\section{Changes Due to Testing}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.65\linewidth]{images/unit_test_names.png}
+  \caption{Outline of automated unit tests}
+  \label{unit_tests}
+\end{figure}
 
-\wss{This section should highlight how feedback from the users and from 
-the supervisor (when one exists) shaped the final product.  In particular 
-the feedback from the Rev 0 demo to the supervisor (or to potential users) 
-should be highlighted.}
-
-\section{Automated Testing}
-All unit tests are automated to run via a pull request and Pytest Github Actions. These tests can be found in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/test}{\textbf{test}}. Each test is initiated by the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/run_unit_checks.py}{\textbf{run\_unit\_checks.py}} program, as shown in Figure \ref{unit_tests}.
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.8\linewidth]{images/ut_pass_fail.png}
+  \caption{Unit Test Summary.txt}
+  \label{unit_tests_summary}
+\end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.5\linewidth]{images/unit_test_names.png}
-  \caption{Outline of Automated Unit Tests}
-  \label{unit_tests}
+  \includegraphics[width=1.2\linewidth]{images/ut_reports.png}
+  \caption{Generated Unit Test Reports}
+  \label{unit_tests_reports}
 \end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.9\linewidth]{images/specParams_report.png}
+  \caption{Specification Parameters Unit Test Report}
+  \label{sp_report}
+\end{figure}
+
+
+\section{Changes Due to Testing}
+
+This section summarizes the most significant changes made to the modules and test infrastructure as a result of iterative testing, user feedback, and supervisor reviews, particularly following the Rev 0 demonstration. Each change was implemented to improve traceability, robustness, or test validation.
+
+\begin{enumerate}
+  \item \textbf{Unification of Output Directory Structure} \\
+  All outputs from functional tests (grayscale, smoothed images, keypoints, descriptors, and matches) are now saved under a single, timestamped path: \texttt{tests/Outputs/<timestamp>/}. This change was made in response to confusion around inconsistent file locations during test runs. It ensures better organization, test reproducibility, and avoids polluting production outputs.
+
+  \item \textbf{Validation of CSV Content and Structure} \\
+  Functional tests now verify not only the existence of output files but also the correctness of their internal structure, including column names and row counts. For example, descriptor CSVs must contain binary string columns, and match files must include both descriptors and matching scores. This change prevents false positives where tests previously passed despite incomplete or invalid outputs.
+
+  \item \textbf{Enforcement of Parameter Bounds} \\
+  Dedicated unit tests were introduced to ensure that all configurable parameters (e.g., Gaussian kernel size, standard deviation, patch size, bin count, match threshold) are within valid numerical and type constraints. These checks catch invalid user input early, reducing undefined behavior during runtime.
+
+  \item \textbf{Synthetic Imagery for CI Integration} \\
+  A minimal testing pipeline using synthetic image pairs was implemented in \texttt{test\_main.py}. This allows the pipeline to be tested in continuous integration (CI) environments without relying on external image datasets. It also ensures the processing pipeline can execute end-to-end with minimal dependencies.
+
+  \item \textbf{Inclusion of Feature Metadata in Match Results} \\
+  Feature match outputs were extended to include 256-bit binary descriptors for both the query and train features, image IDs, and matching scores. This change enables deeper validation of match quality and allows visual or statistical analysis of correspondence accuracy in test reports.
+
+  \item \textbf{Standardized Test Summaries for Reporting} \\
+  Each test script now generates a summary file (e.g., \texttt{test\_kpdetect\_results.txt}, \texttt{test\_main\_results.txt}) detailing test names, pass/fail status, and parameters. This facilitates automated result aggregation in CI pipelines and provides a consistent audit trail for testing history.
+\end{enumerate}
+
+
+\section{Automated Testing}
+All unit tests are automated to run via a pull request and Pytest Github Actions. These tests can be found in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/test}{\textbf{test}}. Each test is initiated by the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/run_unit_checks.py}{\textbf{run\_unit\_checks.py}} program, as shown in Figure \ref{unit_tests}. 
+
 		
 \section{Trace to Requirements}
-		
-\section{Trace to Modules}		
+The traceability of both functional and nonfunctional requirements to system tests can be found in Table \ref{Requirements_SystemTests}. We note that the functional requirements are entirely covered by the outlined tests. We also note that NFR3 has been omitted from the scope of testing, and that NF4 and NFR5 has been deferred at the time of release for Rev 1.0 due to resource constraints within the development team. Testing for these requirements will be implemented as part of development during the Summer of 2025.
 
+\begin{table}[h!]
+  \centering
+  \renewcommand{\arraystretch}{1.4}
+  \resizebox{1.2\textwidth}{!}{%
+  \begin{tabular}{|c|c|c|c|c|c|l|}
+  \hline
+  \textbf{Requirement} & \textbf{STFR-IS-01} & \textbf{STFR-KP-01} & \textbf{STFR-FD-01} & \textbf{STFR-FM-01} & \textbf{STNFR-RE-01} & \multicolumn{1}{c|}{\textbf{IFCS-DEMO-01}} \\ \hline
+  R1 & X &  &  &  &  &  \\ \hline
+  R2 &  & X &  &  &  &  \\ \hline
+  R3 &  &  & X &  &  &  \\ \hline
+  R4 &  &  & X &  &  &  \\ \hline
+  R5 & X &  &  &  &  &  \\ \hline
+  R6 &  & X &  &  &  &  \\ \hline
+  R7 &  &  & X &  &  &  \\ \hline
+  R8 &  &  &  & X &  &  \\ \hline
+  R9 & X &  &  &  &  &  \\ \hline
+  R10 &  & X &  &  &  &  \\ \hline
+  R11 &  &  & X &  &  &  \\ \hline
+  R12 &  &  &  & X &  &  \\ \hline
+  R13 &  &  &  & X &  &  \\ \hline
+  R14 &  &  &  & X &  &  \\ \hline
+  R15 &  &  &  & X &  & \multicolumn{1}{c|}{} \\ \hline
+  NFR1 &  &  &  &  & X &  \\ \hline
+  NFR2 &  &  &  &  &  & \multicolumn{1}{c|}{X} \\ \hline
+  NFR3 & - & - & - & - & - & \multicolumn{1}{c|}{-} \\ \hline
+  NFR4* & - & - & - & - & - & \multicolumn{1}{c|}{-} \\ \hline
+  NFR5* & - & - & - & - & - & \multicolumn{1}{c|}{-} \\ \hline
+  \end{tabular}
+  }
+  \caption{Traceability matrix between modules and identified unit tests}
+  \label{Requirements_SystemTests}
+  \end{table}
+
+
+
+
+\section{Trace to Modules}		
+A full outline of the traceability between the unit tests and the modules as outlined in the MIS is provided in Table \ref{tab:mod_units}.
+
+% Define plain text symbols
+\newcommand{\markinit}{\texttt{/}}   % initialization
+\newcommand{\markyes}{\texttt{x}}    % module tested
+\newcommand{\markna}{\texttt{-}}     % not applicable
+
+\begin{table}[htbp]
+  \centering
+  \renewcommand{\arraystretch}{1.4}
+  \resizebox{1.2\textwidth}{!}{%
+  \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|}
+  \hline
+  \textbf{Test Name} & \textbf{M1} & \textbf{M2} & \textbf{M3} & \textbf{M4} & \textbf{M5} & \textbf{M6} & \textbf{M7} & \textbf{M8} & \textbf{M9} & \textbf{M10} & \textbf{M11} \\
+  \hline
+  test\_pipeline\_synthetic\_images & \markinit & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  \hline 
+  test\_check\_parameter\_limits\_valid & \markinit & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_check\_method\_limits\_valid & \markinit & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_check\_method\_limits\_invalid & \markinit & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  \hline
+
+  test\_kernel\_bounds & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_standard\_deviation & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_fast\_bounds & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_bin\_bounds & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_patch\_size\_bounds & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_avail\_methods & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_selected\_methods & \markinit & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna & \markna \\
+  \hline
+  
+  test\_output\_keypoints\_variable\_size & \markinit & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_output\_descriptors\_variable\_size & \markinit & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna \\
+  test\_output\_matches\_variable\_size & \markinit & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna & \markna \\
+  \hline
+
+  test\_check\_match\_uniqueness\_valid & \markinit & \markna & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna \\
+  test\_check\_match\_uniqueness\_warns\_for\_same\_ids & \markinit & \markna & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna \\
+  test\_check\_match\_uniqueness\_warns\_with\_matches & \markinit & \markna & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna & \markna \\
+  \hline
+
+  test\_smooth\_image\_valid\_gaussian & \markinit & \markna & \markna & \markna & \markna & \markna & \markyes & \markna & \markna & \markna & \markna \\
+  \hline
+
+  test\_detect\_keypoints\_with\_valid\_orb & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markyes & \markna & \markna & \markna \\
+  \hline
+
+  test\_compute\_descriptors\_valid & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes & \markna & \markna \\
+  \hline
+
+  test\_match\_features\_no\_loss & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes & \markna \\
+  \hline
+
+  test\_gen\_kp\_img\_with\_none\_keypoints & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes \\
+  test\_gen\_kp\_img\_no\_flag & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes \\
+  test\_gen\_kp\_img\_rich\_keypoints & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes \\
+  test\_gen\_kp\_img\_with\_none\_image & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes \\
+  test\_gen\_matched\_features\_success & \markinit & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markna & \markyes \\
+
+
+
+  \hline
+  \end{tabular}%
+  }
+  \caption{Traceability matrix mapping unit tests to associated software modules(M2–M11).}
+  \label{tab:mod_units}
+  \end{table}
 \section{Code Coverage Metrics}
 
 \bibliographystyle{plainnat}
 \bibliography{../../refs/References}
-
-\newpage{}
-\section*{Appendix --- Reflection}
-
-The information in this section will be used to evaluate the team members on the
-graduate attribute of Reflection.
-
-\input{../Reflection.tex}
-
-\begin{enumerate}
-  \item What went well while writing this deliverable? 
-  \item What pain points did you experience during this deliverable, and how
-    did you resolve them?
-  \item Which parts of this document stemmed from speaking to your client(s) or
-  a proxy (e.g. your peers)? Which ones were not, and why?
-  \item In what ways was the Verification and Validation (VnV) Plan different
-  from the activities that were actually conducted for VnV?  If there were
-  differences, what changes required the modification in the plan?  Why did
-  these changes occur?  Would you be able to anticipate these changes in future
-  projects?  If there weren't any differences, how was your team able to clearly
-  predict a feasible amount of effort and the right tasks needed to build the
-  evidence that demonstrates the required quality?  (It is expected that most
-  teams will have had to deviate from their original VnV Plan.)
-\end{enumerate}
 
 \end{document}
