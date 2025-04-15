@@ -8,7 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/VnVPlan/VnVPlan.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVPlan/VnVPlan.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/VnVPlan/VnVPlan.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVPlan/VnVPlan.tex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_specParams.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_specParams.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/VnVReport/VnVReport.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVReport/VnVReport.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/VnVReport/VnVReport.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVReport/VnVReport.tex" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,22 +37,22 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests in test_STNFR-RE-01.py.executor": "Run",
-    "Python.ControlModule.executor": "Run",
-    "Python.InputFormatModule.executor": "Run",
-    "Python.run_unit_checks.executor": "Run",
-    "Python.test_config.executor": "Run",
-    "Python.test_featdesc.executor": "Run",
-    "Python.test_imagePlot.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Course_Work/CAS_741/CAS-741-Image-Correspondences/src/tests/testImages/lego_swap",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests in test_STNFR-RE-01.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ControlModule.executor&quot;: &quot;Run&quot;,
+    &quot;Python.InputFormatModule.executor&quot;: &quot;Run&quot;,
+    &quot;Python.run_unit_checks.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_featdesc.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_imagePlot.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Course_Work/CAS_741/CAS-741-Image-Correspondences/src/tests/testImages/lego_swap&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\src\tests\testImages\lego_swap" />

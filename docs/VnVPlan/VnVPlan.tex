@@ -334,7 +334,7 @@ requirements R1 through R7 and R9 through R11, in Section 5.1 of the
 \textbf{Output:} 20 output images as a 2D array, each of which have a descriptive name that clearly identifies the input image from which it originates. In this case, all images should use the convention of 'aruco\_xxx.png', where 'xxx' represents the enumerated ID of the ArUco marker. The output image, $I'$, should be of equal size and the same data type as its 
 corresponding image $I$. All images should be saved under a distinct folder to prevent mixing of input and output imagery.
 
-\textbf{How test will be performed:} Automated Tools (i.e. Pytest). If the ArUco imagery is not provided in the src/tests folder, then the user needs to run the gen\_aruco.py script to generate the test imagery. Once complete, the user needs to only run STFR-IM-01.py via Pytest while in the src folder to run the test. The pytest file then checks each generated image to confirm that it has the same size and image datatype as the original input image. If each image has a resolution of $600 \times 600$ pixels and is an image of type unit8, then the test is considered a pass.
+\textbf{How test will be performed:} Automated Tools (i.e. Pytest). If the ArUco imagery is not provided in the src/tests folder, then the user needs to run the gen\_aruco.py script to generate the test imagery. Once complete, the user needs to only run STFR-IS-01.py via Pytest while in the src folder to run the test. The pytest file then checks each generated image to confirm that it has the same size and image datatype as the original input image. If each image has a resolution of $600 \times 600$ pixels and is an image of type unit8, then the test is considered a pass.
 
 \end{enumerate}
 
@@ -385,7 +385,7 @@ requirements R8 and R12 through R15 in Section 5.1 of the
 		
 \paragraph{Descriptor Comparison}
 \begin{enumerate}
-\item \hypertarget{STFR-DC-01}{\textbf{STFR-DC-01}\\}
+\item \hypertarget{STFR-FM-01}{\textbf{STFR-FM-01}\\}
 \textbf{Requirements Addressed:} R8, R12, R13, R14, R15
 
 \textbf{Control:} Automated		
@@ -558,7 +558,7 @@ The traceability between each scoped test case and its respective requirements i
   \centering
   \begin{tabularx}{\textwidth}{|c|X|X|X|X|X|X|}
   \hline
-  \textbf{}     & \textbf{STFR-IS-01} & \textbf{STFR-KP-01} & \textbf{STFR-FD-01} & \textbf{STFR-DC-01} & \textbf{STNFR-RE-1} & \textbf{STNFR-UX-1} \\ \hline
+  \textbf{}     & \textbf{STFR-IS-01} & \textbf{STFR-KP-01} & \textbf{STFR-FD-01} & \textbf{STFR-FM-01} & \textbf{STNFR-RE-1} & \textbf{STNFR-UX-1} \\ \hline
   \textbf{R1}   & x                   &                     &                     &                     &                     &                     \\ \hline
   \textbf{R2}   &                     & x                   &                     &                     &                     &                     \\ \hline
   \textbf{R3}   &                     &                     & x                   &                     &                     &                     \\ \hline

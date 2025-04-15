@@ -11,6 +11,8 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
+\usepackage{graphicx}
+\usepackage{subfig}
 
 \input{../Comments}
 \input{../Common}
@@ -30,8 +32,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+2025-04-16 & Rev 1.0 & Initial Release\\
 \bottomrule
 \end{tabularx}
 
@@ -44,11 +45,11 @@ Date 2 & 1.1 & Notes\\
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
+  CSV & comma separated value \\
   T & Test\\
   \bottomrule
 \end{tabular}\\
 
-\wss{symbols, abbreviations or acronyms -- you can reference the SRS tables if needed}
 
 \newpage
 
@@ -62,21 +63,178 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document ...
-
+This document outlines the results of the system and unit tests for the \progname  $ $ software. The detaileds of the associated tests are outlined in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/VnVPlan/VnVPlan.pdf}{\textbf{VnV Plan}}.
 \section{Functional Requirements Evaluation}
+
+
+\subsection{Feature Detection}
+\paragraph{Image Smoother}
+
+\begin{enumerate}
+\item \hypertarget{STFR-IS-01}{\textbf{STFR-IS-01}} \\ \\ 
+This test evaluates the capacity of the system to import generated ArUco marker imagery, convert the imagery to a greyscale format, perform Gaussian smoothing, and save both the greyscale and smoothed images using a kernel size of 5 and a standard deviation of 1.0. This test was manually initiated and executed via Pytest using the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/src/tests/test_STFR-IS-01.py}{test\_STFR-IS-01.py} program. The test passed all checks and provides a \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/src/tests/Outputs/2025-04-13_12-19-08/summary.txt}{summary.txt} of the results under its timestamped \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/Outputs/2025-04-13_12-19-08}{STFR-IS-01} output folder. \\ \\
+\textit{Requirements Addressed:}
+\begin{itemize}
+\item R1 (Update Image Noise) 
+\item R5 (Default Noise Suppression)
+\item R9 (Perform Noise Reduction)
+\end{itemize}
+
+Figure \ref{fig-IS-AR} shows an example of the generated greyscale and smoothed imagery of the ArUco markers. All generated output imagery can be reviewed in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/Outputs/2025-04-13_12-19-08}{STFR-IS-01} output folder.\\
+
+
+\begin{figure}[h!]
+  \centering
+  \subfloat[Converted Greyscale Image \label{AR-GS}]{
+  \includegraphics[width=0.45\linewidth]{images/gs_aruco_000.png}
+  }
+  \hfill
+  \subfloat[Gaussian-Smoothed Image \label{AR-GK}]{
+  \includegraphics[width=0.45\linewidth]{images/aruco_000.png}
+  }
+  \caption{Outputs of the image smoothing procedure on an untransformed ArUco marker}
+  \label{fig-IS-AR}
+\end{figure}
+
+
+As the results from processing a binary ArUco marker do not produce a distinct change in colour to the human eye, a second test was executed on the test imagery provided in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/testImages/building}{testImages\textbackslash building} folder.
+
+\begin{figure}[h!]
+  \centering
+  \subfloat[Building - RGB Input Image \label{UH-IN}]{
+  \includegraphics[width=0.45\linewidth]{images/UH_raw.jpg}
+  }
+  \hfill
+  \subfloat[Building - Greyscale Image \label{UH-GS}]{
+  \includegraphics[width=0.45\linewidth]{images/UH_gs.jpg}
+  }
+  \hfill
+  \subfloat[Building - Smoothed Image \label{UH-SM}]{
+  \includegraphics[width=0.45\linewidth]{images/UH_is.jpg}
+  }
+  \caption{Greyscale and noise-reduced images generated from the building dataset}
+  \label{fig-building}
+\end{figure}
+
+\end{enumerate}
+
+\newpage
+
+\paragraph{Keypoint Detection}
+\begin{enumerate}
+
+\item \hypertarget{STFR-KP-01}{\textbf{STFR-KP-01}}\\
+This test evaluates the capacity of the system to import smoothed ArUco marker imagery and identify keypoints through use of rotated-FAST methods. A pixel intensity threshold of 60 was set for this test. This test was manually initiated and executed via Pytest using the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/src/tests/test_STFR-KP-01.py}{test\_STFR-KP-01.py} program. The test successfully passed all checks and provides a \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/src/tests/Outputs/2025-04-13_12-20-06/summary.txt}{summary.txt} of the results under its timestamped \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/Outputs/2025-04-13_12-20-06}{STFR-KP-01} output folder. \\ \\
+\textit{Requirements Addressed:} 
+\begin{itemize}
+\item R2 (Update Pixel Intensity Threshold)
+\item R6 (Perform Corner Detection)
+\item R10 (Identify Keypoints)
+\end{itemize}
+
+Figure \ref{fig-KP-AR} shows an example of the generated greyscale and smoothed imagery of the ArUco markers. All generated output imagery and corresponding CSV files can be reviewed in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/Outputs/2025-04-13_12-19-08}{STFR-KP-01} output folder.\\
+
+\begin{figure}[h!]
+  \centering
+  \subfloat[ArUco\_000 with keypoints \label{AR-KP-01}]{
+  \includegraphics[width=0.45\linewidth]{images/kp_aruco_000.png}
+  }
+  \hfill
+  \subfloat[ArUco\_001 with keypoints \label{AR-KP-02}]{
+  \includegraphics[width=0.45\linewidth]{images/kp_aruco_001.png}
+  }
+  \caption{Generated images of the keypoint detection test with mapped keypoints}
+  \label{fig-KP-AR}
+\end{figure}
+\end{enumerate}
+
+\paragraph{Feature Description}
+\begin{enumerate}
+\item \hypertarget{STFR-FD-01}{\textbf{STFR-FD-01}\\}
+This test evaluates the capacity of the system to create oriented-BRIEF descriptors using identified keypoints from smoothed greyscale imagery. A target of 100 was set with a search patch size of 31. This test was manually initiated and executed via Pytest using the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/src/tests/test_STFR-FD-01.py}{test\_STFR-FD-01.py} program. The test successfully passed all checks and provides a \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/src/tests/Outputs/2025-04-13_12-17-18/summary.txt}{summary.txt} of the results under its timestamped \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/Outputs/2025-04-13_12-17-18}{STFR-FD-01} output folder. \\ \\
+\textit{Requirements Addressed:} 
+\begin{itemize}
+\item R3 (Update Patch Size)
+\item R4 (Update Descriptor Bin Size)
+\item R7 (Binary Descriptors)
+\item R11 (Define Descriptors)
+\end{itemize}
+
+Figure \ref{fig-FD-AR} shows an example of two ArUco markers with keypoints scaled per their feature descriptors. All generated output imagery and corresponding CSV files can be reviewed in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/Outputs/2025-04-13_12-17-18}{STFR-FD-01} output folder.\\
+
+
+\begin{figure}[h!]
+  \centering
+  \subfloat[ArUco\_000 with scaled keypoints \label{AR-FD-01}]{
+  \includegraphics[width=0.45\linewidth]{images/fd_aruco_000.png}
+  }
+  \hfill
+  \subfloat[ArUco\_001 with scaled keypoints \label{AR-FD-02}]{
+  \includegraphics[width=0.45\linewidth]{images/fd_aruco_001.png}
+  }
+  \caption{Generated images of the keypoint detection test with mapped keypoints}
+  \label{fig-FD-AR}
+\end{figure}
+\end{enumerate}
+
+
+
+
+\subsection{Feature Comparison}
+\paragraph{Descriptor Comparison} 
+
+\begin{enumerate}
+
+
+\item \hypertarget{STFR-FM-01}{\textbf{STFR-FM-01}}\\
+This test evaluates the capacity of the system to compare two sets of predefined feature descriptor between two similar images. Using brute-force matching, a maximum Hamming distance of 25 was set for displayed images. Additionally, a maximum of 30 match candidates were permitted to be displayed in the generated imagery. This test was manually initiated and executed via Pytest using the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/src/tests/test_STFR-FM-01.py}{test\_STFR-FM-01.py} program. The test successfully passed all checks and provides a \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/src/tests/Outputs/2025-04-13_12-18-08/summary.txt}{summary.txt} of the results under its timestamped \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/Outputs/2025-04-13_12-18-08}{STFR-FM-01} output folder. \\ \\
+\textit{Requirements Addressed:} 
+\begin{itemize}
+\item R8 (Descriptor Comparison - Hamming Distance)
+\item R12 (Search for Matches Candidates)
+\item R13 (Verify Match Candidates)
+\item R14 (Confirm Pose Identifiers)
+\item R15 (Report Match Candidates)
+\end{itemize}
+
+Figure \ref{fig-FM-AR} shows an example of thirty candidate feature matches between markers ArUco\_000 and ArUco\_001. All generated output imagery and corresponding CSV files can be reviewed in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/Outputs/2025-04-13_12-18-08}{STFR-FM-01} output folder.\\
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.95\linewidth]{images/aruco_000_aruco_001.png}
+  \caption{Optimal candidate matches between ArUco\_000 and ArUco\_001}
+  \label{fig-FM-AR}
+\end{figure}
+
+
+
+\end{enumerate}
+
+
 
 \section{Nonfunctional Requirements Evaluation}
 
 \subsection{Usability}
+
+\subsection{Maintainability}
+\textit{Requirements Addressed:} 
+\begin{itemize}
+\item NFR3 (Allocation of Developer Resources for New Features)
+\end{itemize}
+Per the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/docs/VnVPlan/VnVPlan.pdf}{\textbf{VnV Plan}}, this requirement has been identified as out of scope for the Rev 1.0 release.
 		
 \subsection{Performance}
+\textit{Requirements Addressed:} 
+\begin{itemize}
+\item NFR4 (Timing Metrics)
+\item NFR5 (Memory Usage Metrics)
+\end{itemize}
+Timing metrics and memory usage were identified as test features of interest for the lifespan of the IFCS software. These tools would be appended to compare the relative performance of different methods such as FAST and Harris scores for keypoint detection. However, as the scope of the Winter 2025 development cycle narrowed to prioritize robust performance of ORB feature detection and brute-force matching, the implementation of timing metrics will be deferred to the development cycle of Summer 2025. These metric wil be assessed as part of the systems tests as follows through the \href{https://pypi.org/project/pytest-monitor/}{Pytest Monitor} plugin, which has the capacity to assess both timing and memory metrics and is suitable for integration with GitHub Actions.
 
-\subsection{etc.}
 	
 \section{Comparison to Existing Implementation}	
 
-This section will not be appropriate for every project.
+This section is \textbf{not applicable}.
 
 \section{Unit Testing}
 

@@ -1,0 +1,10 @@
+Repeatability Test Summary: STNFR-RE-1
+Images from lego: ['LG_02.png', 'LG_03.png']
+Images from lego_swap: ['LG_SWAP_02.png', 'LG_SWAP_01.png']
+
+Total matches in lego: 101
+Total matches in lego_swap: 101
+Unmatched in lego: 0
+Unmatched in lego_swap: 0
+
+All descriptor + coordinate matches are repeatable.
