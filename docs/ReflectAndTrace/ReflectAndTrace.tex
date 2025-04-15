@@ -64,8 +64,75 @@ low.}
 \subsection{SRS and Hazard Analysis}
 Hazard Analysis was determined to exceed the scope of work for the development of the \progname{} software. This software will not be used in real-time or safety critical applications.\\ 
 
-\noindent Version 1.0 of the \textbf{SRS} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/8776a2b2180b8d8d170e9e1b7e68392f4b424092#diff-135354e346cf609e826d36a28ad63746a7c537c4fcc1dec1663b35a4af2355f9}{\textbf{8776a2b}}.
+\noindent Version 1.0 of the \textbf{SRS} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/8776a2b2180b8d8d170e9e1b7e68392f4b424092#diff-135354e346cf609e826d36a28ad63746a7c537c4fcc1dec1663b35a4af2355f9}{\textbf{8776a2b}}. Version 2.0 of the \textbf{SRS} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/d139755d96b3c7b316cd7f96106ef69df3ab228a}{\textbf{d139755}}. 
 
+\subsection*{Revision Log of Document Updates}
+
+\begin{itemize}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/2}{GitHub Issue \#2} \\
+  \textbf{Issue Identified:} The \textit{Table of Units} was not applicable to the software system. \\
+  \textbf{Action Taken:} The table was removed from the document. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/c7d683086b2546cf4bc67b98c30fa94f611fccd6}{c7d6830}
+  
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/2}{GitHub Issue \#2} \\
+  \textbf{Issue Identified:} Inconsistent symbol definitions across theoretical models, instance models, and data definitions. \\
+  \textbf{Action Taken:} The \textit{Table of Symbols} was updated for consistency across all sections. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/6c49512d687fb1ed972857dcae2e2e3c98af7696}{6c49512}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/4}{GitHub Issue \#4} \\
+  \textbf{Issue Identified:} Expected user inputs and responsibilities were unclear in the System Context Diagram. \\
+  \textbf{Action Taken:} Diagram and descriptive text were revised to clarify user input responsibilities. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/86e483c95394842de27e286edfe601c2bcebc5bb}{86e483c}
+
+  \item \textbf{Source of Feedback:} Instructor (verbal) during VnV Plan discussion \\
+  \textbf{Issue Identified:} Lack of documentation for OpenCV-based constraints. \\
+  \textbf{Action Taken:} A new system constraint based on OpenCV limitations was added. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/c7d683086b2546cf4bc67b98c30fa94f611fccd6}{c7d6830}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/2}{GitHub Issue \#2} \\
+  \textbf{Issue Identified:} Definition of extrinsic parameters was vague. \\
+  \textbf{Action Taken:} Definition of extrinsic parameters was clarified. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/e0236d30165e14926d1cd1169a063d4786d622ed}{e0236d3}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/2}{GitHub Issue \#2} \\
+  \textbf{Issue Identified:} Requirement GS5 was outdated and unclear. \\
+  \textbf{Action Taken:} Replaced GS5 with new requirement R15 for feature correspondence reporting. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/6c9a58a3ec39ec8de9118ef73d7c17ca66b56e96}{6c9a58a}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/2}{GitHub Issue \#2} \\
+  \textbf{Issue Identified:} Requirements GS1 and GS2 were no longer needed. \\
+  \textbf{Action Taken:} GS1 and GS2 were removed. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/e0236d30165e14926d1cd1169a063d4786d622ed}{e0236d3}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/2}{GitHub Issue \#2} \\
+  \textbf{Issue Identified:} Theoretical and instance models used inconsistent or unclear notation. \\
+  \textbf{Action Taken:} TM01–TM04 and IM01–IM04 were revised for consistent mathematical presentation. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/6c49512d687fb1ed972857dcae2e2e3c98af7696}{6c49512}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/2}{GitHub Issue \#2} \\
+  \textbf{Issue Identified:} The definition of the XOR operation in TM4 was unclear. \\
+  \textbf{Action Taken:} Improved definition and symbolic notation for XOR was added. \\
+  \textbf{Commits:} 
+    \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/c7d683086b2546cf4bc67b98c30fa94f611fccd6}{c7d6830}, 
+    \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/6c49512d687fb1ed972857dcae2e2e3c98af7696}{6c49512}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/2}{GitHub Issue \#2} \\
+  \textbf{Issue Identified:} IM01 lacked detailed steps for computing the Gaussian-smoothed image. \\
+  \textbf{Action Taken:} IM01 was expanded to include a full description of the required computation steps. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/6c49512d687fb1ed972857dcae2e2e3c98af7696}{6c49512}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/2}{GitHub Issue \#2} \\
+  \textbf{Issue Identified:} No non-functional requirements for software quality were provided. \\
+  \textbf{Action Taken:} Added five non-functional requirements (NFR1–NFR5) covering reliability, usability, maintainability, and performance. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/6c9a58a3ec39ec8de9118ef73d7c17ca66b56e96}{6c9a58a}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/5}{GitHub Issue \#5} \\
+  \textbf{Issue Identified:} Table of Symbols was not consistent with mathematical models. \\
+  \textbf{Action Taken:} Table of Symbols was updated to align with definitions and notation in theoretical and instance models. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/6c49512d687fb1ed972857dcae2e2e3c98af7696}{6c49512}
+
+\end{itemize}
 
 \subsection{Design and Design Documentation}
 
