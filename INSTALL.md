@@ -67,14 +67,14 @@ where \project\ is the custom name of your parent directory.
 # Prepare the Virtual Environment (venv) and Load Dependencies
 
 
-| **Platform**     | **Action**                                 | **Command / Notes**                                                                                         |
-|------------------|---------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| **Windows**      | Activate venv (PowerShell)                 | Navigate to `src` folder, then:<br> ```powershell``` ```.venv\Scripts\Activate.ps1```                        |
-|
-| **macOS**        | Activate venv                              | ```bash``` ```source .venv/bin/activate         ```                                                          |
-|
-|**Linux (any)**   | Activate venv                              | ```bash``` ```source .venv/bin/activate```                                                                  |
 
+# Activate the Virtual Environment and Load Library Dependencies
+
+| **Platform**     | **Action**                   | **Command / Notes**                                                        |
+|------------------|------------------------------|-----------------------------------------------------------------------------|
+| **Windows**      | Activate venv (PowerShell)   | Navigate to the `src` folder, then run:<br>`powershell`:<br>`.venv\Scripts\Activate.ps1` |
+| **macOS**        | Activate venv (bash)         | `bash`:<br>`source .venv/bin/activate`                                     |
+| **Linux (any)**  | Activate venv (bash)         | `bash`:<br>`source .venv/bin/activate`                                     |
 
 ## Installing Make
 In the head `src` folder, run the following command, depending on your operating system. If you are using Windows, then be sure to use Git Bash as this follows a Unix style of shell.
