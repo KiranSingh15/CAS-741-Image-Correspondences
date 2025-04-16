@@ -1,5 +1,5 @@
 # Prerequisite Conditions
-Please ensure that you have installed the software and prepared the virtual environment (venv_ifcs) before you attempt to run the software.
+Please ensure that you have installed the software and prepared the virtual environment (.venv_ifcs) before you attempt to run the software.
 
 
 # File Structure
@@ -39,7 +39,7 @@ sudo apt install make
 -----------
 ## Results from the Make file
 
-Once the virtual environment has been created and its dependencies are imported, you should see a new folder titled `venv_ifcs` under the main `src` folder.
+Once the virtual environment has been created and its dependencies are imported, you should see a new folder titled `.venv_ifcs` under the main `src` folder.
 
 ``` Folder Structure
 `\src\`
@@ -116,8 +116,8 @@ The `Output_Archive` folder contains no data and the IFCS software does not inte
 # Running the IFCS Software
 
 ## Activate The Virtual Environment
-Once the make file has been processed, you can access the virtual environment (`venv_ifcs`) by running the following command in the head project folder: 
-`venv_ifcs/Scripts/activate`
+Once the make file has been processed, you can access the virtual environment (`.venv_ifcs`) by running the following command in the head project folder: 
+`.venv_ifcs/Scripts/activate`
 
 ## Loading Input Images
 Upload the JPG and PNG images that you wish to process into the `Raw_Images` folder. 
