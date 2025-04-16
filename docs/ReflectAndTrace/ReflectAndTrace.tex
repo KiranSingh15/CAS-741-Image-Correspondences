@@ -137,17 +137,17 @@ Hazard Analysis was determined to exceed the scope of work for the development o
 
 \begin{itemize}
 
-  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/21}{GitHub Issue \#21} \\
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/15}{GitHub Issue \#15} \\
   \textbf{Issue Identified:} OpenCV class data in Section 4 duplicated content from Section 16. \\
   \textbf{Action Taken:} Redundant content in Section 4 was removed to avoid duplication. \\
   \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
 
-  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \item \textbf{Source of Feedback:}\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/15}{GitHub Issue \#15} \\
   \textbf{Issue Identified:} Question raised about enumerating available image processing methods in Section 6.4.1. \\
   \textbf{Action Taken:} No action taken. Justification was provided: all available methods are presented to the user dynamically via Specification Parameters Module and validated in the Input Format Module. \\
   \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
 
-  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \item \textbf{Source of Feedback:}\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/15}{GitHub Issue \#15} \\
   \textbf{Issue Identified:} Path strings used as environment variables were not defined as state variables. \\
   \textbf{Action Taken:} Path strings were reclassified as state variables, including similar updates in Sections 7.4.2 and 9.4.2. \\
   \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
@@ -157,7 +157,7 @@ Hazard Analysis was determined to exceed the scope of work for the development o
   \textbf{Action Taken:} All method calls were updated to include explicit module prefixes (e.g., \texttt{config.get\_active\_methods()}). \\
   \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
 
-  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \item \textbf{Source of Feedback:}\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/15}{GitHub Issue \#15} \\
   \textbf{Issue Identified:} \texttt{getcwd()} was incorrectly attributed to the Python \texttt{Path} class in Section 7.4.4. \\
   \textbf{Action Taken:} Corrected to state that \texttt{getcwd()} belongs to the \texttt{os} module and clarified its output semantics. \\
   \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
@@ -167,17 +167,17 @@ Hazard Analysis was determined to exceed the scope of work for the development o
   \textbf{Action Taken:} Method signature was updated to include the appropriate tuning parameter arguments. \\
   \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
 
-  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \item \textbf{Source of Feedback:}\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/15}{GitHub Issue \#15} \\
   \textbf{Issue Identified:} Tuning parameters in Sections 8.3 and 8.4 were redundantly defined as both exported constants and state variables. \\
   \textbf{Action Taken:} Removed state variable definitions to retain only exported constants. \\
   \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
 
-  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \item \textbf{Source of Feedback:}\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/15}{GitHub Issue \#15} \\
   \textbf{Issue Identified:} Suggested that method variables (e.g., \texttt{mthd\_...}) in Section 8.3.1 should be booleans. \\
   \textbf{Action Taken:} Suggestion was kindly rejected. Method identifiers remain as integers to support enumerated selections for future extensibility. \\
   \textbf{Commit:} Not applicable (no change implemented)
 
-  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \item \textbf{Source of Feedback:}\href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/15}{GitHub Issue \#15} \\
   \textbf{Issue Identified:} \texttt{make\_directory(folder\_name)} in Section 9.4.4 did not clarify its effect on environment variables. \\
   \textbf{Action Taken:} Semantics were updated to specify that this function causes an environment variable transition. \\
   \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
