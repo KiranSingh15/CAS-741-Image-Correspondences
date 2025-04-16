@@ -3,7 +3,7 @@
 \usepackage{tabularx}
 \usepackage{booktabs}
 
-\title{Reflection and Traceability Report on \progname}
+\title{Reflection and Traceability Report on \progname{} Software}
 
 \author{\authname}
 
@@ -16,14 +16,15 @@
 
 \maketitle
 
-\section{Changes in Response to Feedback}
+\section{Changes in Response to Feedback}\label{feedback_deltas}
 
 \subsection{SRS and Hazard Analysis}
-Hazard Analysis was determined to exceed the scope of work for the development of the \progname{} software. This software will not be used in real-time or safety critical applications.\\ 
+
+A hazard Analysis was determined to exceed the scope of work for the development of the \progname{} software. This software will not be used in real-time or safety critical applications.\\ 
 
 \noindent Version 1.0 of the \textbf{SRS} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/8776a2b2180b8d8d170e9e1b7e68392f4b424092#diff-135354e346cf609e826d36a28ad63746a7c537c4fcc1dec1663b35a4af2355f9}{\textbf{8776a2b}}. Version 2.0 of the \textbf{SRS} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/d139755d96b3c7b316cd7f96106ef69df3ab228a}{\textbf{d139755}}. 
 
-\subsection*{Software Requirements Specification Revision Summary}
+\subsubsection*{Software Requirements Specification Revision Summary}
 
 \begin{itemize}
 
@@ -189,7 +190,7 @@ Hazard Analysis was determined to exceed the scope of work for the development o
 \subsection{VnV Plan and Report}
 \noindent Version 1.0 of the \textbf{VnV Plan} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/f73ef273ec0e440c47bb849f142982482d895bc0}{\textbf{f73ef27}}. Version 2.0 of the \textbf{VnV Plan} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/d139755d96b3c7b316cd7f96106ef69df3ab228a}{\textbf{d139755}}.\\ \\
 
-\noindent \textcolor{red}{Version 1.0 of the \textbf{VnV Report} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/d139755d96b3c7b316cd7f96106ef69df3ab228a}{\textbf{d139755}}.} No feedback has been received to propose additional revisions.
+
 
 \subsection*{Verification and Validation Plan Revision Summary}
 \begin{itemize}
@@ -260,6 +261,8 @@ Hazard Analysis was determined to exceed the scope of work for the development o
 
 \end{itemize}
 
+\subsection{Verification and Validation Report}
+\noindent Version 1.0 of the \textbf{VnV Report} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/1304f5e68932d94c3aceb8be67cf5ae0bf9e54b5}{\textbf{1304f5e}}. No feedback has been received to propose additional revisions.
 
 \section{Challenge Level and Extras}
 \subsection{Challenge Level}
@@ -268,53 +271,72 @@ This project is defined as an advanced research project. The output of the \prog
 No extra deliverables will be delivered with this project.
 
 \section{Design Iteration (LO11 (PrototypeIterate))}
+The design of the IFCS system evolved substantially over the course of the development cycle. Although the image processing techniques employed---such as keypoint detection, smoothing, and feature description---are well-established, the process of integrating and validating these components within a cohesive pipeline proved more complex and tacit than initially anticipated. It became evident that the diversity of image capture conditions---ranging from indoor to outdoor environments, varying lighting conditions, sensor noise, and differences in feature density---necessitated a modular architecture.
+\\
+\\
+To accommodate this variability, the baseline implementation of IFCS was designed to support interchangeable image processing methods, enabling users to tailor the pipeline to their specific operating environments. This architectural flexibility was solidified during the development of the Module Guide and Module Interface Specification, where decomposition-by-secrets was applied to isolate critical design concerns. In particular, this approach decoupled the implementation of image processing routines from the formatting and storage of output data.
+\\
+\\
+The benefits of this modularity were twofold: it facilitated parallel development and testing of the image processing components, and it enabled the use of synthetic test images to independently validate the behavior of modules responsible for smoothing, keypoint detection, feature description, and matching. This strategy not only improved test coverage but also ensured that design decisions could be iterated with minimal disruption to the overall system architecture.
 
-\plt{Explain how you arrived at your final design and implementation.  How did
-the design evolve from the first version to the final version?} 
-
-\plt{Don't just say what you changed, say why you changed it.  The needs of the
-client should be part of the explanation.  For example, if you made changes in
-response to usability testing, explain what the testing found and what changes
-it led to.}
 
 \section{Design Decisions (LO12)}
+Schedule and developer availability were the most significant factors influencing the design of the IFCS system. All development activities had to be scoped to align with the constraints of the Winter 2025 development schedule. This necessitated the implementation of a minimally viable product (MVP) and required deferring several non-essential features and test cases. For instance, advanced capabilities such as homography-based alignment, Harris corner detection, and FLANN-based feature matching were excluded from the development scope to ensure that the core functionality of the IFCS pipeline could be delivered, validated, and documented within the allotted timeline.
+\\
+\\
+One of the most impactful design assumptions was the requirement that imagery must originate from at least one camera. While seemingly minimal, this assumption provided significant architectural flexibility. It allowed the system to remain agnostic to the number of cameras involved, thereby supporting both single-camera and multi-camera workflows without additional code branching or conditional logic. This abstraction enabled users to formulate their calibration and correspondence tasks based on their application context, without being constrained by the internal structure of the software.
+\\
+\\
+The final design decision with long-term implications was the selection of \texttt{OpenCV} as the foundational image processing library. Although it was theoretically possible to implement all operations using custom Python code, OpenCV was chosen for its maturity, efficiency, and extensive support for standard computer vision tasks. This decision significantly accelerated development and shifted testing priorities from unit-level verifications of low-level routines to higher-level functional validation. Moreover, reliance on OpenCV highlighted specific areas where custom implementations could add value, such as in the \texttt{drawMatches()} visualization function, where certain parameters like line thickness or Hamming distance thresholds are not directly configurable. These limitations were flagged for future refinement and served to guide subsequent decomposition efforts where customization and extensibility are prioritized.
 
-\plt{Reflect and justify your design decisions.  How did limitations,
- assumptions, and constraints influence your decisions?  Discuss each of these
- separately.}
 
 \section{Economic Considerations (LO23)}
-
-\plt{Is there a market for your product? What would be involved in marketing your 
-product? What is your estimate of the cost to produce a version that you could 
-sell?  What would you charge for your product?  How many units would you have to 
-sell to make money? If your product isn't something that would be sold, like an 
-open source project, how would you go about attracting users?  How many potential 
-users currently exist?}
+The camera calibration pipeline developed for this project is not intended for commercial sale but rather as an open-source contribution to the academic and research community. The objective is to provide a reliable and extensible tool that supports robust feature detection and matching, with direct application to multi-camera calibration tasks such as extrinsic pose estimation, hand-eye calibration, and SLAM systems.
+\newline
+\newline
+There is a strong and growing user base for such tools, particularly among robotics researchers, computer vision engineers, and graduate students. Many of these users currently rely on closed-source libraries or partial solutions that lack transparency or flexibility. By providing an open implementation with clear modularity---especially in the feature detection and matching components---we aim to attract users who require more control over detection thresholds, descriptor tuning, or match filtering logic than what is available in black-box tools such as those bundled in proprietary suites.
+\newline
+\newline
+To attract users, dissemination efforts would focus on:
+\begin{itemize}
+    \item Publishing documentation and usage examples via GitHub and ReadTheDocs.
+    \item Demonstrating the accuracy and repeatability of the pipeline through reproducible benchmarks (e.g., using ArUco tags or synthetic datasets).
+    \item Participating in relevant online communities and forums (e.g., ROS Discourse, OpenCV forums, or academic mailing lists).
+    \item Linking to the tool in academic publications or theses where it is applied.
+\end{itemize}
+The feature detection module in particular plays a key role in attracting users. Many calibration failures or suboptimal results stem from poor keypoint localization or insufficient match coverage. By offering an interface that allows users to customize detector parameters (e.g., FAST threshold, ORB patch size, descriptor binning strategy), users can tailor the pipeline to different environments, whether operating on textured outdoor scenes or structured indoor setups.
+\newline
+\newline
+The cost to develop and maintain the pipeline is limited to developer time, version control, and documentation hosting---all of which can be managed at minimal or no monetary expense through public infrastructure. Since the software is not intended to generate revenue, success will be measured in terms of user adoption, citation count (in the case of academic use), and contributions from external users in the form of bug reports or feature enhancements.
 
 \section{Reflection on Project Management (LO24)}
 
-\plt{This question focuses on processes and tools used for project management.}
 
 \subsection{How Does Your Project Management Compare to Your Development Plan}
-
-\plt{Did you follow your Development plan, with respect to the team meeting plan, 
-team communication plan, team member roles and workflow plan.  Did you use the 
-technology you planned on using?}
+Each milestone of this project required significantly more time that anticpated to refine its deliverables and incorporate feedback. The use of version control for task management was performed effectively as outlined in Section \ref{feedback_deltas}. The lead developer worked dilligently with the Domain Expert to address feedback in a timely manner, as reflected in the closure dates for each issue in GitHub. The lead developer also worked diligently to inform the project supervisor of critical updates with each of the key deliverables of the program, as well as a code demonstration and walkthrough. The biggest miss was that, in an effort to prevent over-constraining the design space, the lead developer did not impose the constraint of using OpenCV until midway through the development cycle. Once it was implemented, the rate of development notably increased and accelerated prototyping and testing activities.
 
 \subsection{What Went Well?}
-
-\plt{What went well for your project management in terms of processes and 
-technology?}
+The use of behaviour hiding and a decomposition by secrets ellucidated several key factors that should be anticipated to change, such as the expected methods of image processing and the methods of plotting observed feature matches. This enabled the design of modules with loose coupling which yielded benefits in both modularity and parallel development.
 
 \subsection{What Went Wrong?}
 
-\plt{What went wrong in terms of processes and technology?}
+The implementation of unit and coverage testing using GitHub Actions presented several challenges, particularly related to the configuration of relative imports for modules located in the \texttt{projectFiles} directory. Initial attempts to run the pipeline on GitHub failed due to incorrect module resolution, which required extensive troubleshooting and refactoring of the package structure. These issues were eventually resolved, but they introduced delays during critical stages of development.
+\newline\newline
+In parallel, feedback for project milestones was provided by the instructor in PDF format rather than through inline comments on the corresponding \texttt{.tex} source files. This presented a logistical issue for tracking revisions. The development team had two primary options: manually recreate each comment as a separate GitHub issue, or incorporate changes while linking them back to the original milestone issue containing the instructor's feedback. The team chose the latter approach, prioritizing efficiency and development continuity. However, this decision reduced the traceability of ``Was--Is'' changes across the evolving specification documents.
+
 
 \subsection{What Would you Do Differently Next Time?}
 
-\plt{What will you do differently for your next project?}
-
+A number of key lessons emerged throughout the development of the IFCS software system, several of which pertain to early-stage planning and architectural decision-making.\\ \\
+First, identifying critical use cases at the outset of the project would have more effectively informed both the functional requirements and the software design decisions. Early enumeration of these use cases---such as multi-view feature matching, inter-frame correspondence validation, and camera calibration using ArUco patterns---would have clarified the required interfaces and processing capabilities. This would, in turn, have helped focus development efforts on ensuring robustness and flexibility where it was most needed, rather than giving equal priority to all aspects of the design. 
+\\ \\
+Second, a structured evaluation of existing software tools could have better motivated the development of this pipeline. By cataloguing the limitations of existing tools early---such as lack of transparency in feature scoring, or rigid camera model assumptions---the motivation for a modular, customizable system becomes clearer and more compelling. Such an exercise would have aided in articulating the distinct value proposition of the IFCS pipeline.
+\\ 
+\\
+Third, the decomposition-by-secrets methodology---used to partition responsibilities across modules based on hidden implementation details---would have been more impactful if conducted earlier. Applying this strategy at the onset of development would have enabled cleaner separation of concerns, better isolation of testable units, and improved traceability between modules and requirements. Its delayed application led to some restructuring late in the development cycle, though this ultimately proved to be of significant benefit for the overall design. However, those benefits would have yielded a greater return if they had been identified earlier in the development cycle.
+\\ 
+\\
+Another key insight pertains to the evaluation of external dependencies, particularly OpenCV. While the library ultimately provided substantial benefits such as its offering reliable implementations of core image processing routines and accelerating development, an initial attempt to avoid its use resulted in wasted development time. Early efforts focused on replacing OpenCV functionality with custom implementations in the interest of transparency and control. However, these alternatives often introduced complexity, reduced efficiency, and required additional debugging effort. In retrospect, a more pragmatic approach would have been to adopt OpenCV as a baseline from the beginning, then selectively replace components only when customization was demonstrably necessary. 
 
 
 \end{document}
