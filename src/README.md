@@ -143,7 +143,9 @@ For selected methods, the user may adjust certain parameters to improve the resp
 5. Patch Size, p: Any positive integer between 3 and 11. Default = 31. 
 
 ## Run the IFCS Software
-Once satisfied with your selection of input images, processing methods, and parameters,  run the **Control Module** by running the following command while inside of the `projectFiles` folder. 
+Once satisfied with your selection of input images, processing methods, and parameters,  run the **Control Module** by 
+running the following command while inside of the `projectFiles` folder. You **MUST** be inside the `projectFiles` 
+folder or else any attempt to run the Control Module will fail.
 
 `python ControlModule.py` 
 

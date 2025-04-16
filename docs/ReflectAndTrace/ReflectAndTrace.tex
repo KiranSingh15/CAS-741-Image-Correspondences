@@ -58,7 +58,7 @@ Hazard Analysis was determined to exceed the scope of work for the development o
 
 \noindent Version 1.0 of the \textbf{SRS} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/8776a2b2180b8d8d170e9e1b7e68392f4b424092#diff-135354e346cf609e826d36a28ad63746a7c537c4fcc1dec1663b35a4af2355f9}{\textbf{8776a2b}}. Version 2.0 of the \textbf{SRS} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/d139755d96b3c7b316cd7f96106ef69df3ab228a}{\textbf{d139755}}. 
 
-\subsection*{Revision Log of Document Updates}
+\subsection*{Software Requirements Specification Revision Summary}
 
 \begin{itemize}
 
@@ -127,14 +127,121 @@ Hazard Analysis was determined to exceed the scope of work for the development o
 \end{itemize}
 
 \subsection{Design and Design Documentation}
+\noindent Version 1.0 of the \textbf{MG} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/75b68fcefe01cadebe7cf7eaae0b135417635167}{\textbf{75b68fc}}. Version 2.0 of the \textbf{MG} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/f7b81b48841c440ab665efb53fc0c8291c9c0e53}{\textbf{f7b81b4}}.
+
+\subsection*{Module Guide Revision Summary}
+
+\begin{itemize}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/17}{GitHub Issue \#17} \\
+  \textbf{Issue Identified:} Minor grammatical and formatting errata were present in Revision 1.0 of the Module Guide. \\
+  \textbf{Action Taken:} All minor grammar and formatting issues were corrected. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/b71d13a22a609f3a48efb7fa22a8fe5f681868c5}{b71d13a}
+
+  \item \textbf{Source of Feedback:} 
+    \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/18}{GitHub Issue \#18} (AC12) and 
+    \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/19}{GitHub Issue \#19} (AC13) \\
+  \textbf{Issue Identified:} Both issues requested clarification on how anticipated changes (AC12 and AC13) impact software design. \\
+  \textbf{Action Taken:} 
+  \begin{itemize}
+    \item AC12 was rewritten to emphasize the design implications rather than user interaction.
+    \item AC13 was removed due to significant overlap with the revised AC12.
+  \end{itemize}
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/f7b81b48841c440ab665efb53fc0c8291c9c0e53}{f7b81b4}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/20}{GitHub Issue \#20} \\
+  \textbf{Issue Identified:} The Control Module was described as an abstract data type rather than an abstract object. \\
+  \textbf{Action Taken:} The description of the Control Module was revised to reflect it as an abstract object. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/b71d13a22a609f3a48efb7fa22a8fe5f681868c5}{b71d13a}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/21}{GitHub Issue \#21} \\
+  \textbf{Issue Identified:} A link to the VnV Plan was not provided in the Module Guide. \\
+  \textbf{Action Taken:} An explicit reference to the VnV Plan was added to the Module Guide. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/b71d13a22a609f3a48efb7fa22a8fe5f681868c5}{b71d13a}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/15}{GitHub Issue \#15} \\
+  \textbf{Issue Identified:} It was suggested that a graphical user interface (GUI) be added to support image display in M11 (Image Plot Module). \\
+  \textbf{Action Taken:} No change was made. It was determined that image generation using OpenCV functions like \texttt{imwrite()}, \texttt{drawKeypoints()}, and \texttt{drawMatches()} was sufficient, and GUI development was outside the project scope. \\
+  \textbf{Commit:} Not applicable (no changes made).
+
+\end{itemize}
 
 
 
 
 \subsection{VnV Plan and Report}
-\noindent Version 1.0 of the \textbf{VnV Plan} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/f73ef273ec0e440c47bb849f142982482d895bc0}{\textbf{f73ef27}}. Version 2.0 of the \textbf{VnV Plan} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/d139755d96b3c7b316cd7f96106ef69df3ab228a}{\textbf{d139755}}.
+\noindent Version 1.0 of the \textbf{VnV Plan} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/f73ef273ec0e440c47bb849f142982482d895bc0}{\textbf{f73ef27}}. Version 2.0 of the \textbf{VnV Plan} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/d139755d96b3c7b316cd7f96106ef69df3ab228a}{\textbf{d139755}}.\\ \\
 
+\noindent \textcolor{red}{Version 1.0 of the \textbf{VnV Report} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/d139755d96b3c7b316cd7f96106ef69df3ab228a}{\textbf{d139755}}.} No feedback has been received to propose additional revisions.
 
+\subsection*{Verification and Validation Plan Revision Summary}
+\begin{itemize}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/9}{GitHub Issue \#9} \\
+  \textbf{Issue Identified:} The course name "CAS 741" was mentioned within the VnV Plan, which is not appropriate. \\
+  \textbf{Action Taken:} All references to "CAS 741" were removed from the VnV Plan. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/e67619f822163a70f87b6734e7c6d5f9f51dd864}{e67619f}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/10}{GitHub Issue \#10} \\
+  \textbf{Issue Identified:} Relevant documents were missing from Section 2.4 (Relevant Documentation). \\
+  \textbf{Action Taken:} Section 2.4 was updated to include descriptions of the SRS, MG, and MIS. \\
+  \textbf{Commits:} 
+  \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/bec8167599e374f06193fd96d8b9e88414cd9e9a}{bec8167}, 
+  \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/66fa0a4d2f9a725465743354ba8c35d4d53baa98}{66fa0a4}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/11}{GitHub Issue \#11} \\
+  \textbf{Issue Identified:} Minor errata were present, including incorrect table placement, inconsistent acronym/symbol usage, and test numbering errors. \\
+  \textbf{Action Taken:} All identified errata were corrected throughout the VnV Plan. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/e67619f822163a70f87b6734e7c6d5f9f51dd864}{e67619f}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/12}{GitHub Issue \#12} \\
+  \textbf{Issue Identified:} Reference to ArUco markers created the impression that only ArUco was acceptable. \\
+  \textbf{Action Taken:} Reference to ArUco was removed and replaced with a general term: "generated binary markers". \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/f73ef273ec0e440c47bb849f142982482d895bc0}{f73ef27}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/13}{GitHub Issue \#13} \\
+  \textbf{Issue Identified:} System tests STFR-KP-01 and STFR-DC-01 lacked clear traceability to R6 and R8. \\
+  \textbf{Action Taken:} Method flags were added to both tests to identify that corner detection and Hamming distance comparisons were used, respectively. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/60dac24afd7b7a43508db828bf6fd4601f6c0cb3}{60dac24}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/14}{GitHub Issue \#14} \\
+  \textbf{Issue Identified:} Requirement R4 and its connection to STFR-FD-01 lacked a clear definition of descriptor bin size. \\
+  \textbf{Action Taken:} Descriptor bin size was explicitly defined in the Table of Symbols and the STFR-FD-01 input section. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/f2983739f424153f1c0262cef58c2b35e53e4278}{f298373}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/7}{GitHub Issue \#7} (Software Design Instructor) \\
+  \textbf{Issue Identified:} Symbols table contained unused entries not referenced in the VnV Plan. \\
+  \textbf{Action Taken:} Symbols table was reduced to only include symbols and abbreviations used in the document. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/bec8167599e374f06193fd96d8b9e88414cd9e9a}{bec8167}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/7}{GitHub Issue \#7} \\
+  \textbf{Issue Identified:} Section 2.3 lacked specification of the challenge level of the project. \\
+  \textbf{Action Taken:} Section 2.3 was updated to state that the project is a research-level front-end to a camera calibration pipeline. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blame/0fedd067caa95f2e5951f4f2fe0d66f9eb975188/docs/VnVPlan/VnVPlan.tex}{86e483c}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/7}{GitHub Issue \#7} \\
+  \textbf{Issue Identified:} Reference documents PS, SRS, MG, and MIG were not mentioned in the VnV Plan. \\
+  \textbf{Action Taken:} These documents were listed and described in Section 2.4. \\
+  \textbf{Commits:} 
+  \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/bec8167599e374f06193fd96d8b9e88414cd9e9a}{bec8167}, 
+  \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/66fa0a4d2f9a725465743354ba8c35d4d53baa98}{66fa0a4}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/7}{GitHub Issue \#7} \\
+  \textbf{Issue Identified:} The proposed Software Validation Plan simply duplicated verification activities and did not reflect actual validation. \\
+  \textbf{Action Taken:} Validation was identified as out of scope and the section was updated accordingly. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/86e483c95394842de27e286edfe601c2bcebc5bb}{86e483c}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/7}{GitHub Issue \#7} \\
+  \textbf{Issue Identified:} System tests lacked specific parameter values for each scenario. \\
+  \textbf{Action Taken:} STFR-IS-01, STFR-KP-01, STFR-FD-01, and STFR-FM-01 were each updated to include well-defined test inputs and parameters. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/86e483c95394842de27e286edfe601c2bcebc5bb}{86e483c}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/7}{GitHub Issue \#7} \\
+  \textbf{Issue Identified:} Definition of a "match" was missing in STFR-FM-01. \\
+  \textbf{Action Taken:} A clear definition of a match was added to STFR-FM-01. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/86e483c95394842de27e286edfe601c2bcebc5bb}{86e483c}
+
+\end{itemize}
 
 
 \section{Challenge Level and Extras}
@@ -191,17 +298,6 @@ technology?}
 
 \plt{What will you do differently for your next project?}
 
-\section{Reflection on Capstone}
 
-\plt{This question focuses on what you learned during the course of the capstone project.}
-
-\subsection{Which Courses Were Relevant}
-
-\plt{Which of the courses you have taken were relevant for the capstone project?}
-
-\subsection{Knowledge/Skills Outside of Courses}
-
-\plt{What skills/knowledge did you need to acquire for your capstone project
-that was outside of the courses you took?}
 
 \end{document}
