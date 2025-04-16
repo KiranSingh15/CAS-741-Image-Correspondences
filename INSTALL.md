@@ -99,14 +99,14 @@ project
     └── ... (configuration files, dependencies, and scripts for the venv)
 ```
 
-The virtual environment can be run with the following commands, depending on your operating system.
-| Platform                               | Virtual Environment Activation Command |
-| -------------------------------------- | -------------------------------------- |
-| **Windows (PowerShell)**               | `.venv\Scripts\Activate.ps1`           | 
-|
-| **Windows (CMD)**                      | `.venv\Scripts\activate.bat`           |
-|
-| **macOS / Linux / Unix (bash/zsh/sh)** | `source .venv/bin/activate`            |
+The virtual environment can be activated using the following commands, depending on your operating system:
+
+| **Platform**                           | **Virtual Environment Activation Command** |
+|----------------------------------------|--------------------------------------------|
+| **Windows (PowerShell)**               | `.venv\Scripts\Activate.ps1`               |
+| **Windows (CMD)**                      | `.venv\Scripts\activate.bat`               |
+| **macOS / Linux / Unix (bash/zsh/sh)** | `source .venv/bin/activate`                |
+
 
 # Next Steps
 You have now successfully installed the IFCS software! Please read the READ.ME in the `\project\` folder. This document outlines all the remaining steps required to run the IFCS software.
