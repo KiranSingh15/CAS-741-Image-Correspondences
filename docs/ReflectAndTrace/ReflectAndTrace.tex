@@ -18,41 +18,6 @@
 
 \section{Changes in Response to Feedback}
 
-\plt{Summarize the changes made over the course of the project in response to
-feedback from TAs, the instructor, teammates, other teams, the project
-supervisor (if present), and from user testers.}
-
-\plt{For those teams with an external supervisor, please highlight how the feedback 
-from the supervisor shaped your project.  In particular, you should highlight the 
-supervisor's response to your Rev 0 demonstration to them.}
-
-\plt{Version control can make the summary relatively easy, if you used issues
-and meaningful commits.  If you feedback is in an issue, and you responded in
-the issue tracker, you can point to the issue as part of explaining your
-changes.  If addressing the issue required changes to code or documentation, you
-can point to the specific commit that made the changes.  Although the links are
-helpful for the details, you should include a label for each item of feedback so
-that the reader has an idea of what each item is about without the need to click
-on everything to find out.}
-
-\plt{If you were not organized with your commits, traceability between feedback
-and commits will not be feasible to capture after the fact.  You will instead
-need to spend time writing down a summary of the changes made in response to
-each item of feedback.}
-
-\plt{You should address EVERY item of feedback.  A table or itemized list is
-recommended.  You should record every item of feedback, along with the source of
-that feedback and the change you made in response to that feedback.  The
-response can be a change to your documentation, code, or development process.
-The response can also be the reason why no changes were made in response to the
-feedback.  To make this information manageable, you will record the feedback and
-response separately for each deliverable in the sections that follow.}
-
-\plt{If the feedback is general or incomplete, the TA (or instructor) will not
-be able to grade your response to feedback.  In that case your grade on this
-document, and likely the Revision 1 versions of the other documents will be
-low.} 
-
 \subsection{SRS and Hazard Analysis}
 Hazard Analysis was determined to exceed the scope of work for the development of the \progname{} software. This software will not be used in real-time or safety critical applications.\\ 
 
@@ -166,6 +131,58 @@ Hazard Analysis was determined to exceed the scope of work for the development o
 
 \end{itemize}
 
+\noindent Version 1.0 of the \textbf{MIS} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/75b68fcefe01cadebe7cf7eaae0b135417635167}{\textbf{75b68fc}}. Version 2.0 of the \textbf{MIS} was published under commit \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{\textbf{9f9e07a}}.
+
+\subsection*{Module Interface Specification (MIS) Revision Summary}
+
+\begin{itemize}
+
+  \item \textbf{Source of Feedback:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/issues/21}{GitHub Issue \#21} \\
+  \textbf{Issue Identified:} OpenCV class data in Section 4 duplicated content from Section 16. \\
+  \textbf{Action Taken:} Redundant content in Section 4 was removed to avoid duplication. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
+
+  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \textbf{Issue Identified:} Question raised about enumerating available image processing methods in Section 6.4.1. \\
+  \textbf{Action Taken:} No action taken. Justification was provided: all available methods are presented to the user dynamically via Specification Parameters Module and validated in the Input Format Module. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
+
+  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \textbf{Issue Identified:} Path strings used as environment variables were not defined as state variables. \\
+  \textbf{Action Taken:} Path strings were reclassified as state variables, including similar updates in Sections 7.4.2 and 9.4.2. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
+
+  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \textbf{Issue Identified:} Method calls lacked explicit module references in Section 6.4.4. \\
+  \textbf{Action Taken:} All method calls were updated to include explicit module prefixes (e.g., \texttt{config.get\_active\_methods()}). \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
+
+  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \textbf{Issue Identified:} \texttt{getcwd()} was incorrectly attributed to the Python \texttt{Path} class in Section 7.4.4. \\
+  \textbf{Action Taken:} Corrected to state that \texttt{getcwd()} belongs to the \texttt{os} module and clarified its output semantics. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
+
+  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \textbf{Issue Identified:} The \texttt{check\_limits()} method in Section 7.4.4 had undefined arguments. \\
+  \textbf{Action Taken:} Method signature was updated to include the appropriate tuning parameter arguments. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
+
+  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \textbf{Issue Identified:} Tuning parameters in Sections 8.3 and 8.4 were redundantly defined as both exported constants and state variables. \\
+  \textbf{Action Taken:} Removed state variable definitions to retain only exported constants. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
+
+  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \textbf{Issue Identified:} Suggested that method variables (e.g., \texttt{mthd\_...}) in Section 8.3.1 should be booleans. \\
+  \textbf{Action Taken:} Suggestion was kindly rejected. Method identifiers remain as integers to support enumerated selections for future extensibility. \\
+  \textbf{Commit:} Not applicable (no change implemented)
+
+  \item \textbf{Source of Feedback:} GitHub Issue \#21 \\
+  \textbf{Issue Identified:} \texttt{make\_directory(folder\_name)} in Section 9.4.4 did not clarify its effect on environment variables. \\
+  \textbf{Action Taken:} Semantics were updated to specify that this function causes an environment variable transition. \\
+  \textbf{Commit:} \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/commit/9f9e07a572e2f0db97f3e057f998ba9bad0d9189}{9f9e07a}
+
+\end{itemize}
 
 
 
