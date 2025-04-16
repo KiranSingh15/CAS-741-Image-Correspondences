@@ -19,6 +19,7 @@
 \usepackage[section]{placeins}
 \usepackage{caption}
 \usepackage{fullpage}
+\usepackage{comment}
 
 \hypersetup{
 bookmarks=true,     % show bookmarks bar?
@@ -54,6 +55,7 @@ urlcolor=cyan          % color of external links
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 2025-03-21 & 1.0 & Initial Release\\
+2025-04-16 & 2.0 & Final Release\\
 \bottomrule
 \end{tabularx}
 
@@ -201,7 +203,7 @@ The following table is taken directly from the Module Guide document for this pr
 & Image Plot Module \\
 \midrule
 
-\multirow{5}{0.3\textwidth}{Software Decision} & OpenCV Library \\
+\multirow{1}{0.3\textwidth}{Software Decision} & OpenCV Library \\
 \bottomrule
  
 \end{tabular}
@@ -210,7 +212,7 @@ The following table is taken directly from the Module Guide document for this pr
 \end{table}
 
 \newpage
-~\newpage
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MIS of Control Module} \label{mC}
 \subsection{Module}
@@ -250,7 +252,7 @@ main & - & - & - \\
 \begin{itemize}
   \item k: $\mathbb{N}$
   \item $\sigma$: $\mathbb{R}$
-  \item : $\mathbb{N}$
+  \item t: $\mathbb{N}$
   \item b: $\mathbb{N}$
   \item p: $\mathbb{N}$
   \item mthd\_img\_smoothing: $\mathbb{N}$
@@ -265,19 +267,18 @@ main & - & - & - \\
   \item fd1, fd2: \href{https://docs.opencv.org/4.x/d0/d13/classcv_1_1Feature2D.html}{OpenCV Feature2D Class}
   \item matches: \href{https://docs.opencv.org/3.4/d4/de0/classcv_1_1DMatch.html}{OpenCV DMatch Class}
   \item image\_IDs: str$^{n}$
-\end{itemize}
-
-% do we need to make these directories here? I dont think so
-
-
-\subsubsection{Environment Variables}
-\begin{itemize}
   \item head\_dir as str
   \item path\_input\_img as str 
   \item path\_keypoints as str
   \item path\_descriptors as str
   \item path\_feature\_matches as str
 \end{itemize}
+
+% do we need to make these directories here? I dont think so
+
+
+\subsubsection{Environment Variables}
+none
 
 
 \subsubsection{Assumptions}
@@ -287,63 +288,64 @@ none
 \noindent main():
 \begin{itemize}
 \item transition: Modify the state of the Specification Parameters Module and the 
-environment variables for the Image Plot Module and Output Format Module.
+environment variables for the Image Plot Module and Output Format Module as follows:
 \end{itemize}
-[head\_dir as str] = get\_head\_directory() \newline
-set\_parent\_directory(head\_dir)\newline \newline
+[head\_dir as str] = config.get\_head\_directory() \newline
+plotImage.set\_parent\_directory(head\_dir)\newline \newline
 [mthd\_img\_smoothing, mthd\_kp\_detection, mthd\_kp\_descriptors, 
 mthd\_ft\_matching] 
-= get\_active\_methods() \newline \newline
+= config.get\_active\_methods() \newline \newline
 [k, $\sigma$, t, b, p]
-= get\_chosen\_parameters() \newline \newline
-check\_limits(k, b, p, t, $\sigma$) \newline \newline
-[image\_IDs, num\_images] = get\_img\_IDs(head\_dir) \newline \newline
+= config.get\_chosen\_parameters() \newline \newline
+config.check\_parameter\_limits(k, b, p, t, $\sigma$) \newline \newline
+[image\_IDs, num\_images] = config.get\_img\_IDs(head\_dir) \newline \newline
 \#\# \textit{For images $img_{1}$ and $img_{2}$ in image\_IDs, where $img_{1} \neq img_{2}$ and $img_{1} < img_{2}$}\newline
 \# \textit{Smooth the image as a preprocessing step to keypoint detection} \newline
-img\_obj\_1 = smooth\_image(img\_obj\_1, k, $\sigma$) \newline \newline
+img\_obj\_1 = smoothImage.smooth\_image(img\_obj\_1, k, $\sigma$) \newline \newline
 \# \textit{Identify the keypoints. Note that if the methods for keypoint detection and 
 descriptors are both == 1, then ORB is the selected method, and the keypoint and descriptor 
 modules should use the same ORB object, which likely will come from the OpenCV library}\newline \newline
-orb\_object = initialize\_orb(mthd\_kp\_detection, t, b, p) \newline
-brute\_force\_object = create\_BF\_matcher(mthd\_ft\_match, 6, TRUE) where 6 is the enumerated value of the Hamming Norm \newline
-kp1 = detect\_keypoints(orb\_object, img\_1)\newline 
-kp2 = detect\_keypoints(orb\_object, img\_2)\newline \newline
+orb\_object = detectKeypoints.initialize\_orb(mthd\_kp\_detection, t, b, p) \newline
+brute\_force\_object = matchFeatures.create\_BF\_matcher(mthd\_ft\_match, 6, TRUE) where 6 is the enumerated value of the Hamming Norm \newline
+kp1 = detectKeypoints.detect\_keypoints(orb\_object, img\_1)\newline 
+kp2 = detectKeypoints.detect\_keypoints(orb\_object, img\_2)\newline \newline
 \# \textit{export keypoints to csv} \newline 
-output\_keypoints(img\_IDs($img\_idx\_{1}$), head\_dir, kp1), where the image index corresponds to the selected keypoints \newline
-output\_keypoints(img\_IDs($img\_idx\_{2}$), head\_dir, kp2) \newline \newline
+formatOutput.output\_keypoints(img\_IDs($img\_idx\_{1}$), head\_dir, kp1), where the image index corresponds to the selected keypoints \newline
+formatOutput.output\_keypoints(img\_IDs($img\_idx\_{2}$), head\_dir, kp2) \newline \newline
 \# \textit{Assign descriptors to keypoints} \newline 
-fd1 = compute\_descriptors(img\_1, kp1)\newline 
-fd2 = compute\_descriptors(img\_2, kp2)\newline \newline
+fd1 = assignDescriptors.compute\_descriptors(img\_1, kp1)\newline 
+fd2 = assignDescriptors.compute\_descriptors(img\_2, kp2)\newline \newline
 \# \textit{export descriptors to csv} \newline
-output\_features(img\_IDs($img\_idx\_{1}$), head\_dir, fd1), where the image index corresponds to the selected descriptors \newline
-output\_features(img\_IDs($img\_idx\_{2}$), head\_dir, fd1) \newline \newline
+formatOutput.output\_features(img\_IDs($img\_idx\_{1}$), head\_dir, fd1), where the image index corresponds to the selected descriptors \newline
+formatOutput.output\_features(img\_IDs($img\_idx\_{2}$), head\_dir, fd1) \newline \newline
 \# \textit{generate and save image with keypoints} \newline 
-img\_kp = gen\_kp\_img(img\_IDs($img\_idx\_{1}$), kp1, 0)\newline
-save\_image(img\_kp, ``"kpDetection'', img\_IDs($img\_idx\_{1}$))\newline \newline
+img\_kp = plotImage.gen\_kp\_img(img\_IDs($img\_idx\_{1}$), kp1, 0)\newline
+plotImage.save\_image(img\_kp, ``"kpDetection'', img\_IDs($img\_idx\_{1}$))\newline \newline
 \# \textit{generate and save image with scaled keypoints} \newline 
-img\_kp = gen\_kp\_img(img\_IDs($img\_idx\_{2}$), kp2, 0)\newline
-save\_image(img\_kp, ``"kpDetection'', img\_IDs($img\_idx\_{2}$))\newline \newline
+img\_kp = plotImage.gen\_kp\_img(img\_IDs($img\_idx\_{2}$), kp2, 0)\newline
+plotImage.save\_image(img\_kp, ``"kpDetection'', img\_IDs($img\_idx\_{2}$))\newline \newline
 \# \textit{generate and save image with scaled keypoints} \newline
-img\_fd = gen\_kp\_img(img\_IDs($img\_idx\_{1}$), kp1, 4), where flag = 4 representes a flag to draw rich keypoints\newline
-save\_image(img\_kp, ``fDescriptors'', img\_IDs($img\_idx\_{1}$))\newline \newline
-img\_fd = gen\_kp\_img(img\_IDs($img\_idx\_{2}$), kp2, 4)\newline
-save\_image(img\_kp, ``fDescriptors'', img\_IDs($img\_idx\_{2}$))\newline \newline
+img\_fd = plotImage.gen\_kp\_img(img\_IDs($img\_idx\_{1}$), kp1, 4), where flag = 4 representes a flag to draw rich keypoints\newline
+plotImage.save\_image(img\_kp, ``fDescriptors'', img\_IDs($img\_idx\_{1}$))\newline \newline
+img\_fd = plotImage.gen\_kp\_img(img\_IDs($img\_idx\_{2}$), kp2, 4)\newline
+plotImage.save\_image(img\_kp, ``fDescriptors'', img\_IDs($img\_idx\_{2}$))\newline \newline
 \#\# \newline \newline
 \# \textit{Compare features between differing images} \newline 
-matches = match\_features(brute\_force\_obj, fd1, fd2) \newline
-matches = sort\_matches(brute\_force\_obj, matches) \newline \newline
+matches = matchFeatures.match\_features(brute\_force\_obj, fd1, fd2) \newline
+matches = matchFeatures.sort\_matches(brute\_force\_obj, matches) \newline \newline
 \# \textit{verify that the match structure conforms to the conditions in the
 Output Verification Module} \newline 
-check\_match\_uniqueness(img\_IDs($img\_idx\_{1}$), img\_IDs($img\_idx\_{2}$, matches)\newline \newline
+verifyOutput.check\_match\_uniqueness(img\_IDs($img\_idx\_{1}$), img\_IDs($img\_idx\_{2}$, matches)\newline \newline
 \# \textit{export matches to csv} \newline
-output\_matches(img\_IDs($img\_idx\_{1}$), img\_IDs($img\_idx\_{2}$), head\_dir, matches) \newline \newline
+formatOutput.output\_matches(img\_IDs($img\_idx\_{1}$), img\_IDs($img\_idx\_{2}$), head\_dir, matches) \newline \newline
 \# \textit{generate and save images with corresponding matches} \newline
-img\_fm = gen\_matched\_features(img\_obj\_1, kp1, img\_obj\_2, kp2, matches, 200, 2), where 200 of the best matches are shown,
+img\_fm = plotImage.gen\_matched\_features(img\_obj\_1, kp1, img\_obj\_2, kp2, matches, 200, 2), where 200 of the best matches are shown,
 and the flag of 2 indicates that unmatched keypoints will not be displayed.\newline
-save\_image(img\_fm,``fMatches'', img\_IDs($img\_idx\_{1}$ + img\_IDs($img\_idx\_{2}$))
+plotImage.save\_image(img\_fm,``fMatches'', img\_IDs($img\_idx\_{1}$ + img\_IDs($img\_idx\_{2}$))
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{MIS of Input Format Module} \label{mIF}
 This module addresses the functional requirements as follows.
 % \begin{itemize}
@@ -372,7 +374,7 @@ config
 \subsubsection{Exported Constants}
 
 \subsubsection{Exported Access Programs}
-\begin{tabular}{p{4cm} p{4cm} p{4.5cm} p{3.5cm}}
+\begin{tabular}{p{3.75cm} p{4.5cm} p{4.5cm} p{3.5cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -381,7 +383,7 @@ get\_head\_directory
 & head\_dir as string 
 & noHeadFound \\
 \hline
-get\_active\_functions 
+get\_active\_methods 
 & - 
 & mthd\_img\_smoothing: $\mathbb{N}$, \newline 
 mthd\_kp\_detection: $\mathbb{N}$, \newline 
@@ -394,7 +396,7 @@ get\_chosen\_parameters & -
 b: $\mathbb{N}$, \newline  
 p: $\mathbb{N}$, \newline 
 t: $\mathbb{N}$, \newline 
-$\sigma$: $\mathbb{N}$
+$\sigma$: $\mathbb{R}$
 & - \\
 \hline
 set\_input\_img\_path 
@@ -408,14 +410,23 @@ get\_img\_IDs
 & img\_IDs as $str^{n}$ 
 & - \\
 \hline
-check\_limits 
+check\_parameter\_limits 
 & k: $\mathbb{N}$, \newline 
 b: $\mathbb{N}$, \newline  
 p: $\mathbb{N}$, \newline 
 t: $\mathbb{N}$, \newline 
-$\sigma$ $\mathbb{N}$
+$\sigma$ $\mathbb{R}$
 & - 
 & invalid\_parameters\\
+\hline
+check\_method\_limits 
+& mthd\_img\_smoothing: $\mathbb{N}$, \newline 
+mthd\_kp\_detection: $\mathbb{N}$, \newline  
+mthd\_kp\_description: $\mathbb{N}$, \newline 
+mthd\_ft\_match: $\mathbb{N}$, \newline 
+method\_count: $\mathbb{N}^4$
+& - 
+& invalid\_method\_selected\\
 \hline 
 verify\_imported\_image 
 & img $\in \mathbb{N}^{h \times w}$, \newline 
@@ -430,26 +441,23 @@ img\_id as str
 \subsection{Semantics}
 \subsubsection{State Variables}
 \begin{itemize}
-  \item k: $\mathbb{Z}$
+  \item head\_dir as str
+  \item local\_folder as str
+  \item img\_dir as str
+  \item k: $\mathbb{N}$
   \item $\sigma$: $\mathbb{R}$
-  \item t: $\mathbb{Z}$
-  \item b: $\mathbb{Z}$
-  \item p: $\mathbb{Z}$
-  \item mthd\_img\_smoothing: $\mathbb{Z}$
-  \item mthd\_kp\_detection: $\mathbb{Z}$
-  \item mthd\_kp\_description: $\mathbb{Z}$
-  \item mthd\_ft\_match: $\mathbb{Z}$
+  \item t: $\mathbb{N}$
+  \item b: $\mathbb{N}$
+  \item p: $\mathbb{N}$
+  \item mthd\_img\_smoothing: $\mathbb{N}$
+  \item mthd\_kp\_detection: $\mathbb{N}$
+  \item mthd\_kp\_description: $\mathbb{N}$
+  \item mthd\_ft\_match: $\mathbb{N}$
+  \item method\_count: $\mathbb{N}^4$
 \end{itemize}
-
-tuple of methods and parameters goes here.\\
-set the state as the defaults, \\
-then set the state as the user defined methods, if available
 
 
 \subsubsection{Environment Variables}
-\begin{itemize}
-  \item head\_dir as str
-\end{itemize}
 
 \subsubsection{Assumptions}
 none 
@@ -458,19 +466,27 @@ none
 \noindent get\_head\_directory():
 \begin{itemize}
   \item output: head\_dir = Path(os.getcwd()) where head\_dir defined as 
-  a member of the \href{https://docs.python.org/3/library/os.path.html}{Python Path Class}.
+  a member of the \href{https://docs.python.org/3/library/os.path.html}{Python Path Class}, and getcwd() is defined as a method of the \href{https://docs.python.org/3/library/os.html}{Python OS class}.
   \item exception exc:= noHeadFound if path is not returned
 \end{itemize}
 
 
-\noindent get\_active\_functions():
+\noindent get\_active\_methods():
+
+\noindent [mthd\_img\_smoothing, mthd\_kp\_detection, 
+  mthd\_kp\_description, mthd\_ft\_match] \\ = specParams.get\_assigned\_methods() 
 \begin{itemize}
   \item output: out := [mthd\_img\_smoothing, mthd\_kp\_detection, 
-  mthd\_kp\_description, mthd\_ft\_match] 
+  mthd\_kp\_description, mthd\_ft\_match]
+  \item exception exc:= none
 \end{itemize}
 
 
-\noindent get\_chosen\_parameters():
+\noindent get\_chosen\_parameters(): 
+
+[k, $\sigma$, t, b, p] = specParams.get\_assigned\_parameters()
+
+
 \begin{itemize}
   \item output: out:= [k, b, p, t,  $\sigma$]
   \item exception exc:= none
@@ -483,7 +499,7 @@ none
   \item transition: tran:= img\_dir = head\_dir + local\_folder
 \end{itemize}
 \begin{itemize}
-  \item output: out:= [img\_dir, local\_folder]
+  \item output: out:= none
   \item exception exc:= none
 \end{itemize}
 
@@ -500,18 +516,36 @@ num\_images = len(input\_img)
 \end{itemize}
 
 
-\noindent check\_limits():
+\noindent check\_parameter\_limits(k, b, p, t, $\sigma$:):
 \begin{itemize}
   \item output: out:= none
   \item exception: exc:=invalid\_parameters\
   \noindent \begin{longtable*}[l]{l l} 
-    $\neg (k < 1)$ & $\Rightarrow$ "badKernelSize"\\
-    $\neg (k > 15)$ & $\Rightarrow$ "badKernelSize"\\
-    $\neg (k \; \% \; 2 \neq 0)$ & $\Rightarrow$ "badKernelSize"\\
-    $\neg (0 < \sigma < 10)$ & $\Rightarrow$ "badStdDeviation"\\
-    $\neg (2 \leq t \leq 255)$ & $\Rightarrow$ "badFASTThreshold"\\
-    $\neg (1 \leq b \leq 2048)$ & $\Rightarrow$ "badBinSize"\\
-    $\neg (5 \leq p \leq 100)$ & $\Rightarrow$ "badPatchSize"\\
+    $\neg (k < 1)$ & $\Rightarrow$ ``badKernelSize"\\
+    $\neg (k > 15)$ & $\Rightarrow$ ``badKernelSize"\\
+    $\neg (k \; \% \; 2 \neq 0)$ & $\Rightarrow$ ``badKernelSize"\\
+    $\neg (0 < \sigma < 10)$ & $\Rightarrow$ ``badStdDeviation"\\
+    $\neg (2 \leq t \leq 255)$ & $\Rightarrow$ ``badFASTThreshold"\\
+    $\neg (1 \leq b \leq 2048)$ & $\Rightarrow$ ``badBinSize"\\
+    $\neg (5 \leq p \leq 100)$ & $\Rightarrow$ ``badPatchSize"\\
+    \end{longtable*}
+\end{itemize}
+
+
+\noindent check\_method\_limits(mthd\_img\_smoothing, 
+mthd\_kp\_detection, mthd\_kp\_description, mthd\_ft\_match, method\_count):
+\begin{itemize}
+  \item output: out:= none
+  \item exception: exc:=invalid\_method\_selected\
+  \noindent \begin{longtable*}[l]{l l} 
+    $\neg$ (mthd\_img\_smoothing $<$ 0) & $\Rightarrow$ ``invalidSmoothingMethod"\\
+    $\neg$ (mthd\_img\_smoothing $>$ method\_count[0]) & $\Rightarrow$ ``invalidSmoothingMethod"\\
+    $\neg$ (mthd\_img\_smoothing $<$ 0) & $\Rightarrow$ ``invalidKPDetectionMethod"\\
+    $\neg$ (mthd\_img\_smoothing $>$ method\_count[1]) & $\Rightarrow$ ``invalidKPDetectionMethod"\\
+    $\neg$ (mthd\_img\_smoothing $<$ 0) & $\Rightarrow$ ``invalidDescriptionMethod"\\
+    $\neg$ (mthd\_img\_smoothing $>$ method\_count[2]) & $\Rightarrow$ ``invalidDescriptionMethod"\\
+    $\neg$ (mthd\_img\_smoothing $<$ 0) & $\Rightarrow$ ``invalidMatchingMethod"\\
+    $\neg$ (mthd\_img\_smoothing $>$ method\_count[3]) & $\Rightarrow$ ``invalidMatchingMethod"\\
     \end{longtable*}
 \end{itemize}
 
@@ -523,6 +557,7 @@ num\_images = len(input\_img)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{MIS of Specification Parameters Module} \label{mSP}
 This module addresses the functional requirements as follows.
 % \begin{itemize}
@@ -541,17 +576,7 @@ None.
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
-\begin{itemize}
-  \item $k: = 5$
-  \item $\sigma: = 1$ 
-  \item $t: = 15$ 
-  \item $b: = 2000$ 
-  \item $p: = 31$ 
-  \item $mthd\_img\_smoothing: = 1$
-  \item $mthd\_kp\_detection: = 1$ 
-  \item $mthd\_kp\_description: = 1$
-  \item $mthd\_ft\_match: = 1$
-\end{itemize}
+none
 \subsubsection{Exported Access Programs}
 
 \begin{center}
@@ -559,19 +584,28 @@ None.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-get\_default\_parameters & - & 
-k: $\mathbb{Z}$ \newline 
+get\_available\_methods & - & 
+method\_count: $\mathbb{N}^4$
+& - \\
+\hline
+
+
+get\_assigned\_parameters & - & 
+k: $\mathbb{N}$ \newline 
 $\sigma$: $\mathbb{R}$ \newline 
 t: $\mathbb{Z}$ \newline 
 b: $\mathbb{Z}$ \newline 
 p: $\mathbb{Z}$ 
 & - \\
 \hline
-get\_default\_methods & - & 
-mthd\_img\_smoothing: $\mathbb{Z}$ \newline 
-mthd\_kp\_detection: $\mathbb{Z}$ \newline 
-mthd\_kp\_description: $\mathbb{Z}$ \newline 
-mthd\_ft\_match: $\mathbb{Z}$ & - \\
+\begin{comment}
+
+\end{comment}
+get\_assigned\_methods & - & 
+mthd\_img\_smoothing: $\mathbb{N}$ \newline 
+mthd\_kp\_detection: $\mathbb{N}$ \newline 
+mthd\_kp\_description: $\mathbb{N}$ \newline 
+mthd\_ft\_match: $\mathbb{N}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -579,16 +613,23 @@ mthd\_ft\_match: $\mathbb{Z}$ & - \\
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
-k: $\mathbb{Z}$ \\
-$\sigma$: $\mathbb{R}$ \\
-t: $\mathbb{R}$ \\
-b: $\mathbb{Z}$ \\
-p: $\mathbb{Z}$ \\
-mthd\_img\_smoothing: $\mathbb{Z}$ \\
-mthd\_kp\_detection: $\mathbb{Z}$ \\
-mthd\_kp\_description: $\mathbb{Z}$ \\
-mthd\_ft\_match: $\mathbb{Z}$ \\
+\begin{itemize}
+  \item head\_dir as str
+  \item k: $\mathbb{N}$
+  \item $\sigma$: $\mathbb{R}$
+  \item t: $\mathbb{N}$
+  \item b: $\mathbb{N}$
+  \item p: $\mathbb{N}$
+  \item mthd\_img\_smoothing: $\mathbb{N}$
+  \item mthd\_kp\_detection: $\mathbb{N}$
+  \item mthd\_kp\_description: $\mathbb{N}$
+  \item mthd\_ft\_match: $\mathbb{N}$
+  \item method\_count: $\mathbb{N}^4$
+  \item mthds\_avail\_is: $\textrm{str}^{(n1)}$, as a list of strings where ${n1}$ is defined at runtime
+  \item mthds\_avail\_kpd: $\textrm{str}^{(n2)}$, as a list of strings where ${n2}$ is defined at runtime
+  \item mthds\_avail\_fd: $\textrm{str}^{(n3)}$, as a list of strings where ${n3}$ is defined at runtime
+  \item mthds\_avail\_ftm: $\textrm{str}^{(n4)}$, where ${n4}$ is defined at runtime
+\end{itemize}
 
 \subsubsection{Environment Variables}
 none 
@@ -597,27 +638,52 @@ none
 none 
 
 \subsubsection{Access Routine Semantics}
-\noindent get\_default\_parameters():
+
+
+\noindent get\_available\_methods():\\ \\
+\# \textit{image manipulation} \\
+mthds\_is = [``Gaussian Kernel"]  \# \textit{methods of image smoothing} \\
+mthds\_kpd = [``FAST", ``Harris"]  \# \textit{methods of keypoint detection} \\
+mthds\_fd = [``Binary Descriptors"]  \# \textit{methods of assigning feature descriptors} \\ \\
+\# \textit{image comparison} \\
+mthds\_ftm = [
+    ``Hamming Distance - Brute Force", ``Hamming Distance - FLANN",
+]  \\ \\
+method\_count = [len(mthds\_is), len(mthds\_kpd), len(mthds\_fd), len(mthds\_ftm)]
 \begin{itemize}
-\item output: out:= [k, $\sigma$ t, b, p]
-  \item exception: none  
+\item output: out:= method\_count
+\item exception: none  
 \end{itemize}
 
-\noindent get\_default\_methods():
+
+\noindent get\_assigned\_parameters():\\
+\# \textit{Note that these parameters may be updated by the user with the Specification Parameters Module itself.}\\ \\
+$k: = 5$ \\
+$\sigma: = 1$ \\
+$t: = 15$ \\
+$b: = 2000$ \\
+$p: = 31$ 
+
 \begin{itemize}
-\item output:
-  \begin{itemize}
-    \item mthd\_img\_smoothing: $\mathbb{Z}$
-    \item mthd\_kp\_detection: $\mathbb{Z}$ 
-    \item mthd\_kp\_description: $\mathbb{Z}$
-    \item mthd\_ft\_match: $\mathbb{Z}$
-  \end{itemize}
-  \item exception: none 
+\item output: out:= [k, $\sigma$ t, b, p]
+\item exception: none  
+\end{itemize}
+
+\noindent get\_assigned\_methods(): \\
+\# \textit{Note that these methods may be updated by the user with the Specification Parameters Module itself.} \\ \\
+mthd\_img\_smoothing:= 1 \\
+mthd\_kp\_detection:= 1 \\
+mthd\_kp\_description:= 1 \\
+mthd\_ft\_match:= 1 
+\begin{itemize}
+\item output: out:= [mthd\_img\_smoothing, mthd\_kp\_detection, mthd\_kp\_description, mthd\_ft\_match]
+\item exception: none 
 \end{itemize}
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{MIS of Output Format Module} \label{mOF}
 % \begin{itemize}
 %   \item R\ref{R_UniqueMatch_IDs}
@@ -658,7 +724,7 @@ Not applicable.
   \hline
   make\_directory
   & folder\_name: str
-  & - \\
+  & output\_folder as directory folder \\
   \hline
   output\_keypoints 
   & img\_id: str, \newline
@@ -689,17 +755,19 @@ Not applicable.
   
   \subsubsection{State Variables}
   \begin{itemize}
-    \item keypoint\_fldr: path
-    \item feature\_fldr: path
-    \item match\_fldr: path
+    \item greyscale\_fldr as str
+    \item smoothed\_imagery\_fldr as str
+    \item keypoint\_fldr as str
+    \item feature\_fldr as str
+    \item match\_fldr as str
+    \item keypoint\_path as str
+    \item feature\_path as str
+    \item match\_path as str
   \end{itemize}
   
   \subsubsection{Environment Variables}
   %%%%%%%%%% 
   \begin{itemize}
-    \item keypoint\_path: path
-    \item feature\_path: path
-    \item match\_path: path
     \item output\_folder: path
   \end{itemize}
   
@@ -708,20 +776,21 @@ Not applicable.
   none 
   \subsubsection{Access Routine Semantics}
   
-  \noindent define\_output\_folders(): \newline
-  greyscale\_folder\_nm = ``gsImagery" \newline
-  smoothed\_imagery\_folder\_nm = ``gkImagery" \newline
-  keypoint\_folder\_nm = ``kpDetection" \newline
-  descriptor\_folder\_nm = ``fDescriptors" \newline
-  matches\_folder\_nm = ``fMatches" 
+  \noindent define\_output\_folders(): \newline \newline 
+  greyscale\_fldr = ``gsImagery" \newline
+  smoothed\_imagery\_fldr = ``gkImagery" \newline
+  keypoint\_fldr = ``kpDetection" \newline
+  descriptor\_fldr = ``fDescriptors" \newline
+  matches\_fldr = ``fMatches" 
   \begin{itemize}
-    \item output: out:= [greyscale\_folder\_nm, smoothed\_imagery\_folder\_nm, keypoint\_folder\_nm, descriptor\_folder\_nm, matches\_folder\_nm]
+    \item output: out:= [greyscale\_fldr, smoothed\_imagery\_fldr, keypoint\_folder\_nm, descriptor\_fldr, matches\_fldr]
     \item exception: none 
   \end{itemize}
 
   \noindent make\_directory(folder\_name):
   \begin{itemize}
-  \item output: out:= output\_folder = os.makedirs(folder\_name, exist\_ok=True) per \href{https://docs.python.org/3/library/os.html}{Python OS Class}
+  \item transition:= output\_folder = os.makedirs(folder\_name, exist\_ok=True) per \href{https://docs.python.org/3/library/os.html}{Python OS Class}
+  \item output: out:= none
   \item exception: none 
   \end{itemize}  
 
@@ -786,6 +855,7 @@ Not applicable.
 none
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{MIS of Output Verification Module} \label{mOV}
 % \begin{itemize}
 %   \item R\ref{R_DistinctImages}
@@ -815,7 +885,7 @@ check\_match\_uniqueness
 & query\_img\_id: str, \newline
 train\_img\_id: str, \newline
 matches: \href{https://docs.opencv.org/3.4/d3/da1/classcv_1_1BFMatcher.html}{BFMatcher Class}
-& -  
+& flag\_uniqueness: $\mathbb{B}$
 & same\_image, \newline
 same\_descriptor \\
 \hline
@@ -848,7 +918,7 @@ none
 
 \noindent check\_match\_uniqueness (query\_img\_id, train\_img\_id, matches):
 \begin{itemize}
-  \item output: none 
+  \item output: out: = flag\_uniqueness = query\_img\_id != train\_img\_id
   \item exception:
   \begin{itemize}
     \item exc := ``same\_image'' \textbar{} (query\_img\_id == train\_img\_id), where the query and training images share the same name.
@@ -862,6 +932,7 @@ none
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{MIS of Image Smoothing Module} \label{mIS}
 % \begin{itemize}
 %   \item R\ref{R_NoiseReduction}
@@ -890,7 +961,7 @@ None.
   & mthd\_img\_smoothing: $\mathbb{N}$ \newline
   img\_in: $\mathbb{N}^{h \times w}$ \newline
   k: $\mathbb{N}$ \newline
-  $\sigma$: $\mathbb{N}$
+  $\sigma$: $\mathbb{R}$
   & img\_out: $\mathbb{N}^{h \times w}$
   & - \\
   \hline
@@ -919,6 +990,7 @@ k, $\sigma$ \textbar \: mthd\_img\_smoothing == 1):
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{MIS of Keypoint Detection Module} \label{mKD}
 % \begin{itemize}
 %   \item R\ref{R_Default_FD}
@@ -1011,6 +1083,7 @@ keypoints = orb\_object.detect(img)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{MIS of Feature Descriptor Module} \label{mFD}
 % \begin{itemize}
 %   \item R\ref{R_Default_KD}
@@ -1080,6 +1153,7 @@ orb\_object = get\_orb\_object()
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{MIS of Feature Matching Module} \label{mFM}
 % \begin{itemize}
 %   \item R\ref{R_Default_FM}
@@ -1176,6 +1250,7 @@ sort\_matches(bf\_matcher\_object, matches):
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{MIS of Image Plot Module} \label{mIP}
 \subsection{Module}
 plotImage
@@ -1285,6 +1360,7 @@ save\_image(img\_in, target\_folder, img\_name):
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{MIS of OpenCV Module} \label{mOpenCV}
 \subsection{Module}
 OpenCVLib
