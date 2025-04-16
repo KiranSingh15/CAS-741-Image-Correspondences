@@ -46,24 +46,20 @@ where \project\ is the custom name of your parent directory.
 ------------------
 ------------------
 
+# Run the Makefile
 
+| **Platform**       | **Action**                               | **Command / Notes**                                |
+|--------------------|-------------------------------------------|-----------------------------------------------------|
+| **Windows**        | Install `make` via Chocolatey             | `powershell`:<br>`choco install make`               |
+|                    | Run Makefile (Git Bash)                   | `bash`:<br>`make install`                           |
+|                    | Run Makefile (PowerShell)                 | `powershell`:<br>`make install`                     |
+| **macOS**          | Install `make` via Xcode tools            | `bash`:<br>`xcode-select --install`                 |
+|                    | Install `make` via Homebrew               | `bash`:<br>`brew install make`                      |
+|                    | Run Makefile                              | Navigate to `src` folder:<br>`bash`:<br>`make install` |
+| **Linux (Ubuntu)** | Install `make`                            | `bash`:<br>`sudo apt install make`                  |
+| **Linux (Fedora)** | Install `make`                            | `bash`:<br>`sudo dnf install make`                  |
+| **Linux (any)**    | Run Makefile                              | Navigate to `src` folder:<br>`bash`:<br>`make install` |
 
-
-
-# Run the Make file
-
-| **Platform**     | **Action**                                 | **Command / Notes**                                                                                         |
-|------------------|---------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| **Windows**      | Install `make` (via Chocolatey) | ```powershell``` ```choco install make ```  |
-|  | Run Makefile (using Git Bash)| ```bash``` ```make install```      |
-|     | Run Makefile (PowerShell)    | ```powershell``` ```make install ```  |
-|
-| **macOS**  | Install `make` via Xcode tools  | ```bash``` ```xcode-select --install ``` |   | Install `make` via Homebrew   | ```bash``` ``` brew install make ```                                                                          |
-|                  | Run Makefile                               | Navigate to `src` folder: ```bash``` ``` make install ```                                                  |
-|
-| **Linux (Ubuntu)** | Install `make`                           | ```bash``` ``` sudo apt install make ```                                                                      |
-| **Linux (Fedora)**| Install `make`                            | ```bash``` ```sudo dnf install make ```                                                                      |
-| **Linux (any)**   | Run Makefile                              | Navigate to `src` folder: ```bash make install ```                                                  |
 
 
 -----------------------
