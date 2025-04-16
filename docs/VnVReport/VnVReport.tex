@@ -13,6 +13,7 @@
 \usepackage[round]{natbib}
 \usepackage{graphicx}
 \usepackage{subfig}
+\usepackage{float}
 
 \input{../Comments}
 \input{../Common}
@@ -32,7 +33,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-2025-04-15 & Rev 1.0 & Initial Release\\
+2025-04-16 & Rev 1.0 & Initial Release\\
 \bottomrule
 \end{tabularx}
 
@@ -221,13 +222,38 @@ Figure \ref{fig-FM-AR} shows an example of thirty candidate feature matches betw
   \end{itemize}
 A test script named \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/src/tests/test_STNFR-RE-01.py}{\textbf{test\_STNFR-RE-01.py}} was prepared. In this script, two images from the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/testImages/lego}{\textbf{Lego}} image set are renamed and reordered, as outlined in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/testImages/lego_swap}{\textbf{Lego\_Swap}} folder. Both of these datasets are processed to identify candidate matches. The resulting match candidates are compared between each data set to confirm that each descriptor and corresponding coordinates from the Lego dataset is matched to the equivalent descriptor in the transformed Lego\_Swap dataset. This test passed with zero errors, and the results are summarized in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/tests/Outputs/2025-04-13_15-19-26}{\textbf{STNFR-RE-01}}.
 
-
 \subsection{Usability}
-\textbf{IFCS\_DEMO-01}\\
+\textit{Requirements addressed:}
 \begin{itemize}
   \item NFR2 (Simple to Use)
-  \end{itemize}
-Ten (10) individuals were given a demonstration of the IFCS software, which included a detailed walkthough of the download process, installation processes, and setup of the virtual environment. Audience members were shown how to add new images from the provided library to the inputs folder, adjust the methods and parameters of image processing, and initiate the IFCS pipeline. Once completed, audience members were shown the following outputs.
+\end{itemize}
+
+\subsection{User Experience}
+\textbf{STNFR-UX-1}\\
+The Domain Expert was tasked with executing the complete end-to-end feature matching process using the IFC software. The user was provided with a dataset of 12 ArUco images from a single camera, each image labeled according to a consistent naming pattern. All images were extracted from the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/projectFiles/Raw_Image_Lib}{Raw Image Library} offered within the IFCS program. Each image was processed using the default configuration. 
+\newline
+\newline
+The user was responsible for updating the IFC configuration file with the image path, the desired output directories, and appropriate camera metadata. Following this setup, the user executed the pipeline and reviewed the outputs in the designated folders.
+\newline
+\newline
+The test was then repeated using the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/src/projectFiles/Raw_Image_Lib/Lego2}{Lego2} image set from the library to affirm the results of the test. However, the user was asked to update the following parameters within the Parameter Specification Module and to describe their experience.
+\newline
+\newline
+The following aspects of the experience were evaluated using a scale of 1 (Very Difficult/Unsatisfied) to 10 (Very Easy/Satisfied):
+
+\begin{itemize}
+  \item \textbf{Ease of preparing input files:} 8 — The naming structure was intuitive.
+  \item \textbf{Ease of assigning camera properties:} 7 — Manual but manageable.
+  \item \textbf{Clarity of configuration file:} 7 — Clear but would benefit from examples.
+  \item \textbf{Understandability of output files:} 8 — Outputs were logically organized and interpretable.
+  \item \textbf{Overall satisfaction with the pipeline:} 9 — The experience was efficient and the results were accurate.
+  \item \textbf{Comfort modifying processing parameters:} 6 — Could benefit from using a YAML file instead of direct source code edits.
+  \item \textbf{Likelihood of using the software again:} 9 — User expressed strong confidence in the pipeline.
+\end{itemize}
+The test confirmed that the IFC software is usable by technical personnel with domain knowledge, and the outputs aligned with the user’s expectations. Although system parameters were not modified in the test case with ArUco markers, the test with the Lego2 images set yielded valuable insight as the user noted that a YAML configuration interface would improve their perceived ease of use in future tests.\\
+
+\noindent\textbf{IFCS\_DEMO-01}\\
+This assessment was introduced in an adhoc fashion to support the code walkthrough of the IFCS. Ten (10) audience members with varying degrees of experience in image processing, from novice to advanced, were given a demonstration of the IFCS software. This demonstration included a detailed walkthough of the download process, installation processes, and setup of the virtual environment. Audience members were shown how to add new images from the provided library to the inputs folder, adjust the methods and parameters of image processing, and initiate the IFCS pipeline. Once completed, audience members were shown the following outputs.
 \begin{itemize}
   \item generated greyscale imagery
   \item generated smoothed imagery
@@ -253,42 +279,43 @@ Per the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob
 \end{itemize}
 Timing metrics and memory usage were identified as test features of interest for the lifespan of the IFCS software. These tools would be appended to compare the relative performance of different methods such as FAST and Harris scores for keypoint detection. However, as the scope of the Winter 2025 development cycle narrowed to prioritize robust performance of ORB feature detection and brute-force matching, the implementation of timing metrics will be deferred to the development cycle of Summer 2025. These metric wil be assessed as part of the systems tests as follows through the \href{https://pypi.org/project/pytest-monitor/}{Pytest Monitor} plugin, which has the capacity to assess both timing and memory metrics and is suitable for integration with GitHub Actions.
 
-	
+
 \section{Comparison to Existing Implementation}	
 This section is \textbf{not applicable}.
 
-\section{Unit Testing}
-All unit tests are automated to run via a pull request and Pytest Github Actions. These tests can be found in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/test}{\textbf{test}}. Each test is initiated by the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/run_unit_checks.py}{\textbf{run\_unit\_checks.py}} program, as shown in Figure \ref{unit_tests}. Upon completion of the unit tests a \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/results/UnitTests-60f8e10/2025-04-15_01-38-43/summary.txt}{\textbf{summary}} file is generated that outlines the quantity of tests that have passed or failed for each module, as shown in Figure \ref{unit_tests_summary}. In the same folder, a detailed summary of all unit tests for each module is outlined, as shown in Figure \ref{unit_tests_reports}. A detailed example of the unit test report for the \textbf{Specification Parameters Module (M4)} is outlined in Figure \ref{sp_report}. All unit tests were shown to have passed successfully for each module.
+
+\section{Unit Testing}\label{Sec_utest}
+All unit tests are automated to run via a pull request and Pytest Github Actions. These tests can be found in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/test}{\textbf{test}} folder. Each test is initiated by the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/run_unit_checks.py}{\textbf{run\_unit\_checks.py}} program, as shown in Figure \ref{unit_tests}. Upon completion of the unit tests a \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/results/UnitTests-60f8e10/2025-04-15_01-38-43/summary.txt}{\textbf{summary}} file is generated that outlines the quantity of tests that have passed or failed for each module, as shown in Figure \ref{unit_tests_summary}. In the same folder, a \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/test/results/UnitTests-60f8e10/2025-04-15_01-38-43}{\textbf{detailed report of each unit test}} is outlined for the corresponding module, as shown in Figure \ref{unit_tests_reports}. A detailed example of the unit test report for the \textbf{Specification Parameters Module (M4)} is outlined in Figure \ref{sp_report}. All unit tests were shown to have passed successfully for each module.
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=0.65\linewidth]{images/unit_test_names.png}
+  \includegraphics[width=0.5\linewidth]{images/unit_test_names.png}
   \caption{Outline of automated unit tests}
   \label{unit_tests}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=0.8\linewidth]{images/ut_pass_fail.png}
+  \includegraphics[width=1.2\linewidth]{images/ut_pass_fail.png}
   \caption{Unit Test Summary.txt}
   \label{unit_tests_summary}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
   \centering
-  \includegraphics[width=1.2\linewidth]{images/ut_reports.png}
+  \includegraphics[width=1.1\linewidth]{images/ut_reports.png}
   \caption{Generated Unit Test Reports}
   \label{unit_tests_reports}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.9\linewidth]{images/specParams_report.png}
   \caption{Specification Parameters Unit Test Report}
   \label{sp_report}
 \end{figure}
 
-
+\newpage
 \section{Changes Due to Testing}
 
 This section summarizes the most significant changes made to the modules and test infrastructure as a result of iterative testing, user feedback, and supervisor reviews, particularly following the Rev 0 demonstration. Each change was implemented to improve traceability, robustness, or test validation.
@@ -315,7 +342,7 @@ This section summarizes the most significant changes made to the modules and tes
 
 
 \section{Automated Testing}
-All unit tests are automated to run via a pull request and Pytest Github Actions. These tests can be found in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/test}{\textbf{test}}. Each test is initiated by the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/run_unit_checks.py}{\textbf{run\_unit\_checks.py}} program, as shown in Figure \ref{unit_tests}. 
+All unit tests are automated to run via a pull request and Pytest via Github Actions. These tests can be found in the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/test}{\textbf{test}} folder. A review of the Github Actions tasks outlines the list of artifacts for each push to the repository. Each test is initiated by the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/run_unit_checks.py}{\textbf{run\_unit\_checks.py}} program, as shown in Figure \ref{unit_tests}. 
 
 		
 \section{Trace to Requirements}
@@ -356,7 +383,7 @@ The traceability of both functional and nonfunctional requirements to system tes
 
 
 
-
+\newpage
 \section{Trace to Modules}		
 A full outline of the traceability between the unit tests and the modules as outlined in the MIS is provided in Table \ref{tab:mod_units}.
 
@@ -365,7 +392,7 @@ A full outline of the traceability between the unit tests and the modules as out
 \newcommand{\markyes}{\texttt{x}}    % module tested
 \newcommand{\markna}{\texttt{-}}     % not applicable
 
-\begin{table}[htbp]
+\begin{table}[h!]
   \centering
   \renewcommand{\arraystretch}{1.4}
   \resizebox{1.2\textwidth}{!}{%
@@ -425,8 +452,65 @@ A full outline of the traceability between the unit tests and the modules as out
   \caption{Traceability matrix mapping unit tests to associated software modules(M2–M11).}
   \label{tab:mod_units}
   \end{table}
-\section{Code Coverage Metrics}
 
+
+
+\newpage
+\section{Code Coverage Metrics}
+To evaluate the code coverage of the selected unit tests described in Section~\textbf{\ref{Sec_utest}}, a test script was prepared: \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/run_coverage_report.py}{\texttt{run\_coverage\_report.py}}. This script utilizes the \texttt{pytest-cov} plugin (version 6.1.1) to generate coverage statistics. Upon execution, it runs all designated unit tests and exports the coverage results to the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/tree/main/test/coverage_html}{\texttt{test/coverage\_html}} directory. To visualize the results, the user can download the \href{https://github.com/KiranSingh15/CAS-741-Image-Correspondences/blob/main/test/coverage_html/index.html}{\texttt{index.html}} file and open it locally in a web browser.
+\\
+\\
+Figure~\ref{Coverage_Summary} provides a summary of the code coverage results. Most modules achieve 100\% coverage, with the exception of the following:
+
+\begin{itemize}
+  \item \textbf{Control Module} (90\%)
+  \item \textbf{Plot Image Module} (95\%)
+  \item \textbf{Output Format Module} (94\%)
+\end{itemize}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.00\linewidth]{images/cov_SUM.png}
+  \caption{Summary of code coverage across all modules}
+  \label{Coverage_Summary}
+\end{figure}
+
+\subsection{Control Module}
+The Control Module achieved 90\% coverage, as shown in Figure~\ref{Coverage_Control}. The uncovered lines primarily correspond to fallback import statements located at the top of the module. These lines are included to facilitate relative package calls for unit testing and are not triggered during normal operation. Consequently, the reported coverage is considered sufficient.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.95\linewidth]{images/cov_CTRL.png}
+  \caption{Code coverage for Control Module}
+  \label{Coverage_Control}
+\end{figure}
+
+\subsection{Plot Image Module}
+The Plot Image Module reached 95\% coverage. The uncovered line is a fallback statement used to support output image paths in alternative directory structures (e.g., \texttt{../Results/<timestamp>/Outputs} rather than \texttt{../ projectFiles/Outputs}). As this line serves as a non-critical contingency, its exclusion from test coverage is considered acceptable.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.95\linewidth]{images/cov_PLOT.png}
+  \caption{Code coverage for Plot Image Module}
+  \label{Coverage_Plot}
+\end{figure}
+
+\subsection{Output Format Module}
+The Output Format Module achieved 94\% coverage. The uncovered lines correspond to edge cases involving the absence of descriptors. As these cases are expected to be handled internally by OpenCV—since descriptors are not computed unless explicitly initialized—the remaining coverage gap is not considered problematic.
+
+\begin{figure}[]
+  \centering
+  \includegraphics[width=0.95\linewidth]{images/cov_OUTFORM.png}
+  \caption{Code coverage for Output Format Module}
+  \label{Coverage_Output}
+\end{figure}
+
+
+
+
+
+
+\clearpage
 \bibliographystyle{plainnat}
 \bibliography{../../refs/References}
 

@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83549127-e72c-458a-814c-20cbf0c1bc1c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/test/run_coverage_report.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/VnVReport/VnVReport.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVReport/VnVReport.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/VnVReport/VnVReport.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVReport/VnVReport.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/VnVReport/images/ut_pass_fail.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVReport/images/ut_pass_fail.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,24 +36,24 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests in test_STNFR-RE-01.py.executor": "Run",
-    "Python tests.Python tests in test_coverage.py.executor": "Run",
-    "Python tests.Python tests in test_coverage_check.py.executor": "Run",
-    "Python.ControlModule.executor": "Run",
-    "Python.InputFormatModule.executor": "Run",
-    "Python.run_unit_checks.executor": "Run",
-    "Python.test_config.executor": "Run",
-    "Python.test_featdesc.executor": "Run",
-    "Python.test_imagePlot.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Course_Work/CAS_741/CAS-741-Image-Correspondences/src/projectFiles/Raw_Images",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests in test_STNFR-RE-01.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_coverage.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_coverage_check.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ControlModule.executor&quot;: &quot;Run&quot;,
+    &quot;Python.InputFormatModule.executor&quot;: &quot;Run&quot;,
+    &quot;Python.run_unit_checks.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_featdesc.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_imagePlot.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Course_Work/CAS_741/CAS-741-Image-Correspondences/src/projectFiles/Raw_Images&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Course_Work\CAS_741\CAS-741-Image-Correspondences\src\projectFiles\Raw_Images" />
