@@ -5,7 +5,7 @@
 
 \title{Problem Statement and Goals\\\progname}
 \author{\authname}
-\date{January 17, 2025}
+\date{April 17, 2025}
 
 \input{../Comments}
 \input{../Common}
@@ -20,7 +20,9 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
-17.01.2025 & Kiran Singh & Initial Release\\
+2025-01-17 & Kiran Singh & Initial Release\\
+2025-04-17 & Kiran Singh & Final Release\\
+
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -52,17 +54,16 @@ will be achieved in two parts.
 
 
 \subsection{Problem}
-To satisfy administrative and schedule constraints of CAS 741, the scope of the 
-course project will 
-address the development of the front-end software that identifies 
+To satisfy administrative and schedule constraints of the Winter 2025 development schedule, the scope of the 
+course project will address the development of the front-end software that identifies 
 correspondences amongst camera imagery across selected poses.
 
 \subsection{Inputs and Outputs}
 \subsubsection{Inputs}
 \begin{enumerate}
-    \item The quantity of active cameras.
-    \item The intrinsic calibration parameters for each camera.
     \item The stream of imagery for each camera, taken at any given pose.
+    \item the methods used to process the imagery.
+    \item the specific parameters used to tune the system response for each image processing method.
 \end{enumerate}  
 
 \subsubsection{Outputs}
@@ -70,7 +71,6 @@ correspondences amongst camera imagery across selected poses.
     \item A flag of whether correspondences have been identified.
     \item A list that outlines the graph nodes produced for any given camera 
     with another camera.
-
     \item An list of all identified correspondences.
     \item An flag for each transform that needs to be calculated as part 
     of downstream operations.
@@ -86,8 +86,8 @@ robots, robotic manipulators, and aerial platforms.
 
 \subsection{Environment}
 The intent of this software is to be versatile in its deployment. Therefore, 
-it should be compatible with standard operations 
-such as Windows 10 or higher, MacOS, and Linux OS.
+it should be compatible with standard operations such as Windows 10 or higher, 
+MacOS, and Linux OS.
 \newline
 \newline
 The software algorithm is expected to be developed in non-real time prior to 
@@ -102,8 +102,8 @@ robust extrinsic camera calibration for robotic systems without overlapping
 fields of view between its cameras. The primary goals are outlined below.
 
 \begin{enumerate}
-    \item Given a stream of imagery data from a set of cameras, C, taken at a 
-    singular frame, F, with a corresponding robot pose, P, compare each image 
+    \item Given a stream of imagery data from a set of cameras with a 
+    corresponding robot pose, P, compare each image 
     between cameras to identify overlap in features as correspondences.
 
     \item Formulate a graph that, for each image from a given camera, defines 
@@ -116,7 +116,7 @@ fields of view between its cameras. The primary goals are outlined below.
 
 \section{Stretch Goals}
 \begin{enumerate}
-    \item The software should define  a quality metric that estimates the 
+    \item The software should define a quality metric that estimates the 
     portion of outliers amongst the identified points and correspondences. 
     This metric can be compared with the performance of outlier detection 
     and removal as part downstream operations.
@@ -129,6 +129,6 @@ left to be ambiguous at this stage and may constitute that this software be
 defined as a family of products.
 \newline
 \newline
-A user manual will be provided as an supplemental submission for this project.
+% deleted the submission of a user manual per the update to the Repos.CSV file.
 
 \end{document}
