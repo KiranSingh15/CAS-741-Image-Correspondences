@@ -67,7 +67,7 @@ cleanHazA:
 	cd HazardAnalysis && make clean && cd ..
 	
 cleanRefl:
-	cd Reflection && make clean && cd ..
+	cd ReflectAndTrace && make clean && cd ..
 	
 cleanUGde:
 	cd UserGuide && make clean && cd ..
