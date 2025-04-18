@@ -12,6 +12,7 @@ def gen_kp_img(image_in, keypoints, in_flags):
     )
     return img_keypoints
 
+
 # generate a plot of candidate matches between features
 def gen_matched_features(
     image1, image2, keypoint1, keypoint2, matches, max_num_matches, dist_thresh=100
@@ -29,6 +30,7 @@ def make_directory(head_dir, target_name):
     # Ensure target parent directory exists
     folder_path = Path(head_dir) / target_name
     os.makedirs(folder_path, exist_ok=True)
+
 
 # output a generated image
 def save_image(

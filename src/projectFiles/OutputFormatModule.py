@@ -26,11 +26,13 @@ def define_output_folders():
         matches_folder_nm,
     )
 
+
 # avoids path errors if a path does not exist
 def make_directory(parent_dir, target_name):
     # Ensure target directory exists
     folder_path = Path(parent_dir) / target_name
     os.makedirs(folder_path, exist_ok=True)
+
 
 ## Print out generated keypoints, feature descriptors,
 def output_keypoints(keypoints, image_id, parent_dir, target_folder):
