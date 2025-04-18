@@ -4,7 +4,7 @@ from pathlib import Path
 import cv2 as cv
 
 
-# Drawing the keypoints
+# Draw keypoints; suitable for either unscaled keypoints or scaled keypoints for descriptors
 def gen_kp_img(image_in, keypoints, in_flags):
     # in_flags = 0 for just keypoint pixel, or in_flags = cv.DrawMatchesFlags_DRAW_RICH_KEYPOINTS for descriptors
     img_keypoints = cv.drawKeypoints(
@@ -12,7 +12,7 @@ def gen_kp_img(image_in, keypoints, in_flags):
     )
     return img_keypoints
 
-
+# generate a plot of candidate matches between features
 def gen_matched_features(
     image1, image2, keypoint1, keypoint2, matches, max_num_matches, dist_thresh=100
 ):
@@ -30,7 +30,7 @@ def make_directory(head_dir, target_name):
     folder_path = Path(head_dir) / target_name
     os.makedirs(folder_path, exist_ok=True)
 
-
+# output a generated image
 def save_image(
     image_in, parent_dir, target_folder, image_name, use_outputs_folder=True
 ):

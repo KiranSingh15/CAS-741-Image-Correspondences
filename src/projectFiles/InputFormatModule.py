@@ -22,12 +22,12 @@ patch_sz = [5, 100]  # inclusive
 match_distance_limits = [0, 150]  # exclusive
 num_match_disp = [1, 1000]  # inclusive
 
-
+# define relative path to search and save files
 def get_head_directory():
     head_directory = Path(os.getcwd())
     return head_directory  # Convert to Path object
 
-
+# check to verify that the user has selected valid methods of image processing
 def check_method_limits(
     mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match
 ):
@@ -50,7 +50,7 @@ def check_method_limits(
         0 <= mthd_ft_match <= avail_mthd_count[3]
     ), f"Method selection is out of scope. Number of available methods for feature matching is {avail_mthd_count[3]}. (Input method = {mthd_img_smoothing})"
 
-
+# retrieve and verify the user's choice of methods
 def get_active_methods():
     mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match = (
         specParams.get_assigned_methods()
@@ -62,7 +62,7 @@ def get_active_methods():
 
     return mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match
 
-
+# logic checks to verify the user's choice of tuning parameters
 def check_parameter_limits(
     u_sz_kern, u_std_dev, u_fast_thr, u_bin_sz, u_patch_sz, u_match_dist, u_match_disp
 ):
@@ -144,20 +144,20 @@ def check_parameter_limits(
         u_match_disp <= num_match_disp[1]
     ), f"badMatchDistance. Number of displayed matches must be >= {num_match_disp[0]} and <= {num_match_disp[1]}. (Selected match distance = {u_match_disp})"
 
-
+# retrieve and verify the user's chosen tuning parameters
 def get_chosen_parameters():
     k, sigma, t, b, p, d, n_disp_matches = specParams.get_assigned_parameters()
     check_parameter_limits(k, sigma, t, b, p, d, n_disp_matches)
 
     return k, sigma, t, b, p, d, n_disp_matches
 
-
+# set the relative path to the images to be processed
 def set_input_img_path(head_dir):
     local_folder = "Raw_Images"
     img_dir = head_dir / local_folder  # Use '/' for safe path joining
     return img_dir, local_folder
 
-
+# get the names of the images to be processed
 def get_img_IDs(head_dir):
     local_folder = "Raw_Images"
     img_dir = head_dir / local_folder  # Use '/' for safe path joining

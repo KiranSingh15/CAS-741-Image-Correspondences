@@ -6,9 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="83549127-e72c-458a-814c-20cbf0c1bc1c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/VnVReport/VnVReport.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVReport/VnVReport.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/VnVReport/VnVReport.tex" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVReport/VnVReport.tex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/VnVReport/images/ut_pass_fail.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/VnVReport/images/ut_pass_fail.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/ControlModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/ControlModule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/FeatureDescriptorModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/FeatureDescriptorModule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/FeatureMatchingModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/FeatureMatchingModule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/ImagePlotModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/ImagePlotModule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/InputFormatModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/InputFormatModule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/KeypointDetectionModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/KeypointDetectionModule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectFiles/OutputFormatModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectFiles/OutputFormatModule.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

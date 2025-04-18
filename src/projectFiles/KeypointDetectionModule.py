@@ -1,6 +1,6 @@
 import cv2 as cv
 
-
+# compare descriptors if ORB and oriented-FAST are active
 def initialize_orb(
     mthd_kp_detection, mthd_kp_description, bin_sz, patch_sz, fast_thresh
 ):
@@ -15,7 +15,7 @@ def initialize_orb(
 
     return None
 
-
+# execute keypoint detection via oriented-FAST
 def detect_keypoints_ofast(mthd_kp_detection, orb_object, img):
     # Keypoint Detection
     if mthd_kp_detection == 1:

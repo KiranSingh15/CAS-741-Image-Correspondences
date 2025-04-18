@@ -2,6 +2,7 @@ import os
 
 import cv2 as cv
 
+# define relative and absolute imports for module execution as either source code or for test execution
 try:
     # Relative imports for testing/packaging context
     from . import FeatureDescriptorModule as assignDescriptors
@@ -39,16 +40,18 @@ def main():
         matches_folder_nm,
     ) = formatOutput.define_output_folders()
 
+    # collect user-selected methods and parameters for image processing
     mthd_img_smoothing, mthd_kp_detection, mthd_kp_description, mthd_ft_match = (
         config.get_active_methods()
     )
 
+    # read raw images
     k, sigma, t, b, p, d, n_matches_disp = config.get_chosen_parameters()
-
     input_img_dir, local_input_folder = config.set_input_img_path(head_dir)
     input_image_names, num_images = config.get_img_IDs(head_dir)
     print("Number of images identified: ", num_images)
 
+    # initialize OpenCV keypoint and feature matching objects
     orb_object = detectKeypoints.initialize_orb(
         mthd_kp_detection, mthd_kp_description, b, p, k
     )
@@ -56,6 +59,8 @@ def main():
 
     img_IDs = []
 
+    # preprocess each image to convert to perform greyscale conversion, smoothing, keypoint detection, and feature
+    # definition
     for i, img_id in enumerate(input_image_names):
         img_IDs.append([i])
         img_path = os.path.join(input_img_dir, img_id[2])
@@ -99,11 +104,13 @@ def main():
     print("Keypoint detection complete.")
     print("Feature assignment complete.")
 
+    # reimport generated descriptors for comparison at n^2
     fd_path = config.get_descriptor_path(head_dir, descriptor_folder_nm)
 
     print("Number of comparisons: ", int((num_images - 1) * num_images / 2))
     comp_count = 0
 
+    # compare each image such that for images i and j, i>j to ensure that no two images are processed redundantly
     for i in range(num_images):
         img1_name = input_image_names[i][0]
         img1_path = os.path.join(input_img_dir, input_image_names[i][2])
@@ -119,6 +126,7 @@ def main():
             img_2 = cv.imread(img2_path, cv.IMREAD_GRAYSCALE)
             kp2, fd2 = config.load_orb_descriptors(img2_name, fd_path)
 
+            # compare images and sort results
             matches = matchFeatures.match_features(bf_matcher_object, fd1, fd2)
             matches = matchFeatures.sort_matches(matches)
             verifyOutput.check_match_uniqueness(img1_name, img2_name, matches)
@@ -126,6 +134,7 @@ def main():
             match_images = img1_name + "_" + img2_name
             img_ext = match_images + ".png"
 
+            # prepare output CSV and image
             formatOutput.output_matches(
                 img1_name,
                 img2_name,
